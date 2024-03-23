@@ -3,27 +3,29 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ch-zn">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#FFF">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
 
-<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
 
-<link rel="alternate" type="application/rss+xml" title="Hexo" href="https://mymetalseed.github.io/rss.xml" />
-<link rel="alternate" type="application/atom+xml" title="Hexo" href="https://mymetalseed.github.io/atom.xml" />
-<link rel="alternate" type="application/json" title="Hexo" href="https://mymetalseed.github.io/feed.json" />
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
 
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
-<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
 
   
+  <meta name="keywords" content="Games001 图形学" />
+
 
 <link rel="canonical" href="https://mymetalseed.github.io/2024/03/23/Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/">
 
@@ -31,7 +33,7 @@
 
   <title>
 Games001-向量空间 |
-Yume Shoka = Hexo</title>
+Yume Shoka = Solvarg</title>
 <meta name="generator" content="Hexo 7.1.1"></head>
 <body itemscope itemtype="http://schema.org/WebPage">
   <div id="loading">
@@ -62,12 +64,12 @@ Yume Shoka = Hexo</title>
   </h1>
   
 <div class="meta">
-  <span class="item" title="Created: 2024-03-23 12:49:41">
+  <span class="item" title="Created: 2024-03-23 12:53:06">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
     <span class="text">Posted on</span>
-    <time itemprop="dateCreated datePublished" datetime="2024-03-23T12:49:41+08:00">2024-03-23</time>
+    <time itemprop="dateCreated datePublished" datetime="2024-03-23T12:53:06+08:00">2024-03-23</time>
   </span>
 </div>
 
@@ -100,12 +102,12 @@ Yume Shoka = Hexo</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicliwyw55j20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipetlbztpj20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclwuom7cj20zk0m8dvn.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhfehz7j20zk0m8u0x.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicli3sbvtj20zk0m8x6p.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipexoj0moj20zk0m8kgu.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giciuja1j1j20zk0m8kjl.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeun65urj20zk0m81ii.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giph4lm9i7j20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipesrnqv3j20zk0m8ava.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipevuctzzj20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclize41wj20zk0m87gk.jpg"></li>
         </ul>
       </div>
     </header>
@@ -130,31 +132,56 @@ Yume Shoka = Hexo</title>
     
 <div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
 <i class="ic i-home"></i>
-<span><a href="/">Home</a></span>
+<span><a href="../../../../index.html">Home</a></span>
 </div>
 
-    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="ch-zn">
   <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2024/03/23/Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/">
 
   <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="image" content="/images/avatar.jpg">
-    <meta itemprop="name" content="John Doe">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
     <meta itemprop="description" content=", ">
   </span>
 
   <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
+    <meta itemprop="name" content="Solvarg">
   </span>
 
   <div class="body md" itemprop="articleBody">
     
 
-    
+    <p><img data-src="Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/image-20240323125817461.png" alt="image-20240323125817461"></p>
+<p>[toc]</p>
+<h1 id="空间"><a class="markdownIt-Anchor" href="#空间">#</a> 空间</h1>
+<p>空间本身是一个抽象的概念，向量空间也是一个概念，空间从抽象概念上来讲可以是任何东西构成的 (如颜色空间)</p>
+<h2 id="线性组合"><a class="markdownIt-Anchor" href="#线性组合">#</a> 线性组合</h2>
+<ul>
+<li>线性相关 / 无关
+<ul>
+<li>定义在向量集合 $$ {u_1,u_2} $$</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow></mrow><annotation encoding="application/x-tex">
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"></span></span></span></p>
+
+      <div class="tags">
+          <a href="../../../../tags/Games001-%E5%9B%BE%E5%BD%A2%E5%AD%A6/" rel="tag"><i class="ic i-tag"></i> Games001 图形学</a>
+      </div>
   </div>
 
    <footer>
 
     <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-03-23 13:05:29" itemprop="dateModified" datetime="2024-03-23T13:05:29+08:00">2024-03-23</time>
+  </span>
 </div>
 
       
@@ -164,17 +191,17 @@ Yume Shoka = Hexo</title>
   <div id="qr">
       
       <div>
-        <img data-src="/images/wechatpay.png" alt="John Doe WeChat Pay">
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
         <p>WeChat Pay</p>
       </div>
       
       <div>
-        <img data-src="/images/alipay.png" alt="John Doe Alipay">
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
         <p>Alipay</p>
       </div>
       
       <div>
-        <img data-src="/images/paypal.png" alt="John Doe PayPal">
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
         <p>PayPal</p>
       </div>
   </div>
@@ -185,7 +212,7 @@ Yume Shoka = Hexo</title>
 <div id="copyright">
 <ul>
   <li class="author">
-    <strong>Post author:  </strong>John Doe <i class="ic i-at"><em>@</em></i>Hexo
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
   </li>
   <li class="link">
     <strong>Post link: </strong>
@@ -224,22 +251,29 @@ Yume Shoka = Hexo</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4"><span class="toc-number">1.</span> <span class="toc-text"> 空间</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E7%BB%84%E5%90%88"><span class="toc-number">1.1.</span> <span class="toc-text"> 线性组合</span></a></li></ol></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
       </div>
       <div class="overview panel" data-title="Overview">
         <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="image" itemprop="image" alt="John Doe"
-      data-src="/images/avatar.jpg">
-  <p class="name" itemprop="name">John Doe</p>
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
   <div class="description" itemprop="description"></div>
 </div>
 
 <nav class="state">
     <div class="item posts">
-      <a href="/archives/">
+      <a href="../../../../archives/">
         <span class="count">1</span>
         <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">1</span>
+        <span class="name">tags</span>
       </a>
     </div>
 </nav>
@@ -251,7 +285,7 @@ Yume Shoka = Hexo</title>
   
     
   <li class="item">
-    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
   </li>
 
 
@@ -290,7 +324,7 @@ Yume Shoka = Hexo</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2024/03/23/Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/" title="Games001-向量空间">Games001-向量空间</a></span>
+    <span><a href="" title="Games001-向量空间">Games001-向量空间</a></span>
   </li>
 
   </ul>
@@ -309,7 +343,7 @@ Yume Shoka = Hexo</title>
     <span class="with-love">
       <i class="ic i-sakura rotate"></i>
     </span>
-    <span class="author" itemprop="copyrightHolder">John Doe @ Yume Shoka</span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Yume Shoka</span>
   </div>
   <div class="powered-by">
     Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
@@ -348,7 +382,7 @@ Yume Shoka = Hexo</title>
 
 <script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
 
-<script src="/js/app.js?v=0.2.5"></script>
+<script src="../../../../js/app.js?v=0.2.5"></script>
 
 
 
