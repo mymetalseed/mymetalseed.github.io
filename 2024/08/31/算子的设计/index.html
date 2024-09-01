@@ -1,0 +1,486 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2024/08/31/%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1/">
+
+
+
+  <title>
+算子的设计 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">算子的设计
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2024-08-31 18:08:24">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-08-31T18:08:24+08:00">2024-08-31</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2024/08/31/%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="算子的设计"><a class="markdownIt-Anchor" href="#算子的设计">#</a> 算子的设计</h1>
+<p>算子是神经网络中用来处理加法 / 减法 / 激活函数等的抽象</p>
+<h2 id="算子基类"><a class="markdownIt-Anchor" href="#算子基类">#</a> 算子基类</h2>
+<ul>
+<li>
+<p>层的名字 / 类型:</p>
+</li>
+<li>
+<p>线性 / Encode/Embedding/Softmax/Add 等</p>
+</li>
+<li>
+<p>算子类型: dataType: fp32/int32 等这种</p>
+</li>
+<li>
+<p>设备类型: CPU/GPU 即 Layer 即可以在 CPU 上实现，也可以在 GPU 上实现</p>
+</li>
+<li>
+<p>算子有输入，且输入可能并不唯一，所以设计上通常会提供一个接口:  set_input (index,Tensor) 这样，第一个参数表示输入参数的下标.</p>
+</li>
+<li>
+<p>输出同理</p>
+</li>
+<li>
+<p>算子的计算过程：通常以 base_forward 来命名，每个算子重写 base_forward 来进行算子的计算，同时将数据存放到 output 中</p>
+</li>
+<li>
+<p>算子计算前的输入检测，因为传入的是 Tensor，所以需要检查输入的 Tensor 是否可以进行当前算子的计算、或者输入与层是否都在 CPU/GPU 上等</p>
+</li>
+<li>
+<p>含参数的算子：通常加入一个 weights&lt;Tensor 列表&gt; 代表算子权重 (参数)</p>
+</li>
+</ul>
+<p>如 AddKernel 的实现，在 get_kenel 阶段根据层的类型选择对应的 kernel 类型，如 CPU/GPU:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_kernel_cpu</span><span class="params">(<span class="type">const</span> tensor::Tensor&amp; input1, <span class="type">const</span> tensor::Tensor&amp; input2,</span></span></span><br><span class="line"><span class="params"><span class="function">                    <span class="type">const</span> tensor::Tensor&amp; output)</span> </span>&#123;</span><br><span class="line">  <span class="function">arma::fvec <span class="title">input_vec1</span><span class="params">(<span class="keyword">const_cast</span>&lt;<span class="type">float</span>*&gt;(input1.ptr&lt;<span class="type">float</span>&gt;()), input1.size(), <span class="literal">false</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="literal">true</span>)</span></span>;</span><br><span class="line">  <span class="function">arma::fvec <span class="title">input_vec2</span><span class="params">(<span class="keyword">const_cast</span>&lt;<span class="type">float</span>*&gt;(input2.ptr&lt;<span class="type">float</span>&gt;()), input2.size(), <span class="literal">false</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="literal">true</span>)</span></span>;</span><br><span class="line">  <span class="function">arma::fvec <span class="title">output_vec</span><span class="params">(<span class="keyword">const_cast</span>&lt;<span class="type">float</span>*&gt;(output.ptr&lt;<span class="type">float</span>&gt;()), output.size(), <span class="literal">false</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="literal">true</span>)</span></span>;</span><br><span class="line">  output_vec = input_vec1 + input_vec2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">AddKernel <span class="title">get_add_kernel</span><span class="params">(base::DeviceType device_type)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (device_type == base::DeviceType::kDeviceCPU) &#123;</span><br><span class="line">    <span class="keyword">return</span> add_kernel_cpu;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">LOG</span>(FATAL) &lt;&lt; <span class="string">&quot;Unknown device type for get a add kernel.&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="以rmsnorm算子为例它的cuda实现"><a class="markdownIt-Anchor" href="#以rmsnorm算子为例它的cuda实现">#</a> 以 RMSNorm 算子为例，它的 CUDA 实现</h2>
+<p>RSMNorm 算子公式:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>s</mi><mi>c</mi><mi>a</mi><mi>l</mi><mi>a</mi><mi>r</mi><mo>=</mo><mfrac><mn>1</mn><mi>d</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>d</mi></munderover><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mspace linebreak="newline"></mspace><mi>r</mi><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mi>s</mi><mi>c</mi><mi>a</mi><mi>l</mi><mi>a</mi><mi>r</mi><mo>+</mo><mi>e</mi><mi>p</mi><mi>s</mi></mrow></msqrt></mfrac><mspace linebreak="newline"></mspace><mi>y</mi><mo>=</mo><mi>x</mi><mo>⋅</mo><mi>r</mi><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo>⋅</mo><mi>w</mi></mrow><annotation encoding="application/x-tex">scalar = \frac{1}{d}\sum_{i=1}^{d}x_i^{2}
+\\
+rsqrt = \frac{1}{\sqrt{scalar+eps}}
+\\
+y = x \cdot rsqrt \cdot w
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.1137820000000005em;vertical-align:-1.277669em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8361130000000003em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.25144em;vertical-align:-0.93em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.275em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.835em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal">s</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal">p</span><span class="mord mathnormal">s</span></span></span><span style="top:-2.795em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20500000000000007em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.93em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span></span></p>
+<h3 id="cpu上rmsnorm的实现"><a class="markdownIt-Anchor" href="#cpu上rmsnorm的实现">#</a> CPU 上 RMSNorm 的实现</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">rmsnorm_kernel_cpu</span><span class="params">(<span class="type">int32_t</span> dim, <span class="type">const</span> tensor::Tensor&amp; input,</span></span></span><br><span class="line"><span class="params"><span class="function">                        <span class="type">const</span> tensor::Tensor&amp; weight, <span class="type">const</span> tensor::Tensor&amp; output)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span>* in_ptr = input.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;();</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span>* wei_ptr = weight.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;();</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span>* out_ptr = output.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> size = <span class="built_in">static_cast</span>&lt;<span class="type">int32_t</span>&gt;(input.<span class="built_in">size</span>());</span><br><span class="line">    <span class="type">float</span> sum = <span class="number">0.f</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;size;++i)&#123;</span><br><span class="line">        <span class="type">float</span> input_value = input.<span class="built_in">index</span>&lt;<span class="type">float</span>&gt;(i);</span><br><span class="line">        sum += input_value * input_value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> eps = <span class="number">1e-5</span>f;</span><br><span class="line">    <span class="type">float</span> mean = sum / <span class="built_in">float</span>(size)+eps;</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> rsqrt = <span class="number">1.f</span>/std::<span class="built_in">sqrt</span>(mean);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;size;++i)&#123;</span><br><span class="line">        *(out_ptr+i)=weight.<span class="built_in">index</span>&lt;<span class="type">float</span>&gt;(i)*(rsqrt*(*(in_ptr+i)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="cuda上的算子实现"><a class="markdownIt-Anchor" href="#cuda上的算子实现">#</a> CUDA 上的算子实现</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> __global__ <span class="type">void</span> <span class="title">row_rmsnorm_f32</span><span class="params">(<span class="type">const</span> <span class="type">float</span>* in,<span class="type">const</span> <span class="type">float</span>* wei,<span class="type">const</span> <span class="type">float</span>* ourt,<span class="type">int</span> size,<span class="type">const</span> <span class="type">float</span> eps)</span></span>&#123;</span><br><span class="line">    <span class="comment">//求和</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> tid = threadIdx.x;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> lane_id = tid % warpSize;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> sum = <span class="number">0.0f</span>;</span><br><span class="line">    <span class="comment">//这里只是子线程的和</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = lane_id; i &lt; size; i += warpSize) &#123;</span><br><span class="line">        sum += in[i] * in[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//最终需要把所有局部和编程全局和，看下面的介绍</span></span><br><span class="line">    <span class="keyword">using</span> WarpReduce = cub::WarpReduce&lt;<span class="type">float</span>, <span class="number">32</span>&gt;;</span><br><span class="line">    __shared__ <span class="keyword">typename</span> WarpReduce::TempStorage temp;</span><br><span class="line">    __shared__ <span class="type">float</span> shared_val;</span><br><span class="line">    sum = <span class="built_in">WarpReduce</span>(temp).<span class="built_in">Reduce</span>(sum, cub::<span class="built_in">Sum</span>());</span><br><span class="line">    <span class="comment">//最终结果放在线程0上，然后对共享变量赋值成线程0的sum</span></span><br><span class="line">    <span class="keyword">if</span> (threadIdx.x == <span class="number">0</span>) &#123;</span><br><span class="line">        shared_val = sum;</span><br><span class="line">    &#125;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="comment">//就是最终到这里的时候，所有线程的sum都是一个值了</span></span><br><span class="line">    sum = shared_val;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//求最终的式子 y = x*scale*w</span></span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> scale = <span class="built_in">rsqrtf</span>(sum / <span class="built_in">static_cast</span>&lt;<span class="type">float</span>&gt;(size) + eps);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = lane_id; i &lt; size; i += warpSize) &#123;</span><br><span class="line">        out[i] = scale * in[i] * wei[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>WrapReduce 实际上用的是 ShuffleWarpReduce，即:</p>
+<p>1 1 1 1 1 1 1 1<br>
+2 2 2 2<br>
+4 4<br>
+8</p>
+<p>这样规约，这样规约可以避免线程阻塞，因为可以确保每一轮都是同时进行的，所以可以直接把后面的加到前面的，然后不断地缩减规模，达到类似归并的效果，结果在线程 0 上</p>
+<h3 id="启动cuda上的rmsnorm核函数"><a class="markdownIt-Anchor" href="#启动cuda上的rmsnorm核函数">#</a> 启动 CUDA 上的 rmsnorm 核函数</h3>
+<p>和直接调用函数即为相似</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">rmsnorm_kernel_cu</span><span class="params">(<span class="type">const</span> tensor::Tensor&amp; input, <span class="type">const</span> tensor::Tensor&amp; weight,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">const</span> tensor::Tensor&amp; output, <span class="type">void</span>* stream)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">CHECK</span>(!input.<span class="built_in">is_empty</span>());</span><br><span class="line">  <span class="built_in">CHECK</span>(!weight.<span class="built_in">is_empty</span>());</span><br><span class="line">  <span class="built_in">CHECK</span>(!output.<span class="built_in">is_empty</span>());</span><br><span class="line"></span><br><span class="line">  <span class="built_in">CHECK</span>(input.<span class="built_in">device_type</span>() == base::DeviceType::kDeviceCUDA &amp;&amp;</span><br><span class="line">        weight.<span class="built_in">device_type</span>() == base::DeviceType::kDeviceCUDA &amp;&amp;</span><br><span class="line">        output.<span class="built_in">device_type</span>() == base::DeviceType::kDeviceCUDA);</span><br><span class="line"></span><br><span class="line">  <span class="type">const</span> <span class="type">float</span> eps = <span class="number">1e-5</span>f;</span><br><span class="line">  <span class="type">const</span> <span class="type">int32_t</span> size = <span class="built_in">static_cast</span>&lt;<span class="type">int32_t</span>&gt;(input.<span class="built_in">size</span>());</span><br><span class="line">  <span class="type">const</span> <span class="type">float</span>* in_ptr = input.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;();</span><br><span class="line">  <span class="type">const</span> <span class="type">float</span>* wei_ptr = weight.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;();</span><br><span class="line">  <span class="type">float</span>* out_ptr = <span class="built_in">const_cast</span>&lt;<span class="type">float</span>*&gt;(output.<span class="built_in">ptr</span>&lt;<span class="type">float</span>&gt;());</span><br><span class="line">  <span class="keyword">if</span> (size &lt; <span class="number">1024</span>) &#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="type">int</span> threads_num = <span class="number">128</span>;</span><br><span class="line">    <span class="keyword">if</span> (stream) &#123;</span><br><span class="line">      cudaStream_t stream_ = <span class="built_in">static_cast</span>&lt;cudaStream_t&gt;(stream);</span><br><span class="line">      row_rmsnorm_f32&lt;&lt;&lt;<span class="number">1</span>, threads_num, <span class="number">0</span>, stream_&gt;&gt;&gt;(in_ptr, wei_ptr, out_ptr, size, eps);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      row_rmsnorm_f32&lt;&lt;&lt;<span class="number">1</span>, threads_num&gt;&gt;&gt;(in_ptr, wei_ptr, out_ptr, size, eps);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="type">int</span> threads_num = <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">if</span> (stream) &#123;</span><br><span class="line">      cudaStream_t stream_ = <span class="built_in">static_cast</span>&lt;cudaStream_t&gt;(stream);</span><br><span class="line">      row_rmsnorm_f32&lt;&lt;&lt;<span class="number">1</span>, threads_num, <span class="number">0</span>, stream_&gt;&gt;&gt;(in_ptr, wei_ptr, out_ptr, size, eps);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      row_rmsnorm_f32&lt;&lt;&lt;<span class="number">1</span>, threads_num&gt;&gt;&gt;(in_ptr, wei_ptr, out_ptr, size, eps);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-08-31 19:14:23" itemprop="dateModified" datetime="2024-08-31T19:14:23+08:00">2024-08-31</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2024/08/31/%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="算子的设计">https://mymetalseed.github.io/2024/08/31/算子的设计/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../05/05/economy-1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="经济学思维">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 经济学</span>
+  <h3>经济学思维</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text"> 算子的设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E5%AD%90%E5%9F%BA%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text"> 算子基类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5rmsnorm%E7%AE%97%E5%AD%90%E4%B8%BA%E4%BE%8B%E5%AE%83%E7%9A%84cuda%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text"> 以 RMSNorm 算子为例，它的 CUDA 实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cpu%E4%B8%8Armsnorm%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text"> CPU 上 RMSNorm 的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cuda%E4%B8%8A%E7%9A%84%E7%AE%97%E5%AD%90%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text"> CUDA 上的算子实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8cuda%E4%B8%8A%E7%9A%84rmsnorm%E6%A0%B8%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.3.</span> <span class="toc-text"> 启动 CUDA 上的 rmsnorm 核函数</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">4</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">3</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">5</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" title="In 经济学">经济学</a>
+</div>
+
+    <span><a href="../../../05/05/economy-1/" title="经济学思维">经济学思维</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../03/23/Sol-Index/" title="Sol.Index">Sol.Index</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="" title="算子的设计">算子的设计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/" title="In 计算机科学">计算机科学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 图形学">图形学</a>
+</div>
+
+    <span><a href="../../../03/23/Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/" title="Games001-向量空间">Games001-向量空间</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/08/31/算子的设计/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,copy_tex: true,
+    katex: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
