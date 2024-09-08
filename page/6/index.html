@@ -119,6 +119,50 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" itemprop="url" title="【RayTracing】 蒙特卡洛积分与路径追踪"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="Created: 2023-04-02 14:35:35">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2023-04-02T14:35:35+08:00">2023-04-02</time>
+  </span>
+</div>
+
+    <h3><a href="../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" itemprop="url" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></h3>
+    <div class="excerpt">
+        [toc]
+# 全局光照的定义
+一次弹射是直接光，多次弹射是间接光，直接光加上所有的间接光的和就是全局光照 其中积分形式的渲染方程定义如下
+# 概率密度函数 PDF (Probability Density Function)
+最下面的式子是对应概率密度下的期望
+# 蒙特卡洛解复杂积分 (数值)
+
+定积分
+
+如果一个积分表达式很难得到解析式，那我们如何得到积分的值呢？
+
+这就用到了蒙特卡洛方法。
+# 黎曼积分
+黎曼积分是将函数划分为无数小的矩形 (二维) 来进行累加和求解积分数值
+# 蒙特卡洛方法
+使用概率的方式采样曲线，在积分域内不断采样 x, 设采样的 y...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/RayTracing/" itemprop="url" title="RayTracing"><i class="ic i-flag"></i>RayTracing</a>
+      </span>
+    </div>
+    <a href="../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" itemprop="url" title="【RayTracing】 蒙特卡洛积分与路径追踪" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2023/03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" itemprop="url" title="【LeetCode打卡】"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
@@ -435,46 +479,6 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="Created: 2023-01-02 14:17:40">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2023-01-02T14:17:40+08:00">2023-01-02</time>
-  </span>
-</div>
-
-    <h3><a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪">【技巧】Hi-Z裁剪</a></h3>
-    <div class="excerpt">
-        [toc]
-
-草地渲染的剔除流程
-
-先剔除最大不可见距离外的草
-剔除不在 NDC 空间内的草
-剔除被遮挡的草 (HiZ 剔除)
-
-# AABB 裁剪
-一个最简单的裁剪方法，比如在使用 Gpu instance 进行渲染前可以通过 ComputeShader 对准备传入 GpuInstance 的 ConstantBuffer 进行数据的裁剪，在这个阶段可以用一个比较 Trick 的方法进行裁剪，即计算物体假的 BoundaryBox, 然后再计算这个 BB 是否在 NDC 空间的包围体内.
-而这个过程只需要花费几个 if 判断，因为其具有极低的消耗，所以很适合用作在大量物体渲染流程中。
-#...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" title="计算机图形学"><i class="ic i-flag"></i>计算机图形学</a>
-      </span>
-    </div>
-    <a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -576,96 +580,10 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
-</div>
-
-    <span><a href="../../2022/04/21/sol-index-0/" title="Sol. Index">Sol. Index</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
-</div>
-
-    <span><a href="../../2021/02/09/nuxt-js%E6%9D%82%E8%AE%B0/" title="Nuxt.js杂记">Nuxt.js杂记</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/C/" title="In C++">C++</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/PBRT/" title="In PBRT">PBRT</a>
 </div>
 
-    <span><a href="../../2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
-</div>
-
-    <span><a href="../../2021/02/21/gameframework%E7%B3%BB%E5%88%97-resourcemanager/" title="GameFramework系列 - ResourceManager">GameFramework系列 - ResourceManager</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2021/02/25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2022/04/05/games104-pilot%E5%BC%95%E6%93%8E-1-%E5%8F%8D%E5%B0%84%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84/" title="Games104 Pilot引擎 (1) 反射框架结构">Games104 Pilot引擎 (1) 反射框架结构</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" title="In 编译原理">编译原理</a>
-</div>
-
-    <span><a href="../../2023/12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/" title="【编译原理】 阶段性小结(前端)">【编译原理】 阶段性小结(前端)</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
-</div>
-
-    <span><a href="../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/Unity/" title="In Unity">Unity</a>
-</div>
-
-    <span><a href="../../2021/08/04/%E5%86%8D%E5%A4%9A%E7%BB%99%E8%87%AA%E5%B7%B1%E4%B8%80%E4%BA%9B%E5%89%8D%E8%BF%9B%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%90%A7/" title="再多给自己一些前进的动力吧">再多给自己一些前进的动力吧</a></span>
+    <span><a href="../../2021/04/05/shader-%E9%80%8F%E6%98%8E%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="Shader 透明效果 《Shaderlab新手宝典》">Shader 透明效果 《Shaderlab新手宝典》</a></span>
   </li>
 
       
@@ -681,7 +599,101 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
 <a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
 </div>
 
-    <span><a href="../../2022/04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></span>
+    <span><a href="../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../2022/05/01/games104-h1-lut-color-gradiant/" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../2021/09/17/%E3%80%90%E9%9A%8F%E8%AE%B0%E3%80%91-leetcode99-%E9%9D%9E%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%85%88%E4%B8%AD%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" title="【随记】 leetcode99  非递归方式实现先中后序遍历">【随记】 leetcode99  非递归方式实现先中后序遍历</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../2021/09/12/%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Amvvm/" title="双向绑定(mvvm)">双向绑定(mvvm)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../2021/01/17/openxr3/" title="OpenXR (三)">OpenXR (三)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8/" title="In 关卡编辑器">关卡编辑器</a>
+</div>
+
+    <span><a href="../../2023/07/18/%E3%80%90gameplay%E3%80%91-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E7%95%85%E6%83%B3/" title="【GamePlay】 关卡编辑器畅想">【GamePlay】 关卡编辑器畅想</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../2022/05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></span>
   </li>
 
   </ul>

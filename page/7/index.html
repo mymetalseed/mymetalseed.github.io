@@ -119,6 +119,46 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="Created: 2023-01-02 14:17:40">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2023-01-02T14:17:40+08:00">2023-01-02</time>
+  </span>
+</div>
+
+    <h3><a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪">【技巧】Hi-Z裁剪</a></h3>
+    <div class="excerpt">
+        [toc]
+
+草地渲染的剔除流程
+
+先剔除最大不可见距离外的草
+剔除不在 NDC 空间内的草
+剔除被遮挡的草 (HiZ 剔除)
+
+# AABB 裁剪
+一个最简单的裁剪方法，比如在使用 Gpu instance 进行渲染前可以通过 ComputeShader 对准备传入 GpuInstance 的 ConstantBuffer 进行数据的裁剪，在这个阶段可以用一个比较 Trick 的方法进行裁剪，即计算物体假的 BoundaryBox, 然后再计算这个 BB 是否在 NDC 空间的包围体内.
+而这个过程只需要花费几个 if 判断，因为其具有极低的消耗，所以很适合用作在大量物体渲染流程中。
+#...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" title="计算机图形学"><i class="ic i-flag"></i>计算机图形学</a>
+      </span>
+    </div>
+    <a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" itemprop="url" title="【技巧】Hi-Z裁剪" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" itemprop="url" title="【TA101】 ComputeShader &amp; Gpu Instance"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
@@ -483,54 +523,6 @@ https://oi-wiki.org/geometry/convex-hull/# 凸多边形
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" itemprop="url" title="【oi wiki study】 Delaunay Triangulation - 三角剖分"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="Created: 2022-11-09 00:29:09">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2022-11-09T00:29:09+08:00">2022-11-09</time>
-  </span>
-</div>
-
-    <h3><a href="../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" itemprop="url" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></h3>
-    <div class="excerpt">
-        [toc] 三角剖分有很多种，在刷题中常见的三角剖分一般是 Delaunay三角剖分
-这个三角剖分有很多很好的性质
-# Delaunay 三角剖分
-
-什么事三角剖分，即对任意多边形进行三角形化 且三角形化后的外边缘是这些三角形集合的凸包
-
-# 定义
-
-唯一性
-
-DT 三角剖分是唯一的，且任意四点不共圆以及外接圆内不会有其他任何一个剖分中的点。
-
-最大化最小角
-
-比如上图，在算法中会选择右边作为最终的三角剖分，以保证最小角是最大的 (交换对角线不会导致最小角变大)。
-
-# 性质
-
-最接近 ： 以最接近的三点形成三角形，且个线段均不相交
-唯一性 ：...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="url" title="计算几何"><i class="ic i-flag"></i>计算几何</a>
-      </span>
-    </div>
-    <a href="../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" itemprop="url" title="【oi wiki study】 Delaunay Triangulation - 三角剖分" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -632,90 +624,28 @@ DT 三角剖分是唯一的，且任意四点不共圆以及外接圆内不会�
   <li class="item">
     
 <div class="breadcrumb">
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../2023/07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
 <a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
 <a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/UE/" title="In UE">UE</a>
 </div>
 
-    <span><a href="../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2021/04/04/leetcode-cookbook-%E7%AE%97%E6%B3%95%E6%91%98%E8%AE%B0/" title="LeetCode CookBook - 算法摘记 - 位操作符">LeetCode CookBook - 算法摘记 - 位操作符</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
-</div>
-
-    <span><a href="../../2021/10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
-</div>
-
-    <span><a href="../../2022/10/25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="【OI Wiki Study】 – 计算几何">【OI Wiki Study】 – 计算几何</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2021/02/26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" title="Unity工具链开发杂记">Unity工具链开发杂记</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/XLUA/" title="In XLUA">XLUA</a>
-</div>
-
-    <span><a href="../../2021/07/14/xluaframework-%EF%BC%88%E4%B8%80%EF%BC%89/" title="XLuaFramework - （一） XLuaManager">XLuaFramework - （一） XLuaManager</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/DirectX/" title="In DirectX">DirectX</a>
-</div>
-
-    <span><a href="../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" title="DirectX12 图像模糊">DirectX12 图像模糊</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
-</div>
-
-    <span><a href="../../2021/05/28/gameframework-%E5%AF%B9%E8%B1%A1%E6%B1%A0/" title="GameFramework 对象池">GameFramework 对象池</a></span>
+    <span><a href="../../2022/12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></span>
   </li>
 
       
@@ -725,7 +655,17 @@ DT 三角剖分是唯一的，且任意四点不共圆以及外接圆内不会�
 <a href="../../categories/C/" title="In C++">C++</a>
 </div>
 
-    <span><a href="../../2021/09/12/%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" title="虚函数表">虚函数表</a></span>
+    <span><a href="../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../2021/03/08/shaderlab-%E5%86%85%E7%BD%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%8F%82%E6%95%B0/" title="ShaderLab  内置结构体参数">ShaderLab  内置结构体参数</a></span>
   </li>
 
       
@@ -734,10 +674,60 @@ DT 三角剖分是唯一的，且任意四点不共圆以及外接圆内不会�
 <div class="breadcrumb">
 <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/DirectX/" title="In DirectX">DirectX</a>
+<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
 </div>
 
-    <span><a href="../../2022/07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></span>
+    <span><a href="../../2021/04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../2021/05/05/ugui%E4%BC%98%E5%8C%96%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E8%AE%B0%E5%BD%95/" title="UGUI优化以及相关组件记录">UGUI优化以及相关组件记录</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../2021/07/08/%E9%9D%A2%E8%AF%95%E7%A0%94%E4%B9%A0/" title="面试研习">面试研习</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/PBRT/" title="In PBRT">PBRT</a>
+</div>
+
+    <span><a href="../../2024/06/02/%E3%80%90pbrt-v4-1%E3%80%91-chapter1/" title="【PBRT V4 -1】 Chapter1">【PBRT V4 -1】 Chapter1</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/" title="Nest+Nuxt前后端分离式">Nest+Nuxt前后端分离式</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../2023/02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></span>
   </li>
 
   </ul>

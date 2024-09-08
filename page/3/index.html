@@ -119,6 +119,37 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="Created: 2023-09-17 14:34:19">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2023-09-17T14:34:19+08:00">2023-09-17</time>
+  </span>
+</div>
+
+    <h3><a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array</a></h3>
+    <div class="excerpt">
+        [toc] UObject 对象无法被手动释放，只能被手动请求 ConditionalBeginDestroy 来完成销毁。实际上，这个操作只是设置了当前 UObject 的 RF_BeginDestroyed 为真，然后通过 SetLinker 函数将当前对象从 linker 导出表中清除。实际的销毁操作，则是在 GC 流程中进行的。 通常的 GC 主要分为以下几个部分:
+- GC 对象容器 - GC 触发入口 (GabageCollection-&amp;gt;CollectGarbage) - GC 流程
+# GC...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/UE/" itemprop="url" title="UE"><i class="ic i-flag"></i>UE</a>
+      </span>
+    </div>
+    <a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2023/09/16/%E3%80%90urp%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E3%80%91-%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" itemprop="url" title="【URP源码解读】 延迟渲染"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
@@ -477,47 +508,6 @@ Vcitor Klee 曾提出过一个有趣的问题：如果在一个美术馆中，�
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" itemprop="url" title="【UE】 尝试解读Nanite - 1 网格划分"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="Created: 2023-07-30 14:02:48">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2023-07-30T14:02:48+08:00">2023-07-30</time>
-  </span>
-</div>
-
-    <h3><a href="../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" itemprop="url" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></h3>
-    <div class="excerpt">
-        [toc]
-# 序
-一直想学习一下 Nanite 是如何实现的，最近悄悄打开 UE 源码小鹿乱撞的看了一下，然后发现了一个奇观
-Nanite 的剖分核心代码文件只有这么多 XD
-这么一来，忽然感觉也有机会稍微不那么彻底的将 Nanite 的实现进行一次理解与拆分么？那么就开始吧
-
-这一篇的目的是先对目前已知的模块进行大体的拆分
-
-# Nanite 的大体思路
-todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 UE是如何具体的实现的
-所以这一章暂时先搁置啦
-# 1. Nanite Mesh 的切分方式
-倘若给我们一个如上图那么复杂的三维模型，让我们尝试将这个三维模型切分成...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="url" title="计算几何"><i class="ic i-flag"></i>计算几何</a>
-      </span>
-    </div>
-    <a href="../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" itemprop="url" title="【UE】 尝试解读Nanite - 1 网格划分" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -619,10 +609,10 @@ todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 U
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="In 热更新">热更新</a>
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
 </div>
 
-    <span><a href="../../2021/01/12/xlua-1/" title="Xlua (一) 环境部署">Xlua (一) 环境部署</a></span>
+    <span><a href="../../2021/09/15/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E9%9A%8F%E6%83%B3-162-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC-%E8%BF%AD%E4%BB%A3%E7%88%AC%E5%9D%A1/" title="迭代爬坡 力扣每日一题随想 - 162.寻找峰值">迭代爬坡 力扣每日一题随想 - 162.寻找峰值</a></span>
   </li>
 
       
@@ -633,52 +623,52 @@ todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 U
 <i class="ic i-angle-right"></i>
 <a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/DirectX/" title="In DirectX">DirectX</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/wwise/" title="In wwise">wwise</a>
+</div>
+
+    <span><a href="../../2022/08/22/%E3%80%90%E6%B8%B8%E6%88%8F%E9%9F%B3%E9%A2%91%E7%AE%A1%E7%90%86-wwise%E7%88%AC%E5%9D%91%E3%80%91-event/" title="【游戏音频管理-wwise爬坑】 -  Event">【游戏音频管理-wwise爬坑】 -  Event</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<a href="../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
 </div>
 
-    <span><a href="../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></span>
+    <span><a href="../../2021/04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+<a href="../../categories/C/" title="In C++">C++</a>
 </div>
 
-    <span><a href="../../2022/08/13/directx12-%E4%B8%93%E9%A2%98-c-15-%E6%9E%84%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0%E8%A7%86%E8%A7%92%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/" title="DirectX12 专题 C.15 - 构建第一人称视角的摄像机">DirectX12 专题 C.15 - 构建第一人称视角的摄像机</a></span>
+    <span><a href="../../2021/10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+<a href="../../categories/C/" title="In C++">C++</a>
 </div>
 
-    <span><a href="../../2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/" title="Nest+Nuxt前后端分离式">Nest+Nuxt前后端分离式</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-</div>
-
-    <span><a href="../../2021/04/04/shader%E4%B8%AD%E7%9A%84%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/" title="Shader中的光照模型">Shader中的光照模型</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-</div>
-
-    <span><a href="../../2021/03/01/unity-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/" title="Unity 自定义后处理">Unity 自定义后处理</a></span>
+    <span><a href="../../2021/09/25/c%EF%BC%88%E4%B9%9D%EF%BC%89%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC/" title="C++（九）左值和右值">C++（九）左值和右值</a></span>
   </li>
 
       
@@ -690,9 +680,25 @@ todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 U
 <a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
 <a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/PBRT/" title="In PBRT">PBRT</a>
 </div>
 
-    <span><a href="../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></span>
+    <span><a href="../../2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../2023/03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></span>
   </li>
 
       
@@ -709,24 +715,10 @@ todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 U
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/Unity/" title="In Unity">Unity</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/C/" title="In C#">C#</a>
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
 </div>
 
-    <span><a href="../../2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/GLSL/" title="In GLSL">GLSL</a>
-</div>
-
-    <span><a href="../../2021/03/27/games202-glsl/" title="Games202 - GLSL">Games202 - GLSL</a></span>
+    <span><a href="../../2021/10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></span>
   </li>
 
   </ul>

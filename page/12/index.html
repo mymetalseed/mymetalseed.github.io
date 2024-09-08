@@ -119,30 +119,34 @@
         
 <article class="item">
   <div class="cover">
-    <a href="../../2022/04/21/sol-index-0/" itemprop="url" title="Sol. Index"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+    <a href="../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" title="游戏引擎原理与实践 - 内存管理"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="Created: 2022-04-21 00:53:54">
+  <span class="item" title="Created: 2022-04-21 00:54:51">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
-    <time itemprop="dateCreated datePublished" datetime="2022-04-21T00:53:54+08:00">2022-04-21</time>
+    <time itemprop="dateCreated datePublished" datetime="2022-04-21T00:54:51+08:00">2022-04-21</time>
   </span>
 </div>
 
-    <h3><a href="../../2022/04/21/sol-index-0/" itemprop="url" title="Sol. Index">Sol. Index</a></h3>
+    <h3><a href="../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></h3>
     <div class="excerpt">
         [toc]
-#...
+
+原文的项目采用的是链式管理内存的方法
+
+# PoolInfo
+123456789101112131415161718192021222324252627282930struct FPoolInfo&amp;#123; DWORD Bytes; // Bytes allocated for pool. DWORD OsBytes; // Bytes aligned to page size. DWORD Taken; // Number of allocated elements in this pool, when counts down to zero can free the...
     </div>
     <div class="meta footer">
       <span>
-        <a href="../../categories/%E9%9A%8F%E7%AC%94/" itemprop="url" title="随笔"><i class="ic i-flag"></i>随笔</a>
+        <a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" itemprop="url" title="游戏引擎"><i class="ic i-flag"></i>游戏引擎</a>
       </span>
     </div>
-    <a href="../../2022/04/21/sol-index-0/" itemprop="url" title="Sol. Index" class="btn">more...</a>
+    <a href="../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" title="游戏引擎原理与实践 - 内存管理" class="btn">more...</a>
   </div>
 </article>
 
@@ -590,60 +594,22 @@ lua_dofile 会执行对应的 lua 源码，do_file 时会先进行 luaL_loadfile
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="In C++">C++</a>
+<a href="../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8/" title="In 关卡编辑器">关卡编辑器</a>
 </div>
 
-    <span><a href="../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" title="C++（三）变量的区别">C++（三）变量的区别</a></span>
+    <span><a href="../../2023/07/18/%E3%80%90gameplay%E3%80%91-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E7%95%85%E6%83%B3/" title="【GamePlay】 关卡编辑器畅想">【GamePlay】 关卡编辑器畅想</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
 </div>
 
-    <span><a href="../../2021/05/13/5-13-%E6%97%A5%E8%AE%B0-%E5%BF%BD%E7%84%B6%E6%83%B3%E8%B5%B7%E4%BA%86%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%83%B3%E4%BE%9D%E9%9D%A0%E5%88%AB%E4%BA%BA%E7%9A%84%E5%8E%9F%E5%9B%A0/" title="5&#x2F;13 日记 忽然想起了为什么不想依靠别人的原因">5/13 日记 忽然想起了为什么不想依靠别人的原因</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" title="In 寻路算法">寻路算法</a>
-</div>
-
-    <span><a href="../../2022/03/31/recastnavgation-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80-%E8%B7%9F%E7%9D%80%E5%AE%9E%E4%BE%8B%E8%B7%91%E6%B5%81%E7%A8%8B/" title="RecastNavgation 学习笔记(一) 跟着实例跑流程">RecastNavgation 学习笔记(一) 跟着实例跑流程</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/Unity/" title="In Unity">Unity</a>
-</div>
-
-    <span><a href="../../2021/05/01/unity-%E5%8D%8F%E7%A8%8B%E6%9C%AC%E8%B4%A8/" title="Unity 协程本质">Unity 协程本质</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/Unity/" title="In Unity">Unity</a>
-</div>
-
-    <span><a href="../../2021/04/21/blend-tree%E6%9C%AC%E8%B4%A8/" title="Blend Tree本质">Blend Tree本质</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
-</div>
-
-    <span><a href="../../2021/05/09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" title="《Unity Shader入门精要》 - 法线变换">《Unity Shader入门精要》 - 法线变换</a></span>
+    <span><a href="../../2021/02/09/nuxt-js%E6%9D%82%E8%AE%B0/" title="Nuxt.js杂记">Nuxt.js杂记</a></span>
   </li>
 
       
@@ -653,7 +619,17 @@ lua_dofile 会执行对应的 lua 源码，do_file 时会先进行 luaL_loadfile
 <a href="../../categories/C/" title="In C++">C++</a>
 </div>
 
-    <span><a href="../../2021/09/14/c%E4%B8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="C++(一) 编译过程">C++(一) 编译过程</a></span>
+    <span><a href="../../2021/09/17/c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" title="C++ (六) 类的大小">C++ (六) 类的大小</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../2021/03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></span>
   </li>
 
       
@@ -665,23 +641,9 @@ lua_dofile 会执行对应的 lua 源码，do_file 时会先进行 luaL_loadfile
 <a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
 <a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/Vulkan/" title="In Vulkan">Vulkan</a>
 </div>
 
-    <span><a href="../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/PBRT/" title="In PBRT">PBRT</a>
-</div>
-
-    <span><a href="../../2024/06/02/%E3%80%90pbrt-v4-1%E3%80%91-chapter1/" title="【PBRT V4 -1】 Chapter1">【PBRT V4 -1】 Chapter1</a></span>
+    <span><a href="../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></span>
   </li>
 
       
@@ -690,10 +652,54 @@ lua_dofile 会执行对应的 lua 源码，do_file 时会先进行 luaL_loadfile
 <div class="breadcrumb">
 <a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
 </div>
 
-    <span><a href="../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+    <span><a href="../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../2021/04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../2021/07/09/%E8%AE%BA%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%87%8D%E6%9E%84/" title="论技能系统的重构">论技能系统的重构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF/" title="In 服务端">服务端</a>
+</div>
+
+    <span><a href="../../2021/12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></span>
   </li>
 
   </ul>

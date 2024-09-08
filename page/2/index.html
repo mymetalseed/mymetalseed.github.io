@@ -119,6 +119,41 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" itemprop="url" title="【图形学】 Cluster Based Forward+"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="Created: 2023-11-25 12:43:05">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2023-11-25T12:43:05+08:00">2023-11-25</time>
+  </span>
+</div>
+
+    <h3><a href="../../2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" itemprop="url" title="【图形学】 Cluster Based Forward+">【图形学】 Cluster Based Forward+</a></h3>
+    <div class="excerpt">
+        [toc]
+# zbining 算法
+这个图写的很明白了，第一次记录视椎体内每个 tile 的灯光列表
+第二次记录每个 z 区间内的灯光个数 然后就可以直接找到对应视锥，对应区块内的灯光索引，而不需要对整个空间 Cluster 化
+# 代码解析
+首先值得注意的是，URP 本身是支持了 XR 的双目渲染，所以添加了 ViewIndex 这一个属性，在本节解析中，将 view 的数量看为 1 即可。 首先先计算有多少 item，item 即除了 Directional 灯光外的灯光与灯光探针的总数量
+123456var visibleLights =...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/%E5%85%89%E7%85%A7/" itemprop="url" title="光照"><i class="ic i-flag"></i>光照</a>
+      </span>
+    </div>
+    <a href="../../2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" itemprop="url" title="【图形学】 Cluster Based Forward+" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" itemprop="url" title="【URP源码阅读】 Setup阶段"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
@@ -449,37 +484,6 @@ VirtualTexture 就是这么诞生的 而虚拟纹理到物理纹理的映射就�
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="Created: 2023-09-17 14:34:19">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2023-09-17T14:34:19+08:00">2023-09-17</time>
-  </span>
-</div>
-
-    <h3><a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array</a></h3>
-    <div class="excerpt">
-        [toc] UObject 对象无法被手动释放，只能被手动请求 ConditionalBeginDestroy 来完成销毁。实际上，这个操作只是设置了当前 UObject 的 RF_BeginDestroyed 为真，然后通过 SetLinker 函数将当前对象从 linker 导出表中清除。实际的销毁操作，则是在 GC 流程中进行的。 通常的 GC 主要分为以下几个部分:
-- GC 对象容器 - GC 触发入口 (GabageCollection-&amp;gt;CollectGarbage) - GC 流程
-# GC...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/UE/" itemprop="url" title="UE"><i class="ic i-flag"></i>UE</a>
-      </span>
-    </div>
-    <a href="../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" itemprop="url" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -581,11 +585,23 @@ VirtualTexture 就是这么诞生的 而虚拟纹理到物理纹理的映射就�
     
 <div class="breadcrumb">
 <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../2021/04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="编写表面着色器 - 《Shaderlab新手宝典》">编写表面着色器 - 《Shaderlab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="In C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
 </div>
 
-    <span><a href="../../2021/06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></span>
+    <span><a href="../../2023/07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></span>
   </li>
 
       
@@ -595,26 +611,7 @@ VirtualTexture 就是这么诞生的 而虚拟纹理到物理纹理的映射就�
 <a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
 </div>
 
-    <span><a href="../../2022/02/05/%E5%9F%BA%E4%BA%8E%E8%8A%82%E7%82%B9%E7%9A%84%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" title="基于节点的战斗系统设计方案">基于节点的战斗系统设计方案</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2021/09/10/%E7%9C%8B%E5%B1%8E%E5%B1%B1%E4%BB%A3%E7%A0%81%E6%9C%89%E6%84%9F/" title="看屎山代码有感">看屎山代码有感</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="../../2024/09/01/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a></span>
+    <span><a href="../../2021/01/17/openxr3/" title="OpenXR (三)">OpenXR (三)</a></span>
   </li>
 
       
@@ -622,51 +619,75 @@ VirtualTexture 就是这么诞生的 而虚拟纹理到物理纹理的映射就�
     
 <div class="breadcrumb">
 <a href="../../categories/Unity/" title="In Unity">Unity</a>
-</div>
-
-    <span><a href="../../2021/05/15/%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8-%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" title="技能编辑器 - 数据驱动">技能编辑器 - 数据驱动</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
+<i class="ic i-angle-right"></i>
 <a href="../../categories/C/" title="In C#">C#</a>
 </div>
 
-    <span><a href="../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></span>
+    <span><a href="../../2022/08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/Unity/" title="In Unity">Unity</a>
-</div>
-
-    <span><a href="../../2023/10/15/%E3%80%90hybridclr%E3%80%91-hybridclr%E7%9B%B8%E5%85%B3/" title="【HybridCLR】 HybridCLR相关">【HybridCLR】 HybridCLR相关</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/" title="In 计算机科学">计算机科学</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 图形学">图形学</a>
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
 </div>
 
-    <span><a href="../../2024/03/23/Games001-%E5%90%91%E9%87%8F%E7%A9%BA%E9%97%B4/" title="Games001-向量空间">Games001-向量空间</a></span>
+    <span><a href="../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+<a href="../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
 </div>
 
-    <span><a href="../../2023/02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></span>
+    <span><a href="../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" title="【TA101】 ComputeShader &amp; Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../2023/09/09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" title="【Games104】 动画系统">【Games104】 动画系统</a></span>
   </li>
 
       
@@ -676,7 +697,7 @@ VirtualTexture 就是这么诞生的 而虚拟纹理到物理纹理的映射就�
 <a href="../../categories/C/" title="In C++">C++</a>
 </div>
 
-    <span><a href="../../2023/09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" title="【C++】 STL源码剖析">【C++】 STL源码剖析</a></span>
+    <span><a href="../../2021/09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></span>
   </li>
 
   </ul>
