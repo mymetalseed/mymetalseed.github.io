@@ -1,0 +1,519 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/">
+
+
+
+  <title>
+【Ray Tracing】 着色 - RayTracing - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【Ray Tracing】 着色
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-03-05 11:54:31">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-03-05T11:54:31+08:00">2023-03-05</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/RayTracing/" itemprop="item" rel="index" title="In RayTracing"><span itemprop="name">RayTracing</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="光线追踪的着色"><a class="markdownIt-Anchor" href="#光线追踪的着色">#</a> 光线追踪的着色</h1>
+<p>由上一节我们可以知道，rayTracing 从摄像机触发，向屏幕逐像素释放射线并计算路径上碰撞体的融合颜色。<br>
+最后在目标像素上输出融合颜色，这个过程就是 rayTracing 染色的过程。 那么另外一个问题是，如何在 rayTracing 的框架下实现传统的着色呢？我们需要知道几个变量</p>
+<ul>
+<li>物体表面法线</li>
+<li>光源位置</li>
+<li>相机到物体表面的方向向量与 hitPoint</li>
+</ul>
+<p>我们假设：<br>
+1. 法线方向为从相机出发到物体表面的射线方向，自定义一个光源方向。<br>
+2. 假设着色模型为表面法线与光源方向的点积（即背向光源的越来越黑） 这样最基础的光照模型</p>
+<h2 id="code"><a class="markdownIt-Anchor" href="#code">#</a> Code</h2>
+<p>根据上述，我们可以更改渲染代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Renderer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Walnut/Random.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> Utils &#123;</span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">uint32_t</span> <span class="title">ConvertToRGBA</span><span class="params">(<span class="type">const</span> glm::vec4&amp; color)</span> </span>&#123;</span><br><span class="line">        <span class="type">uint8_t</span> r = (<span class="type">uint8_t</span>)(color.r * <span class="number">255.0f</span>);</span><br><span class="line">        <span class="type">uint8_t</span> g = (<span class="type">uint8_t</span>)(color.g * <span class="number">255.0f</span>);</span><br><span class="line">        <span class="type">uint8_t</span> b = (<span class="type">uint8_t</span>)(color.b * <span class="number">255.0f</span>);</span><br><span class="line">        <span class="type">uint8_t</span> a = (<span class="type">uint8_t</span>)(color.a * <span class="number">255.0f</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">uint32_t</span> result = (a &lt;&lt; <span class="number">24</span>)  (b &lt;&lt; <span class="number">16</span>)  (g &lt;&lt; <span class="number">8</span>)  r;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Render</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//逐像素设置图片信息</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> y = <span class="number">0</span>; y &lt; m_FinalImage-&gt;<span class="built_in">GetHeight</span>(); ++y) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint32_t</span> x = <span class="number">0</span>; x &lt; m_FinalImage-&gt;<span class="built_in">GetWidth</span>(); ++x) &#123;</span><br><span class="line">            glm::vec2 coord = &#123;</span><br><span class="line">                (<span class="type">float</span>)x / m_FinalImage-&gt;<span class="built_in">GetWidth</span>(),</span><br><span class="line">                (<span class="type">float</span>)y / m_FinalImage-&gt;<span class="built_in">GetHeight</span>()</span><br><span class="line">            &#125;;</span><br><span class="line">            coord = coord * <span class="number">2.0f</span> - <span class="number">1.0f</span>;<span class="comment">// 屏幕UV 转换到 -1 -&gt; 1</span></span><br><span class="line"></span><br><span class="line">            glm::vec4 color = <span class="built_in">PerPixel</span>(coord);</span><br><span class="line">            color = glm::<span class="built_in">clamp</span>(color, glm::<span class="built_in">vec4</span>(<span class="number">0.0f</span>), glm::<span class="built_in">vec4</span>(<span class="number">1.0f</span>));</span><br><span class="line">            m_ImageData[x + y*m_FinalImage-&gt;<span class="built_in">GetWidth</span>()] = Utils::<span class="built_in">ConvertToRGBA</span>(color);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    m_FinalImage-&gt;<span class="built_in">SetData</span>(m_ImageData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::OnResize</span><span class="params">(<span class="type">uint32_t</span> width,<span class="type">uint32_t</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (m_FinalImage) &#123;</span><br><span class="line">        <span class="comment">//No resize necessary</span></span><br><span class="line">        <span class="keyword">if</span> (m_FinalImage-&gt;<span class="built_in">GetWidth</span>() == width &amp;&amp; m_FinalImage-&gt;<span class="built_in">GetHeight</span>() == height) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        m_FinalImage-&gt;<span class="built_in">Resize</span>(width, height);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        m_FinalImage = std::<span class="built_in">make_shared</span>&lt;Walnut::Image&gt;(width, height, Walnut::ImageFormat::RGBA);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span>[] m_ImageData;</span><br><span class="line">    m_ImageData = <span class="keyword">new</span> <span class="type">uint32_t</span>[width * height];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 可以理解为片元着色器</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;param name=&quot;coord&quot;&gt;&lt;/param&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line"><span class="function">glm::vec4 <span class="title">Renderer::PerPixel</span><span class="params">(glm::vec2 coord)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">uint8_t</span> r = (<span class="type">uint8_t</span>)(coord.x * <span class="number">255.0f</span>);</span><br><span class="line">    <span class="type">uint8_t</span> g = (<span class="type">uint8_t</span>)(coord.y * <span class="number">255.0f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//射线开始的地方,在这里同样是摄像机的位置</span></span><br><span class="line">    <span class="function">glm::vec3 <span class="title">rayOrigin</span><span class="params">(<span class="number">0.0f</span>,<span class="number">0.0f</span>,<span class="number">2.0f</span>)</span></span>;</span><br><span class="line">    <span class="comment">//只在2D空间内进行,但是给一个虚拟的z轴(固定的)</span></span><br><span class="line">    <span class="function">glm::vec3 <span class="title">rayDirection</span><span class="params">(coord.x, coord.y, <span class="number">-1.0f</span>)</span></span>;</span><br><span class="line">    <span class="type">float</span> radius = <span class="number">0.5f</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// (bx^2 + by^2)t^2 + (2(axbx + ayby))t + (ax^2 + ay^2 - r^2) = 0</span></span><br><span class="line">    <span class="comment">// where</span></span><br><span class="line">    <span class="comment">// a = ray origin</span></span><br><span class="line">    <span class="comment">// b = ray direction</span></span><br><span class="line">    <span class="comment">// r = radius</span></span><br><span class="line">    <span class="comment">// t = hit distance</span></span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> a = glm::<span class="built_in">dot</span>(rayDirection, rayDirection);</span><br><span class="line">    <span class="type">float</span> b = <span class="number">2.0f</span> * glm::<span class="built_in">dot</span>(rayOrigin, rayDirection);</span><br><span class="line">    <span class="type">float</span> c = glm::<span class="built_in">dot</span>(rayOrigin, rayOrigin) - radius * radius;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Quadratic forumula discriminant(求解的个数);</span></span><br><span class="line">    <span class="comment">// b^2 - 4ac</span></span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> discriminant = b * b - <span class="number">4.0f</span> * a * c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (discriminant &lt; <span class="number">0.0f</span>)</span><br><span class="line">        <span class="keyword">return</span> glm::<span class="built_in">vec4</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//hit的t的解(二次方程的根)</span></span><br><span class="line">    <span class="comment">//(-b +- sqrt(discriminant)) / 2a</span></span><br><span class="line">    <span class="type">float</span> t0 = (-b + glm::<span class="built_in">sqrt</span>(discriminant)) / <span class="number">2.0f</span> * a;</span><br><span class="line">    <span class="type">float</span> closestT = (-b - glm::<span class="built_in">sqrt</span>(discriminant)) / <span class="number">2.0f</span> * a;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//碰撞到的点</span></span><br><span class="line">    glm::vec3 hitPoint = rayOrigin + rayDirection * closestT;</span><br><span class="line">    <span class="comment">//假设法线就是原点到碰撞点的连线</span></span><br><span class="line">    glm::vec3 normal = glm::<span class="built_in">normalize</span>(hitPoint);</span><br><span class="line"></span><br><span class="line">    glm::vec3 lightDir = glm::<span class="built_in">normalize</span>(glm::<span class="built_in">vec3</span>(<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//正常颜色=法线点积光线</span></span><br><span class="line">    <span class="type">float</span> d = glm::<span class="built_in">max</span>(glm::<span class="built_in">dot</span>(normal, -lightDir), <span class="number">0.0f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function">glm::vec3 <span class="title">sphereColor</span><span class="params">(<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>)</span></span>;</span><br><span class="line">    sphereColor *= d;</span><br><span class="line">    <span class="keyword">return</span> glm::<span class="built_in">vec4</span>(sphereColor, <span class="number">1.0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a class="markdownIt-Anchor" href="#结果">#</a> 结果</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_a611d9f4dcdf196a2ddfc59dc1ae5d23.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_a611d9f4dcdf196a2ddfc59dc1ae5d23.jpg" alt=""></a></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" title="【Ray Tracing】 着色">https://mymetalseed.github.io/2023/03/05/【ray-tracing】-着色/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GPUDriven】 使用Texture传递数据">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>【GPUDriven】 使用Texture传递数据</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【RayTracing】 光照度几个基础概念">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> RayTracing</span>
+  <h3>【RayTracing】 光照度几个基础概念</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E7%9A%84%E7%9D%80%E8%89%B2"><span class="toc-number">1.</span> <span class="toc-text"> 光线追踪的着色</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#code"><span class="toc-number">1.1.</span> <span class="toc-text"> Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-number">1.2.</span> <span class="toc-text"> 结果</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" rel="bookmark" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></li><li class="active"><a href="" rel="bookmark" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></li><li><a href="../../09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></li><li><a href="../../../04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" rel="bookmark" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" rel="bookmark" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" rel="bookmark" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></li><li><a href="../../../05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" rel="bookmark" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/13/5-13-%E6%97%A5%E8%AE%B0-%E5%BF%BD%E7%84%B6%E6%83%B3%E8%B5%B7%E4%BA%86%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%83%B3%E4%BE%9D%E9%9D%A0%E5%88%AB%E4%BA%BA%E7%9A%84%E5%8E%9F%E5%9B%A0/" title="5&#x2F;13 日记 忽然想起了为什么不想依靠别人的原因">5/13 日记 忽然想起了为什么不想依靠别人的原因</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/12/912%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95b/" title="米哈游笔试B">米哈游笔试B</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/04/%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="技能系统">技能系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/05/%E3%80%8A%E6%98%9F%E6%98%9F%E4%B9%8B%E5%8D%B5%E3%80%8B-%E6%AF%95/" title="《星星之卵》 毕">《星星之卵》 毕</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" title="Unity工具链开发杂记">Unity工具链开发杂记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/25/%E3%80%8Ashader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%85%89%E7%85%A7%E7%AF%87/" title="《shader入门精要》 - 光照篇">《shader入门精要》 - 光照篇</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../07/06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" title="【C++并发】 thread相关">【C++并发】 thread相关</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/03/05/【ray-tracing】-着色/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

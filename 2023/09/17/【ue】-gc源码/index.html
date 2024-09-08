@@ -1,0 +1,534 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/">
+
+
+
+  <title>
+【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array - UE |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-09-17 14:34:19">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-09-17T14:34:19+08:00">2023-09-17</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/UE/" itemprop="item" rel="index" title="In UE"><span itemprop="name">UE</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] UObject 对象无法被手动释放，只能被手动请求 <code>ConditionalBeginDestroy</code>  来完成销毁。实际上，这个操作只是设置了当前 <code>UObject</code>  的 <code>RF_BeginDestroyed</code>  为真，然后通过 SetLinker 函数将当前对象从 linker 导出表中清除。实际的销毁操作，则是在 GC 流程中进行的。 通常的 GC 主要分为以下几个部分:<br>
+- GC 对象容器 - GC 触发入口 (GabageCollection-&gt;CollectGarbage) - GC 流程</p>
+<h1 id="gc对象容器入口"><a class="markdownIt-Anchor" href="#gc对象容器入口">#</a> GC 对象容器入口</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UCookCommandlet::<span class="built_in">ConditionalCollectGarbage</span>()</span><br></pre></td></tr></table></figure>
+<p>在这个入口里有这样一段代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int32 NumObjectsBeforeGC = GUObjectArray.<span class="built_in">GetObjectArrayNumMinusAvailable</span>();</span><br></pre></td></tr></table></figure>
+<p><code>GUObjectArray</code>  保存在 <code>UObjectHash</code>  的全局作用域中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Global UObject array instance</span></span><br><span class="line">FUObjectArray GUObjectArray;</span><br></pre></td></tr></table></figure>
+<p>所有存活的 Object 会存放到 <code>FUObjectArray</code>  的 <code>ObjObjects</code>  容器中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Array of all live objects.                                          */</span></span><br><span class="line">TUObjectArray ObjObjects;</span><br></pre></td></tr></table></figure>
+<p>另外，UObject 会被 Wrap 一层成 <code>FUObjectItem</code>  来存放到 <code>FUObjectArray</code>  中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">FUObjectArray::AllocateUObjectIndex</span><span class="params">(UObjectBase* Object, <span class="type">bool</span> bMergingThreads <span class="comment">/*= false*/</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        <span class="comment">// Add to global table.</span></span><br><span class="line">    FUObjectItem* ObjectItem = <span class="built_in">IndexToObject</span>(Index);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fuobjectitem"><a class="markdownIt-Anchor" href="#fuobjectitem">#</a> FUObjectItem</h2>
+<ol>
+<li>用来存储 <code>UObject</code>  的引用</li>
+<li>默认会先分配 <code>MaxChunks</code>  个 FUObjectItem<br>
+UObjectBaseInit()-&gt;GUObjectArray.AllocateObjectPool()-&gt;ObjObjects.PreAllocate()</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">PreAllocate</span><span class="params">(int32 InMaxElements, <span class="type">bool</span> bPreAllocateChunks)</span> TSAN_SAFE</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">//计算需要的块数</span></span><br><span class="line">   MaxChunks = InMaxElements / NumElementsPerChunk + <span class="number">1</span>;</span><br><span class="line">   <span class="comment">//计算最大元素数</span></span><br><span class="line">   MaxElements = MaxChunks * NumElementsPerChunk;</span><br><span class="line">   <span class="comment">//Objects用于存储每块首个ObjectItem的指针</span></span><br><span class="line">   Objects = <span class="keyword">new</span> FUObjectItem*[MaxChunks];</span><br><span class="line">   FMemory::<span class="built_in">Memzero</span>(Objects, <span class="built_in">sizeof</span>(FUObjectItem*) * MaxChunks);</span><br><span class="line">   <span class="keyword">if</span> (bPreAllocateChunks)</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="comment">//MaxElements个连续ObjectItem的内存块</span></span><br><span class="line">      PreAllocatedObjects = <span class="keyword">new</span> FUObjectItem[MaxElements];</span><br><span class="line">      <span class="keyword">for</span> (int32 ChunkIndex = <span class="number">0</span>; ChunkIndex &lt; MaxChunks; ++ChunkIndex)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">//记录每块的首个指针地址</span></span><br><span class="line">        Objects[ChunkIndex] = PreAllocatedObjects + ChunkIndex * NumElementsPerChunk;</span><br><span class="line">      &#125;</span><br><span class="line">      NumChunks = MaxChunks;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由上述代码可以看出，实际上所有 <code>Chunk</code>  的 <code>FUObjectItem</code>  都是存放在一个顺序表中的 ( <code>PreAllocatedObjects</code> ), 而每个 Chunk 会存放对应 Chunk 的首地址，并且所有 Chunk 的元素数量是一致的</p>
+<blockquote>
+<p>当然，如果发现 Chunk 数量不足时，会继续向后申请新的 Chunk</p>
+</blockquote>
+<p>大概概括一下 UObjectArray 的作用: 1. 全局存储对象的作用 2. 全局对象列表管理的是 ObjectItem，而不是 Object，起到分离和记录额外信息的作用（如 GC 时，Object 并不存储 GC 信息，Object 设计时也就不用考虑 GC 问题） 3. 实现忽略 GC 功能（算一个作用吧）</p>
+<h1 id="uobject在哪里将自身引用到全局数组中"><a class="markdownIt-Anchor" href="#uobject在哪里将自身引用到全局数组中">#</a> UObject 在哪里将自身引用到全局数组中？</h1>
+<ol>
+<li>UOject 继承自 <code>UObjectBase</code></li>
+<li>构造函数调用 <code>AddObject</code></li>
+<li><code>AddObject</code>  注册引用</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Add a newly created object to the name hash tables and the object array</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param Name name to assign to this uobject</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">UObjectBase::AddObject</span><span class="params">(FName InName, EInternalObjectFlags InSetInternalFlags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    NamePrivate = InName;</span><br><span class="line">    EInternalObjectFlags InternalFlagsToSet = InSetInternalFlags;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">IsInGameThread</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        InternalFlagsToSet = EInternalObjectFlags::Async;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ObjectFlags &amp; RF_MarkAsRootSet)</span><br><span class="line">    &#123;       </span><br><span class="line">        InternalFlagsToSet = EInternalObjectFlags::RootSet;</span><br><span class="line">        ObjectFlags &amp;= ~RF_MarkAsRootSet;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ObjectFlags &amp; RF_MarkAsNative)</span><br><span class="line">    &#123;</span><br><span class="line">        InternalFlagsToSet = EInternalObjectFlags::Native;</span><br><span class="line">        ObjectFlags &amp;= ~RF_MarkAsNative;</span><br><span class="line">    &#125;</span><br><span class="line">    GUObjectArray.<span class="built_in">AllocateUObjectIndex</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">check</span>(InName != NAME_None &amp;&amp; InternalIndex &gt;= <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (InternalFlagsToSet != EInternalObjectFlags::None)</span><br><span class="line">    &#123;</span><br><span class="line">        GUObjectArray.<span class="built_in">IndexToObject</span>(InternalIndex)-&gt;<span class="built_in">SetFlags</span>(InternalFlagsToSet);</span><br><span class="line"></span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="built_in">HashObject</span>(<span class="keyword">this</span>);</span><br><span class="line">    <span class="built_in">check</span>(<span class="built_in">IsValidLowLevel</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">https://mymetalseed.github.io/2023/09/17/【ue】-gc源码/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../16/%E3%80%90urp%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E3%80%91-%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【URP源码解读】 延迟渲染">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> URP</span>
+  <h3>【URP源码解读】 延迟渲染</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GDC】 再探Virtual Texture">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>【GDC】 再探Virtual Texture</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gc%E5%AF%B9%E8%B1%A1%E5%AE%B9%E5%99%A8%E5%85%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> GC 对象容器入口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fuobjectitem"><span class="toc-number">1.1.</span> <span class="toc-text"> FUObjectItem</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#uobject%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B0%86%E8%87%AA%E8%BA%AB%E5%BC%95%E7%94%A8%E5%88%B0%E5%85%A8%E5%B1%80%E6%95%B0%E7%BB%84%E4%B8%AD"><span class="toc-number">2.</span> <span class="toc-text"> UObject 在哪里将自身引用到全局数组中？</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/09/17/ue-c%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAcube/" rel="bookmark" title="UE5 C++编程学习 (一)   新建一个Cube">UE5 C++编程学习 (一)   新建一个Cube</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/07/23/ue-%E6%95%B4%E7%90%86/" rel="bookmark" title="UE 整理">UE 整理</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" rel="bookmark" title="【UE_Source】 部分FileSystem">【UE_Source】 部分FileSystem</a></li><li><a href="../../15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></li><li class="active"><a href="" rel="bookmark" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array</a></li><li><a href="../../../../2024/01/20/%E3%80%90ue%E3%80%91%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E6%B8%B2%E6%9F%93%E4%B8%BB%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】源码学习-渲染主框架">【UE】源码学习-渲染主框架</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../16/%E3%80%90urp%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E3%80%91-%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../../2022/06/26/directx12-9-%E5%85%89%E7%85%A7/" title="DirectX12 9. 光照">DirectX12 9. 光照</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/09/wordpress/" title="久违的回到了ｗｏｒｄｐｒｅｓｓ">久违的回到了ｗｏｒｄｐｒｅｓｓ</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2021/10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/07/08/%E9%9D%A2%E8%AF%95%E7%A0%94%E4%B9%A0/" title="面试研习">面试研习</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/08/01/pathtracing%E5%B0%84%E7%BA%BF%E5%8E%9F%E7%90%86/" title="PathTracing射线原理">PathTracing射线原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Oculus/" title="In Oculus">Oculus</a>
+</div>
+
+    <span><a href="../../../../2021/03/08/oculus%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E6%91%98-%EF%BC%88%E9%9A%8F-%E4%B8%80%EF%BC%89/" title="Oculus官方文档摘 （随 一）">Oculus官方文档摘 （随 一）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/nrp/" title="卡通渲染 (一)">卡通渲染 (一)</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/09/17/【ue】-gc源码/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

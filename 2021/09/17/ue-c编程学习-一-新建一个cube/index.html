@@ -1,0 +1,542 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/09/17/ue-c%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAcube/">
+
+
+
+  <title>
+UE5 C++编程学习 (一)   新建一个Cube - UE |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">UE5 C++编程学习 (一)   新建一个Cube
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-09-17 16:09:52">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-09-17T16:09:52+08:00">2021-09-17</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/UE/" itemprop="item" rel="index" title="In UE"><span itemprop="name">UE</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/09/17/ue-c%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAcube/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<blockquote>
+<p>从 C++ 入手</p>
+</blockquote>
+<p>计划学习路径参考 UE 官方文档: <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnVucmVhbGVuZ2luZS5jb20vNC4yNy96aC1DTi9Qcm9ncmFtbWluZ0FuZFNjcmlwdGluZy9Qcm9ncmFtbWluZ1dpdGhDUFAvQ1BQUHJvZ3JhbW1pbmdRdWlja1N0YXJ0Lw==">https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/CPPProgrammingQuickStart/</span></p>
+<h1 id="新建一个actor"><a class="markdownIt-Anchor" href="#新建一个actor">#</a> 新建一个 Actor</h1>
+<h2 id="什么是actor"><a class="markdownIt-Anchor" href="#什么是actor">#</a> 什么是 Actor</h2>
+<p>类似于 Unity 中的 GameObject, 即万物基类 (暂时这么理解，后面有变动再改)</p>
+<h2 id="创建一个c-actor"><a class="markdownIt-Anchor" href="#创建一个c-actor">#</a> 创建一个 C++ Actor</h2>
+<p>在 UE5 中，面板有变动.UE4 中需要通过文件创建一个新的 C<ins> 类，但是 UE5 中的路径变更为了：工具 -&gt; 新建 C</ins> 类 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_100b6ab6490d3706579f29ad875c1e2f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_100b6ab6490d3706579f29ad875c1e2f.jpg" alt=""></a> 之后选择 C++ 的基类为 Actor<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_4289fe69b45d0c12cace0a0bd074b276.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_4289fe69b45d0c12cace0a0bd074b276.jpg" alt=""></a> 然后创建出来自己想要的类 (这里命名为 FloatingActor)</p>
+<h2 id="编辑floatingactor"><a class="markdownIt-Anchor" href="#编辑floatingactor">#</a> 编辑 FloatingActor</h2>
+<p>这个文件的路径是在 <code>Games/[你的项目名称]/Source/[你的项目名称]/FloatingActor.cpp/h</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_e5f177ab25febb8839544baba74a81f4.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_e5f177ab25febb8839544baba74a81f4.jpg" alt=""></a> 和 C++ 同理，.h 中通常存放一些暴露相关的接口和对象 这里我们在 AFloatingActor (); 下面声明一个可视化的 Mesh 和可显示在任意地方的宏</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CoreMinimal.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GameFramework/Actor.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;FloatingActor.generated.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UCLASS</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DEMO_API</span> AFloatingActor : <span class="keyword">public</span> AActor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">GENERATED_BODY</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// Sets default values for this actor&#x27;s properties</span></span><br><span class="line">    <span class="built_in">AFloatingActor</span>();</span><br><span class="line">    <span class="built_in">UPROPERTY</span>(VisibleAnywhere)</span><br><span class="line">    UStaticMeshComponent* VisualMesh;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="comment">// Called when the game starts or when spawned</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">BeginPlay</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// Called every frame</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="构造函数"><a class="markdownIt-Anchor" href="#构造函数">#</a> 构造函数</h3>
+<p>在 FloatingActor.cpp 中有一个初始化函数， <code>AFloatingActor()</code>  这个函数可以作为构造函数来使用 我们在其中为 VisualMesh 赋值一个新的 Mesh 对象.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这个函数是构造函数</span></span><br><span class="line"><span class="comment">// Sets default values</span></span><br><span class="line">AFloatingActor::<span class="built_in">AFloatingActor</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.</span></span><br><span class="line">    PrimaryActorTick.bCanEverTick = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    VisualMesh = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;Mesh&quot;</span>));</span><br><span class="line">    VisualMesh-&gt;<span class="built_in">SetupAttachment</span>(RootComponent);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">CubeVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube&quot;</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (CubeVisualAsset.<span class="built_in">Succeeded</span>()) &#123;</span><br><span class="line">        VisualMesh-&gt;<span class="built_in">SetStaticMesh</span>(CubeVisualAsset.Object);</span><br><span class="line">        VisualMesh-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中， <code>RootComponnet</code>  是全局根对象，然后创建一个资源读取的 Asset (暂时这么理解), 如果读取成功了，则将 mesh 的信息和位置都初始化一下.</p>
+<h3 id="beginplay"><a class="markdownIt-Anchor" href="#beginplay">#</a> BeginPlay</h3>
+<p>类似于 Unity 的 Start</p>
+<h3 id="tick"><a class="markdownIt-Anchor" href="#tick">#</a> Tick</h3>
+<p>每帧执行的函数，类似于 Update 在这个函数里，我们让当前这个对象不断地旋转和浮动</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Called every frame</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AFloatingActor::Tick</span><span class="params">(<span class="type">float</span> DeltaTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Super::<span class="built_in">Tick</span>(DeltaTime);</span><br><span class="line">    FVector NewLocation = <span class="built_in">GetActorLocation</span>();   <span class="comment">//获取当前对象位置</span></span><br><span class="line">    FRotator NewRotation = <span class="built_in">GetActorRotation</span>();  <span class="comment">//获取当前对象旋转</span></span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> RunningTime = <span class="built_in">GetGameTimeSinceCreation</span>(); <span class="comment">//获取创建到现在的时间</span></span><br><span class="line">    <span class="type">float</span> DeltaHeight = (FMath::<span class="built_in">Sin</span>(RunningTime + DeltaTime) - FMath::<span class="built_in">Sin</span>(RunningTime));</span><br><span class="line">    NewLocation.Z += DeltaHeight * <span class="number">20.0f</span>;   <span class="comment">//高度浮动</span></span><br><span class="line">    <span class="type">float</span> DeltaRotation = DeltaTime * <span class="number">20.0f</span>;    <span class="comment">//旋转浮动</span></span><br><span class="line">    NewRotation.Yaw += DeltaRotation;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">SetActorLocationAndRotation</span>(NewLocation,NewRotation);   <span class="comment">//设置位置和旋转</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编译floatingactor"><a class="markdownIt-Anchor" href="#编译floatingactor">#</a> 编译 FloatingActor</h2>
+<p>当我们编写完这个对象后，需要编译一下 Games 下的项目，这样才能让这个对象在编辑器中可以供我们操作<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_73b65c99abd829992c8ae839ba5a6c08.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_73b65c99abd829992c8ae839ba5a6c08.jpg" alt=""></a></p>
+<h2 id="查看内容库"><a class="markdownIt-Anchor" href="#查看内容库">#</a> 查看内容库</h2>
+<p>类似于 Unity 中的 Project, 即所有资源的库存，包括我们刚才制作的 FloatingActor. <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_eb2bcb4dec2ae69ae8c6de43e40ef129.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_eb2bcb4dec2ae69ae8c6de43e40ef129.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_915b8e472f3a1c9cb1f8118149e0fa01.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_915b8e472f3a1c9cb1f8118149e0fa01.jpg" alt=""></a> 这里可以设置停靠在布局中</p>
+<h2 id="实例化floatingactor"><a class="markdownIt-Anchor" href="#实例化floatingactor">#</a> 实例化 FloatingActor</h2>
+<p>将内容库中的 Actor 拖入到场景中即可</p>
+<h2 id="结果"><a class="markdownIt-Anchor" href="#结果">#</a> 结果</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_04990a199f4a4178d3574453f57ddcdb.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/09/wp_editor_md_04990a199f4a4178d3574453f57ddcdb.jpg" alt=""></a></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/09/17/ue-c%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAcube/" title="UE5 C++编程学习 (一)   新建一个Cube">https://mymetalseed.github.io/2021/09/17/ue-c编程学习-一-新建一个cube/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="C++(五) 内存对齐以及类型相关">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>C++(五) 内存对齐以及类型相关</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="C++ (六) 类的大小">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>C++ (六) 类的大小</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAactor"><span class="toc-number">1.</span> <span class="toc-text"> 新建一个 Actor</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFactor"><span class="toc-number">1.1.</span> <span class="toc-text"> 什么是 Actor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAc-actor"><span class="toc-number">1.2.</span> <span class="toc-text"> 创建一个 C++ Actor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91floatingactor"><span class="toc-number">1.3.</span> <span class="toc-text"> 编辑 FloatingActor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#beginplay"><span class="toc-number">1.3.2.</span> <span class="toc-text"> BeginPlay</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tick"><span class="toc-number">1.3.3.</span> <span class="toc-text"> Tick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91floatingactor"><span class="toc-number">1.4.</span> <span class="toc-text"> 编译 FloatingActor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9%E5%BA%93"><span class="toc-number">1.5.</span> <span class="toc-text"> 查看内容库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96floatingactor"><span class="toc-number">1.6.</span> <span class="toc-text"> 实例化 FloatingActor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-number">1.7.</span> <span class="toc-text"> 结果</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="UE5 C++编程学习 (一)   新建一个Cube">UE5 C++编程学习 (一)   新建一个Cube</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/07/23/ue-%E6%95%B4%E7%90%86/" rel="bookmark" title="UE 整理">UE 整理</a></li><li><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../../2023/08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" rel="bookmark" title="【UE_Source】 部分FileSystem">【UE_Source】 部分FileSystem</a></li><li><a href="../../../../2023/09/15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></li><li><a href="../../../../2023/09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" rel="bookmark" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array</a></li><li><a href="../../../../2024/01/20/%E3%80%90ue%E3%80%91%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E6%B8%B2%E6%9F%93%E4%B8%BB%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】源码学习-渲染主框架">【UE】源码学习-渲染主框架</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2023/04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/09/09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" title="【Games104】 动画系统">【Games104】 动画系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../02/26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" title="Unity工具链开发杂记">Unity工具链开发杂记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../01/23/unity%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BF%AB%E6%8D%B7%E9%94%AE/" title="Unity的一些快捷键">Unity的一些快捷键</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="编写表面着色器 - 《Shaderlab新手宝典》">编写表面着色器 - 《Shaderlab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" title="DirectX12 图像模糊">DirectX12 图像模糊</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../../2022/07/23/ue-%E6%95%B4%E7%90%86/" title="UE 整理">UE 整理</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/09/17/ue-c编程学习-一-新建一个cube/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

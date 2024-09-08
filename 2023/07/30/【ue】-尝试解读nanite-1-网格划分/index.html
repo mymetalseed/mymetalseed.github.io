@@ -1,0 +1,626 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/">
+
+
+
+  <title>
+【UE】 尝试解读Nanite - 1 网格划分 - 计算几何 - 算法 - UE - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【UE】 尝试解读Nanite - 1 网格划分
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-07-30 14:02:48">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-07-30T14:02:48+08:00">2023-07-30</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/UE/" itemprop="item" rel="index" title="In UE"><span itemprop="name">UE</span></a>
+<meta itemprop="position" content="3" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%AE%97%E6%B3%95/" itemprop="item" rel="index" title="In 算法"><span itemprop="name">算法</span></a>
+<meta itemprop="position" content="4" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="item" rel="index" title="In 计算几何"><span itemprop="name">计算几何</span></a>
+<meta itemprop="position" content="5" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="序"><a class="markdownIt-Anchor" href="#序">#</a> 序</h1>
+<p>一直想学习一下 Nanite 是如何实现的，最近悄悄打开 UE 源码小鹿乱撞的看了一下，然后发现了一个奇观<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_b575c478e193538a489c4c6485f33bfd.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_b575c478e193538a489c4c6485f33bfd.jpg" alt=""></a> Nanite 的剖分核心代码文件只有这么多 XD<br>
+ 这么一来，忽然感觉也有机会稍微不那么彻底的将 Nanite 的实现进行一次理解与拆分么？那么就开始吧<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_159dea205d8eae9df7f863f0bf060266.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_159dea205d8eae9df7f863f0bf060266.jpg" alt=""></a></p>
+<blockquote>
+<p>这一篇的目的是先对目前已知的模块进行大体的拆分</p>
+</blockquote>
+<h2 id="nanite的大体思路"><a class="markdownIt-Anchor" href="#nanite的大体思路">#</a> Nanite 的大体思路</h2>
+<p>todo: 这一部分其实之前已经比较熟悉了，现在需要考虑的是 <code>UE是如何具体的实现的</code> <br>
+所以这一章暂时先搁置啦</p>
+<h1 id="1-nanite-mesh的切分方式"><a class="markdownIt-Anchor" href="#1-nanite-mesh的切分方式">#</a> 1. Nanite Mesh 的切分方式</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_45cb4345a8c126890e361b1f52dd9f4a.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_45cb4345a8c126890e361b1f52dd9f4a.jpg" alt=""></a> 倘若给我们一个如上图那么复杂的三维模型，让我们尝试将这个三维模型切分成 Nanite 中的每簇 <code>Cluster</code> ，那我们首先需要思考的就是 <code>剖分算法</code> ，即如何将一整个 Mesh 合理的划分成不同的 Cluster, 而且还要能够支持 Cluster 的 <code>LOD</code>  UE 是这么做的 (暂时还没看实现算法，只是把大体逻辑罗列一下)</p>
+<ol>
+<li>首先在 <code>NaniteBuilder.cpp</code>  的 <code>ClusterTriangles</code>  函数中，将原本的 <code>MeshData</code>  传入，调用 <code>FGraphPartitioner</code>  进行切分</li>
+<li>然后在 <code>FGraphPartitioner</code>  方法的 <code>PartitionStrict</code>  函数中进行 Mesh 的切分</li>
+<li>每次切分，调用 <code>BisectGraph</code>  函数进行建图，同时，会在这个函数中调用 <code>METIS</code>  库进行实际的 Mesh 切分</li>
+<li>在这个函数中， <code>METIS_PartGraphRecursive</code>  是调用 Metis 库的入口</li>
+</ol>
+<blockquote>
+<p>个人思考 1 - 如何对 Mesh 进行合理的 Cluster 的切分？在稍微了解一下 metis 库后，忽然明白，实际上的 Mesh 的构成就是一个标准的 <code>图结构</code> ，而我们只需要将这个图切分成几个合理的子图即可。</p>
+<blockquote>
+<p>这样问题就从如何切分 Mesh, 转化成了，如何获得一个图结构的子图。<br>
+而在得到子图以后，实际上就轻松很多了，耳裁剪，三角剖分什么的，都可以使用了</p>
+</blockquote>
+</blockquote>
+<hr>
+<h1 id="first-step-build"><a class="markdownIt-Anchor" href="#first-step-build">#</a> First Step: Build</h1>
+<p>最初的入口是 <code>BuildNaniteData</code></p>
+<ol>
+<li><strong>函数头</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">bool</span> <span class="title">BuildNaniteData</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    FResources&amp; Resources,</span></span></span><br><span class="line"><span class="params"><span class="function">    IBuilderModule::FVertexMeshData&amp; InputMeshData,</span></span></span><br><span class="line"><span class="params"><span class="function">    TArray&lt; int32 &gt;&amp; MaterialIndexes,</span></span></span><br><span class="line"><span class="params"><span class="function">    TArray&lt; uint32 &gt;&amp; MeshTriangleCounts,</span></span></span><br><span class="line"><span class="params"><span class="function">    TArrayView&lt; IBuilderModule::FVertexMeshData &gt;&amp; OutputLODMeshData,</span></span></span><br><span class="line"><span class="params"><span class="function">    uint32 NumTexCoords,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> FMeshNaniteSettings&amp; Settings</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>参数</p>
+<p>意义</p>
+<p>Resources</p>
+<p>用来在 Build 时记录当前 Mesh Build 后的信息</p>
+<p>InputMeshData</p>
+<p>输入的 MeshData</p>
+<p>MaterialIndexes</p>
+<p>记录的每个 Mesh 的三角形的 Indexes</p>
+<p>MeshTriangleCounts</p>
+<p>输入的 Mesh 可能不止一个，记录每个 Mesh 的三角形数据</p>
+<p>OutputLODMeshData</p>
+<p>输出的 Lod Mesh 数据</p>
+<p>NumTexCoords</p>
+<p>?</p>
+<p>Settings</p>
+<p>?(配置，看起来像是切分的配置)</p>
+<ol>
+<li><strong>先用 Channel 与顶点色进行 <code>&amp;</code>  来判断是否有顶点色，其中会用 <code>ResourceFlags</code>  来记录当前 Mesh 的属性 (只要有一个有颜色，就被标记为有顶点色)</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">uint32 Channel = <span class="number">255</span>;</span><br><span class="line"><span class="keyword">for</span>( <span class="keyword">auto</span>&amp; Vert : InputMeshData.Vertices )</span><br><span class="line">&#123;</span><br><span class="line">    VertexBounds += Vert.Position;</span><br><span class="line"></span><br><span class="line">    Channel &amp;= Vert.Color.R;</span><br><span class="line">    Channel &amp;= Vert.Color.G;</span><br><span class="line">    Channel &amp;= Vert.Color.B;</span><br><span class="line">    Channel &amp;= Vert.Color.A;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Don&#x27;t trust any input. We only have color if it isn&#x27;t all white.</span></span><br><span class="line"><span class="type">const</span> <span class="type">bool</span> bHasVertexColor = Channel != <span class="number">255</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (bHasVertexColor)</span><br><span class="line">&#123;</span><br><span class="line">    Resources.ResourceFlags = NANITE_RESOURCE_FLAG_HAS_VERTEX_COLOR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>Nanite 会用 <code>Resourcs</code>  这个结构体来记录顶点数目 / Cluster 数目 / 三角形数目等信息</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">FResources</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Persistent State</span></span><br><span class="line">    TArray&lt; uint8 &gt;                 RootData;           <span class="comment">// Root pages are loaded on resource load, so we always have something to draw.</span></span><br><span class="line">    FByteBulkData                   StreamablePages;    <span class="comment">// Remaining pages are streamed on demand.</span></span><br><span class="line">    TArray&lt; uint16 &gt;                ImposterAtlas;</span><br><span class="line">    TArray&lt; FPackedHierarchyNode &gt;  HierarchyNodes;</span><br><span class="line">    TArray&lt; uint32 &gt;                HierarchyRootOffsets;</span><br><span class="line">    TArray&lt; FPageStreamingState &gt;   PageStreamingStates;</span><br><span class="line">    TArray&lt; uint32 &gt;                PageDependencies;</span><br><span class="line">    uint32                          NumRootPages        = <span class="number">0</span>;</span><br><span class="line">    int32                           PositionPrecision   = <span class="number">0</span>;</span><br><span class="line">    int32                           NormalPrecision     = <span class="number">0</span>;</span><br><span class="line">    uint32                          NumInputTriangles   = <span class="number">0</span>;</span><br><span class="line">    uint32                          NumInputVertices    = <span class="number">0</span>;</span><br><span class="line">    uint16                          NumInputMeshes      = <span class="number">0</span>;</span><br><span class="line">    uint16                          NumInputTexCoords   = <span class="number">0</span>;</span><br><span class="line">    uint32                          NumClusters         = <span class="number">0</span>;</span><br><span class="line">    uint32                          ResourceFlags       = <span class="number">0</span>;</span><br><span class="line">    -----More Code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><strong>Mesh 数据赋值，这一层后，会将基本的顶点 / 三角形等数据存到 <code>Resources</code>  中</strong></li>
+</ol>
+<p>从下述代码里来看，似乎在 Mesh 只有一个时候，会进行一次细分 ( <code>为什么多个Mesh时没有细分?</code> )</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( MeshTriangleCounts.<span class="built_in">Num</span>() == <span class="number">1</span> &amp;&amp; Settings.TrimRelativeError != <span class="number">0.0f</span> )</span><br><span class="line">&#123;</span><br><span class="line">    uint32 Time0 = FPlatformTime::<span class="built_in">Cycles</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">TessellateAndDisplace</span>( InputMeshData.Vertices, InputMeshData.TriangleIndices, MaterialIndexes, VertexBounds, Settings );</span><br><span class="line">    MeshTriangleCounts[<span class="number">0</span>] = InputMeshData.TriangleIndices.<span class="built_in">Num</span>() / <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    uint32 Time1 = FPlatformTime::<span class="built_in">Cycles</span>();</span><br><span class="line">    <span class="built_in">UE_LOG</span>( LogStaticMesh, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Adaptive tessellate [%.2fs], tris: %i&quot;</span>), FPlatformTime::<span class="built_in">ToMilliseconds</span>( Time1 - Time0 ) / <span class="number">1000.0f</span>, MeshTriangleCounts[<span class="number">0</span>] );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Resources.NumInputTriangles = InputMeshData.TriangleIndices.<span class="built_in">Num</span>() / <span class="number">3</span>;</span><br><span class="line">Resources.NumInputVertices  = InputMeshData.Vertices.<span class="built_in">Num</span>();</span><br><span class="line">Resources.NumInputMeshes    = MeshTriangleCounts.<span class="built_in">Num</span>();</span><br><span class="line">Resources.NumInputTexCoords = NumTexCoords;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><strong>开始进行 Mesh 的切分 <code>Cluster入口</code> </strong></li>
+</ol>
+<p>依次如下:<br>
+4.1 先遍历所有的 Mesh<br>
+4.2 在处理当前的 Mesh 前先获得 Clusters.Num ()<br>
+ 4.3 然后对当前 Mesh 进行 <code>ClusterTriangles</code>  的 Build<br>
+4.4 处理完当前的 Mesh 后，将当前 Mesh 划分的 Cluster 数量加入 <code>ClusterCountPerMesh</code>  列表<br>
+ 4.5 记录总的三角形数量 (切分前)<br>
+ 4.6 最后统计一下所有 Cluster 的表面积 <code>SurfaceArea</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">TArray&lt; uint32 &gt; ClusterCountPerMesh;</span><br><span class="line">TArray&lt; FCluster &gt; Clusters;</span><br><span class="line">&#123;</span><br><span class="line">    uint32 BaseTriangle = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (uint32 NumTriangles : MeshTriangleCounts)</span><br><span class="line">    &#123;</span><br><span class="line">        uint32 NumClustersBefore = Clusters.<span class="built_in">Num</span>();</span><br><span class="line">        <span class="keyword">if</span> (NumTriangles)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">ClusterTriangles</span>(</span><br><span class="line">                InputMeshData.Vertices,</span><br><span class="line">                <span class="built_in">TArrayView</span>&lt; <span class="type">const</span> uint32 &gt;( &amp;InputMeshData.TriangleIndices[BaseTriangle * <span class="number">3</span>], NumTriangles * <span class="number">3</span> ),</span><br><span class="line">                <span class="built_in">TArrayView</span>&lt; <span class="type">const</span> int32 &gt;( &amp;MaterialIndexes[BaseTriangle], NumTriangles ),</span><br><span class="line">                Clusters, VertexBounds, NumTexCoords, bHasVertexColor, Settings.bPreserveArea );</span><br><span class="line">        &#125;</span><br><span class="line">        ClusterCountPerMesh.<span class="built_in">Add</span>(Clusters.<span class="built_in">Num</span>() - NumClustersBefore);</span><br><span class="line">        BaseTriangle += NumTriangles;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> SurfaceArea = <span class="number">0.0f</span>;</span><br><span class="line"><span class="keyword">for</span>( FCluster&amp; Cluster : Clusters )</span><br><span class="line">    SurfaceArea += Cluster.SurfaceArea;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="second-step-per-mesh-clustertriangles"><a class="markdownIt-Anchor" href="#second-step-per-mesh-clustertriangles">#</a> Second Step: Per Mesh ClusterTriangles</h1>
+<p><strong>其中 <code>ClusterTriangles</code>  是针对每个 <code>Mesh</code>  来进行的</strong></p>
+<ol>
+<li><strong>先计算三角形数目</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uint32 NumTriangles = Indexes.<span class="built_in">Num</span>() / <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><strong>锁边，hash</strong></li>
+</ol>
+<p>在这一步提供了一个 lambda 函数 <code>GetPosition</code> , 简单看来，这个函数的目的是根据它定义的 <code>边</code> 的下标来获取三角形的某个边上的顶点的坐标</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FAdjacency <span class="title">Adjacency</span><span class="params">( Indexes.Num() )</span></span>;</span><br><span class="line"><span class="function">FEdgeHash <span class="title">EdgeHash</span><span class="params">( Indexes.Num() )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> GetPosition = [ &amp;Verts, &amp;Indexes ]( uint32 EdgeIndex )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> Verts[ Indexes[ EdgeIndex ] ].Position;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>2.1 <strong>先来看一下边的概念 <code>EdgeHash</code> </strong> 实际上看起来并没有什么特别的，大概就是将整个 Mesh 变成了一个由 <code>顶点为点</code> ， <code>三角形边为双向边</code> 的 <code>图</code> ， <code>EdgeHash</code>  本质上是把每个边给 Hash 了一下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Find edge with opposite direction that shares these 2 verts.</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">      /\</span></span><br><span class="line"><span class="comment">     /  \</span></span><br><span class="line"><span class="comment">    o-&lt;&lt;-o</span></span><br><span class="line"><span class="comment">    o-&gt;&gt;-o</span></span><br><span class="line"><span class="comment">     \  /</span></span><br><span class="line"><span class="comment">      \/</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FEdgeHash</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    FHashTable HashTable;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">FEdgeHash</span>( int32 Num )</span><br><span class="line">        : <span class="built_in">HashTable</span>( <span class="number">1</span> &lt;&lt; FMath::<span class="built_in">FloorLog2</span>( Num ), Num )</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> FGetPosition &gt;</span></span><br><span class="line"><span class="function">    <span class="type">void</span> <span class="title">Add_Concurrent</span><span class="params">( int32 EdgeIndex, FGetPosition&amp;&amp; GetPosition )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">const</span> FVector3f&amp; Position0 = <span class="built_in">GetPosition</span>( EdgeIndex );</span><br><span class="line">        <span class="type">const</span> FVector3f&amp; Position1 = <span class="built_in">GetPosition</span>( <span class="built_in">Cycle3</span>( EdgeIndex ) );</span><br><span class="line"></span><br><span class="line">        uint32 Hash0 = <span class="built_in">HashPosition</span>( Position0 );</span><br><span class="line">        uint32 Hash1 = <span class="built_in">HashPosition</span>( Position1 );</span><br><span class="line">        uint32 Hash = <span class="built_in">Murmur32</span>( &#123; Hash0, Hash1 &#125; );</span><br><span class="line"></span><br><span class="line">        HashTable.<span class="built_in">Add_Concurrent</span>( Hash, EdgeIndex );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> FGetPosition, <span class="keyword">typename</span> FuncType &gt;</span></span><br><span class="line"><span class="function">    <span class="type">void</span> <span class="title">ForAllMatching</span><span class="params">( int32 EdgeIndex, <span class="type">bool</span> bAdd, FGetPosition&amp;&amp; GetPosition, FuncType&amp;&amp; Function )</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">const</span> FVector3f&amp; Position0 = <span class="built_in">GetPosition</span>( EdgeIndex );</span><br><span class="line">        <span class="type">const</span> FVector3f&amp; Position1 = <span class="built_in">GetPosition</span>( <span class="built_in">Cycle3</span>( EdgeIndex ) );</span><br><span class="line"></span><br><span class="line">        uint32 Hash0 = <span class="built_in">HashPosition</span>( Position0 );</span><br><span class="line">        uint32 Hash1 = <span class="built_in">HashPosition</span>( Position1 );</span><br><span class="line">        uint32 Hash = <span class="built_in">Murmur32</span>( &#123; Hash1, Hash0 &#125; );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>( uint32 OtherEdgeIndex = HashTable.<span class="built_in">First</span>( Hash ); HashTable.<span class="built_in">IsValid</span>( OtherEdgeIndex ); OtherEdgeIndex = HashTable.<span class="built_in">Next</span>( OtherEdgeIndex ) )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>( Position0 == <span class="built_in">GetPosition</span>( <span class="built_in">Cycle3</span>( OtherEdgeIndex ) ) &amp;&amp;</span><br><span class="line">                Position1 == <span class="built_in">GetPosition</span>( OtherEdgeIndex ) )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// Found matching edge.</span></span><br><span class="line">                <span class="built_in">Function</span>( EdgeIndex, OtherEdgeIndex );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>( bAdd )</span><br><span class="line">            HashTable.<span class="built_in">Add</span>( <span class="built_in">Murmur32</span>( &#123; Hash0, Hash1 &#125; ), EdgeIndex );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>2.2 <strong>边的 Hash 与边的匹配</strong></p>
+<blockquote>
+<p>先使用任务系统多线程构建边 Hash<br>
+ 然后再使用任务系统，匹配当前边的临接边 (如果有多个临界边，就把 Direct 赋值为 - 2?)</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ParallelFor</span>( <span class="built_in">TEXT</span>(<span class="string">&quot;Nanite.ClusterTriangles.PF&quot;</span>), Indexes.<span class="built_in">Num</span>(), <span class="number">4096</span>,</span><br><span class="line">            [&amp;]( int32 EdgeIndex )</span><br><span class="line">            &#123;</span><br><span class="line">                EdgeHash.<span class="built_in">Add_Concurrent</span>( EdgeIndex, GetPosition );</span><br><span class="line">            &#125; );</span><br><span class="line"></span><br><span class="line"><span class="built_in">ParallelFor</span>( <span class="built_in">TEXT</span>(<span class="string">&quot;Nanite.ClusterTriangles.PF&quot;</span>), Indexes.<span class="built_in">Num</span>(), <span class="number">1024</span>,</span><br><span class="line">            [&amp;]( int32 EdgeIndex )</span><br><span class="line">            &#123;</span><br><span class="line">                int32 AdjIndex = <span class="number">-1</span>;</span><br><span class="line">                int32 AdjCount = <span class="number">0</span>;</span><br><span class="line">                EdgeHash.<span class="built_in">ForAllMatching</span>( EdgeIndex, <span class="literal">false</span>, GetPosition,</span><br><span class="line">                                        [&amp;]( int32 EdgeIndex, int32 OtherEdgeIndex )</span><br><span class="line">                                        &#123;</span><br><span class="line">                                            AdjIndex = OtherEdgeIndex;</span><br><span class="line">                                            AdjCount++;</span><br><span class="line">                                        &#125; );</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>( AdjCount &gt; <span class="number">1</span> )</span><br><span class="line">                    AdjIndex = <span class="number">-2</span>;</span><br><span class="line"></span><br><span class="line">                Adjacency.Direct[ EdgeIndex ] = AdjIndex;</span><br><span class="line">            &#125; );</span><br></pre></td></tr></table></figure>
+<p>2.3 <strong>通过并查集合并所有的临接边</strong> 从临接边的代码和并查集的代码来看，就是将所有的临接边以并查集的方式合并到当前的边上</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FDisjointSet <span class="title">DisjointSet</span><span class="params">( NumTriangles )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>( uint32 EdgeIndex = <span class="number">0</span>, Num = Indexes.<span class="built_in">Num</span>(); EdgeIndex &lt; Num; EdgeIndex++ )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>( Adjacency.Direct[ EdgeIndex ] == <span class="number">-2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// EdgeHash is built in parallel, so we need to sort before use to ensure determinism.</span></span><br><span class="line">        <span class="comment">// This path is only executed in the rare event that an edge is shared by more than two triangles,</span></span><br><span class="line">        <span class="comment">// so performance impact should be negligible in practice.</span></span><br><span class="line">        TArray&lt; TPair&lt; int32, int32 &gt;, TInlineAllocator&lt; <span class="number">16</span> &gt; &gt; Edges;</span><br><span class="line">        EdgeHash.<span class="built_in">ForAllMatching</span>( EdgeIndex, <span class="literal">false</span>, GetPosition,</span><br><span class="line">                                [&amp;]( int32 EdgeIndex0, int32 EdgeIndex1 )</span><br><span class="line">                                &#123;</span><br><span class="line">                                    Edges.<span class="built_in">Emplace</span>( EdgeIndex0, EdgeIndex1 );</span><br><span class="line">                                &#125; );</span><br><span class="line">        Edges.<span class="built_in">Sort</span>();   </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>( <span class="type">const</span> TPair&lt; int32, int32 &gt;&amp; Edge : Edges )</span><br><span class="line">        &#123;</span><br><span class="line">            Adjacency.<span class="built_in">Link</span>( Edge.Key, Edge.Value );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Adjacency.<span class="built_in">ForAll</span>( EdgeIndex,</span><br><span class="line">                     [&amp;]( int32 EdgeIndex0, int32 EdgeIndex1 )</span><br><span class="line">                     &#123;</span><br><span class="line">                         <span class="keyword">if</span>( EdgeIndex0 &gt; EdgeIndex1 )</span><br><span class="line">                             DisjointSet.<span class="built_in">UnionSequential</span>( EdgeIndex0 / <span class="number">3</span>, EdgeIndex1 / <span class="number">3</span> );</span><br><span class="line">                     &#125; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><strong>准备构建分割图</strong></li>
+</ol>
+<p>由于 Nanite 对于 Mesh 的切分，实际上是使用 <code>Metis</code>  库进行切分的，所以在 Build 时，Nanite 最主要的作用是将 UE 内部的 Mesh 组装成 Metis 需要的数据排布， <code>比如这里就没有非常的执着于三角形的格式,而是很直白的将Mesh转换成了一个图的结构</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FGraphPartitioner <span class="title">Partitioner</span><span class="params">( NumTriangles )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FGraphPartitioner</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">FGraphData</span></span><br><span class="line">    &#123;</span><br><span class="line">        int32   Offset;</span><br><span class="line">        int32   Num;</span><br><span class="line"></span><br><span class="line">        TArray&lt; <span class="type">idx_t</span> &gt; Adjacency;</span><br><span class="line">        TArray&lt; <span class="type">idx_t</span> &gt; AdjacencyCost;</span><br><span class="line">        TArray&lt; <span class="type">idx_t</span> &gt; AdjacencyOffset;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Inclusive</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">FRange</span></span><br><span class="line">    &#123;</span><br><span class="line">        uint32  Begin;</span><br><span class="line">        uint32  End;</span><br><span class="line"></span><br><span class="line">        <span class="type">bool</span> <span class="keyword">operator</span>&lt;( <span class="type">const</span> FRange&amp; Other) <span class="type">const</span> &#123; <span class="keyword">return</span> Begin &lt; Other.Begin; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    TArray&lt; FRange &gt;    Ranges;</span><br><span class="line">    TArray&lt; uint32 &gt;    Indexes;</span><br><span class="line">    TArray&lt; uint32 &gt;    SortedTo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">                <span class="built_in">FGraphPartitioner</span>( uint32 InNumElements );</span><br><span class="line"></span><br><span class="line">    <span class="function">FGraphData* <span class="title">NewGraph</span><span class="params">( uint32 NumAdjacency )</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">AddAdjacency</span><span class="params">( FGraphData* Graph, uint32 AdjIndex, <span class="type">idx_t</span> Cost )</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">AddLocalityLinks</span><span class="params">( FGraphData* Graph, uint32 Index, <span class="type">idx_t</span> Cost )</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> FGetCenter &gt;</span></span><br><span class="line"><span class="function">    <span class="type">void</span>        <span class="title">BuildLocalityLinks</span><span class="params">( FDisjointSet&amp; DisjointSet, <span class="type">const</span> FBounds3f&amp; Bounds, TArrayView&lt; <span class="type">const</span> int32 &gt; GroupIndexes, FGetCenter&amp; GetCenter )</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">Partition</span><span class="params">( FGraphData* Graph, int32 InMinPartitionSize, int32 InMaxPartitionSize )</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">PartitionStrict</span><span class="params">( FGraphData* Graph, int32 InMinPartitionSize, int32 InMaxPartitionSize, <span class="type">bool</span> bThreaded )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">BisectGraph</span><span class="params">( FGraphData* Graph, FGraphData* ChildGraphs[<span class="number">2</span>] )</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span>        <span class="title">RecursiveBisectGraph</span><span class="params">( FGraphData* Graph )</span></span>;</span><br><span class="line"></span><br><span class="line">    uint32      NumElements;</span><br><span class="line">    int32       MinPartitionSize = <span class="number">0</span>;</span><br><span class="line">    int32       MaxPartitionSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    TAtomic&lt; uint32 &gt;   NumPartitions;</span><br><span class="line"></span><br><span class="line">    TArray&lt; <span class="type">idx_t</span> &gt;     PartitionIDs;</span><br><span class="line">    TArray&lt; int32 &gt;     SwappedWith;</span><br><span class="line"></span><br><span class="line">    TMultiMap&lt; uint32, uint32 &gt; LocalityLinks;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>3.1 <strong>获取三角形中心的函数</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> GetCenter = [ &amp;Verts, &amp;Indexes ]( uint32 TriIndex )</span><br><span class="line">&#123;</span><br><span class="line">    FVector3f Center;</span><br><span class="line">    Center  = Verts[ Indexes[ TriIndex * <span class="number">3</span> + <span class="number">0</span> ] ].Position;</span><br><span class="line">    Center += Verts[ Indexes[ TriIndex * <span class="number">3</span> + <span class="number">1</span> ] ].Position;</span><br><span class="line">    Center += Verts[ Indexes[ TriIndex * <span class="number">3</span> + <span class="number">2</span> ] ].Position;</span><br><span class="line">    <span class="keyword">return</span> Center * (<span class="number">1.0f</span> / <span class="number">3.0f</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>3.2 <strong>建图</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Partitioner.<span class="built_in">BuildLocalityLinks</span>( DisjointSet, Bounds, MaterialIndexes, GetCenter );</span><br><span class="line"><span class="keyword">auto</span>* RESTRICT Graph = Partitioner.<span class="built_in">NewGraph</span>( NumTris * <span class="number">3</span> );</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>( uint32 i = <span class="number">0</span>; i &lt; NumTris; i++ )</span><br><span class="line">&#123;</span><br><span class="line">    Graph-&gt;AdjacencyOffset[i] = Graph-&gt;Adjacency.<span class="built_in">Num</span>();</span><br><span class="line"></span><br><span class="line">    uint32 TriIndex = Partitioner.Indexes[i];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add shared edges</span></span><br><span class="line">    <span class="keyword">for</span>( <span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">3</span>; k++ )</span><br><span class="line">    &#123;</span><br><span class="line">        Adjacency.<span class="built_in">ForAll</span>( <span class="number">3</span> * TriIndex + k,</span><br><span class="line">                         [ &amp;Partitioner, Graph ]( int32 EdgeIndex, int32 AdjIndex )</span><br><span class="line">                         &#123;</span><br><span class="line">                             Partitioner.<span class="built_in">AddAdjacency</span>( Graph, AdjIndex / <span class="number">3</span>, <span class="number">4</span> * <span class="number">65</span> );</span><br><span class="line">                         &#125; );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Partitioner.<span class="built_in">AddLocalityLinks</span>( Graph, TriIndex, <span class="number">1</span> );</span><br><span class="line">&#125;</span><br><span class="line">Graph-&gt;AdjacencyOffset[ NumTris ] = Graph-&gt;Adjacency.<span class="built_in">Num</span>();</span><br></pre></td></tr></table></figure>
+<p>其中有一个方法是 <code>BuildLocalityLinks</code> , 这个方法大概是会建立一个链接 (暂时不知道这个链接是干嘛的) 但是从下述代码最开始可以看出来，大概是对之前获得的所有元素的 <code>包围盒中心</code> 计算 <code>Morton码</code> ，然后使用 <code>Morton码</code> 来降维，并且将这些元素按照 Morton 码存储在 <code>SortedTo</code>  中，方便后续计算<br>
+<strong>后面再来学习一下这个到底是干嘛的</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> FGetCenter &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FGraphPartitioner::BuildLocalityLinks</span><span class="params">( FDisjointSet&amp; DisjointSet, <span class="type">const</span> FBounds3f&amp; Bounds, TArrayView&lt; <span class="type">const</span> int32 &gt; GroupIndexes, FGetCenter&amp; GetCenter )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    TArray&lt; uint32 &gt; SortKeys;</span><br><span class="line">    SortKeys.<span class="built_in">AddUninitialized</span>( NumElements );</span><br><span class="line">    SortedTo.<span class="built_in">AddUninitialized</span>( NumElements );</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> <span class="type">bool</span> bElementGroups = !GroupIndexes.<span class="built_in">IsEmpty</span>();    <span class="comment">// Only create locality links between elements with the same group index</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">ParallelFor</span>( <span class="built_in">TEXT</span>(<span class="string">&quot;BuildLocalityLinks.PF&quot;</span>), NumElements, <span class="number">4096</span>,</span><br><span class="line">        [&amp;]( uint32 Index )</span><br><span class="line">        &#123;</span><br><span class="line">            FVector3f Center = <span class="built_in">GetCenter</span>( Index );</span><br><span class="line">            FVector3f CenterLocal = ( Center - Bounds.Min ) / <span class="built_in">FVector3f</span>( Bounds.Max - Bounds.Min ).<span class="built_in">GetMax</span>();</span><br><span class="line"></span><br><span class="line">            uint32 Morton;</span><br><span class="line">            Morton  = FMath::<span class="built_in">MortonCode3</span>( CenterLocal.X * <span class="number">1023</span> );</span><br><span class="line">            Morton = FMath::<span class="built_in">MortonCode3</span>( CenterLocal.Y * <span class="number">1023</span> ) &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            Morton = FMath::<span class="built_in">MortonCode3</span>( CenterLocal.Z * <span class="number">1023</span> ) &lt;&lt; <span class="number">2</span>;</span><br><span class="line">            SortKeys[ Index ] = Morton;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">RadixSort32</span>( SortedTo.<span class="built_in">GetData</span>(), Indexes.<span class="built_in">GetData</span>(), NumElements,</span><br><span class="line">        [&amp;]( uint32 Index )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> SortKeys[ Index ];</span><br><span class="line">        &#125; );</span><br><span class="line"></span><br><span class="line">    SortKeys.<span class="built_in">Empty</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Swap</span>( Indexes, SortedTo );</span><br><span class="line">    <span class="keyword">for</span>( uint32 i = <span class="number">0</span>; i &lt; NumElements; i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        SortedTo[ Indexes[i] ] = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TArray&lt; FRange &gt; IslandRuns;</span><br><span class="line">    IslandRuns.<span class="built_in">AddUninitialized</span>( NumElements );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Run length acceleration</span></span><br><span class="line">    <span class="comment">// Range of identical IslandID denoting that elements are connected.</span></span><br><span class="line">    <span class="comment">// Used for jumping past connected elements to the next nearby disjoint element.</span></span><br><span class="line">    &#123;</span><br><span class="line">        uint32 RunIslandID = <span class="number">0</span>;</span><br><span class="line">        uint32 RunFirstElement = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>( uint32 i = <span class="number">0</span>; i &lt; NumElements; i++ )</span><br><span class="line">        &#123;</span><br><span class="line">            uint32 IslandID = DisjointSet.<span class="built_in">Find</span>( Indexes[i] );</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>( RunIslandID != IslandID )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// We found the end so rewind to the beginning of the run and fill.</span></span><br><span class="line">                <span class="keyword">for</span>( uint32 j = RunFirstElement; j &lt; i; j++ )</span><br><span class="line">                &#123;</span><br><span class="line">                    IslandRuns[j].End = i - <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Start the next run</span></span><br><span class="line">                RunIslandID = IslandID;</span><br><span class="line">                RunFirstElement = i;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            IslandRuns[i].Begin = RunFirstElement;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Finish the last run</span></span><br><span class="line">        <span class="keyword">for</span>( uint32 j = RunFirstElement; j &lt; NumElements; j++ )</span><br><span class="line">        &#123;</span><br><span class="line">            IslandRuns[j].End = NumElements - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>( uint32 i = <span class="number">0</span>; i &lt; NumElements; i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        uint32 Index = Indexes[i];</span><br><span class="line"></span><br><span class="line">        uint32 RunLength = IslandRuns[i].End - IslandRuns[i].Begin + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>( RunLength &lt; <span class="number">128</span> )</span><br><span class="line">        &#123;</span><br><span class="line">            uint32 IslandID = DisjointSet[ Index ];</span><br><span class="line">            int32 GroupID = bElementGroups ? GroupIndexes[ Index ] : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            FVector3f Center = <span class="built_in">GetCenter</span>( Index );</span><br><span class="line"></span><br><span class="line">            <span class="type">const</span> uint32 MaxLinksPerElement = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">            uint32 ClosestIndex[MaxLinksPerElement];</span><br><span class="line">            <span class="type">float</span>  ClosestDist2[MaxLinksPerElement];</span><br><span class="line">            <span class="keyword">for</span> (int32 k = <span class="number">0</span>; k &lt; MaxLinksPerElement; k++)</span><br><span class="line">            &#123;</span><br><span class="line">                ClosestIndex[k] = ~<span class="number">0u</span>;</span><br><span class="line">                ClosestDist2[k] = MAX_flt;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>( <span class="type">int</span> Direction = <span class="number">0</span>; Direction &lt; <span class="number">2</span>; Direction++ )</span><br><span class="line">            &#123;</span><br><span class="line">                uint32 Limit = Direction ? NumElements - <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">                uint32 Step  = Direction ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">                uint32 Adj = i;</span><br><span class="line">                <span class="keyword">for</span>( int32 Iterations = <span class="number">0</span>; Iterations &lt; <span class="number">16</span>; Iterations++ )</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>( Adj == Limit )</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    Adj += Step;</span><br><span class="line"></span><br><span class="line">                    uint32 AdjIndex = Indexes[ Adj ];</span><br><span class="line">                    uint32 AdjIslandID = DisjointSet[ AdjIndex ];</span><br><span class="line">                    int32 AdjGroupID = bElementGroups ? GroupIndexes[AdjIndex] : <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">if</span>( IslandID == <span class="built_in">AdjIslandID</span>  ( GroupID != AdjGroupID ) )</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">// Skip past this run</span></span><br><span class="line">                        <span class="keyword">if</span>( Direction )</span><br><span class="line">                            Adj = IslandRuns[ Adj ].End;</span><br><span class="line">                        <span class="keyword">else</span></span><br><span class="line">                            Adj = IslandRuns[ Adj ].Begin;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">// Add to sorted list</span></span><br><span class="line">                        <span class="type">float</span> AdjDist2 = ( Center - <span class="built_in">GetCenter</span>( AdjIndex ) ).<span class="built_in">SizeSquared</span>();</span><br><span class="line">                        <span class="keyword">for</span>( <span class="type">int</span> k = <span class="number">0</span>; k &lt; MaxLinksPerElement; k++ )</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="keyword">if</span>( AdjDist2 &lt; ClosestDist2[k] )</span><br><span class="line">                            &#123;</span><br><span class="line">                                <span class="built_in">Swap</span>( AdjIndex, ClosestIndex[k] );</span><br><span class="line">                                <span class="built_in">Swap</span>( AdjDist2, ClosestDist2[k] );</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>( <span class="type">int</span> k = <span class="number">0</span>; k &lt; MaxLinksPerElement; k++ )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>( ClosestIndex[k] != ~<span class="number">0u</span> )</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// Add both directions</span></span><br><span class="line">                    LocalityLinks.<span class="built_in">AddUnique</span>( Index, ClosestIndex[k] );</span><br><span class="line">                    LocalityLinks.<span class="built_in">AddUnique</span>( ClosestIndex[k], Index );</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.3 <strong>切分 Mesh</strong> 从这里就进入到了 <code>调用Metis库切分Mesh</code>  的流程了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Partitioner.<span class="built_in">PartitionStrict</span>( Graph, ClusterSize - <span class="number">4</span>, ClusterSize, <span class="literal">false</span> );</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">https://mymetalseed.github.io/2023/07/30/【ue】-尝试解读nanite-1-网格划分/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../23/%E3%80%90gameplay%E3%80%91-2-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%92%8C%E6%80%9D%E8%80%83-1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GamePlay】 2. 关卡编辑器实现和思考-1">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 关卡编辑器</span>
+  <h3>【GamePlay】 2. 关卡编辑器实现和思考-1</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【计算几何】 Art Gallery theorem">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【计算几何】 Art Gallery theorem</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text"> 序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nanite%E7%9A%84%E5%A4%A7%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text"> Nanite 的大体思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-nanite-mesh%E7%9A%84%E5%88%87%E5%88%86%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text"> 1. Nanite Mesh 的切分方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#first-step-build"><span class="toc-number">3.</span> <span class="toc-text"> First Step: Build</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#second-step-per-mesh-clustertriangles"><span class="toc-number">4.</span> <span class="toc-text"> Second Step: Per Mesh ClusterTriangles</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li class="active"><a href="" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../../08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../../08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../23/%E3%80%90gameplay%E3%80%91-2-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%92%8C%E6%80%9D%E8%80%83-1/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/04/30/%E5%89%A7%E6%9C%AC-1/" title="剧本-1">剧本-1</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/03/08/materialpropertyblock-%E4%BC%98%E5%8C%96%E5%85%B1%E4%BA%AB%E6%9D%90%E8%B4%A8%E5%8F%82%E6%95%B0%E5%8F%98%E6%9B%B4/" title="MaterialPropertyBlock 优化共享材质参数变更">MaterialPropertyBlock 优化共享材质参数变更</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/06/05/%E8%A1%8C%E4%B8%BA%E6%A0%91/" title="行为树">行为树</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/URP/" title="In URP">URP</a>
+</div>
+
+    <span><a href="../../../10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" title="【URP】 以毛玻璃后处理为例学一下RenderFeature是什么">【URP】 以毛玻璃后处理为例学一下RenderFeature是什么</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GLSL/" title="In GLSL">GLSL</a>
+</div>
+
+    <span><a href="../../../../2021/03/27/games202-glsl/" title="Games202 - GLSL">Games202 - GLSL</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/toonrender2/" title="卡通渲染 (二)">卡通渲染 (二)</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/07/30/【ue】-尝试解读nanite-1-网格划分/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

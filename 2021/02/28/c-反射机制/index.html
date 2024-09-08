@@ -1,0 +1,529 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="C#" />
+
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+
+
+
+  <title>
+C# 反射机制 - C# |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">C# 反射机制
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-02-28 11:34:06">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-02-28T11:34:06+08:00">2021-02-28</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C#"><span itemprop="name">C#</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <blockquote>
+<p>摘自: <span class="exturl" data-url="aHR0cDovL2Rpbmd4aWFvd2VpLmNuLzIwMTkvMDYvMjEv">http://dingxiaowei.cn/2019/06/21/</span></p>
+</blockquote>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言">#</a> 前言</h1>
+<p>我们都知道反射在编程语言里是非常方便也是非常强大的，但或许有人觉得在学习或者工作中用的可能并不是那么多，我的理解是反射在写框架和写工具时用的比较多。举个栗子：写一个 Excel 的表格编辑器，我们能够在控制台修改 Excel 里的内容，或许有人觉得这有啥难的，直接手撸 Model, 如果哪天策划手滑或者手贱修改了命名，或者增加 / 减少一列，那我们程序是不是也要跟着修改，因为我们保存数据或许是写死的字段名，如果全部通过反射，那就随便策划怎么折腾 excel, 我有反射神器，我也不怕！至于为啥要写 Excel 的编辑器，或许有人会疑惑，我直接在 Excel 里修改不行嘛，这样策划要修改个数据然后要导出数据，然后在游戏里跑，会比较麻烦，如果有对应的表格编辑器直接在游戏运行时就修改测试就很方便，如果是 bool 类型就给策划 toggle 选项，如果是枚举类型就弄下拉框，如果是范围类型就给个 Range, 这样策划就不会填错，如果编辑器是基于反射做的，不是字段写死的，策划随便修改 excel 字段都不会出问题.</p>
+<h2 id="反射获取属性"><a class="markdownIt-Anchor" href="#反射获取属性">#</a> 反射获取属性</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(Animal).GetProperties();</span><br></pre></td></tr></table></figure>
+<h2 id="反射获取设置属性的值"><a class="markdownIt-Anchor" href="#反射获取设置属性的值">#</a> 反射获取 / 设置属性的值</h2>
+<blockquote>
+<p>获取值</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">properities[i].GetValue(a);</span><br></pre></td></tr></table></figure>
+<p>获取的值是 object 类型的，如果想要转换成真实类型，然后调用对应类型的扩展方法可以通过 if 去一个一个判断然后强转，还没想到特别方便的转换方式，也有看到过 Convert.ChangeType, 但返回值类型还是 Object, 不是我想要的.</p>
+<blockquote>
+<p>设置值</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">properties[i].SetValue(a,object xxx)</span><br></pre></td></tr></table></figure>
+<h2 id="反射调用字段的扩展方法"><a class="markdownIt-Anchor" href="#反射调用字段的扩展方法">#</a> 反射调用字段的扩展方法</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Reflection;</span><br><span class="line">using System.Runtime.CompilerServices;</span><br><span class="line"></span><br><span class="line">namespace ConsoleApp1</span><br><span class="line">&#123;</span><br><span class="line">    public class Animal</span><br><span class="line">    &#123;</span><br><span class="line">        public int ID &#123; get; set; &#125;</span><br><span class="line">        public string Name &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static class Extension</span><br><span class="line">    &#123;</span><br><span class="line">        public static string GetStringValue(this int v)</span><br><span class="line">        &#123;</span><br><span class="line">            return &quot;我是Int类型:&quot; + v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public static string GetStringValue(this string v)</span><br><span class="line">        &#123;</span><br><span class="line">            return &quot;我是String类型:&quot; + v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            Animal a = new Animal() &#123; ID = 1, Name = &quot;mimi&quot; &#125;;</span><br><span class="line"></span><br><span class="line">            var properities = typeof(Animal).GetProperties();</span><br><span class="line">            var thisassembly = typeof(Animal).Assembly;</span><br><span class="line">            for (int i = 0; i &lt; properities.Length; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                var v = properities[i].GetValue(a);</span><br><span class="line">                foreach (var m in GetExtensionMethods(thisassembly, v.GetType()))</span><br><span class="line">                &#123;</span><br><span class="line">                    var vv = m.Invoke(null, new object[] &#123; v &#125;);</span><br><span class="line">                    Console.WriteLine(vv);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Console.Read();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //反射获取扩展方法</span><br><span class="line">        static IEnumerable&lt;MethodInfo&gt; GetExtensionMethods(Assembly assembly,</span><br><span class="line">       Type extendedType)</span><br><span class="line">        &#123;</span><br><span class="line">            var query = from type in assembly.GetTypes()</span><br><span class="line">                        where type.IsSealed &amp;&amp; !type.IsGenericType &amp;&amp; !type.IsNested</span><br><span class="line">                        from method in type.GetMethods(BindingFlags.Static</span><br><span class="line">                             BindingFlags.Public  BindingFlags.NonPublic)</span><br><span class="line">                        where method.IsDefined(typeof(ExtensionAttribute), false)</span><br><span class="line">                        where method.GetParameters()[0].ParameterType == extendedType</span><br><span class="line">                        select method;</span><br><span class="line">            return query;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我在一开始没用上述反射获取扩展方法时，直接用的 xxx.GetType ().GetMethod (“GetStringValue”) 是获取不到这个扩展方法的， 至于为啥普通方式获取不到扩展方法，这个要看 IL 层的设计了，事实上一个类的扩展方法并不属于该类，而是属于定义他的静态类，之所以能够调用，是因为编译器做了手脚的缘故，编译器遇到这种状况就会调用静态类的方法，通过其 IL 就可以看到真实的调用情况。</p>
+<h2 id="更多反射api"><a class="markdownIt-Anchor" href="#更多反射api">#</a> 更多反射 API</h2>
+<p>还是参考官方文档最丰富呀。 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20vemgtY24vZG90bmV0L2FwaS9zeXN0ZW0ucmVmbGVjdGlvbi5wcm9wZXJ0eWluZm8/dmlldz1uZXRmcmFtZXdvcmstNC44IyVFNSVCMSU5RSVFNiU4MCVBNw==">https://docs.microsoft.com/zh-cn/dotnet/api/system.reflection.propertyinfo?view=netframework-4.8# 属性</span> 参考链接 <span class="exturl" data-url="aHR0cHM6Ly9jb2RlZGF5Lm1lL2J1Zy8yMDE3MDcyOS80MjM1OC5odG1s">https://codeday.me/bug/20170729/42358.html</span> 更多文章 <span class="exturl" data-url="aHR0cDovL2Rpbmd4aWFvd2VpLmNuLw==">http://dingxiaowei.cn/</span></p>
+
+      <div class="tags">
+          <a href="../../../../tags/C/" rel="tag"><i class="ic i-tag"></i> C#</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" title="C# 反射机制">https://mymetalseed.github.io/2021/02/28/c-反射机制/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../27/c-%E8%A7%A3%E6%9E%90xml/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="GameFramwork - 本地化中的定制 C# 解析XML">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> GameFramework</span>
+  <h3>GameFramwork - 本地化中的定制 C# 解析XML</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../03/01/unity-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Unity 自定义后处理">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算机图形学</span>
+  <h3>Unity 自定义后处理</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text"> 反射获取属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E8%8E%B7%E5%8F%96%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC"><span class="toc-number">1.2.</span> <span class="toc-text"> 反射获取 &#x2F; 设置属性的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E5%AD%97%E6%AE%B5%E7%9A%84%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 反射调用字段的扩展方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E5%8F%8D%E5%B0%84api"><span class="toc-number">1.4.</span> <span class="toc-text"> 更多反射 API</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="C# 反射机制">C# 反射机制</a></li><li><a href="../../../05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" rel="bookmark" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></li><li><a href="../../../06/21/%EF%BC%88%E8%BD%AC-%E7%83%9F%E9%9B%A8%EF%BC%89-c%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/" rel="bookmark" title="（转 - 烟雨） C#反射为什么这么慢">（转 - 烟雨） C#反射为什么这么慢</a></li><li><a href="../../../07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" rel="bookmark" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></li><li><a href="../../../12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="bookmark" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></li><li><a href="../../../../2022/08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" rel="bookmark" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></li><li><a href="../../../../2022/08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" rel="bookmark" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></li><li><a href="../../../../2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" rel="bookmark" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></li><li><a href="../../../../2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="bookmark" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></li><li><a href="../../../../2023/01/08/%E3%80%90%E6%9E%B6%E6%9E%84-ecs%E4%B8%93%E9%A2%98%E3%80%91svelto-ecs/" rel="bookmark" title="【架构 - ECS专题】Svelto Ecs">【架构 - ECS专题】Svelto Ecs</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="bookmark" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></li><li><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li><li><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../27/c-%E8%A7%A3%E6%9E%90xml/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../03/01/unity-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" title="【UE&#x2F;HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+</div>
+
+    <span><a href="../../../../2023/07/03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/" title="【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体">【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../09/12/b-b-tree/" title="B &amp; B+ Tree">B & B+ Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/25/c-%E5%8D%81-%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8Cauto/" title="C++ (十)  变量相关(类型转换和auto)">C++ (十)  变量相关(类型转换和auto)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../08/01/3d%E9%80%8F%E8%A7%86%E5%8E%9F%E7%90%86/" title="3D透视原理">3D透视原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/LeetCode/" title="In LeetCode">LeetCode</a>
+</div>
+
+    <span><a href="../../../03/04/leetcode%E9%A2%98%E8%A7%A3%E9%9B%86-%E4%B8%AD%E7%AD%89/" title="LeetCode题解集 - 中等">LeetCode题解集 - 中等</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/02/28/c-反射机制/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

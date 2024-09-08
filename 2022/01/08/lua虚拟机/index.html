@@ -1,0 +1,602 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+
+
+  <title>
+Lua虚拟机 - 编译原理 - XLUA - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Lua虚拟机
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-01-08 16:53:16">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-01-08T16:53:16+08:00">2022-01-08</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/XLUA/" itemprop="item" rel="index" title="In XLUA"><span itemprop="name">XLUA</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="item" rel="index" title="In 编译原理"><span itemprop="name">编译原理</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="lua虚拟机到执行代码流程"><a class="markdownIt-Anchor" href="#lua虚拟机到执行代码流程">#</a> Lua 虚拟机到执行代码流程</h1>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E4%BB%8E%E5%88%9B%E5%BB%BALua%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%88%B0%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B-1.png" alt=""> 如上图所示步骤如下:</p>
+<ul>
+<li>
+<ol>
+<li>lua_open-&gt;lua_newState 创建一个 <code>luaState虚拟机</code> ，在这个过程中会触发内存分配</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>lua_openlibs 这个过程会注入所有的 lib</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>lua_dofile 会执行对应的 lua 源码，do_file 时会先进行 <code>luaL_loadfile</code> , 然后进入 <code>lua_pcall</code>  执行对应的代码</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>最终会进入 <code>f_parser</code> , 通过这个函数开始词法 (lexer) 和语义 (parser) 分析</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>先进入 luaX_next (词法分析), 获取到 token</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>词法分析结束后进入 chunk (EBNF 语义分析), 生成字节码，返回 <code>Proto</code>  对象回 <code>f_parser</code></li>
+</ol>
+</li>
+<li>
+<ol start="7">
+<li>这些数据包裹到 <code>Closure</code>  上，处理结束后，进入第 <code>3</code>  步里的 <code>lua_pcall</code> , 准备执行字节码</li>
+</ol>
+</li>
+<li>
+<ol start="8">
+<li>选择函数的过程需要了解下 lua 中的闭包，(等下讲), 这里说下，lua 中每个闭包语义分析结束后都放到了栈中，所以我们可以通过闭包找到 <code>function</code>  的位置，即下一个待执行块的函数指针 <code>(即前面放入状态机的Closure)</code></li>
+</ol>
+</li>
+<li>
+<ol start="9">
+<li>继续往下执行，最终会进入 <code>luaD_call</code>  函数，luaD_call 进入 <code>luaD_precall</code>  进行函数执行前的准备工作</li>
+</ol>
+<ul>
+<li>9.1 从 lua_State 的 CallInfo 数组中得到一个新的 <code>CallInfo</code>  结构体，设置它的 <code>func、base、top</code>  指针</li>
+<li>9.2 从 <code>Closure</code>  指针中取出保存下来的 <code>Proto</code>  结构体，这个结构体保存着分析过程完成之后生成的字节码等信息。</li>
+<li>9.3 Proto 的 Code 里存放的就是字节码，然后把上面的 <code>CallInfo</code>  里的 top 和 base 赋值给 lua_State 结构体的 <code>top</code>  和 <code>base</code></li>
+</ul>
+</li>
+<li>
+<ol start="10">
+<li>接着会进入 <code>luaV_execute</code> ,pc 指针存放的是虚拟机的 <code>OpCode</code></li>
+</ol>
+</li>
+<li>
+<ol start="11">
+<li>大循环 <code>luaV_execute</code>  结束后，回到 <code>luaD_poscall</code>  函数 <code>恢复到上一次函数调用的环境</code></li>
+</ol>
+</li>
+</ul>
+<p>简要的流程如下: <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.jpg" alt=""></p>
+<blockquote>
+<p>Proto 是语法 / 词法分析阶段和执行指令的 <code>上下文(数据传输结构体)</code></p>
+</blockquote>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/Proto%E6%B5%81.jpg" alt=""> 接下来介绍 Lua 中的几个关键组件</p>
+<h2 id="数据结构与栈"><a class="markdownIt-Anchor" href="#数据结构与栈">#</a> 数据结构与栈</h2>
+<p>Lua 虚拟机相关的数据结构与栈 lua_State 中的 <code>TValue env;</code>  就是对应虚拟机的模拟栈数组，然后虚拟机主要包含以下几个相关成员<br>
+ - stack : 栈数组的起始位置<br>
+ - base: 当前函数栈的基地址 - top: 当前函数栈下一个可用位置 其中执行函数与栈的关系如下: <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/Lua%E5%87%BD%E6%95%B0%E6%A0%88.jpg" alt=""> 由上图可以看出，每个函数执行 <code>Callinfo</code>  都维护了 func 指针和 top 以及 base 指针，top 和 base 维护的是 <code>函数的参数</code>  Tips: 栈是从下往上扩展的 注意:<br>
+Lua 栈大小是有限的，CallInfo 也是有数量限制的</p>
+<h2 id="指令的解析"><a class="markdownIt-Anchor" href="#指令的解析">#</a> 指令的解析</h2>
+<p>接下来分析指令是如何生成的<br>
+我们知道 Lua 里函数可以嵌套函数，我们称这个为 <code>闭包</code>  Lua 中使用 <code>FuncState暂存这些信息</code> ，然后通过这些信息来生成 OpCode</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--最外层FuncState fs1</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">()</span></span>  <span class="comment">--函数a的FuncState fsa</span></span><br><span class="line">    <span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span></span> <span class="comment">--函数b的FuncState fsb</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>闭包： 即把每个函数当做一个结构 上面的函数的依赖关系如下: <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E5%87%BD%E6%95%B0%E5%85%B3%E7%B3%BB.jpg" alt=""> <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E5%87%BD%E6%95%B0%E5%85%B3%E7%B3%BB2.jpg" alt=""> FuncState 和 Proto 之间的依赖关系如上图所示</p>
+<h2 id="指令格式"><a class="markdownIt-Anchor" href="#指令格式">#</a> 指令格式</h2>
+<p>Lua 虚拟机的指令格式如下图上所示 <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.jpg" alt=""> Lua 中解析指令是从低位到高位解析的 首先是解析 OpCode<br>
+, 紧接着跟上三个操作数， <code>A,B,C</code>  指令列表在 <code>Lua设计与实现这本书的P48</code></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="Lua虚拟机">https://mymetalseed.github.io/2022/01/08/lua虚拟机/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="C# 异步模型(状态机)">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C#</span>
+  <h3>C# 异步模型(状态机)</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../02/05/%E5%9F%BA%E4%BA%8E%E8%8A%82%E7%82%B9%E7%9A%84%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="基于节点的战斗系统设计方案">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>基于节点的战斗系统设计方案</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lua%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%88%B0%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> Lua 虚拟机到执行代码流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E6%A0%88"><span class="toc-number">1.1.</span> <span class="toc-text"> 数据结构与栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E7%9A%84%E8%A7%A3%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text"> 指令的解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text"> 指令格式</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="Lua虚拟机">Lua虚拟机</a></li><li><a href="../../../../2023/12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/" rel="bookmark" title="【编译原理】 阶段性小结(前端)">【编译原理】 阶段性小结(前端)</a></li><li><a href="../../../../2023/12/31/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%90%8E%E7%AB%AF/" rel="bookmark" title="【编译原理】 阶段性小结(后端)">【编译原理】 阶段性小结(后端)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../02/05/%E5%9F%BA%E4%BA%8E%E8%8A%82%E7%82%B9%E7%9A%84%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/12/b-b-tree/" title="B &amp; B+ Tree">B & B+ Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../05/01/games104-h1-lut-color-gradiant/" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../../2024/01/20/%E3%80%90ue%E3%80%91%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E6%B8%B2%E6%9F%93%E4%B8%BB%E6%A1%86%E6%9E%B6/" title="【UE】源码学习-渲染主框架">【UE】源码学习-渲染主框架</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/08/31/%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="算子的设计">算子的设计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../06/26/directx12-9-%E5%85%89%E7%85%A7/" title="DirectX12 9. 光照">DirectX12 9. 光照</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/shaderlab/" title="ShaderLab语法">ShaderLab语法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2023/04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/04/%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="技能系统">技能系统</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/01/08/lua虚拟机/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,504 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/">
+
+
+
+  <title>
+遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》 - 特效 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-04-18 14:01:43">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-04-18T14:01:43+08:00">2021-04-18</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%89%B9%E6%95%88/" itemprop="item" rel="index" title="In 特效"><span itemprop="name">特效</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] 什么是遮挡半透 就是当一个角色或者物体跑到树或者遮挡物后面的时候，需要半透显示 主要思路是，两个 Pass, 一个 Pass 负责渲染被遮挡部分，另一个 Pass 负责渲染正常的模型 负责渲染被遮挡部分的 Pass 用 ZTest 中的 Greater 就可以了</p>
+<h2 id="菲涅尔方程"><a class="markdownIt-Anchor" href="#菲涅尔方程">#</a> 菲涅尔方程</h2>
+<p>菲涅尔，就目前搜到的资料来看，菲涅尔是两种不同折射率物体边界的现象。 根据效果来看，或许可以理解为边缘光？公式如下: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>n</mi><mi>e</mi><mi>l</mi><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>s</mi><mi>a</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>e</mi><mo stretchy="false">(</mo><mspace linebreak="newline"></mspace><mi>v</mi><mi>e</mi><mi>c</mi><mi>n</mi><mspace linebreak="newline"></mspace><mi>c</mi><mi>d</mi><mi>o</mi><mi>t</mi><mspace linebreak="newline"></mspace><mi>v</mi><mi>e</mi><mi>c</mi><mi>v</mi><msup><mo stretchy="false">)</mo><mrow><mi>w</mi><mi>i</mi><mi>d</mi><mi>t</mi><mi>h</mi></mrow></msup><mspace linebreak="newline"></mspace><mi>c</mi><mi>d</mi><mi>o</mi><mi>t</mi><mi>B</mi><mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>n</mi><mi>e</mi><mi>s</mi><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Fresnel=(1-saturate(\\vec{n} \\cdot \\vec{v})^{width} \\cdot Brightness)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">s</span><span class="mord mathnormal">n</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mopen">(</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">e</span><span class="mord mathnormal">c</span><span class="mord"><span class="mord mathnormal">n</span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1.099108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">e</span><span class="mord mathnormal">c</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">d</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mord mathnormal">n</span><span class="mord mathnormal">e</span><span class="mord mathnormal">s</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/04/wp_editor_md_9e26a71a1773281e1e4cb1d7ffe21b35.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/04/wp_editor_md_9e26a71a1773281e1e4cb1d7ffe21b35.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/04/wp_editor_md_1c0fe75e52bd35b67409a0afc602cb23.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/04/wp_editor_md_1c0fe75e52bd35b67409a0afc602cb23.jpg" alt=""></a></p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码">#</a> 代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Custome/BlockOff&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="built_in">Header</span>(The Blocked Part)]</span><br><span class="line">        [<span class="built_in">Space</span>(<span class="number">10</span>)]</span><br><span class="line">        _Color(<span class="string">&quot;X-Ray Color&quot;</span>,Color) = (<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _Width(<span class="string">&quot;X-Ray Width&quot;</span>,<span class="built_in">Range</span>(<span class="number">1</span>,<span class="number">2</span>)) = <span class="number">1</span></span><br><span class="line">        _Brightness(<span class="string">&quot;X-Ray Brightness&quot;</span>,<span class="built_in">Range</span>(<span class="number">0</span>,<span class="number">2</span>)) = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        [<span class="built_in">Header</span>(The Normal Part)]</span><br><span class="line">        [<span class="built_in">Space</span>(<span class="number">10</span>)]</span><br><span class="line">        _Albedo(<span class="string">&quot;Albedo&quot;</span>,<span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">        [NoScaleOffset]_Specular(<span class="string">&quot;Specular(RGB-A)&quot;</span>,<span class="number">2</span>D) = <span class="string">&quot;block&quot;</span>&#123;&#125;</span><br><span class="line">        [NoScaleOffset]_Normal(<span class="string">&quot;Normal&quot;</span>,<span class="number">2</span>D) = <span class="string">&quot;bump&quot;</span> &#123;&#125;</span><br><span class="line">        [NoScaleOffset]_AO(<span class="string">&quot;AO&quot;</span>,<span class="number">2</span>D) = <span class="string">&quot;white&quot;</span>&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123; <span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;Transparent&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//------The Blocked Part----------</span></span><br><span class="line">        Pass</span><br><span class="line">        &#123;</span><br><span class="line">            ZTest Greater</span><br><span class="line">            ZWrite Off</span><br><span class="line"></span><br><span class="line">            Blend SrcAlpha OneMinusSrcAlpha</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">            <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UnityCG.cginc&quot;</span></span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> v2f &#123;</span><br><span class="line">                float4 vertexPos : SV_POSITION;</span><br><span class="line">                float3 viewDir : TEXCOORD0;</span><br><span class="line">                float3 worldNor : TEXCOORD1;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            fixed4 _Color;</span><br><span class="line">            fixed _Width;</span><br><span class="line">            half _Brightness;</span><br><span class="line"></span><br><span class="line">            <span class="function">v2f <span class="title">vert</span><span class="params">(appdata_base v)</span> </span>&#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.vertexPos = <span class="built_in">UnityObjectToClipPos</span>(v.vertex);</span><br><span class="line">                o.viewDir = <span class="built_in">normalize</span>(<span class="built_in">WorldSpaceViewDir</span>(v.vertex));</span><br><span class="line">                o.worldNor = <span class="built_in">UnityObjectToWorldNormal</span>(v.normal);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function">float4 <span class="title">frag</span><span class="params">(v2f i)</span> :SV_Target&#123;</span></span><br><span class="line">                <span class="comment">//Fresnel算法</span></span><br><span class="line">                half NDotV = <span class="built_in">saturate</span>(<span class="built_in">dot</span>(i.worldNor,i.viewDir));</span><br><span class="line">                NDotV = <span class="built_in">pow</span>(<span class="number">1</span> - NDotV, _Width) * _Brightness;</span><br><span class="line"></span><br><span class="line">                fixed4 color;</span><br><span class="line">                color.rgb = _Color.rgb;</span><br><span class="line">                color.a = NDotV;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> color;</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//-----------Regular Layer---------</span></span><br><span class="line"></span><br><span class="line">        CGPROGRAM</span><br><span class="line">        <span class="meta">#<span class="keyword">pragma</span> surface surf StandardSpecular fullforwardshadows</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">struct</span> <span class="title class_">Input</span> &#123;</span><br><span class="line">            float2 uv_Albedo;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        sampler2D _Albedo;</span><br><span class="line">        sampler2D _Specular;</span><br><span class="line">        sampler2D _Normal;</span><br><span class="line">        sampler2D _AO;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">surf</span><span class="params">(Input IN, inout SurfaceOutputStandardSpecular o)</span> </span>&#123;</span><br><span class="line">            fixed4 c = <span class="built_in">tex2D</span>(_Albedo, IN.uv_Albedo);</span><br><span class="line">            o.Albedo = c.rgb;</span><br><span class="line"></span><br><span class="line">            fixed4 specular = <span class="built_in">tex2D</span>(_Specular, IN.uv_Albedo);</span><br><span class="line">            o.Specular = specular.rgb;</span><br><span class="line">            o.Smoothness = specular.a;</span><br><span class="line"></span><br><span class="line">            o.Normal = <span class="built_in">UnpackNormal</span>(<span class="built_in">tex2D</span>(_Normal, IN.uv_Albedo));</span><br><span class="line">            o.Occlusion = <span class="built_in">tex2D</span>(_AO, IN.uv_Albedo);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">https://mymetalseed.github.io/2021/04/18/遮挡半透效果-《shaderlab新手宝典》/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="描边 - 《ShaderLab新手宝典》">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 特效</span>
+  <h3>描边 - 《ShaderLab新手宝典》</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="建立一个屏幕后处理系统 - 《Unity Shader入门精要》">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>建立一个屏幕后处理系统 - 《Unity Shader入门精要》</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8F%B2%E6%B6%85%E5%B0%94%E6%96%B9%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 菲涅尔方程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text"> 代码</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></li><li class="active"><a href="" rel="bookmark" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》</a></li><li><a href="../../../05/16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" rel="bookmark" title="基于模型的体积云 - 尝试复现WalkingFat文章">基于模型的体积云 - 尝试复现WalkingFat文章</a></li><li><a href="../../../06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" rel="bookmark" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></li><li><a href="../../../07/08/%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF-%E6%9C%80%E7%AE%80%E6%98%93%E5%8F%AF%E8%A7%86%E5%8C%96%E7%90%86%E8%A7%A3-%E8%BD%AC%E8%87%AA%E7%9F%A5%E4%B9%8E/" rel="bookmark" title="贝赛尔曲线 - 最简易可视化理解 (转自知乎)">贝赛尔曲线 - 最简易可视化理解 (转自知乎)</a></li><li><a href="../../../11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/" rel="bookmark" title="在Unity中使用Shader和SDF制作渐变血条">在Unity中使用Shader和SDF制作渐变血条</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../07/18/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92-%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95/" title="霜狼百人计划 - （二）深度测试">霜狼百人计划 - （二）深度测试</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
+</div>
+
+    <span><a href="../../../05/28/gameframework-%E5%AF%B9%E8%B1%A1%E6%B1%A0/" title="GameFramework 对象池">GameFramework 对象池</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/18/c%EF%BC%88%E5%85%AB%EF%BC%89%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="C++（八）智能指针">C++（八）智能指针</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%80%9D%E6%83%B3/" title="In 编程技巧与思想">编程技巧与思想</a>
+</div>
+
+    <span><a href="../../../11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" title="C语言EBNF实现简单四则运算">C语言EBNF实现简单四则运算</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../02/17/shaderlab%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%815-3-%E5%86%85%E7%BD%AE%E6%96%87%E4%BB%B6/" title="ShaderLab入门精要5.3 - 内置文件">ShaderLab入门精要5.3 - 内置文件</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/URP/" title="In URP">URP</a>
+</div>
+
+    <span><a href="../../../../2023/10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" title="【URP】 以毛玻璃后处理为例学一下RenderFeature是什么">【URP】 以毛玻璃后处理为例学一下RenderFeature是什么</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../05/14/%E4%B8%83%E6%9C%88%E7%A6%BB%E4%BA%AC/" title="5&#x2F;14 七月">5/14 七月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../08/01/pathtracing%E5%B0%84%E7%BA%BF%E5%8E%9F%E7%90%86/" title="PathTracing射线原理">PathTracing射线原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/04/18/遮挡半透效果-《shaderlab新手宝典》/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

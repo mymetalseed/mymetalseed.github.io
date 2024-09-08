@@ -1,0 +1,565 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/12/10/%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B/">
+
+
+
+  <title>
+资源热更新流程 - 热更新 - Unity |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">资源热更新流程
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-12-10 17:15:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-12-10T17:15:00+08:00">2021-12-10</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Unity/" itemprop="item" rel="index" title="In Unity"><span itemprop="name">Unity</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" itemprop="item" rel="index" title="In 热更新"><span itemprop="name">热更新</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/12/10/%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="热更新总流程"><a class="markdownIt-Anchor" href="#热更新总流程">#</a> 热更新总流程</h1>
+<p>首先先把需求拆出来</p>
+<ol>
+<li>热更新时我们需要什么？
+<ul>
+<li>第一个就是大版本包
+<ul>
+<li>大版本包里面需要当前版本内所有的 Assetbundle (如果不需要压包), 当用户下载这个软件的时候，就会自动包含这些包</li>
+<li>大版本包也称基础包</li>
+</ul>
+</li>
+<li>第二个就是更新包
+<ul>
+<li>如果我们在后期对包内某个资源进行了更新，我们就需要对这个包进行更新</li>
+<li>即我们需要将这个包打出来，然后放到文件服务器上</li>
+<li>再通过文件服务器的更新资源和本地更新包目录内的的 crc 校验码进行对比来确定需要更新哪些东西</li>
+</ul>
+</li>
+<li>为了让我们调用 ab 包内资源更贴近 Resource.Load
+<ul>
+<li>所以我们需要记录每个资源在项目里的相对路径，哪怕他实际路径不在那里，也要映射起来</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="资源热更流程示意图"><a class="markdownIt-Anchor" href="#资源热更流程示意图">#</a> 资源热更流程示意图</h2>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/12/%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%B5%81%E7%A8%8B.jpg" alt=""> 如上图所示，我们在最初的时候会打一个完整的基础包，我们记为 <code>Assetbundle_Base</code>  如果后面出现了更新包，(比如某个资源出错了，需要更新一下), 这时候我们就需要打更新包，记为 <code>AssetBundle_Update</code>  其中更新包里只会包含 <code>当前需要更新的文件</code> ，配置文件里也只会有需要更新的 ab 列表。这就是资源热更的流程</p>
+<hr>
+<h2 id="资源拆分粒度"><a class="markdownIt-Anchor" href="#资源拆分粒度">#</a> 资源拆分粒度</h2>
+<p>在猫老师的课程中，他把资源按照文件夹进行了拆分，总体大概如下: <img data-src="http://146.56.209.11:90/wp-content/uploads/2021/12/%E8%B5%84%E6%BA%90%E7%B2%92%E5%BA%A6.jpg" alt=""> 即 GAsset 是资源存放的根目录，对于一个游戏而言，可能存在很多不同的模块，每个模块有自己的资源，这时候就需要把模块拆分开，所以就有了上面那个图 GAsset 作为资源总目录，它下面的每个子文件夹都是一个模块，我们对每个模块生成 <code>这个模块的资源配置文件</code>  然后对于模块内的 <code>每个子文件夹都打包成一个ab包</code> ，按照路径进行 <code>前缀式的组合</code> ，比如:  <code>GAsset/Launch/sprite/</code> , 就组合成 <code>gasset_launch_sprite.assetbundle</code>  这个 ab 包里包含 <code>这个文件夹内所有的资源</code> ，但 <code>不包含这个文件夹的子文件里的资源</code></p>
+<hr>
+<h2 id="资源配置文件结构"><a class="markdownIt-Anchor" href="#资源配置文件结构">#</a> 资源配置文件结构</h2>
+<p>知道了上面的资源粒度拆分，我们就需要得到一个模块中 <code>有哪些ab包</code> ，以及 <code>每个资源对应的ab包和其依赖了哪些其他ab包以及它本身的路径</code>  举个例子，如下所示:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;BundleArray&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;gassets_launch&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;crc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;96e20479&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">3042</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;assets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;Assets/GAssets/Launch/PizzaCat.prefab&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;Assets/GAssets/Launch/Sphere.prefab&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;gassets_launch_mat&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch_mat&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;crc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;795e1328&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">24607</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;assets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;Assets/GAssets/Launch/Mat/TestMaterial.mat&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;gassets_launch_sprite&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch_sprite&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;crc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;604364b8&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">74946</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;assets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;Assets/GAssets/Launch/Sprite/header.jpg&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;AssetArray&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;asset_path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Assets/GAssets/Launch/PizzaCat.prefab&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;asset_path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Assets/GAssets/Launch/Sphere.prefab&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;gassets_launch_mat&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;asset_path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Assets/GAssets/Launch/Mat/TestMaterial.mat&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch_mat&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;asset_path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Assets/GAssets/Launch/Sprite/header.jpg&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;bundle_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gassets_launch_sprite&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>其中分为 <code>Bundle区域</code> 和 <code>Asset区域</code>  其中 <code>Bundle区域</code> 中记录每个 AssetBundle 里: - 包含哪些资源 - crc 校验码 - bundle 名字 - bundle 大小  <code>Asset区域</code> 记录每个资源: - 对应哪个父 Bundle - 依赖哪些 Bundle - 资源在原项目里的路径</p>
+<hr>
+<h1 id="运行时"><a class="markdownIt-Anchor" href="#运行时">#</a> 运行时</h1>
+<h2 id="ab包的加载包含在资源的加载中"><a class="markdownIt-Anchor" href="#ab包的加载包含在资源的加载中">#</a> AB 包的加载 (包含在资源的加载中)</h2>
+<p>先把 Bundle 和 Asset 的信息加载到内存里: - 加载 Update_BundleInfo - 加载 Base_BundleInfo - 加载资源配置信息 然后运行时加载资源的时候，如下图所示 <img data-src="http://146.56.209.11:90/wp-content/uploads/2021/12/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90.jpg" alt=""></p>
+<h2 id="ab包的卸载"><a class="markdownIt-Anchor" href="#ab包的卸载">#</a> AB 包的卸载</h2>
+<p>他这里暂时实现的方式是：在 Update 中检查 如果资源没有依赖的 GameObject 了，就从对应的 bundle 和依赖的 bundle 中移除这个资源，如果这个 bundle 的资源列表也为空，就卸载这个 bundle <strong>但是一般来说要么用引用计数，LRU 之类的</strong></p>
+<hr>
+<h1 id="实际实现慢慢填"><a class="markdownIt-Anchor" href="#实际实现慢慢填">#</a> 实际实现 (慢慢填)</h1>
+<h2 id="bundle区域-bundleref"><a class="markdownIt-Anchor" href="#bundle区域-bundleref">#</a> Bundle 区域  <code>BundleRef</code></h2>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 选择 原始只读路径 还是 可读可写路径</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">enum</span> BaseOrUpdate</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> App安装时,生成的原始只读路径</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    Base,</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> App提供的 可读可写路径</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    Update</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 一个Bundle数据【用于序列化为json文件】</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BundleInfo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个bundle的名字</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> bundle_name;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个bundle资源的crc散列码</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 用于对比资源</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> crc;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个bundle资源的大小 单位是字节</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个bundle所包含的资源的路径列表</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> List&lt;<span class="built_in">string</span>&gt; assets;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 内存中的一个Bundle对象</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BundleRef</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个bundle的静态配置信息</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> BundleInfo bundleInfo;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 加载到内存中的bundle对象</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> AssetBundle bundle;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这些BundleRef对象被哪些AssetRef对象依赖</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> List&lt;AssetRef&gt; children;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 记录这个BundleRef对应的AB文件需要从哪里加载</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> BaseOrUpdate witch;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> BundleRef的构造函数</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;bundleInfo&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BundleRef</span>(<span class="params">BundleInfo bundleInfo,BaseOrUpdate wicth_</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.bundleInfo = bundleInfo;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.witch = wicth_;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要就是按照上面的需求中那样，包含了静态配置信息，以及运行时管理这个 Bundle 所需要的 <code>Bundle引用信息</code>   <code>BaseOrUpdate</code>  表示的是：当前这个 bundle 是更新的还是基本包</p>
+<h2 id="asset区域-assetref"><a class="markdownIt-Anchor" href="#asset区域-assetref">#</a> Asset 区域  <code>AssetRef</code></h2>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 一个Asset数据【用于序列化为json文件】</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AssetInfo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源的相对路径</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> asset_path;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源所属的AssetBundle的名字</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> bundle_name;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源所依赖的AssetBundle列表的名字</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> List&lt;<span class="built_in">string</span>&gt; dependencies;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 内存中单个资源对象</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AssetRef</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源的配置信息</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> AssetInfo assetInfo;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源所属的BundleRef对象</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> BundleRef bundleRef;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源所依赖的BundleRef对象列表</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> BundleRef[] dependencies;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 从bundle文件中提取出来的资源对象</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> Object asset;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个资源是否是prefab</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> isGameObject;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 这个AssetRef对象被哪些GameObject所依赖</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> List&lt;GameObject&gt; children;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> AssetRef对象的构造函数</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;assetInfo&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AssetRef</span>(<span class="params">AssetInfo assetInfo</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.assetInfo = assetInfo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/12/10/%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B/" title="资源热更新流程">https://mymetalseed.github.io/2021/12/10/资源热更新流程/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="C语言EBNF实现简单四则运算">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 编程技巧与思想</span>
+  <h3>C语言EBNF实现简单四则运算</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Skynet下的Actor编程模型">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 服务端</span>
+  <h3>Skynet下的Actor编程模型</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E6%80%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text"> 热更新总流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%B5%81%E7%A8%8B%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text"> 资源热更流程示意图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E6%8B%86%E5%88%86%E7%B2%92%E5%BA%A6"><span class="toc-number">1.2.</span> <span class="toc-text"> 资源拆分粒度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text"> 资源配置文件结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="toc-number">2.</span> <span class="toc-text"> 运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ab%E5%8C%85%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%8C%85%E5%90%AB%E5%9C%A8%E8%B5%84%E6%BA%90%E7%9A%84%E5%8A%A0%E8%BD%BD%E4%B8%AD"><span class="toc-number">2.1.</span> <span class="toc-text"> AB 包的加载 (包含在资源的加载中)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ab%E5%8C%85%E7%9A%84%E5%8D%B8%E8%BD%BD"><span class="toc-number">2.2.</span> <span class="toc-text"> AB 包的卸载</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%AE%9E%E7%8E%B0%E6%85%A2%E6%85%A2%E5%A1%AB"><span class="toc-number">3.</span> <span class="toc-text"> 实际实现 (慢慢填)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bundle%E5%8C%BA%E5%9F%9F-bundleref"><span class="toc-number">3.1.</span> <span class="toc-text"> Bundle 区域  BundleRef</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#asset%E5%8C%BA%E5%9F%9F-assetref"><span class="toc-number">3.2.</span> <span class="toc-text"> Asset 区域  AssetRef</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../01/12/xlua-1/" rel="bookmark" title="Xlua (一) 环境部署">Xlua (一) 环境部署</a></li><li><a href="../../../02/21/%E7%83%AD%E6%9B%B4%E6%96%B0/" rel="bookmark" title="热更新">热更新</a></li><li class="active"><a href="" rel="bookmark" title="资源热更新流程">资源热更新流程</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/10/18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../05/15/%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8-%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" title="技能编辑器 - 数据驱动">技能编辑器 - 数据驱动</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/07/06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" title="【C++并发】 thread相关">【C++并发】 thread相关</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="In 单调队列">单调队列</a>
+</div>
+
+    <span><a href="../../../../2022/08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="【算法原理】 - 单调队列">【算法原理】 - 单调队列</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" title="In 寻路算法">寻路算法</a>
+</div>
+
+    <span><a href="../../../../2022/05/04/recastnavigation-%E4%BA%8C-%E4%BD%93%E7%B4%A0%E5%8C%96/" title="RecastNavigation (二) 体素化">RecastNavigation (二) 体素化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2023/09/16/%E3%80%90games104%E3%80%91-%E5%8A%A8%E6%80%81%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" title="【Games104】 动态全局光照">【Games104】 动态全局光照</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../04/04/leetcode-cookbook-%E7%AE%97%E6%B3%95%E6%91%98%E8%AE%B0/" title="LeetCode CookBook - 算法摘记 - 位操作符">LeetCode CookBook - 算法摘记 - 位操作符</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/12/10/资源热更新流程/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

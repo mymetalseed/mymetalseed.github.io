@@ -1,0 +1,602 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/01/17/openxr3/">
+
+
+
+  <title>
+OpenXR (三) - uncategorized |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">OpenXR (三)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-01-17 12:39:03">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-01-17T12:39:03+08:00">2021-01-17</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/uncategorized/" itemprop="item" rel="index" title="In uncategorized"><span itemprop="name">uncategorized</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/01/17/openxr3/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>SDK SampleCode 接口注释 <span class="exturl" data-url="aHR0cHM6Ly93d3cua2hyb25vcy5vcmcvcmVnaXN0cnkvT3BlblhSL3NwZWNzLzEuMC9odG1sL3hyc3BlYy5odG1s">https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html</span></p>
+<h1 id="基础数据结构"><a class="markdownIt-Anchor" href="#基础数据结构">#</a> 基础数据结构</h1>
+<p>对于运行时实现者来说，OpenXR 是一组函数，它们控制 XR 系统的操作并建立 XR 应用程序的生命周期。 实现者的任务是在实现 OpenXR API 的主机上提供一个软件库，同时根据设备的能力将每个 OpenXR 函数的工作映射到图形硬件上。</p>
+<h1 id="基础"><a class="markdownIt-Anchor" href="#基础">#</a> 基础</h1>
+<h2 id="api版本"><a class="markdownIt-Anchor" href="#api版本">#</a> API 版本</h2>
+<p><code>typedef uint64_t XrVersion;</code>  版本号有三个部分，major version,minor version,patch version</p>
+<h2 id="字符串编码"><a class="markdownIt-Anchor" href="#字符串编码">#</a> 字符串编码</h2>
+<p>这个 API 使用字符串作为一些函数的输入和输出。除非另有说明，否则所有这些字符串都是以 NULL 结尾的 UTF-8 编码的大小写敏感字符数组。</p>
+<h2 id="外部同步参数"><a class="markdownIt-Anchor" href="#外部同步参数">#</a> 外部同步参数</h2>
+<blockquote>
+<p>一些销毁方法</p>
+</blockquote>
+<p>The instance parameter, and any child handles, in xrDestroyInstance The session parameter, and any child handles, in xrDestroySession The space parameter, and any child handles, in xrDestroySpace The swapchain parameter, and any child handles, in xrDestroySwapchain The actionSet parameter, and any child handles, in xrDestroyActionSet The action parameter, and any child handles, in xrDestroyAction The objectHandle member of the nameInfo parameter in xrSetDebugUtilsObjectNameEXT The instance parameter, and any child handles, in xrCreateDebugUtilsMessengerEXT The messenger parameter in xrDestroyDebugUtilsMessengerEXT The handTracker parameter, and any child handles, in xrDestroyHandTrackerEXT</p>
+<h2 id="扩展命名规则"><a class="markdownIt-Anchor" href="#扩展命名规则">#</a> 扩展命名规则</h2>
+<p>OpenXR 扩展命名的前缀是 <code>XR_</code>   <code>KHR</code>  是 Khronos 公司提供的扩展<br>
+ <code>EXT</code>  是非 Khronos 公司提供的扩展</p>
+<blockquote>
+<p>例如:</p>
+</blockquote>
+<p><code>XR_KHR_composition_layer_cube</code>  是一个 OpenXR 扩展，由 Khronos (KHR) OpenXR 工作组创建，以支持多维数据集组合层。</p>
+<h2 id="api层"><a class="markdownIt-Anchor" href="#api层">#</a> API 层</h2>
+<p>OpenXR 被设计成一个分层的 API，这意味着用户或应用程序可以在应用程序和运行时实现之间插入 API 层。这些 API 层提供了额外的功能，从上面的层拦截 OpenXR 函数，然后执行与没有该层时不同的操作。在最简单的情况下，该层只是使用相同的参数调用下一层，但更复杂的层可能实现在其下面的层或运行时中不存在的 API 功能。这种机制本质上是一种被设计到 OpenXR 中的 “函数 shimming” 或 “intercept” 特性，旨在取代更为非正式的 “挂钩” API 调用的方法。</p>
+<h3 id="api层举例"><a class="markdownIt-Anchor" href="#api层举例">#</a> API 层举例</h3>
+<h4 id="验证层"><a class="markdownIt-Anchor" href="#验证层">#</a> 验证层</h4>
+<p>OpenXR 采用的分层 API 方法允许在 “验证” 层中实现对正确使用 API 的昂贵验证。这一层允许应用程序开发人员在激活验证层的情况下开发其应用程序，以确保应用程序正确地使用了 API。验证层确认应用程序正确地设置了对象状态，为每个函数提供了所需的数据，确保所需的资源可用，等等。如果验证层检测到一个问题，它将发出一个可以被记录或捕获的错误消息</p>
+<h4 id="api-logging-layer"><a class="markdownIt-Anchor" href="#api-logging-layer">#</a> API Logging Layer</h4>
+<p>API 层的另一个例子是 API 日志层，它以文本格式将所有 API 调用序列化到输出接收器，包括打印出参数值和结构内容。</p>
+<h4 id="api-跟踪-layer"><a class="markdownIt-Anchor" href="#api-跟踪-layer">#</a> API 跟踪 Layer</h4>
+<p>相关的 API 跟踪层生成一个跟踪文件，该文件包含提供给 API 的所有信息，以便可以通过重播程序回放跟踪文件。</p>
+<h3 id="命名api层"><a class="markdownIt-Anchor" href="#命名api层">#</a> 命名 API 层</h3>
+<blockquote>
+<p>命名规则:</p>
+</blockquote>
+<p><code>XR_APILAYER_&lt;VENDOR-TAG&gt;_short_name</code>  比如:  <code>XR_APILAYER_ACME_check_best_practices</code></p>
+<h3 id="激活api层"><a class="markdownIt-Anchor" href="#激活api层">#</a> 激活 API 层</h3>
+<h4 id="应用激活"><a class="markdownIt-Anchor" href="#应用激活">#</a> 应用激活</h4>
+<p>应用程序可以通过调用 <code>xrEnumerateApiLayerProperties</code>  函数来确定它们可用的 API 层，以获得可用 API 层的列表。然后，应用程序可以从这个列表中选择所需的 API 层，并在创建实例时将它们提供给 <code>xrCreateInstance</code>  函数。</p>
+<h4 id="api层扩展"><a class="markdownIt-Anchor" href="#api层扩展">#</a> API 层扩展</h4>
+<p>API 层可能实现底层运行时可能支持也可能不支持的 OpenXR 函数。为了公开这些新特性，API 层必须以 OpenXR 扩展的形式公开这些功能。它不能公开没有相关扩展的新的 OpenXR 函数。<br>
+例如，OpenXR API-logging API 层可能会公开一个 API 函数，允许应用程序仅在其执行的一部分打开日志记录。由于新函数必须通过扩展公开，所以供应商创建了一个名为 XR_ACME_logging_on_off 的扩展来包含这些新函数。应用程序应该查询 API 层是否支持扩展，然后 (只有当它存在时) 在 xrCreateInstance 期间通过名称启用扩展和 API 层。<br>
+要找出 API 层支持的扩展，应用程序必须首先通过调用 <code>xrEnumerateApiLayerProperties</code>  来验证 API 层是否存在于当前系统中。验证了感兴趣的 API 层存在之后，应用程序应该调用 <code>xrEnumerateInstanceExtensionProperties</code> ，并提供 API 层名称作为第一个参数。这将返回在该 API 层内部实现的扩展列表。</p>
+<h1 id="基础结构"><a class="markdownIt-Anchor" href="#基础结构">#</a> 基础结构</h1>
+<h2 id="xrbaseinstructure"><a class="markdownIt-Anchor" href="#xrbaseinstructure">#</a> XrBaseInStructure:</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrBaseInStructure&#123;</span><br><span class="line">    XrStructureType type;</span><br><span class="line">    const struct XrBaseInStructure* next;</span><br><span class="line">&#125;XrBaseInStructure;</span><br></pre></td></tr></table></figure>
+<p>structureType 标记这个结构是什么类型的 这是个链表，next 指向下一个。但核心 OpenXR 结构中未定义类似的结构 这个结构可以方便的定义 <code>只读</code> 指针链</p>
+<h2 id="xrbaseoutstructure"><a class="markdownIt-Anchor" href="#xrbaseoutstructure">#</a> XrBaseOutStructure</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrBaseOutStructure&#123;</span><br><span class="line">    XrStructureType type;</span><br><span class="line">    struct XrBaseOutStructure*    next;</span><br><span class="line">&#125; XrBaseOutStructure;</span><br></pre></td></tr></table></figure>
+<p>结构基本同上 XrBaseOutStructure 可用于简化遍历结构指针链，该指针链将数据返回给应用程序。</p>
+<h2 id="下一个链结构的唯一性"><a class="markdownIt-Anchor" href="#下一个链结构的唯一性">#</a> 下一个链结构的唯一性</h2>
+<p>应用程序应该 <code>确保它们在给定的next链中创建和插入</code>   <code>每种类型</code>  的 <code>扩展结构的次数不超过一次</code> 。OpenXR 的其他组件 (比如 OpenXR 加载器或 API 层) 可能会将重复的结构插入到这个链中。这为这些组件提供了更新下一个链中出现的结构的能力，方法是对同一结构进行修改，并将新版本放置在链的开头。</p>
+<h2 id="返回值"><a class="markdownIt-Anchor" href="#返回值">#</a> 返回值</h2>
+<h3 id="成功码"><a class="markdownIt-Anchor" href="#成功码">#</a> 成功码</h3>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_f3d575caaddc7daa52cc28373409b1f4.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_f3d575caaddc7daa52cc28373409b1f4.jpg" alt=""></a></p>
+<h2 id="错误代码"><a class="markdownIt-Anchor" href="#错误代码">#</a> 错误代码</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_e1f846f9e60593a71b49c4885b81012c.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_e1f846f9e60593a71b49c4885b81012c.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_a83eacba13cbb0818944982de8ba0af1.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_a83eacba13cbb0818944982de8ba0af1.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_0e83420429965c09bf870347c4afcc21.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_0e83420429965c09bf870347c4afcc21.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_8d45d6f9c4b81caebb187fec783c0bc2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_8d45d6f9c4b81caebb187fec783c0bc2.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_a317c59b0f13ebb3e0ac0e3c81eb89a1.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_a317c59b0f13ebb3e0ac0e3c81eb89a1.jpg" alt=""></a></p>
+<h2 id="方便的宏"><a class="markdownIt-Anchor" href="#方便的宏">#</a> 方便的宏</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_97ee21b6a498dd939f428a7d2cba4669.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_97ee21b6a498dd939f428a7d2cba4669.jpg" alt=""></a></p>
+<h2 id="句柄"><a class="markdownIt-Anchor" href="#句柄">#</a> 句柄</h2>
+<p>句柄唯一标识一个应用程序的实例，其寿命由应用程序通过创建和销毁功能控制。实例句柄包括:  <code>XrInstance,XrSession,XrSwapchain</code>  等 句柄是一个层次结构，子句柄从属于父句柄的生命周期，比如：要创建一个 <code>XrSwapChain</code>  句柄，程序必须调用 <code>XrCreateSwapchain</code>  并传递 <code>XrSession</code> , 因此 <code>XrSwapchain</code>  是 <code>XrSession</code>  的子句柄</p>
+<h3 id="对象句柄类型"><a class="markdownIt-Anchor" href="#对象句柄类型">#</a> 对象句柄类型</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">typedef enum XrObjectType&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中每一个值对应的一个特定的 OpenXR 的句柄类型. <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_78718ac030f09ab41391623785f94edb.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/01/wp_editor_md_78718ac030f09ab41391623785f94edb.jpg" alt=""></a></p>
+<h2 id="色彩"><a class="markdownIt-Anchor" href="#色彩">#</a> 色彩</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrColor4f &#123;</span><br><span class="line">    float    r;</span><br><span class="line">    float    g;</span><br><span class="line">    float    b;</span><br><span class="line">    float    a;</span><br><span class="line">&#125; XrColor4f;</span><br></pre></td></tr></table></figure>
+<h2 id="坐标系"><a class="markdownIt-Anchor" href="#坐标系">#</a> 坐标系</h2>
+<h3 id="二维矢量"><a class="markdownIt-Anchor" href="#二维矢量">#</a> 二维矢量</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrVector2f &#123;</span><br><span class="line">    float    x;</span><br><span class="line">    float    y;</span><br><span class="line">&#125; XrVector2f;</span><br></pre></td></tr></table></figure>
+<h3 id="三维向量"><a class="markdownIt-Anchor" href="#三维向量">#</a> 三维向量</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrVector3f &#123;</span><br><span class="line">    float    x;</span><br><span class="line">    float    y;</span><br><span class="line">    float    z;</span><br><span class="line">&#125; XrVector3f;</span><br></pre></td></tr></table></figure>
+<h3 id="四维"><a class="markdownIt-Anchor" href="#四维">#</a> 四维</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrVector4f &#123;</span><br><span class="line">    float    x;</span><br><span class="line">    float    y;</span><br><span class="line">    float    z;</span><br><span class="line">    float    w;</span><br><span class="line">&#125; XrVector4f;</span><br></pre></td></tr></table></figure>
+<h3 id="四元数"><a class="markdownIt-Anchor" href="#四元数">#</a> 四元数</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrQuaternionf &#123;</span><br><span class="line">    float    x;</span><br><span class="line">    float    y;</span><br><span class="line">    float    z;</span><br><span class="line">    float    w;</span><br><span class="line">&#125; XrQuaternionf;</span><br></pre></td></tr></table></figure>
+<h3 id="姿势"><a class="markdownIt-Anchor" href="#姿势">#</a> 姿势</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrPosef &#123;</span><br><span class="line">    XrQuaternionf    orientation;</span><br><span class="line">    XrVector3f       position;</span><br><span class="line">&#125; XrPosef;</span><br></pre></td></tr></table></figure>
+<p>包含方向与位置</p>
+<h3 id="浮点偏移量"><a class="markdownIt-Anchor" href="#浮点偏移量">#</a> 浮点偏移量</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrOffset2Df &#123;</span><br><span class="line">    float    x;</span><br><span class="line">    float    y;</span><br><span class="line">&#125; XrOffset2Df;</span><br></pre></td></tr></table></figure>
+<h2 id="视场角度"><a class="markdownIt-Anchor" href="#视场角度">#</a> 视场角度</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct XrFovf &#123;</span><br><span class="line">    float    angleLeft;</span><br><span class="line">    float    angleRight;</span><br><span class="line">    float    angleUp;</span><br><span class="line">    float    angleDown;</span><br><span class="line">&#125; XrFovf;</span><br></pre></td></tr></table></figure>
+<p>angleLeft 是视场左侧的角度。对于对称视场，此值为负。 angleRight 是视场右侧的角度。 angleUp 是视场顶部的角度。 angleDown 是视场底部的角度。对于对称视场，此值为负。</p>
+<h2 id="布尔值"><a class="markdownIt-Anchor" href="#布尔值">#</a> 布尔值</h2>
+<p><code>typedef uint32_t XrBool32;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XR_TRUE 代表真实值</span><br><span class="line">XR_FALSE 代表一个假值</span><br></pre></td></tr></table></figure>
+<h1 id="事件"><a class="markdownIt-Anchor" href="#事件">#</a> 事件</h1>
+<h2 id="事件轮训"><a class="markdownIt-Anchor" href="#事件轮训">#</a> 事件轮训</h2>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/01/17/openxr3/" title="OpenXR (三)">https://mymetalseed.github.io/2021/01/17/openxr3/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../16/openxr-two/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="OpenXR (二)">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>OpenXR (二)</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../23/unity%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BF%AB%E6%8D%B7%E9%94%AE/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Unity的一些快捷键">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Unity的一些快捷键</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text"> 基础数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">2.</span> <span class="toc-text"> 基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#api%E7%89%88%E6%9C%AC"><span class="toc-number">2.1.</span> <span class="toc-text"> API 版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text"> 字符串编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%90%8C%E6%AD%A5%E5%8F%82%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text"> 外部同步参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">2.4.</span> <span class="toc-text"> 扩展命名规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api%E5%B1%82"><span class="toc-number">2.5.</span> <span class="toc-text"> API 层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#api%E5%B1%82%E4%B8%BE%E4%BE%8B"><span class="toc-number">2.5.1.</span> <span class="toc-text"> API 层举例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%B1%82"><span class="toc-number">2.5.1.1.</span> <span class="toc-text"> 验证层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#api-logging-layer"><span class="toc-number">2.5.1.2.</span> <span class="toc-text"> API Logging Layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#api-%E8%B7%9F%E8%B8%AA-layer"><span class="toc-number">2.5.1.3.</span> <span class="toc-text"> API 跟踪 Layer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8Dapi%E5%B1%82"><span class="toc-number">2.5.2.</span> <span class="toc-text"> 命名 API 层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BF%80%E6%B4%BBapi%E5%B1%82"><span class="toc-number">2.5.3.</span> <span class="toc-text"> 激活 API 层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%BF%80%E6%B4%BB"><span class="toc-number">2.5.3.1.</span> <span class="toc-text"> 应用激活</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#api%E5%B1%82%E6%89%A9%E5%B1%95"><span class="toc-number">2.5.3.2.</span> <span class="toc-text"> API 层扩展</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text"> 基础结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xrbaseinstructure"><span class="toc-number">3.1.</span> <span class="toc-text"> XrBaseInStructure:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xrbaseoutstructure"><span class="toc-number">3.2.</span> <span class="toc-text"> XrBaseOutStructure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E9%93%BE%E7%BB%93%E6%9E%84%E7%9A%84%E5%94%AF%E4%B8%80%E6%80%A7"><span class="toc-number">3.3.</span> <span class="toc-text"> 下一个链结构的唯一性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.4.</span> <span class="toc-text"> 返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E7%A0%81"><span class="toc-number">3.4.1.</span> <span class="toc-text"> 成功码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">3.5.</span> <span class="toc-text"> 错误代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E4%BE%BF%E7%9A%84%E5%AE%8F"><span class="toc-number">3.6.</span> <span class="toc-text"> 方便的宏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%A5%E6%9F%84"><span class="toc-number">3.7.</span> <span class="toc-text"> 句柄</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%8F%A5%E6%9F%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.7.1.</span> <span class="toc-text"> 对象句柄类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BD%A9"><span class="toc-number">3.8.</span> <span class="toc-text"> 色彩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">3.9.</span> <span class="toc-text"> 坐标系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E7%9F%A2%E9%87%8F"><span class="toc-number">3.9.1.</span> <span class="toc-text"> 二维矢量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%BB%B4%E5%90%91%E9%87%8F"><span class="toc-number">3.9.2.</span> <span class="toc-text"> 三维向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E7%BB%B4"><span class="toc-number">3.9.3.</span> <span class="toc-text"> 四维</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0"><span class="toc-number">3.9.4.</span> <span class="toc-text"> 四元数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A7%BF%E5%8A%BF"><span class="toc-number">3.9.5.</span> <span class="toc-text"> 姿势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%81%8F%E7%A7%BB%E9%87%8F"><span class="toc-number">3.9.6.</span> <span class="toc-text"> 浮点偏移量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9C%BA%E8%A7%92%E5%BA%A6"><span class="toc-number">3.10.</span> <span class="toc-text"> 视场角度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%80%BC"><span class="toc-number">3.11.</span> <span class="toc-text"> 布尔值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text"> 事件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AE%AD"><span class="toc-number">4.1.</span> <span class="toc-text"> 事件轮训</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../09/wordpress/" rel="bookmark" title="久违的回到了ｗｏｒｄｐｒｅｓｓ">久违的回到了ｗｏｒｄｐｒｅｓｓ</a></li><li><a href="../../15/unity-callback-android-function/" rel="bookmark" title="Unity调用Android方法">Unity调用Android方法</a></li><li><a href="../../16/openxr-two/" rel="bookmark" title="OpenXR (二)">OpenXR (二)</a></li><li class="active"><a href="" rel="bookmark" title="OpenXR (三)">OpenXR (三)</a></li><li><a href="../../../02/17/shaderlab%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%815-3-%E5%86%85%E7%BD%AE%E6%96%87%E4%BB%B6/" rel="bookmark" title="ShaderLab入门精要5.3 - 内置文件">ShaderLab入门精要5.3 - 内置文件</a></li><li><a href="../../../02/20/c-%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95/" rel="bookmark" title="C# 扩展方法">C# 扩展方法</a></li><li><a href="../../../02/25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" rel="bookmark" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></li><li><a href="../../../02/25/%E3%80%8Ashader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%85%89%E7%85%A7%E7%AF%87/" rel="bookmark" title="《shader入门精要》 - 光照篇">《shader入门精要》 - 光照篇</a></li><li><a href="../../../02/26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" rel="bookmark" title="Unity工具链开发杂记">Unity工具链开发杂记</a></li><li><a href="../../../03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" rel="bookmark" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></li><li><a href="../../../03/08/shaderlab-%E5%86%85%E7%BD%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%8F%82%E6%95%B0/" rel="bookmark" title="ShaderLab  内置结构体参数">ShaderLab  内置结构体参数</a></li><li><a href="../../../04/03/shaderlab-%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80-%E3%80%8Aunityshaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="ShaderLab 语法基础 -《UnityShaderLab新手宝典》">ShaderLab 语法基础 -《UnityShaderLab新手宝典》</a></li><li><a href="../../../04/04/leetcode-cookbook-%E7%AE%97%E6%B3%95%E6%91%98%E8%AE%B0/" rel="bookmark" title="LeetCode CookBook - 算法摘记 - 位操作符">LeetCode CookBook - 算法摘记 - 位操作符</a></li><li><a href="../../../04/11/%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="表面着色器 -《ShaderLab新手宝典》">表面着色器 -《ShaderLab新手宝典》</a></li><li><a href="../../../07/08/%E9%9D%A2%E8%AF%95%E7%A0%94%E4%B9%A0/" rel="bookmark" title="面试研习">面试研习</a></li><li><a href="../../../07/11/%E7%AD%91%E6%A2%A6%E4%B9%8B%E8%B7%AF%E6%B8%B8%E6%88%8F%E5%AD%A6%E9%99%A2-%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="筑梦之路游戏学院 - 技能系统">筑梦之路游戏学院 - 技能系统</a></li><li><a href="../../../08/01/pathtracing%E5%B0%84%E7%BA%BF%E5%8E%9F%E7%90%86/" rel="bookmark" title="PathTracing射线原理">PathTracing射线原理</a></li><li><a href="../../../09/10/%E7%9C%8B%E5%B1%8E%E5%B1%B1%E4%BB%A3%E7%A0%81%E6%9C%89%E6%84%9F/" rel="bookmark" title="看屎山代码有感">看屎山代码有感</a></li><li><a href="../../../09/12/b-b-tree/" rel="bookmark" title="B & B+ Tree">B & B+ Tree</a></li><li><a href="../../../09/12/912%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95b/" rel="bookmark" title="米哈游笔试B">米哈游笔试B</a></li><li><a href="../../../09/14/%E5%87%89%E7%BB%8F/" rel="bookmark" title="凉经">凉经</a></li><li><a href="../../../11/06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" rel="bookmark" title="TextMesh Pro 创建中文字体流程">TextMesh Pro 创建中文字体流程</a></li><li><a href="../../../../2022/02/05/%E5%9F%BA%E4%BA%8E%E8%8A%82%E7%82%B9%E7%9A%84%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" rel="bookmark" title="基于节点的战斗系统设计方案">基于节点的战斗系统设计方案</a></li><li><a href="../../../../2022/03/31/%E5%B1%82%E6%AC%A1%E5%8C%85%E5%9B%B4%E6%A0%91bounding-volume-hierarchy-based-on-treebvh/" rel="bookmark" title="层次包围树(Bounding Volume Hierarchy Based On Tree,BVH)">层次包围树(Bounding Volume Hierarchy Based On Tree,BVH)</a></li><li><a href="../../../../2022/04/05/games104-pilot%E5%BC%95%E6%93%8E-1-%E5%8F%8D%E5%B0%84%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84/" rel="bookmark" title="Games104 Pilot引擎 (1) 反射框架结构">Games104 Pilot引擎 (1) 反射框架结构</a></li><li><a href="../../../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="bookmark" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></li><li><a href="../../../../2022/08/13/directx12-%E4%B8%93%E9%A2%98-c-15-%E6%9E%84%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0%E8%A7%86%E8%A7%92%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/" rel="bookmark" title="DirectX12 专题 C.15 - 构建第一人称视角的摄像机">DirectX12 专题 C.15 - 构建第一人称视角的摄像机</a></li><li><a href="../../../../2022/10/16/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91metaball/" rel="bookmark" title="【Shader技巧】MetaBall">【Shader技巧】MetaBall</a></li><li><a href="../../../../2023/09/16/%E3%80%90games104%E3%80%91-%E5%8A%A8%E6%80%81%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【Games104】 动态全局光照">【Games104】 动态全局光照</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../16/openxr-two/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../23/unity%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BF%AB%E6%8D%B7%E9%94%AE/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Minions-Art/" title="In Minions Art">Minions Art</a>
+</div>
+
+    <span><a href="../../../02/25/minions-art%E7%B3%BB%E5%88%97-%E8%BF%9970%E4%B8%8D%E8%83%BD%E7%99%BD%E8%8A%B1/" title="Minions Art系列一 - 这70不能白花">Minions Art系列一 - 这70不能白花</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../04/03/shaderlab-%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80-%E3%80%8Aunityshaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="ShaderLab 语法基础 -《UnityShaderLab新手宝典》">ShaderLab 语法基础 -《UnityShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/15/c%E5%9B%9B-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%88%9B%E5%BB%BA%EF%BC%9F%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6/" title="C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？">C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Vulkan/" title="In Vulkan">Vulkan</a>
+</div>
+
+    <span><a href="../../../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../09/25/%E7%BD%97%E4%BC%AF%E7%89%B9%C2%B7%E8%89%BE%E6%A0%BC-%E3%80%8A%E4%B8%80%E7%94%9F%E7%9A%84%E6%97%85%E9%80%94%E3%80%8B/" title="罗伯特·艾格 《一生的旅途》">罗伯特·艾格 《一生的旅途》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../05/05/ugui%E4%BC%98%E5%8C%96%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E8%AE%B0%E5%BD%95/" title="UGUI优化以及相关组件记录">UGUI优化以及相关组件记录</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/01/17/openxr3/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

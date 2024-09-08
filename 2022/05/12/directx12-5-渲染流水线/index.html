@@ -1,0 +1,562 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/">
+
+
+
+  <title>
+DirectX12 5. 渲染流水线 - DirectX - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">DirectX12 5. 渲染流水线
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-05-12 00:54:06">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-05-12T00:54:06+08:00">2022-05-12</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/DirectX/" itemprop="item" rel="index" title="In DirectX"><span itemprop="name">DirectX</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="颜色"><a class="markdownIt-Anchor" href="#颜色">#</a> 颜色</h1>
+<p><code>DirectXMath</code>  库使用 SIMD 技术加快数据的处理速度。</p>
+<ul>
+<li>32 位颜色 (RGBA 各 1 个字节)， <code>PackedVector::XMLoadColor</code>  (COLOR 转换为 VECTOR), <code>PackedVector::XMStoreColor</code>  (VECTOR 转换为 Color)</li>
+</ul>
+<h1 id="渲染流水线概述"><a class="markdownIt-Anchor" href="#渲染流水线概述">#</a> 渲染流水线概述</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_e238bda1df46afa8db1f8b9b6983f46f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_e238bda1df46afa8db1f8b9b6983f46f.jpg" alt=""></a> 在输出合并阶段，数据会被写到像后台缓冲区这样的纹理当中。<br>
+事实上，输出合并阶段是 CPU 和 GPU 双向的</p>
+<h2 id="输入装配阶段"><a class="markdownIt-Anchor" href="#输入装配阶段">#</a> 输入装配阶段</h2>
+<p>输入装配阶段从显存中读取几何数据，然后装配成三角 / 线段图元 DX12 可以将 <code>顶点缓冲区</code> 处理成如下几种拓扑形式 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_f5549388f085e525563f0a6537caa8b4.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_f5549388f085e525563f0a6537caa8b4.jpg" alt=""></a> 另外，DX12 可以通过使用 6 个顶点来描述与它相邻的三个三角形 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_051039d4d42120099226b0fd98e6f4ec.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_051039d4d42120099226b0fd98e6f4ec.jpg" alt=""></a></p>
+<h2 id="索引"><a class="markdownIt-Anchor" href="#索引">#</a> 索引</h2>
+<p>即每三个整型代表一个三角形在顶点数组的下标</p>
+<h2 id="顶点着色器阶段"><a class="markdownIt-Anchor" href="#顶点着色器阶段">#</a> 顶点着色器阶段</h2>
+<p>可以理解为对每个顶点执行下述处理 (GPU 进行)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(UINT i = <span class="number">0</span>;i&lt;numVertices;++i)</span><br><span class="line">    outputVertex[i] = <span class="built_in">VertexShader</span>(inputVertex[i]);</span><br></pre></td></tr></table></figure>
+<h2 id="局部空间和世界空间"><a class="markdownIt-Anchor" href="#局部空间和世界空间">#</a> 局部空间和世界空间</h2>
+<blockquote>
+<p>世界变换</p>
+<blockquote>
+<p>将物体的每个局部坐标从局部空间转换到世界空间的过程叫 <code>世界变换</code> ，矩阵称之为 <code>世界矩阵(word matrix)</code></p>
+</blockquote>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_dec747dfdb85073fbd3da8580cdb18e7.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_dec747dfdb85073fbd3da8580cdb18e7.jpg" alt=""></a> 构建世界矩阵需要计算局部物体相对于世界的 <code>旋转</code> 、 <code>缩放</code> 和 <code>位移</code> ，在 DX12 中记为 <code>SRT</code></p>
+<h2 id="观察空间"><a class="markdownIt-Anchor" href="#观察空间">#</a> 观察空间</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c5b3d138d3eceeb61996ce6348be2bc3.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c5b3d138d3eceeb61996ce6348be2bc3.jpg" alt=""></a> 实际的顶点最终会渲染至观察坐标系中，这一步会将顶点从 <code>世界空间</code> 转换到 <code>观察空间</code> ，所以只需要一个矩阵即可 由于我们知道摄像机在世界空间的旋转，缩放和平移，所以我们可以通过求逆来获取世界空间到摄像空间的矩阵 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_187cd76a14a247056b610ca98591a37a.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_187cd76a14a247056b610ca98591a37a.jpg" alt=""></a> 通过世界坐标原点的 up 向量和摄像机观察的中心点 (世界坐标) 到摄像机位置的向量可以确定摄像机的 <code>xyz</code>  轴向量 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_6191bb884a0b8d6cd49c83759d0c8fba.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_6191bb884a0b8d6cd49c83759d0c8fba.jpg" alt=""></a> 观察矩阵如上，其中 <code>Q</code>  为摄像机位置， <code>uvw</code>  为摄像机三轴向量 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_67814aba4d53e322f7089e6cc893ed46.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_67814aba4d53e322f7089e6cc893ed46.jpg" alt=""></a> 这个矩阵被称为 <code>LookAt</code>  矩阵，在 DX12 中使用 <code>XMMatrixLookAtLH(pos,target,up)</code>  可以计算得来</p>
+<h2 id="投影和齐次裁剪"><a class="markdownIt-Anchor" href="#投影和齐次裁剪">#</a> 投影和齐次裁剪</h2>
+<p>变换的最后一步是将平截头体内的 3D 物体投影到 2D 投影窗口之中 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_dd0bee61bd4eb8883ca93cac9ba271c6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_dd0bee61bd4eb8883ca93cac9ba271c6.jpg" alt=""></a></p>
+<h2 id="归一化深度值"><a class="markdownIt-Anchor" href="#归一化深度值">#</a> 归一化深度值</h2>
+<p>投影操作结束后，所有的投影点都会位于 2D 投影窗口上，为了实现画家算法，我们会保留 z 坐标作为深度值，主要方式是，将近平面映射为 z=0, 远平面映射为 z=1, 设 (N,F) 分别为近平面和远平面深度，z 值即为:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_188dd502ea7693e57dedbfc5e55a3635.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_188dd502ea7693e57dedbfc5e55a3635.jpg" alt=""></a> 为了防止因为计算深度值产生的浮点误差问题，通常建议<strong>近平面与远平面尽量接近</strong></p>
+<h2 id="曲面细分阶段"><a class="markdownIt-Anchor" href="#曲面细分阶段">#</a> 曲面细分阶段</h2>
+<p>dx11 以后，可以在 GPU 阶段进行曲面细分 (即添加顶点和索引)。</p>
+<h2 id="几何着色器阶段"><a class="markdownIt-Anchor" href="#几何着色器阶段">#</a> 几何着色器阶段</h2>
+<p>几何着色器中要求输入的是完整的图元，可以在这个阶段中丢弃图元或者创建图元</p>
+<h2 id="裁剪"><a class="markdownIt-Anchor" href="#裁剪">#</a> 裁剪</h2>
+<p>在视锥体阶段，需要进行几何图元的裁剪 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_e7b56494b7e53bfcc360c8aec0235aee.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_e7b56494b7e53bfcc360c8aec0235aee.jpg" alt=""></a> 裁剪操作<strong>是由硬件负责的</strong> DX12 书中推荐了一个裁剪算法<br>
+ Sutherland-Hodgman clipping algorithm 由于裁剪之后，几何图形不再是三角形，所以还需要进行三角化 (也是硬件，对于凸多边形，比较容易实现，如果是凹多边形，则需要耳朵法进行处理)</p>
+<h2 id="光栅化阶段"><a class="markdownIt-Anchor" href="#光栅化阶段">#</a> 光栅化阶段</h2>
+<blockquote>
+<p>背面剔除 (不渲染背面的三角形)</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_394e3083b937ab89aa494fb2ad153fcb.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_394e3083b937ab89aa494fb2ad153fcb.jpg" alt=""></a> d3d 可以切换正面。背面的设置</p>
+<blockquote>
+<p>顶点属性插值</p>
+</blockquote>
+<p>一般使用重心坐标进行透视矫正插值，重心坐标发前面有提到过 (目前也是硬件插值)</p>
+<h2 id="像素着色器阶段"><a class="markdownIt-Anchor" href="#像素着色器阶段">#</a> 像素着色器阶段</h2>
+<p>根据前述得到的各种信息进入这一阶段，实际上在其他语言中被称为: <strong>片元</strong></p>
+<h2 id="输出合并阶段"><a class="markdownIt-Anchor" href="#输出合并阶段">#</a> 输出合并阶段</h2>
+<p>通过像素着色器生成的像素片段会被移送到渲染流水线的输出合并阶段，即 <code>在这个阶段中进行颜色混合,透明度混合等</code> ，但是要注意的一点是，有些片元会在这个阶段之前被透明度测试和模板测试丢弃掉，剩下的像素片段会被写入<strong>后台缓冲区</strong>，同时进行混合</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="DirectX12 5. 渲染流水线">https://mymetalseed.github.io/2022/05/12/directx12-5-渲染流水线/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> DirectX</span>
+  <h3>DirectX12 4. 何谓命令列表、命令适配器与命令队列?</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 6. 坐标变换相关">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>DirectX12 6. 坐标变换相关</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2"><span class="toc-number">1.</span> <span class="toc-text"> 颜色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text"> 渲染流水线概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%A3%85%E9%85%8D%E9%98%B6%E6%AE%B5"><span class="toc-number">2.1.</span> <span class="toc-text"> 输入装配阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">2.2.</span> <span class="toc-text"> 索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%E9%98%B6%E6%AE%B5"><span class="toc-number">2.3.</span> <span class="toc-text"> 顶点着色器阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E7%A9%BA%E9%97%B4%E5%92%8C%E4%B8%96%E7%95%8C%E7%A9%BA%E9%97%B4"><span class="toc-number">2.4.</span> <span class="toc-text"> 局部空间和世界空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E7%A9%BA%E9%97%B4"><span class="toc-number">2.5.</span> <span class="toc-text"> 观察空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1%E5%92%8C%E9%BD%90%E6%AC%A1%E8%A3%81%E5%89%AA"><span class="toc-number">2.6.</span> <span class="toc-text"> 投影和齐次裁剪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E6%B7%B1%E5%BA%A6%E5%80%BC"><span class="toc-number">2.7.</span> <span class="toc-text"> 归一化深度值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86%E9%98%B6%E6%AE%B5"><span class="toc-number">2.8.</span> <span class="toc-text"> 曲面细分阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E9%98%B6%E6%AE%B5"><span class="toc-number">2.9.</span> <span class="toc-text"> 几何着色器阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%81%E5%89%AA"><span class="toc-number">2.10.</span> <span class="toc-text"> 裁剪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%89%E6%A0%85%E5%8C%96%E9%98%B6%E6%AE%B5"><span class="toc-number">2.11.</span> <span class="toc-text"> 光栅化阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0%E7%9D%80%E8%89%B2%E5%99%A8%E9%98%B6%E6%AE%B5"><span class="toc-number">2.12.</span> <span class="toc-text"> 像素着色器阶段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E5%90%88%E5%B9%B6%E9%98%B6%E6%AE%B5"><span class="toc-number">2.13.</span> <span class="toc-text"> 输出合并阶段</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="bookmark" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></li><li class="active"><a href="" rel="bookmark" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></li><li><a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../../06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../06/26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../07/24/directx-10-%E6%B7%B7%E5%90%88/" rel="bookmark" title="DirectX 11 混合">DirectX 11 混合</a></li><li><a href="../../../07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" rel="bookmark" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></li><li><a href="../../../07/24/directx12-11-%E6%A8%A1%E6%9D%BF/" rel="bookmark" title="DirectX12 12 模板">DirectX12 12 模板</a></li><li><a href="../../../07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></li><li><a href="../../../07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" rel="bookmark" title="DirectX12 图像模糊">DirectX12 图像模糊</a></li><li><a href="../../../08/13/directx12-15-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" rel="bookmark" title="DirectX12 15 贝塞尔曲线">DirectX12 15 贝塞尔曲线</a></li><li><a href="../../../11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li><a href="../../../../2023/11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" rel="bookmark" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/07/04/games101-mipmap/" title="Games101 - mipmap">Games101 - mipmap</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2021/04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/04/30/%E5%89%A7%E6%9C%AC-1/" title="剧本-1">剧本-1</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%80%9D%E6%83%B3/" title="In 编程技巧与思想">编程技巧与思想</a>
+</div>
+
+    <span><a href="../../../../2021/11/12/%E5%9F%BA%E4%BA%8E%E6%8C%87%E4%BB%A4%E7%9A%84%E8%BF%9E%E6%8B%9B%E7%B3%BB%E7%BB%9F/" title="基于指令的连招系统">基于指令的连招系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/12/912%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95b/" title="米哈游笔试B">米哈游笔试B</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/05/12/directx12-5-渲染流水线/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/">
+
+
+
+  <title>
+【TA101】1. 各种Map - C# - Unity - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【TA101】1. 各种Map
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-10-06 00:26:34">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-10-06T00:26:34+08:00">2022-10-06</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Unity/" itemprop="item" rel="index" title="In Unity"><span itemprop="name">Unity</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C#"><span itemprop="name">C#</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="各种map"><a class="markdownIt-Anchor" href="#各种map">#</a> 各种 Map</h1>
+<blockquote>
+<p>只用来记录一些 Map 中所需要特别注意的一些地方</p>
+</blockquote>
+<h2 id="normalmap-法线贴图"><a class="markdownIt-Anchor" href="#normalmap-法线贴图">#</a> NormalMap - 法线贴图</h2>
+<p>简单来说，NormalMap 是用来解决简单表面的细节不足的问题的</p>
+<h3 id="切线空间-tbn"><a class="markdownIt-Anchor" href="#切线空间-tbn">#</a> 切线空间 - TBN</h3>
+<blockquote>
+<p>切线空间的实际意义:</p>
+<blockquote>
+<p>切线空间是在计算物体表面法线时，通过将副切线映射到 UV 坐标的 V, 切线映射到 UV 坐标的 U, 法线方向为垂直于 UV 贴图的方向 这三个轴建立 <code>基坐标系</code>  然后在基坐标系下通过 rgb 对 TBN 的权重来计算世界坐标下的向量，<strong>每个顶点都有属于自己的切线空间</strong></p>
+</blockquote>
+</blockquote>
+<ul>
+<li>法线贴图定义在切线空间中
+<ul>
+<li>T 沿着 U 增大的方向</li>
+<li>B 沿着 V 减小的方向</li>
+<li>N 垂直于 T 和 B</li>
+</ul>
+</li>
+</ul>
+<p>通过切线空间可以构建出 TBN 矩阵 (从世界坐标转换到切线空间), 在计算前有一些点需要注意一下:<br>
+A-0: 法线贴图存储的是 TBN 矩阵的三个分量，T/B/N (实际上是个向量) - (r/g/b) A: 法线贴图中的值是 rgb 值 (0~1)<br>
+ B: 在进行计算前，需要将 rgb 值转换到 (-1,1) 范围内<br>
+ C: 求切线空间到世界空间的公式为: N\_World = T\*r + B\*g + N\*b C-0: 对于纯蓝色的法线贴图而言，求出的法线 &lt;=&gt; 原本模型的法线 D:  <code>TBN是正交矩阵,逆矩阵就是它的转置</code>  在 Unity 中.<br>
+A: T 变量可以直接通过 shader 中的 <code>tangent</code>  获得<br>
+ B: N 变量就是 normal<br>
+C: (副切线) B = N x T (为什么是 N 叉乘 T 呢？主要是因为 Unity 使用的是左手坐标系，三轴方向必须严格一致，所以，如果 NxT 反了，求出的结果也会反过来)<br>
+ D: 上面有说切线空间的实际范围和 rgb 范围不一致，所以 Unity 提供了 <code>UnpackNormal</code>  函数可以把法线贴图的 rgb 值转换到切线空间范围 另外有一点，就是可以将视线向量和光线向量在顶点着色器阶段转换到切线空间内。<br>
+由于切线空间实际上是定义在一个 <code>三角形的顶点上的</code> ，比如得到了三个顶点的切线空间的视角向量，那么就可以通过法线插值得到三角形内任意一个片元在切线空间内的视角向量.<br>
+ 使用切线空间的视角，就可以直接在 UV 贴图上进行视线方向的模拟，(比如视察贴图)</p>
+<hr>
+<h2 id="cubemap"><a class="markdownIt-Anchor" href="#cubemap">#</a> CubeMap</h2>
+<ul>
+<li>如果想在不透明物体上模拟穿透的效果，可以使用 CubeMap, 并用视角方向采样</li>
+</ul>
+<hr>
+<h2 id="matcap"><a class="markdownIt-Anchor" href="#matcap">#</a> MatCap</h2>
+<p>就是 Material Capture</p>
+<hr>
+<h2 id="parallax-mapping"><a class="markdownIt-Anchor" href="#parallax-mapping">#</a> Parallax Mapping</h2>
+<blockquote>
+<p>视察贴图</p>
+</blockquote>
+<p>用切线空间下的视角方向偏移 UV<br>
+ 可以使用 HeightMap 进行更精细的控制 ASE Demo: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_d8a11163b78aa083f2179b77a94ac580.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_d8a11163b78aa083f2179b77a94ac580.jpg" alt=""></a></p>
+<hr>
+<h2 id="flow-map"><a class="markdownIt-Anchor" href="#flow-map">#</a> Flow Map</h2>
+<p>就是 UV 流动图 可以用 FlowMapPainter 这个软件来手动绘制流动图</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" title="【TA101】1. 各种Map">https://mymetalseed.github.io/2022/10/06/【图形学干货】1-各种map/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【Shader技巧】 基于几何着色器的粒子化消融">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C#</span>
+  <h3>【Shader技巧】 基于几何着色器的粒子化消融</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 算法</span>
+  <h3>新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%84%E7%A7%8Dmap"><span class="toc-number">1.</span> <span class="toc-text"> 各种 Map</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#normalmap-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text"> NormalMap - 法线贴图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E7%BA%BF%E7%A9%BA%E9%97%B4-tbn"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 切线空间 - TBN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cubemap"><span class="toc-number">1.2.</span> <span class="toc-text"> CubeMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#matcap"><span class="toc-number">1.3.</span> <span class="toc-text"> MatCap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#parallax-mapping"><span class="toc-number">1.4.</span> <span class="toc-text"> Parallax Mapping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flow-map"><span class="toc-number">1.5.</span> <span class="toc-text"> Flow Map</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="bookmark" title="C# 反射机制">C# 反射机制</a></li><li><a href="../../../../2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" rel="bookmark" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></li><li><a href="../../../../2021/06/21/%EF%BC%88%E8%BD%AC-%E7%83%9F%E9%9B%A8%EF%BC%89-c%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/" rel="bookmark" title="（转 - 烟雨） C#反射为什么这么慢">（转 - 烟雨） C#反射为什么这么慢</a></li><li><a href="../../../../2021/07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" rel="bookmark" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></li><li><a href="../../../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="bookmark" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></li><li><a href="../../../08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" rel="bookmark" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></li><li><a href="../../../08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" rel="bookmark" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></li><li><a href="../../../09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" rel="bookmark" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></li><li class="active"><a href="" rel="bookmark" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></li><li><a href="../../../../2023/01/08/%E3%80%90%E6%9E%B6%E6%9E%84-ecs%E4%B8%93%E9%A2%98%E3%80%91svelto-ecs/" rel="bookmark" title="【架构 - ECS专题】Svelto Ecs">【架构 - ECS专题】Svelto Ecs</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="bookmark" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></li><li><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li><li><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="【OI Wiki Study】 – 计算几何">【OI Wiki Study】 – 计算几何</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/XLUA/" title="In XLUA">XLUA</a>
+</div>
+
+    <span><a href="../../../../2021/07/14/xluaframework-%EF%BC%88%E4%B8%80%EF%BC%89/" title="XLuaFramework - （一） XLuaManager">XLuaFramework - （一） XLuaManager</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="编写表面着色器 - 《Shaderlab新手宝典》">编写表面着色器 - 《Shaderlab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/10/18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" title="Unity工具链开发杂记">Unity工具链开发杂记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/10/06/【图形学干货】1-各种map/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

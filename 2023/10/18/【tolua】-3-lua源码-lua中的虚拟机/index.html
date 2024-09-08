@@ -1,0 +1,546 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+
+
+  <title>
+【ToLua】 3. Lua源码 - Lua中的虚拟机 - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【ToLua】 3. Lua源码 - Lua中的虚拟机
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-10-18 23:43:41">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-10-18T23:43:41+08:00">2023-10-18</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="入口"><a class="markdownIt-Anchor" href="#入口">#</a> 入口</h1>
+<p>入口 : luaL_dofile () doFile 中会对读入的代码进行检查，但是最后会走到 <code>f_parser</code>  函数，其原型如下:</p>
+<h1 id="f_parser"><a class="markdownIt-Anchor" href="#f_parser">#</a> f_parser</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">f_parser</span><span class="params">(lua_State* L, <span class="type">void</span>* ud)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    Proto* tf;</span><br><span class="line">    <span class="comment">//最外层一个闭包</span></span><br><span class="line">    Closure* cl;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">SParser</span>* p = <span class="built_in">cast</span>(<span class="keyword">struct</span> SParser*, ud);</span><br><span class="line">    <span class="type">int</span> c = <span class="built_in">luaZ_lookahead</span>(p-&gt;z);</span><br><span class="line">    <span class="built_in">luaC_checkGC</span>(L);</span><br><span class="line">    tf = ((c == LUA_SIGNATURE[<span class="number">0</span>]) ? luaU_undump : luaY_parser)(L, p-&gt;z,</span><br><span class="line">        &amp;p-&gt;buff, p-&gt;name);</span><br><span class="line">    cl = <span class="built_in">luaF_newLclosure</span>(L, tf-&gt;nups, <span class="built_in">hvalue</span>(<span class="built_in">gt</span>(L)));</span><br><span class="line">    <span class="comment">//设置闭包的Proto为分析后的tf</span></span><br><span class="line">    cl-&gt;l.p = tf;</span><br><span class="line">    <span class="comment">//然后初始化tf中的upvalue</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; tf-&gt;nups; i++)  <span class="comment">/* initialize eventual upvalues */</span></span><br><span class="line">        cl-&gt;l.upvals[i] = <span class="built_in">luaF_newupval</span>(L);</span><br><span class="line">    <span class="comment">//将最外层的闭包压入栈中</span></span><br><span class="line">    <span class="built_in">setclvalue</span>(L, L-&gt;top, cl);</span><br><span class="line">    <span class="built_in">incr_top</span>(L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>f_parser</code>  中，通过 <code>luaY_parser</code>  函数指针进行实际的语法分析，并在最后输出词法 / 语义分析后的结果 <code>Proto</code> ，并将这个结果保存到比包中，然后申请闭包中的 <code>Upvalue</code> ，最后将闭包压栈，同时栈顶指针自增 在 doFile 后 <code>如果成功会返回0</code>  会进入 <code>lua_pcall</code></p>
+<h1 id="lua_pcall"><a class="markdownIt-Anchor" href="#lua_pcall">#</a> lua_pcall</h1>
+<p>其中 <code>lua_pcall</code>  的函数原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LUA_API <span class="type">int</span> <span class="title">lua_pcall</span><span class="params">(lua_State* L, <span class="type">int</span> nargs, <span class="type">int</span> nresults, <span class="type">int</span> errfunc)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;进入lua_pcalln&quot;</span>);</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">CallS</span> c;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    <span class="type">ptrdiff_t</span> func;</span><br><span class="line">    <span class="built_in">lua_lock</span>(L);</span><br><span class="line">    <span class="built_in">api_checknelems</span>(L, nargs + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">checkresults</span>(L, nargs, nresults);</span><br><span class="line">    <span class="keyword">if</span> (errfunc == <span class="number">0</span>)</span><br><span class="line">        func = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        StkId o = <span class="built_in">index2adr</span>(L, errfunc);</span><br><span class="line">        <span class="built_in">api_checkvalidindex</span>(L, o);</span><br><span class="line">        func = <span class="built_in">savestack</span>(L, o);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//栈顶减去参数数量就是函数入口,这个入口就是函数指针</span></span><br><span class="line">    <span class="comment">//如果是lua_dofile的话，传入的nargs和errfunc都是0,换句话说，这里取到的就是Lua栈中的Closure指针</span></span><br><span class="line">    c.func = L-&gt;top - (nargs + <span class="number">1</span>);  <span class="comment">/* function to be called */</span></span><br><span class="line">    c.nresults = nresults;</span><br><span class="line">    status = <span class="built_in">luaD_pcall</span>(L, f_call, &amp;c, <span class="built_in">savestack</span>(L, c.func), func);</span><br><span class="line">    <span class="built_in">adjustresults</span>(L, nresults);</span><br><span class="line">    <span class="built_in">lua_unlock</span>(L);</span><br><span class="line">    <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="函数调用"><a class="markdownIt-Anchor" href="#函数调用">#</a> 函数调用</h1>
+<p>在 <code>lua_pcall</code>  中，先检查当前执行到的闭包是否是 <code>Lua函数</code> ，入口是 <code>luaD_precall</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进行lua闭包函数执行前准备</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">luaD_precall</span><span class="params">(lua_State* L, StkId func, <span class="type">int</span> nresults)</span> </span>&#123;</span><br><span class="line">    LClosure* cl;</span><br><span class="line">    <span class="type">ptrdiff_t</span> funcr;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">ttisfunction</span>(func)) <span class="comment">/* `func&#x27; is not a function? */</span></span><br><span class="line">        func = <span class="built_in">tryfuncTM</span>(L, func);  <span class="comment">/* check the `function&#x27; tag method */</span></span><br><span class="line">    funcr = <span class="built_in">savestack</span>(L, func);</span><br><span class="line">    cl = &amp;<span class="built_in">clvalue</span>(func)-&gt;l;</span><br><span class="line">    L-&gt;ci-&gt;savedpc = L-&gt;savedpc;</span><br><span class="line">    <span class="comment">//判定是否是一个闭包</span></span><br><span class="line">    <span class="keyword">if</span> (!cl-&gt;isC) &#123;  <span class="comment">/* Lua function? prepare its call */</span></span><br><span class="line">        <span class="comment">//每个函数是一个CallInfo</span></span><br><span class="line">        CallInfo* ci;</span><br><span class="line">        StkId st, base;</span><br><span class="line">        <span class="comment">//获得闭包的Proto,就是dofile里分析时生成的Proto</span></span><br><span class="line">        Proto* p = cl-&gt;p;</span><br><span class="line">        <span class="built_in">luaD_checkstack</span>(L, p-&gt;maxstacksize);</span><br><span class="line">        func = <span class="built_in">restorestack</span>(L, funcr);</span><br><span class="line">        <span class="keyword">if</span> (!p-&gt;is_vararg) &#123;  <span class="comment">/* no varargs? */</span></span><br><span class="line">            base = func + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (L-&gt;top &gt; base + p-&gt;numparams)</span><br><span class="line">                L-&gt;top = base + p-&gt;numparams;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;  <span class="comment">/* vararg function */</span></span><br><span class="line">            <span class="type">int</span> nargs = <span class="built_in">cast_int</span>(L-&gt;top - func) - <span class="number">1</span>;</span><br><span class="line">            base = <span class="built_in">adjust_varargs</span>(L, p, nargs);</span><br><span class="line">            func = <span class="built_in">restorestack</span>(L, funcr);  <span class="comment">/* previous call may change the stack */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//从lua_State(lua虚拟状态机)中获取下一个callInfo,这个内部实现实际上是通过函数指针数组实现的</span></span><br><span class="line">        <span class="comment">//每次调用inc_ci时函数指针自增，并且按断是否是最后一个了</span></span><br><span class="line">        ci = <span class="built_in">inc_ci</span>(L);  <span class="comment">/* now `enter&#x27; new function */</span></span><br><span class="line">        <span class="comment">//设置闭包指针</span></span><br><span class="line">        ci-&gt;func = func;</span><br><span class="line">        <span class="comment">//起始地址以及下面的top指针 这俩是标定参数地址用的</span></span><br><span class="line">        L-&gt;base = ci-&gt;base = base;</span><br><span class="line">        <span class="comment">//设置参数在栈中的位置</span></span><br><span class="line">        ci-&gt;top = L-&gt;base + p-&gt;maxstacksize;</span><br><span class="line">        <span class="built_in">lua_assert</span>(ci-&gt;top &lt;= L-&gt;stack_last);</span><br><span class="line">        <span class="comment">//将proto字节内的code部分赋值给状态机的savedpc，其中Code就是字节码</span></span><br><span class="line">        L-&gt;savedpc = p-&gt;code;  <span class="comment">/* starting point */</span></span><br><span class="line">        ci-&gt;tailcalls = <span class="number">0</span>;</span><br><span class="line">        ci-&gt;nresults = nresults;</span><br><span class="line">        <span class="comment">//函数所需要的参数如果不足的话，填充nil</span></span><br><span class="line">        <span class="keyword">for</span> (st = L-&gt;top; st &lt; ci-&gt;top; st++)</span><br><span class="line">            <span class="built_in">setnilvalue</span>(st);</span><br><span class="line">        L-&gt;top = ci-&gt;top;</span><br><span class="line">        <span class="keyword">if</span> (L-&gt;hookmask &amp; LUA_MASKCALL) &#123;</span><br><span class="line">            L-&gt;savedpc++;  <span class="comment">/* hooks assume &#x27;pc&#x27; is already incremented */</span></span><br><span class="line">            <span class="built_in">luaD_callhook</span>(L, LUA_HOOKCALL, <span class="number">-1</span>);</span><br><span class="line">            L-&gt;savedpc--;  <span class="comment">/* correct &#x27;pc&#x27; */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> PCRLUA;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;  <span class="comment">/* if is a C function, call it */</span></span><br><span class="line">        <span class="comment">//如果是cFunction,直接调用</span></span><br><span class="line">        -----</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>大体的流程是：<br>
+1. 判断是否是一个 C 函数，是的话直接调用 C 函数，否则走 Lua 闭包逻辑<br>
+ 2. 获取 Lua 状态机中的一个 CallInfo 2.1. 设置闭包指针 2.2. 设置调用函数参数起始与终点地址<br>
+ 2.3. 设置生成的 Proto 中的字节码到状态机上<br>
+ 2.4. 如果函数的参数不足声明的部分，不足的部分填充 nil 2.5. 返回 PCRLUA ，表示是一个 Lua 闭包<br>
+ 3. 进入 <code>luaV_execute &lt;lvm.c&gt;</code>  函数，这个函数内部会执行词法分析后得到的字节码，然后塞入一个巨大的状态机中进行执行，每个 Op 就是一个状态节点，case 内部的内容就是 Action<br>
+4. 进入尾状态 <code>OP_RETURN &lt;lvm.c&gt;</code> ，这是状态图的尾状态，在这个状态内会调用 <code>luaD_poscall &lt;ldo.c&gt;</code> ，这个函数是状态机的尾 Action，主要负责回复上一个调用栈状态，以及将结果填充到上一个调用栈中。 简单的外流程如图 <img data-src="http://146.56.209.11:90/wp-content/uploads/2022/01/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.jpg" alt=""></p>
+<h1 id="函数调用栈流程"><a class="markdownIt-Anchor" href="#函数调用栈流程">#</a> 函数调用栈流程</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_463902a07063a4cff836bc2432dacc4a.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_463902a07063a4cff836bc2432dacc4a.jpg" alt=""></a> 第一个函数调用栈的示意图如上，始终遵循 函数 -&gt; 参数表的结构进行 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_903db0fee614faf165d13edff77ab975.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_903db0fee614faf165d13edff77ab975.jpg" alt=""></a> 第二个函数就是在第一个函数调用中插入命令，实际上想要恢复调用前状态，只需要恢复 base_ci 指向的对象和栈顶指针即可 这里比较感兴趣的是返回值存放到栈的那部分 (应该是调用前的栈顶指针后压栈)</p>
+<h1 id="opcode-解析流程"><a class="markdownIt-Anchor" href="#opcode-解析流程">#</a> OpCode 解析流程</h1>
+<p>OpCode 格式 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_5dcc9e6247cb331790aa6519d82e552f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_5dcc9e6247cb331790aa6519d82e552f.jpg" alt=""></a> 其中所有 OpCode 的指令封装在 <code>lopcode.c</code>  文件下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//封装了每个OpCode的格式</span></span><br><span class="line"><span class="comment">// T   : 是否是逻辑测试相关指令</span></span><br><span class="line"><span class="comment">// A   : 这个指令是否会赋值给R(A)  </span></span><br><span class="line"><span class="comment">// B/C : B、C参数的格式  </span></span><br><span class="line"><span class="comment">// mode: 这个OpCode的格式</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//OpArgN : 参数未被使用,只是没有作为R()或RK()的参数使用  </span></span><br><span class="line"><span class="comment">//OpArgU : 已使用参数  </span></span><br><span class="line"><span class="comment">//OpArgR : 表示该参数是寄存器或跳转偏移  </span></span><br><span class="line"><span class="comment">//OpArgK : 表示该参数是常量还是寄存器，K表示常量</span></span><br><span class="line"><span class="type">const</span> lu_byte luaP_opmodes[NUM_OPCODES] = &#123;</span><br><span class="line"><span class="comment">/*       T  A    B       C     mode        opcode   */</span></span><br><span class="line">  <span class="built_in">opmode</span>(<span class="number">0</span>, <span class="number">1</span>, OpArgR, OpArgN, iABC)        <span class="comment">/* OP_MOVE */</span></span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> opmode(t,a,b,c,m) (((t)&lt;&lt;7)  ((a)&lt;&lt;6)  ((b)&lt;&lt;4)  ((c)&lt;&lt;2)  (m))</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以发现 opmode 直接将指令封装到了一个 <code>lu_byte</code>  变量中<br>
+其中最后一个 <code>m</code>  就是 opCode 解 Op 指令的函数丢在了两个文件里， <code>lvm.c</code>  和 <code>lopcodes.h</code>  里。 在上面的 <code>函数调用部分</code> ，我们知道 Lua 的函数解析最后会走到 <code>luaV_execute</code>  函数中，而所有的指令也是在这个函数下执行的， <code>同时最外层的指令解析也是在这个函数中定义和进行的</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以参数i为偏移量，在函数栈内取数据,GETARG_A(i)是从opCode中取出A参数</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RA(i)  (base+GETARG_A(i))</span></span><br><span class="line"><span class="comment">/* to be used after possible stack reallocation */</span></span><br><span class="line"><span class="comment">//同上，取出B参数，但要限定op种类</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RB(i)  check_exp(getBMode(GET_OPCODE(i)) == OpArgR, base+GETARG_B(i))</span></span><br><span class="line"><span class="comment">//同上，取出C参数，但要限定op种类</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RC(i)  check_exp(getCMode(GET_OPCODE(i)) == OpArgR, base+GETARG_C(i))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RKB(i) check_exp(getBMode(GET_OPCODE(i)) == OpArgK, \</span></span><br><span class="line"><span class="meta">    ISK(GETARG_B(i)) ? k+INDEXK(GETARG_B(i)) : base+GETARG_B(i))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RKC(i) check_exp(getCMode(GET_OPCODE(i)) == OpArgK, \</span></span><br><span class="line"><span class="meta">    ISK(GETARG_C(i)) ? k+INDEXK(GETARG_C(i)) : base+GETARG_C(i))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> KBx(i) check_exp(getBMode(GET_OPCODE(i)) == OpArgK, k+GETARG_Bx(i))</span></span><br></pre></td></tr></table></figure>
+<p>比如其中的 <code>RA(i)</code> ，传入的 <code>i</code>  就是指令封装的 <code>lua_byte</code> ，这个解指令的函数以是根据指令中定位到 A 参数的栈中位置，其他的就暂时不说了，大概就是 <code>最外层</code> 针对指令的操作 基本就是用来 <code>确定参数在栈中或者常量区的位置</code>  另外，上面的 <code>K</code>  通常代表 <code>常量</code>  另外一层的解指令是在 <code>lopcodes.h</code>  文件中，这里是实际的解引用， <code>lvm.h</code>  里的是最外层的接口，实际的解引用实现放在了 <code>lopcodes.h</code>  中<br>
+比如:<br>
+ 定义每个参数在指令中的 bit 位置:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">** size and position of opcode arguments.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_C     9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_B     9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_Bx        (SIZE_C + SIZE_B)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_A     8</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_OP        6</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POS_OP     0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POS_A      (POS_OP + SIZE_OP)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POS_C      (POS_A + SIZE_A)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POS_B      (POS_C + SIZE_C)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> POS_Bx     POS_C</span></span><br></pre></td></tr></table></figure>
+<p>快速引用到某个参数的 BitMask</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> SIZE_Bx &lt; LUAI_BITSINT-1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_Bx        ((1&lt;&lt;SIZE_Bx)-1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_sBx        (MAXARG_Bx&gt;&gt;1)         <span class="comment">/* `sBx&#x27; is signed */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_Bx        MAX_INT</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_sBx        MAX_INT</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_A        ((1&lt;&lt;SIZE_A)-1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_B        ((1&lt;&lt;SIZE_B)-1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAXARG_C        ((1&lt;&lt;SIZE_C)-1)</span></span><br></pre></td></tr></table></figure>
+<p>获取参数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> GET_OPCODE(i)  (cast(OpCode, ((i)&gt;&gt;POS_OP) &amp; MASK1(SIZE_OP,0)))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SET_OPCODE(i,o)    ((i) = (((i)&amp;MASK0(SIZE_OP,POS_OP))  \</span></span><br><span class="line"><span class="meta">        ((cast(Instruction, o)&lt;&lt;POS_OP)&amp;MASK1(SIZE_OP,POS_OP))))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GETARG_A(i)    (cast(int, ((i)&gt;&gt;POS_A) &amp; MASK1(SIZE_A,0)))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SETARG_A(i,u)  ((i) = (((i)&amp;MASK0(SIZE_A,POS_A))  \</span></span><br><span class="line"><span class="meta">        ((cast(Instruction, u)&lt;&lt;POS_A)&amp;MASK1(SIZE_A,POS_A))))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GETARG_B(i)    (cast(int, ((i)&gt;&gt;POS_B) &amp; MASK1(SIZE_B,0)))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SETARG_B(i,b)  ((i) = (((i)&amp;MASK0(SIZE_B,POS_B))  \</span></span><br><span class="line"><span class="meta">        ((cast(Instruction, b)&lt;&lt;POS_B)&amp;MASK1(SIZE_B,POS_B))))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GETARG_C(i)    (cast(int, ((i)&gt;&gt;POS_C) &amp; MASK1(SIZE_C,0)))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SETARG_C(i,b)  ((i) = (((i)&amp;MASK0(SIZE_C,POS_C))  \</span></span><br><span class="line"><span class="meta">        ((cast(Instruction, b)&lt;&lt;POS_C)&amp;MASK1(SIZE_C,POS_C))))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GETARG_Bx(i)   (cast(int, ((i)&gt;&gt;POS_Bx) &amp; MASK1(SIZE_Bx,0)))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SETARG_Bx(i,b) ((i) = (((i)&amp;MASK0(SIZE_Bx,POS_Bx))  \</span></span><br><span class="line"><span class="meta">        ((cast(Instruction, b)&lt;&lt;POS_Bx)&amp;MASK1(SIZE_Bx,POS_Bx))))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GETARG_sBx(i)  (GETARG_Bx(i)-MAXARG_sBx)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SETARG_sBx(i,b)    SETARG_Bx((i),cast(unsigned int, (b)+MAXARG_sBx))</span></span><br></pre></td></tr></table></figure>
+<p>比如 <code>GETARG_A(i)</code>  就是获取指令中的 A 参数</p>
+<h1 id="opcode执行流程"><a class="markdownIt-Anchor" href="#opcode执行流程">#</a> opCode 执行流程</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_3acc7b0564c3d0e036b9792b49558662.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_3acc7b0564c3d0e036b9792b49558662.jpg" alt=""></a></p>
+<ol>
+<li>先保存当前 <code>pc</code>  的执行位置</li>
+<li>cl: 当前的函数环境</li>
+<li>base: 当前函数环境的 base 地址</li>
+<li>k: 当前函数环境的常量数组</li>
+</ol>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="【ToLua】 3. Lua源码 - Lua中的虚拟机">https://mymetalseed.github.io/2023/10/18/【tolua】-3-lua源码-lua中的虚拟机/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【ToLua】 2. Lua源码 - Lua中的数据结构">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【ToLua】 2. Lua源码 - Lua中的数据结构</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【DirectX12】简单DX12 App 构建流程">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> DirectX</span>
+  <h3>【DirectX12】简单DX12 App 构建流程</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> 入口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#f_parser"><span class="toc-number">2.</span> <span class="toc-text"> f_parser</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lua_pcall"><span class="toc-number">3.</span> <span class="toc-text"> lua_pcall</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text"> 函数调用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A0%88%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text"> 函数调用栈流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#opcode-%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text"> OpCode 解析流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#opcode%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">7.</span> <span class="toc-text"> opCode 执行流程</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/01/15/cjj/" rel="bookmark" title="C++随记">C++随记</a></li><li><a href="../../../../2021/07/04/c%E7%B3%BB%E5%88%97%E8%A1%A5%E9%BD%90-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0/" rel="bookmark" title="C++系列补齐 智能指针实现">C++系列补齐 智能指针实现</a></li><li><a href="../../../../2021/09/12/%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" rel="bookmark" title="虚函数表">虚函数表</a></li><li><a href="../../../../2021/09/14/c%E4%B8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" rel="bookmark" title="C++(一) 编译过程">C++(一) 编译过程</a></li><li><a href="../../../../2021/09/14/c%EF%BC%88%E4%BA%8C%EF%BC%89%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="bookmark" title="C++（二）内存管理">C++（二）内存管理</a></li><li><a href="../../../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="bookmark" title="C++（三）变量的区别">C++（三）变量的区别</a></li><li><a href="../../../../2021/09/15/c%E5%9B%9B-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%88%9B%E5%BB%BA%EF%BC%9F%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6/" rel="bookmark" title="C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？">C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？</a></li><li><a href="../../../../2021/09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" rel="bookmark" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></li><li><a href="../../../../2021/09/17/c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" rel="bookmark" title="C++ (六) 类的大小">C++ (六) 类的大小</a></li><li><a href="../../../../2021/09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" rel="bookmark" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></li><li><a href="../../../../2021/09/18/c%EF%BC%88%E5%85%AB%EF%BC%89%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" rel="bookmark" title="C++（八）智能指针">C++（八）智能指针</a></li><li><a href="../../../../2021/09/25/c%EF%BC%88%E4%B9%9D%EF%BC%89%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC/" rel="bookmark" title="C++（九）左值和右值">C++（九）左值和右值</a></li><li><a href="../../../../2021/09/25/c-%E5%8D%81-%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8Cauto/" rel="bookmark" title="C++ (十)  变量相关(类型转换和auto)">C++ (十)  变量相关(类型转换和auto)</a></li><li><a href="../../../../2021/09/28/%E5%80%9F%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%B2%E4%B8%80%E4%B8%8B%E6%8C%87%E9%92%88-leetcode-21/" rel="bookmark" title="借一道题讲一下指针 Leetcode 21">借一道题讲一下指针 Leetcode 21</a></li><li><a href="../../../../2021/10/01/c-%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%E7%BA%BF-%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3/" rel="bookmark" title="C++ （十一）线/进程相关">C++ （十一）线/进程相关</a></li><li><a href="../../../../2021/10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" rel="bookmark" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></li><li><a href="../../../../2021/11/16/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" rel="bookmark" title="C语言实现虚函数表">C语言实现虚函数表</a></li><li><a href="../../../../2021/11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" rel="bookmark" title="C语言EBNF实现简单四则运算">C语言EBNF实现简单四则运算</a></li><li><a href="../../../../2021/12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" rel="bookmark" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></li><li><a href="../../../../2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="bookmark" title="Lua虚拟机">Lua虚拟机</a></li><li><a href="../../../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" rel="bookmark" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></li><li><a href="../../../../2022/04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" rel="bookmark" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></li><li><a href="../../../../2022/04/19/c-%E5%A6%82%E4%BD%95-trace-debug/" rel="bookmark" title="C++ 如何 Trace Debug">C++ 如何 Trace Debug</a></li><li><a href="../../../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="bookmark" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></li><li><a href="../../../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../../../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></li><li><a href="../../../../2022/05/01/games104-h1-lut-color-gradiant/" rel="bookmark" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></li><li><a href="../../../../2022/05/03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" rel="bookmark" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></li><li><a href="../../../../2022/05/04/recastnavigation-%E4%BA%8C-%E4%BD%93%E7%B4%A0%E5%8C%96/" rel="bookmark" title="RecastNavigation (二) 体素化">RecastNavigation (二) 体素化</a></li><li><a href="../../../../2022/05/04/directx-12-3-%E5%AE%9E%E6%93%8D1-%E5%88%9D%E5%A7%8B%E5%8C%96direct3d/" rel="bookmark" title="DirectX 12 - 3. 实操1 - 初始化Direct3D">DirectX 12 - 3. 实操1 - 初始化Direct3D</a></li><li><a href="../../../../2022/05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="bookmark" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></li><li><a href="../../../../2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" rel="bookmark" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></li><li><a href="../../../../2022/05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../../2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../../2022/06/26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../../2022/07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></li><li><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" rel="bookmark" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></li><li><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../../2022/11/27/%E3%80%90c%E3%80%91%E7%8E%B0%E4%BB%A3cmake%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/" rel="bookmark" title="【C++】现代CMake模块化项目构建">【C++】现代CMake模块化项目构建</a></li><li><a href="../../../../2022/12/13/%E3%80%90rtr3-%E6%8F%90%E7%82%BC%E6%80%BB%E7%BB%93%E6%AF%9B%E6%98%9F%E4%BA%91%E3%80%91-the-graphics-processing-unit/" rel="bookmark" title="【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit">【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit</a></li><li><a href="../../../../2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../../../2022/12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="bookmark" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></li><li><a href="../../../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" rel="bookmark" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></li><li><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li><a href="../../../03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" rel="bookmark" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></li><li><a href="../../../03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></li><li><a href="../../../03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" rel="bookmark" title="【LeetCode打卡】">【LeetCode打卡】</a></li><li><a href="../../../04/13/%E3%80%90games106%E3%80%91-2-vulkan%E4%BB%8B%E7%BB%8D/" rel="bookmark" title="【Games106】 2. Vulkan介绍">【Games106】 2. Vulkan介绍</a></li><li><a href="../../../04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" rel="bookmark" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></li><li><a href="../../../04/20/%E3%80%90games106%E3%80%91-3-vulkan%E4%BB%8B%E7%BB%8D-2/" rel="bookmark" title="【Games106】 3. Vulkan介绍_2">【Games106】 3. Vulkan介绍_2</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" rel="bookmark" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" rel="bookmark" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></li><li><a href="../../../05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" rel="bookmark" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></li><li><a href="../../../05/07/%E3%80%90games106%E3%80%91-homework1/" rel="bookmark" title="【Games106】 homework1">【Games106】 homework1</a></li><li><a href="../../../07/06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" rel="bookmark" title="【C++并发】 thread相关">【C++并发】 thread相关</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../../08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../../08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li><li><a href="../../../09/09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="【Games104】 动画系统">【Games104】 动画系统</a></li><li><a href="../../../09/15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></li><li><a href="../../../09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" rel="bookmark" title="【C++】 STL源码剖析">【C++】 STL源码剖析</a></li><li><a href="../../16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/" rel="bookmark" title="【工具】 理解ToLua - 1. Lua源码级调试">【工具】 理解ToLua - 1. Lua源码级调试</a></li><li><a href="../%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="bookmark" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></li><li class="active"><a href="" rel="bookmark" title="【ToLua】 3. Lua源码 - Lua中的虚拟机">【ToLua】 3. Lua源码 - Lua中的虚拟机</a></li><li><a href="../../../11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" rel="bookmark" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></li><li><a href="../../../11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/09/wordpress/" title="久违的回到了ｗｏｒｄｐｒｅｓｓ">久违的回到了ｗｏｒｄｐｒｅｓｓ</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/shaderlab/" title="ShaderLab语法">ShaderLab语法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/06/13/solvarg%E6%95%85%E4%BA%8B%E8%84%89%E7%BB%9C/" title="Solvarg故事脉络">Solvarg故事脉络</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../07/06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" title="【C++并发】 thread相关">【C++并发】 thread相关</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/24/directx-10-%E6%B7%B7%E5%90%88/" title="DirectX 11 混合">DirectX 11 混合</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/11/06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" title="TextMesh Pro 创建中文字体流程">TextMesh Pro 创建中文字体流程</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="编写表面着色器 - 《Shaderlab新手宝典》">编写表面着色器 - 《Shaderlab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/08/13/directx12-15-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" title="DirectX12 15 贝塞尔曲线">DirectX12 15 贝塞尔曲线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/10/18/【tolua】-3-lua源码-lua中的虚拟机/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

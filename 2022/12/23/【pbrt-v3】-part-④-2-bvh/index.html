@@ -1,0 +1,608 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/">
+
+
+
+  <title>
+【PBRT V3】 part ④.2 BVH - 渲染引擎开发 - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【PBRT V3】 part ④.2 BVH
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-12-23 23:43:42">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-12-23T23:43:42+08:00">2022-12-23</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" itemprop="item" rel="index" title="In 渲染引擎开发"><span itemprop="name">渲染引擎开发</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="bvh"><a class="markdownIt-Anchor" href="#bvh">#</a> BVH</h1>
+<blockquote>
+<p>简单 BVH 图示</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_fbee3ca1432e89545117cd03f261348b.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_fbee3ca1432e89545117cd03f261348b.jpg" alt=""></a></p>
+<h2 id="bvh性质"><a class="markdownIt-Anchor" href="#bvh性质">#</a> BVH 性质</h2>
+<ul>
+<li>图元是叶子节点</li>
+<li>每个图元只在一个层次中出现过</li>
+<li>一个图元可能存在于多个空间划分中</li>
+<li>节点数量有界</li>
+</ul>
+<h2 id="bvh构建"><a class="markdownIt-Anchor" href="#bvh构建">#</a> BVH 构建</h2>
+<blockquote>
+<p><code>SplitMethod</code>  : 构建 BVH 的方法</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">SplitMethod</span> &#123; SAH,HLBVH,Middle,EquialCounts &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三个阶段"><a class="markdownIt-Anchor" href="#三个阶段">#</a> 三个阶段</h3>
+<ol>
+<li>计算每个图元的边界信息，并保存到将用于构建 BVH 树的数组中</li>
+<li>用选择的 SplitMethod 编码方法进行树的构建</li>
+<li>将 BVH 树转换为无指针且紧凑的表示以供渲染使用</li>
+<li>划分时需要保证图元边界的交叉尽可能的小</li>
+</ol>
+<h3 id="构建算法"><a class="markdownIt-Anchor" href="#构建算法">#</a> 构建算法</h3>
+<h4 id="bvhprimitiveinfo"><a class="markdownIt-Anchor" href="#bvhprimitiveinfo">#</a> BVHPrimitiveInfo</h4>
+<blockquote>
+<p>初始化 BVH 中的每个图元信息</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BVHAccel Local Declarations</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BVHPrimitiveInfo</span> &#123;</span><br><span class="line">    <span class="built_in">BVHPrimitiveInfo</span>() &#123;&#125;</span><br><span class="line">    <span class="built_in">BVHPrimitiveInfo</span>(<span class="type">size_t</span> primitiveNumber, <span class="type">const</span> Bounds3f &amp;bounds)</span><br><span class="line">        : <span class="built_in">primitiveNumber</span>(primitiveNumber),</span><br><span class="line">          <span class="built_in">bounds</span>(bounds),</span><br><span class="line">          <span class="built_in">centroid</span>(<span class="number">.5</span>f * bounds.pMin + <span class="number">.5</span>f * bounds.pMax) &#123;&#125;</span><br><span class="line">    <span class="type">size_t</span> primitiveNumber;</span><br><span class="line">    Bounds3f bounds;</span><br><span class="line">    Point3f centroid;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>该结构记录了图元的包围盒信息 / 中心 / 以及图元在列表中的 Id 等信息 所有的图元按照图圆的输入顺序在 <code>BVHAccel</code>  中进行初始化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Initialize _primitiveInfo_ array for primitives</span></span><br><span class="line"><span class="function">std::vector&lt;BVHPrimitiveInfo&gt; <span class="title">primitiveInfo</span><span class="params">(primitives.size())</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; primitives.<span class="built_in">size</span>(); ++i)</span><br><span class="line">    primitiveInfo[i] = &#123;i, primitives[i]-&gt;<span class="built_in">WorldBound</span>()&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中 <code>WorldBound()</code>  函数是用来获取图元的 AABB 包围盒</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>选择对应的 Bvh 初始化算法进行构建</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::shared_ptr&lt;Primitive&gt;&gt; orderedPrims;</span><br><span class="line">orderedPrims.<span class="built_in">reserve</span>(primitives.<span class="built_in">size</span>());</span><br><span class="line">BVHBuildNode *root;</span><br><span class="line"><span class="keyword">if</span> (splitMethod == SplitMethod::HLBVH)</span><br><span class="line">    root = <span class="built_in">HLBVHBuild</span>(arena, primitiveInfo, &amp;totalNodes, orderedPrims);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    root = <span class="built_in">recursiveBuild</span>(arena, primitiveInfo, <span class="number">0</span>, primitives.<span class="built_in">size</span>(),</span><br></pre></td></tr></table></figure>
+<p><code>除了HLBVH算法单独编写外,其他三种BVH的构建都由recursiveBuild负责</code></p>
+<hr>
+<blockquote>
+<p>BVHBuildNode</p>
+</blockquote>
+<p>BVHBuildNode 表示一个 <code>BVH</code>  节点，每个节点都存有一个 <code>Bounds</code>  来表示包围盒，所有 Node 节点通过 <code>MemoryArena</code>  分配内存</p>
+<h4 id="memoryarena"><a class="markdownIt-Anchor" href="#memoryarena">#</a> MemoryArena</h4>
+<p>构建 BVH 节点有这样一行代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BVHBuildNode *node = arena.<span class="built_in">Alloc</span>&lt;BVHBuildNode&gt;();</span><br></pre></td></tr></table></figure>
+<p>其中 Alloc 代码是这样</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function">T *<span class="title">Alloc</span><span class="params">(<span class="type">size_t</span> n = <span class="number">1</span>, <span class="type">bool</span> runConstructor = <span class="literal">true</span>)</span> </span>&#123;</span><br><span class="line">    T *ret = (T *)<span class="built_in">Alloc</span>(n * <span class="built_in">sizeof</span>(T));</span><br><span class="line">    <span class="keyword">if</span> (runConstructor)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; n; ++i) <span class="keyword">new</span> (&amp;ret[i]) <span class="built_in">T</span>();</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>内部会根据对齐规则对内存进行分配，分配的方式是直接在 MemoryArena 内部记录所有的内存，通过管理空闲块来进行新内存的分配，即自己编写的 <code>malloc</code></p>
+<h3 id="bvhbuildnode"><a class="markdownIt-Anchor" href="#bvhbuildnode">#</a> BVHBuildNode</h3>
+<ul>
+<li>每个 BVHBuildNode 都保存有 2 个孩子节点的指针槽</li>
+<li>每个 BVHBuildNode 都保存有该节点的 Bounds</li>
+</ul>
+<p>其中存储孩子节点的引用后，还会保存孩子节点的起始下标的总共有多少个图元 (以保证内存排布的紧凑)</p>
+<blockquote>
+<p>recursiveBuild</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BVHBuildNode *<span class="title">BVHAccel::recursiveBuild</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    MemoryArena &amp;arena, std::vector&lt;BVHPrimitiveInfo&gt; &amp;primitiveInfo, <span class="type">int</span> start,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> end, <span class="type">int</span> *totalNodes,</span></span></span><br><span class="line"><span class="params"><span class="function">    std::vector&lt;std::shared_ptr&lt;Primitive&gt;&gt; &amp;orderedPrims)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">CHECK_NE</span>(start, end);</span><br><span class="line">    BVHBuildNode *node = arena.<span class="built_in">Alloc</span>&lt;BVHBuildNode&gt;();</span><br><span class="line">    (*totalNodes)++;</span><br><span class="line">    <span class="comment">// Compute bounds of all primitives in BVH node</span></span><br><span class="line">    Bounds3f bounds;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i)</span><br><span class="line">        bounds = <span class="built_in">Union</span>(bounds, primitiveInfo[i].bounds);</span><br><span class="line">    <span class="type">int</span> nPrimitives = end - start;</span><br><span class="line">    <span class="keyword">if</span> (nPrimitives == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// Create leaf _BVHBuildNode_</span></span><br><span class="line">        <span class="type">int</span> firstPrimOffset = orderedPrims.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">            <span class="type">int</span> primNum = primitiveInfo[i].primitiveNumber;</span><br><span class="line">            orderedPrims.<span class="built_in">push_back</span>(primitives[primNum]);</span><br><span class="line">        &#125;</span><br><span class="line">        node-&gt;<span class="built_in">InitLeaf</span>(firstPrimOffset, nPrimitives, bounds);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Compute bound of primitive centroids, choose split dimension _dim_</span></span><br><span class="line">        Bounds3f centroidBounds;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i)</span><br><span class="line">            centroidBounds = <span class="built_in">Union</span>(centroidBounds, primitiveInfo[i].centroid);</span><br><span class="line">        <span class="type">int</span> dim = centroidBounds.<span class="built_in">MaximumExtent</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Partition primitives into two sets and build children</span></span><br><span class="line">        <span class="type">int</span> mid = (start + end) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (centroidBounds.pMax[dim] == centroidBounds.pMin[dim]) &#123;</span><br><span class="line">            <span class="comment">// Create leaf _BVHBuildNode_</span></span><br><span class="line">            <span class="type">int</span> firstPrimOffset = orderedPrims.<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">                <span class="type">int</span> primNum = primitiveInfo[i].primitiveNumber;</span><br><span class="line">                orderedPrims.<span class="built_in">push_back</span>(primitives[primNum]);</span><br><span class="line">            &#125;</span><br><span class="line">            node-&gt;<span class="built_in">InitLeaf</span>(firstPrimOffset, nPrimitives, bounds);</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Partition primitives based on _splitMethod_</span></span><br><span class="line">            <span class="keyword">switch</span> (splitMethod) &#123;</span><br><span class="line">            <span class="keyword">case</span> SplitMethod::Middle: &#123;</span><br><span class="line">                <span class="comment">// Partition primitives through node&#x27;s midpoint</span></span><br><span class="line">                Float pmid =</span><br><span class="line">                    (centroidBounds.pMin[dim] + centroidBounds.pMax[dim]) / <span class="number">2</span>;</span><br><span class="line">                BVHPrimitiveInfo *midPtr = std::<span class="built_in">partition</span>(</span><br><span class="line">                    &amp;primitiveInfo[start], &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">                    [dim, pmid](<span class="type">const</span> BVHPrimitiveInfo &amp;pi) &#123;</span><br><span class="line">                        <span class="keyword">return</span> pi.centroid[dim] &lt; pmid;</span><br><span class="line">                    &#125;);</span><br><span class="line">                mid = midPtr - &amp;primitiveInfo[<span class="number">0</span>];</span><br><span class="line">                <span class="comment">// For lots of prims with large overlapping bounding boxes, this</span></span><br><span class="line">                <span class="comment">// may fail to partition; in that case don&#x27;t break and fall</span></span><br><span class="line">                <span class="comment">// through</span></span><br><span class="line">                <span class="comment">// to EqualCounts.</span></span><br><span class="line">                <span class="keyword">if</span> (mid != start &amp;&amp; mid != end) <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> SplitMethod::EqualCounts: &#123;</span><br><span class="line">                <span class="comment">// Partition primitives into equally-sized subsets</span></span><br><span class="line">                mid = (start + end) / <span class="number">2</span>;</span><br><span class="line">                std::<span class="built_in">nth_element</span>(&amp;primitiveInfo[start], &amp;primitiveInfo[mid],</span><br><span class="line">                                 &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">                                 [dim](<span class="type">const</span> BVHPrimitiveInfo &amp;a,</span><br><span class="line">                                       <span class="type">const</span> BVHPrimitiveInfo &amp;b) &#123;</span><br><span class="line">                                     <span class="keyword">return</span> a.centroid[dim] &lt; b.centroid[dim];</span><br><span class="line">                                 &#125;);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> SplitMethod::SAH:</span><br><span class="line">            <span class="keyword">default</span>: &#123;</span><br><span class="line">                <span class="comment">// Partition primitives using approximate SAH</span></span><br><span class="line">                <span class="keyword">if</span> (nPrimitives &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">                    <span class="comment">// Partition primitives into equally-sized subsets</span></span><br><span class="line">                    mid = (start + end) / <span class="number">2</span>;</span><br><span class="line">                    std::<span class="built_in">nth_element</span>(&amp;primitiveInfo[start], &amp;primitiveInfo[mid],</span><br><span class="line">                                     &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">                                     [dim](<span class="type">const</span> BVHPrimitiveInfo &amp;a,</span><br><span class="line">                                           <span class="type">const</span> BVHPrimitiveInfo &amp;b) &#123;</span><br><span class="line">                                         <span class="keyword">return</span> a.centroid[dim] &lt;</span><br><span class="line">                                                b.centroid[dim];</span><br><span class="line">                                     &#125;);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// Allocate _BucketInfo_ for SAH partition buckets</span></span><br><span class="line">                    PBRT_CONSTEXPR <span class="type">int</span> nBuckets = <span class="number">12</span>;</span><br><span class="line">                    BucketInfo buckets[nBuckets];</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Initialize _BucketInfo_ for SAH partition buckets</span></span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">                        <span class="type">int</span> b = nBuckets *</span><br><span class="line">                                centroidBounds.<span class="built_in">Offset</span>(</span><br><span class="line">                                    primitiveInfo[i].centroid)[dim];</span><br><span class="line">                        <span class="keyword">if</span> (b == nBuckets) b = nBuckets - <span class="number">1</span>;</span><br><span class="line">                        <span class="built_in">CHECK_GE</span>(b, <span class="number">0</span>);</span><br><span class="line">                        <span class="built_in">CHECK_LT</span>(b, nBuckets);</span><br><span class="line">                        buckets[b].count++;</span><br><span class="line">                        buckets[b].bounds =</span><br><span class="line">                            <span class="built_in">Union</span>(buckets[b].bounds, primitiveInfo[i].bounds);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Compute costs for splitting after each bucket</span></span><br><span class="line">                    Float cost[nBuckets - <span class="number">1</span>];</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nBuckets - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">                        Bounds3f b0, b1;</span><br><span class="line">                        <span class="type">int</span> count0 = <span class="number">0</span>, count1 = <span class="number">0</span>;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= i; ++j) &#123;</span><br><span class="line">                            b0 = <span class="built_in">Union</span>(b0, buckets[j].bounds);</span><br><span class="line">                            count0 += buckets[j].count;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; nBuckets; ++j) &#123;</span><br><span class="line">                            b1 = <span class="built_in">Union</span>(b1, buckets[j].bounds);</span><br><span class="line">                            count1 += buckets[j].count;</span><br><span class="line">                        &#125;</span><br><span class="line">                        cost[i] = <span class="number">1</span> +</span><br><span class="line">                                  (count0 * b0.<span class="built_in">SurfaceArea</span>() +</span><br><span class="line">                                   count1 * b1.<span class="built_in">SurfaceArea</span>()) /</span><br><span class="line">                                      bounds.<span class="built_in">SurfaceArea</span>();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Find bucket to split at that minimizes SAH metric</span></span><br><span class="line">                    Float minCost = cost[<span class="number">0</span>];</span><br><span class="line">                    <span class="type">int</span> minCostSplitBucket = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nBuckets - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (cost[i] &lt; minCost) &#123;</span><br><span class="line">                            minCost = cost[i];</span><br><span class="line">                            minCostSplitBucket = i;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Either create leaf or split primitives at selected SAH</span></span><br><span class="line">                    <span class="comment">// bucket</span></span><br><span class="line">                    Float leafCost = nPrimitives;</span><br><span class="line">                    <span class="keyword">if</span> (nPrimitives &gt; maxPrimsInNode  minCost &lt; leafCost) &#123;</span><br><span class="line">                        BVHPrimitiveInfo *pmid = std::<span class="built_in">partition</span>(</span><br><span class="line">                            &amp;primitiveInfo[start], &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">                            [=](<span class="type">const</span> BVHPrimitiveInfo &amp;pi) &#123;</span><br><span class="line">                                <span class="type">int</span> b = nBuckets *</span><br><span class="line">                                        centroidBounds.<span class="built_in">Offset</span>(pi.centroid)[dim];</span><br><span class="line">                                <span class="keyword">if</span> (b == nBuckets) b = nBuckets - <span class="number">1</span>;</span><br><span class="line">                                <span class="built_in">CHECK_GE</span>(b, <span class="number">0</span>);</span><br><span class="line">                                <span class="built_in">CHECK_LT</span>(b, nBuckets);</span><br><span class="line">                                <span class="keyword">return</span> b &lt;= minCostSplitBucket;</span><br><span class="line">                            &#125;);</span><br><span class="line">                        mid = pmid - &amp;primitiveInfo[<span class="number">0</span>];</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// Create leaf _BVHBuildNode_</span></span><br><span class="line">                        <span class="type">int</span> firstPrimOffset = orderedPrims.<span class="built_in">size</span>();</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">                            <span class="type">int</span> primNum = primitiveInfo[i].primitiveNumber;</span><br><span class="line">                            orderedPrims.<span class="built_in">push_back</span>(primitives[primNum]);</span><br><span class="line">                        &#125;</span><br><span class="line">                        node-&gt;<span class="built_in">InitLeaf</span>(firstPrimOffset, nPrimitives, bounds);</span><br><span class="line">                        <span class="keyword">return</span> node;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            node-&gt;<span class="built_in">InitInterior</span>(dim,</span><br><span class="line">                               <span class="built_in">recursiveBuild</span>(arena, primitiveInfo, start, mid,</span><br><span class="line">                                              totalNodes, orderedPrims),</span><br><span class="line">                               <span class="built_in">recursiveBuild</span>(arena, primitiveInfo, mid, end,</span><br><span class="line">                                              totalNodes, orderedPrims));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果是最后一个图元，则标记为叶子节点</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (nPrimitives == <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// Create leaf _BVHBuildNode_</span></span><br><span class="line">    <span class="type">int</span> firstPrimOffset = orderedPrims.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> primNum = primitiveInfo[i].primitiveNumber;</span><br><span class="line">        orderedPrims.<span class="built_in">push_back</span>(primitives[primNum]);</span><br><span class="line">    &#125;</span><br><span class="line">    node-&gt;<span class="built_in">InitLeaf</span>(firstPrimOffset, nPrimitives, bounds);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后再判断是否是叶子节点，是的话，构建叶子节点，否则 第一步，获取长度最长的维度，按最长的维度来进行 BVH 的划分</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Bounds3f centroidBounds;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i)</span><br><span class="line">    centroidBounds = <span class="built_in">Union</span>(centroidBounds, primitiveInfo[i].centroid);</span><br><span class="line"><span class="type">int</span> dim = centroidBounds.<span class="built_in">MaximumExtent</span>();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第二部，计算中点</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> mid = (start + end) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第三步，开始构建 BVH</p>
+</blockquote>
+<p>3.1 如果当前轴 <code>dim</code>  的最大值等于最小值的话，记为叶子节点</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (centroidBounds.pMax[dim] == centroidBounds.pMin[dim]) &#123;</span><br><span class="line">    <span class="comment">// Create leaf _BVHBuildNode_</span></span><br><span class="line">    <span class="type">int</span> firstPrimOffset = orderedPrims.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = start; i &lt; end; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> primNum = primitiveInfo[i].primitiveNumber;</span><br><span class="line">        orderedPrims.<span class="built_in">push_back</span>(primitives[primNum]);</span><br><span class="line">    &#125;</span><br><span class="line">    node-&gt;<span class="built_in">InitLeaf</span>(firstPrimOffset, nPrimitives, bounds);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.2 按照 <code>splitMethod</code>  进行 BVH 的划分 3.2.1 计算图元组的中心 (对应维度)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Float pmid =</span><br><span class="line">    (centroidBounds.pMin[dim] + centroidBounds.pMax[dim]) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>3.2.2 使用 partition 将图元组划分为两个区间</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> BidirIt, <span class="keyword">class</span> UnaryPredicate &gt;</span></span><br><span class="line"><span class="function">BidirIt <span class="title">partition</span><span class="params">( BidirIt first, BidirIt last, UnaryPredicate p )</span></span>;</span><br></pre></td></tr></table></figure>
+<p><code>partition:</code>  从首地址开始到最终地址，使用 <code>p</code>  对该区间进行划分，划分为满足与不满足的两个区间，同时返回第二个区间的手首地址指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">BVHPrimitiveInfo *midPtr = std::<span class="built_in">partition</span>(</span><br><span class="line">    &amp;primitiveInfo[start], &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">    [dim, pmid](<span class="type">const</span> BVHPrimitiveInfo &amp;pi) &#123;</span><br><span class="line">        <span class="keyword">return</span> pi.centroid[dim] &lt; pmid;</span><br><span class="line">    &#125;);</span><br><span class="line">mid = midPtr - &amp;primitiveInfo[<span class="number">0</span>];</span><br><span class="line"><span class="comment">// For lots of prims with large overlapping bounding boxes, this</span></span><br><span class="line"><span class="comment">// may fail to partition; in that case don&#x27;t break and fall</span></span><br><span class="line"><span class="comment">// through</span></span><br><span class="line"><span class="comment">// to EqualCounts.</span></span><br><span class="line"><span class="keyword">if</span> (mid != start &amp;&amp; mid != end) <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>其中，Middle 划分算法的 <code>Predicate</code>  是如果当前节点在对应维度上的中点到该 Bounds 的中点小于当前 Bounds 维度的一半，则移动到满足区间 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_1bc501256f11d5a08492e60a901304ec.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_1bc501256f11d5a08492e60a901304ec.jpg" alt=""></a> 注意，最下面的:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (mid != start &amp;&amp; mid != end) <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>表示的是，Middle 划分方法如果发现几个 (大于 2) 图元有巨大的重叠包围框，Middle 方法可能无法将图元划分为两组 (即 midstart 或者 end), 这种情况下，就自行 Break, 尝试进行 <code>SplitMethod::EqualCounts</code>  方法再试一次</p>
+<blockquote>
+<p>EqualCounts</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Partition primitives into equally-sized subsets</span></span><br><span class="line">mid = (start + end) / <span class="number">2</span>;</span><br><span class="line">std::<span class="built_in">nth_element</span>(&amp;primitiveInfo[start], &amp;primitiveInfo[mid],</span><br><span class="line">                 &amp;primitiveInfo[end - <span class="number">1</span>] + <span class="number">1</span>,</span><br><span class="line">                 [dim](<span class="type">const</span> BVHPrimitiveInfo &amp;a,</span><br><span class="line">                       <span class="type">const</span> BVHPrimitiveInfo &amp;b) &#123;</span><br><span class="line">                     <span class="keyword">return</span> a.centroid[dim] &lt; b.centroid[dim];</span><br><span class="line">                 &#125;);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>使用 n_th_element<br>
+ 它对数组排序使得中点指针处元素的位置是，如果数组完全排序，则所有中点之前的元素都比中点元素小且所有后面的元素都比它大。 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_7e9c0a175d1a84ea1accf17df3dbc787.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_7e9c0a175d1a84ea1accf17df3dbc787.jpg" alt=""></a></p>
+<hr>
+<h2 id="sah表面积启发式优化"><a class="markdownIt-Anchor" href="#sah表面积启发式优化">#</a> SAH 表面积启发式优化</h2>
+<p>上面的 Middle 划分对某些图元的划分效果不错，但实际应用中它们通常会选择性能较差的划分，导致光线要访问树的更多节点，因此带来渲染时不必要的低效光线 - 图元相交计算。  <code>SAH</code>  主要用来解决 <code>大量图元划分方案中,哪个方案能带来来更好的划分方案/选择哪个划分空间可以带来更好的加速结构?</code> <br>
+ 该模型有以下几个特征:<br>
+- 1. 估计执行光线相交测试的开销，包括穿行树的节点花的时间和为特定的图元划分进行光纤 - 图元相交测试花的时间 - 2. 得到每次构建的最小花销 - 3. 贪婪法构建每个层次节点最小化开销</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" title="【PBRT V3】 part ④.2 BVH">https://mymetalseed.github.io/2022/12/23/【pbrt-v3】-part-④-2-bvh/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【PBRT V3】 part ④ 图元和相交加速">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>【PBRT V3】 part ④ 图元和相交加速</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【TA101】 ComputeShader &amp; Gpu Instance">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> DirectX</span>
+  <h3>【TA101】 ComputeShader & Gpu Instance</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bvh"><span class="toc-number">1.</span> <span class="toc-text"> BVH</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bvh%E6%80%A7%E8%B4%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> BVH 性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bvh%E6%9E%84%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text"> BVH 构建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 三个阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.2.</span> <span class="toc-text"> 构建算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bvhprimitiveinfo"><span class="toc-number">1.2.2.1.</span> <span class="toc-text"> BVHPrimitiveInfo</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#memoryarena"><span class="toc-number">1.2.2.2.</span> <span class="toc-text"> MemoryArena</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bvhbuildnode"><span class="toc-number">1.2.3.</span> <span class="toc-text"> BVHBuildNode</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sah%E8%A1%A8%E9%9D%A2%E7%A7%AF%E5%90%AF%E5%8F%91%E5%BC%8F%E4%BC%98%E5%8C%96"><span class="toc-number">1.3.</span> <span class="toc-text"> SAH 表面积启发式优化</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" rel="bookmark" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></li><li><a href="../../../../2021/07/25/%E5%B1%80%E9%83%A8%E7%A9%BA%E9%97%B4%E5%88%B0%E4%B8%96%E7%95%8C%E7%A9%BA%E9%97%B4%E7%9A%84%E5%B5%8C%E5%A5%97%E5%8F%98%E6%8D%A2/" rel="bookmark" title="局部空间到世界空间的嵌套变换 & 相机空间">局部空间到世界空间的嵌套变换 & 相机空间</a></li><li><a href="../../../04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" rel="bookmark" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></li><li><a href="../../../04/16/games104-5-%E6%B8%B2%E6%9F%93%E4%B8%AD%E5%85%89%E5%92%8C%E6%9D%90%E8%B4%A8%E7%9A%84%E6%95%B0%E5%AD%A6%E9%AD%94%E6%B3%95/" rel="bookmark" title="Games104 5 - 渲染中光和材质的数学魔法">Games104 5 - 渲染中光和材质的数学魔法</a></li><li><a href="../../../04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../../../04/23/vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" rel="bookmark" title="Vulkan2. 概念扫盲">Vulkan2. 概念扫盲</a></li><li><a href="../../../04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></li><li><a href="../../../05/01/games104-h1-lut-color-gradiant/" rel="bookmark" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></li><li><a href="../../../05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></li><li><a href="../../../05/03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" rel="bookmark" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></li><li><a href="../../../05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="bookmark" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></li><li class="active"><a href="" rel="bookmark" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" rel="bookmark" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></li><li><a href="../../../../2023/09/19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" rel="bookmark" title="【GDC】 再探Virtual Texture">【GDC】 再探Virtual Texture</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/XLUA/" title="In XLUA">XLUA</a>
+</div>
+
+    <span><a href="../../../../2021/07/27/lua%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" title="学习笔记 - Lua实现生产者-消费者模式">学习笔记 - Lua实现生产者-消费者模式</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="In 热更新">热更新</a>
+</div>
+
+    <span><a href="../../../../2021/02/21/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="热更新">热更新</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/04/19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" title="建立一个屏幕后处理系统 - 《Unity Shader入门精要》">建立一个屏幕后处理系统 - 《Unity Shader入门精要》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/LeetCode/" title="In LeetCode">LeetCode</a>
+</div>
+
+    <span><a href="../../../../2021/03/04/leetcode%E9%A2%98%E8%A7%A3%E9%9B%86-%E4%B8%AD%E7%AD%89/" title="LeetCode题解集 - 中等">LeetCode题解集 - 中等</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/04/11/%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="表面着色器 -《ShaderLab新手宝典》">表面着色器 -《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/lettier/" title="In lettier">lettier</a>
+</div>
+
+    <span><a href="../../../../2021/05/12/%E8%AE%A1%E5%88%92-%E3%80%8A3d-game-shaders-for-beginners%E3%80%8B/" title="计划 - 《3D Game Shaders For Beginners》">计划 - 《3D Game Shaders For Beginners》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8/" title="In 关卡编辑器">关卡编辑器</a>
+</div>
+
+    <span><a href="../../../../2023/07/18/%E3%80%90gameplay%E3%80%91-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E7%95%85%E6%83%B3/" title="【GamePlay】 关卡编辑器畅想">【GamePlay】 关卡编辑器畅想</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/12/23/【pbrt-v3】-part-④-2-bvh/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

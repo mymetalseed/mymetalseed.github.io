@@ -1,0 +1,532 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/">
+
+
+
+  <title>
+【编译原理】 阶段性小结(前端) - 编译原理 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【编译原理】 阶段性小结(前端)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-12-30 22:10:19">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-12-30T22:10:19+08:00">2023-12-30</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="item" rel="index" title="In 编译原理"><span itemprop="name">编译原理</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="小结"><a class="markdownIt-Anchor" href="#小结">#</a> 小结</h1>
+<p>现代的语言通常会划分成前后端<br>
+这里主要小结下前端：<br>
+即前端负责词法的解析与语义树的构建等，前端最终的目标是构建出一个抽象语法树，实际上在基本的前端框架确定后，添加新的语法就比较简单了</p>
+<h2 id="前端模块的划分"><a class="markdownIt-Anchor" href="#前端模块的划分">#</a> 前端模块的划分</h2>
+<p>假设代码输入了一个 string 字符串<br>
+这堆字符串会先输入 <code>Lexer</code>  (词法分析器) 其中 Lexer 主要负责从代码中读取出一个又一个 Token 或者其他针对字符串检索的任务<br>
+ Token: 我个人觉得用 “标记” 翻译这个单次比较合适<br>
+即一个标记可以是 变量 / 常量 / 运算符 / 语句终结符 等<br>
+比如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> ptr = <span class="number">321</span>;</span><br></pre></td></tr></table></figure>
+<p>其中 i、=、321、; 分别就是一个又一个 Token<br>
+ 为什么 int 不是 Token 呢？<br>
+因为实际上对于 int/ptr 等这一系列标记的解析并不是简单的 Read 即可完成的，所以对于这种标记的解析一般是放到了 Parser 中去进行的  <code>Parser</code>  是实际上负责解析语法的 Parser 本身是一个巨大的状态机，它是和 Lexer 进行配合进行语法的解析的 即 Lexer 用于匹配单词，而 Parser 在不断使用 Lexer 进行单次匹配的过程中解析出抽象语法树 <code>ast</code>   <code>Ast</code>  抽象语法树存放的是一个语言实际的语法树<br>
+即 AST 是 Parser 和 Lexer 进行配合后的阶段产物，这个抽象语法树的目标是将当前代码转换成一种更加接近机器实现的表达 比如下圖<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/12/wp_editor_md_de738da85db85d2bd0335c5af705921d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/12/wp_editor_md_de738da85db85d2bd0335c5af705921d.jpg" alt=""></a> 实际上在这个阶段，编译器前端的工作基本就已经完成了，可以发现，最终经过 Parser 生成的 AST 是很容易使用代码去进行遍历的，而所谓最终转换的字节码，或者对于代码的执行都是基于这颗抽象语法树进行的。 比如我们实际上就可以定义一个最简单的由 <code>if</code>  构成的代码执行器<br>
+在遍历上面那颗抽象语法树的时候，如果遍历到  <code>+</code>  那么代表我们需要处理的是一个 <code>中缀表达式(即 A + B)</code> <br>
+ 那么执行器就需要在左子树上找到一个 A, 在右子树上找到一个 B<br>
+ 这其实就是一个最简单的 <code>虚拟机</code> ，只不过没有中间的字节码阶段，不好进行优化</p>
+<h2 id="整理"><a class="markdownIt-Anchor" href="#整理">#</a> 整理</h2>
+<p>代码字符串 -- 输入–&gt; Lexer -- 输入–&gt; Parser -- 输出–&gt; AST (抽象语法树) -- 输入–&gt; 后端 (虚拟机 / 栈模拟 / 代码执行器)</p>
+<h2 id="名词解释"><a class="markdownIt-Anchor" href="#名词解释">#</a> 名词解释</h2>
+<p>前缀运算符: ~A,!A<br>
+ 中缀运算符: A+B,A*B<br>
+ 后缀运算符: A++,A-- 其实三元运算符也是中缀表达式: A ? (左：右)<br>
+ 即？是中缀符</p>
+<h2 id="if的实现方式"><a class="markdownIt-Anchor" href="#if的实现方式">#</a> if 的实现方式</h2>
+<p>if 主要分成三部分</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 条件 &#123;</span><br><span class="line">    块</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即 if 关键字<br>
+条件块<br>
+代码块 条件块的实现就和 &quot;()“一致，读到”(“时就继续往下读，直到匹配到和自己相关的”)&quot;</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/" title="【编译原理】 阶段性小结(前端)">https://mymetalseed.github.io/2023/12/30/【编译原理】-阶段性小结前端/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【图形学】 Cluster Based Forward+">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 光照</span>
+  <h3>【图形学】 Cluster Based Forward+</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../31/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%90%8E%E7%AB%AF/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【编译原理】 阶段性小结(后端)">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 编译原理</span>
+  <h3>【编译原理】 阶段性小结(后端)</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text"> 小结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%A8%A1%E5%9D%97%E7%9A%84%E5%88%92%E5%88%86"><span class="toc-number">1.1.</span> <span class="toc-text"> 前端模块的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text"> 整理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.3.</span> <span class="toc-text"> 名词解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#if%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text"> if 的实现方式</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="bookmark" title="Lua虚拟机">Lua虚拟机</a></li><li class="active"><a href="" rel="bookmark" title="【编译原理】 阶段性小结(前端)">【编译原理】 阶段性小结(前端)</a></li><li><a href="../../31/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%90%8E%E7%AB%AF/" rel="bookmark" title="【编译原理】 阶段性小结(后端)">【编译原理】 阶段性小结(后端)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../31/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%90%8E%E7%AB%AF/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/03/08/shaderlab-%E5%86%85%E7%BD%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%8F%82%E6%95%B0/" title="ShaderLab  内置结构体参数">ShaderLab  内置结构体参数</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/XLUA/" title="In XLUA">XLUA</a>
+</div>
+
+    <span><a href="../../../../2021/07/27/lua%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" title="学习笔记 - Lua实现生产者-消费者模式">学习笔记 - Lua实现生产者-消费者模式</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/17/openxr3/" title="OpenXR (三)">OpenXR (三)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF/" title="In 服务端">服务端</a>
+</div>
+
+    <span><a href="../../../../2021/12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/05/ugui%E4%BC%98%E5%8C%96%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E8%AE%B0%E5%BD%95/" title="UGUI优化以及相关组件记录">UGUI优化以及相关组件记录</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../09/16/%E3%80%90games104%E3%80%91-%E5%8A%A8%E6%80%81%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" title="【Games104】 动态全局光照">【Games104】 动态全局光照</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/09/01/%E6%9D%8E%E5%AE%8F%E6%AF%85-%E7%94%9F%E6%88%90%E5%BC%8FAI-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="李宏毅-生成式AI-机器学习基本原理">李宏毅-生成式AI-机器学习基本原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" title="C++（三）变量的区别">C++（三）变量的区别</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/12/30/【编译原理】-阶段性小结前端/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

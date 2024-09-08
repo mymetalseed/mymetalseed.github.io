@@ -1,0 +1,541 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/">
+
+
+
+  <title>
+【图形学】 Cluster Based Forward+ - 光照 - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【图形学】 Cluster Based Forward+
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-11-25 12:43:05">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-11-25T12:43:05+08:00">2023-11-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E5%85%89%E7%85%A7/" itemprop="item" rel="index" title="In 光照"><span itemprop="name">光照</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="zbining算法"><a class="markdownIt-Anchor" href="#zbining算法">#</a> zbining 算法</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/11/wp_editor_md_10aa847095cd42a28e381c5a27316c77.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/11/wp_editor_md_10aa847095cd42a28e381c5a27316c77.jpg" alt=""></a> 这个图写的很明白了，第一次记录视椎体内每个 tile 的灯光列表<br>
+第二次记录每个 z 区间内的灯光个数 然后就可以直接找到对应视锥，对应区块内的灯光索引，而不需要对整个空间 Cluster 化</p>
+<h1 id="代码解析"><a class="markdownIt-Anchor" href="#代码解析">#</a> 代码解析</h1>
+<p>首先值得注意的是，URP 本身是支持了 XR 的双目渲染，所以添加了 ViewIndex 这一个属性，在本节解析中，将 view 的数量看为 1 即可。 首先先计算有多少 item，item 即除了 Directional 灯光外的灯光与灯光探针的总数量</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> visibleLights = renderingData.lightData.visibleLights.GetSubArray(lightOffset, m_LightCount);</span><br><span class="line"><span class="keyword">var</span> reflectionProbes = renderingData.cullResults.visibleReflectionProbes;</span><br><span class="line"><span class="keyword">var</span> reflectionProbeCount = math.min(reflectionProbes.Length, UniversalRenderPipeline.maxVisibleReflectionProbes);</span><br><span class="line"><span class="keyword">var</span> itemsPerTile = visibleLights.Length + reflectionProbeCount;</span><br><span class="line"><span class="comment">//每个Tile最少需要占多少个word</span></span><br><span class="line">m_WordsPerTile = (itemsPerTile + <span class="number">31</span>) / <span class="number">32</span>;</span><br></pre></td></tr></table></figure>
+<p>然后计算最多需要多少 Tile</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先计算Tile的大小</span></span><br><span class="line"><span class="comment">//Tile目前为4</span></span><br><span class="line">m_ActualTileWidth = <span class="number">8</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//每次扩大两倍，</span></span><br><span class="line">    m_ActualTileWidth &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">    m_TileResolution = (screenResolution + m_ActualTileWidth - <span class="number">1</span>) / m_ActualTileWidth;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//直到达到最大的Tileword为止，就是可以分配的最多的Tile</span></span><br><span class="line"><span class="keyword">while</span> ((m_TileResolution.x * m_TileResolution.y * m_WordsPerTile * viewCount) &gt; UniversalRenderPipeline.maxTileWords);</span><br></pre></td></tr></table></figure>
+<p>分配 Bin 的数量，Bin 的分配也很简单，即计算相机的 nearPlane 和 farPlane，在中间等间隔取一个 Bin</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Use to calculate binIndex = z * zBinScale + zBinOffset</span></span><br><span class="line"><span class="comment">//计算公式也很简单，就是在nearPlane和farPlane之间取等间距间隔</span></span><br><span class="line">m_ZBinScale = (UniversalRenderPipeline.maxZBinWords / viewCount) / ((camera.farClipPlane - camera.nearClipPlane) * (<span class="number">2</span> + m_WordsPerTile));</span><br><span class="line">m_ZBinOffset = -camera.nearClipPlane * m_ZBinScale;</span><br><span class="line">m_BinCount = (<span class="built_in">int</span>)(camera.farClipPlane * m_ZBinScale + m_ZBinOffset);</span><br></pre></td></tr></table></figure>
+<h2 id="划分灯光的z区间范围"><a class="markdownIt-Anchor" href="#划分灯光的z区间范围">#</a> 划分灯光的 Z 区间范围</h2>
+<p>使用 JobSystem 进行实现，其中线程数使灯光的总数量，每个 Job 处理一个灯光</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//itemsPerTile即灯光或者lightProbe，即每个Job处理一个灯光</span></span><br><span class="line"><span class="keyword">var</span> minMaxZs = <span class="keyword">new</span> NativeArray&lt;float2&gt;(itemsPerTile * viewCount, Allocator.TempJob);</span><br><span class="line"><span class="comment">//计算出每个灯光在z轴上影响的范围</span></span><br><span class="line"><span class="keyword">var</span> lightMinMaxZJob = <span class="keyword">new</span> LightMinMaxZJob</span><br><span class="line">                &#123;</span><br><span class="line">                    worldToViews = worldToViews,</span><br><span class="line">                    lights = visibleLights,</span><br><span class="line">                    minMaxZs = minMaxZs.GetSubArray(<span class="number">0</span>, m_LightCount * viewCount)</span><br><span class="line">                &#125;;</span><br><span class="line"><span class="comment">// Innerloop batch count of 32 is not special, just a handwavy amount to not have too much scheduling overhead nor too little parallelism.</span></span><br><span class="line"><span class="keyword">var</span> lightMinMaxZHandle = lightMinMaxZJob.ScheduleParallel(m_LightCount * viewCount, <span class="number">32</span>, <span class="keyword">new</span> JobHandle());</span><br></pre></td></tr></table></figure>
+<p>内部的实现如下：其中把 SpotLight 的范围先忽略，流程就是先计算出灯光在裁剪空间的下标，z 方向的范围是直接使用 light 的范围按照 AABB 计算的</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> LightMinMaxZJob : IJobFor</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> Fixed2&lt;float4x4&gt; worldToViews;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">ReadOnly</span>]</span><br><span class="line">        <span class="keyword">public</span> NativeArray&lt;VisibleLight&gt; lights;</span><br><span class="line">        <span class="keyword">public</span> NativeArray&lt;float2&gt; minMaxZs;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params"><span class="built_in">int</span> index</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> lightIndex = index % lights.Length;</span><br><span class="line">            <span class="comment">//找到对应的光的信息</span></span><br><span class="line">            <span class="keyword">var</span> light = lights[lightIndex];</span><br><span class="line">            <span class="keyword">var</span> lightToWorld = (float4x4)light.localToWorldMatrix;</span><br><span class="line">            <span class="keyword">var</span> originWS = lightToWorld.c3.xyz;</span><br><span class="line">            <span class="keyword">var</span> viewIndex = index / lights.Length;</span><br><span class="line">            <span class="keyword">var</span> worldToView = worldToViews[viewIndex];</span><br><span class="line">            <span class="keyword">var</span> originVS = math.mul(worldToView, math.float4(originWS, <span class="number">1</span>)).xyz;</span><br><span class="line">            originVS.z *= <span class="number">-1</span>;</span><br><span class="line">            <span class="comment">//粗略计算灯光的AABB(Z方向),合理推测Tile只划分了xz，没有划分y</span></span><br><span class="line">            <span class="keyword">var</span> minMax = math.float2(originVS.z - light.range, originVS.z + light.range);</span><br><span class="line">            <span class="comment">//Spot光源需要另外计算</span></span><br><span class="line">            <span class="keyword">if</span> (light.lightType == LightType.Spot)</span><br><span class="line">            &#123;</span><br><span class="line"><span class="comment">//计算SpotLight范围</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            minMax.x = math.max(minMax.x, <span class="number">0</span>);</span><br><span class="line">            minMax.y = math.max(minMax.y, <span class="number">0</span>);</span><br><span class="line">            <span class="comment">//存储的是每个灯光的AABB(Z方向)</span></span><br><span class="line">            minMaxZs[index] = minMax;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="划分zbin"><a class="markdownIt-Anchor" href="#划分zbin">#</a> 划分 ZBin</h2>
+<p>下属代码对 ZBin 进行划分，其中 batchCount 是指每个 job 里面处理的 bin 数量 其中 binCount 的计算公式如下:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/11/wp_editor_md_0c5e72b1c9b331be5c958dcdff5d8f84.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/11/wp_editor_md_0c5e72b1c9b331be5c958dcdff5d8f84.jpg" alt=""></a> 即每个 Bin 中存储的是 （2 + 灯光和灯光探针) 的数量，即每个 word 存储的都是灯光的信息，以及多余了 2 个不知道什么的信息 另外，item 是灯光和灯光探针实际的个数，而 word 概念对应的是使用位来存储 item，即每个 word 可以存储 32 个 item 下标</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每个Batch计算128个Bin,总共划分多少个Job线程</span></span><br><span class="line"><span class="keyword">var</span> zBinningBatchCount = (m_BinCount + ZBinningJob.batchSize - <span class="number">1</span>) / ZBinningJob.batchSize;</span><br><span class="line"><span class="keyword">var</span> zBinningJob = <span class="keyword">new</span> ZBinningJob</span><br><span class="line">                &#123;</span><br><span class="line">                    bins = m_ZBins,</span><br><span class="line">                    minMaxZs = minMaxZs,</span><br><span class="line">                    zBinScale = m_ZBinScale,</span><br><span class="line">                    zBinOffset = m_ZBinOffset,</span><br><span class="line">                    binCount = m_BinCount,</span><br><span class="line">                    wordsPerTile = m_WordsPerTile,</span><br><span class="line">                    lightCount = m_LightCount,</span><br><span class="line">                    reflectionProbeCount = reflectionProbeCount,</span><br><span class="line">                    batchCount = zBinningBatchCount,</span><br><span class="line">                    viewCount = viewCount,</span><br><span class="line">                    isOrthographic = camera.orthographic</span><br><span class="line">                &#125;;</span><br><span class="line"><span class="keyword">var</span> zBinningHandle = zBinningJob.ScheduleParallel(zBinningBatchCount * viewCount, <span class="number">1</span>, reflectionProbeMinMaxZHandle);</span><br></pre></td></tr></table></figure>
+<p>Job 内的代码如下:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> ZBinningJob : IJobFor</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Do not use this for the innerloopBatchCount (use 1 for that). Use for dividing the arrayLength when scheduling.</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">const</span> <span class="built_in">int</span> batchSize = <span class="number">128</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">const</span> <span class="built_in">int</span> headerLength = <span class="number">2</span>;</span><br><span class="line">        [<span class="meta">NativeDisableParallelForRestriction</span>]</span><br><span class="line">        <span class="keyword">public</span> NativeArray&lt;<span class="built_in">uint</span>&gt; bins;</span><br><span class="line">        [<span class="meta">ReadOnly</span>]</span><br><span class="line">        <span class="keyword">public</span> NativeArray&lt;float2&gt; minMaxZs;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> zBinScale;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">float</span> zBinOffset;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> binCount;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> wordsPerTile;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> lightCount;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> reflectionProbeCount;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> batchCount;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> viewCount;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">bool</span> isOrthographic;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="built_in">uint</span> <span class="title">EncodeHeader</span>(<span class="params"><span class="built_in">uint</span> min, <span class="built_in">uint</span> max</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> (min &amp; <span class="number">0xFFFF</span>)  ((max &amp; <span class="number">0xFFFF</span>) &lt;&lt; <span class="number">16</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">static</span> (<span class="built_in">uint</span>, <span class="built_in">uint</span>) DecodeHeader(<span class="built_in">uint</span> zBin)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> (zBin &amp; <span class="number">0xFFFF</span>, (zBin &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFFFF</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params"><span class="built_in">int</span> jobIndex</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//?有啥意义,job本身就是第i个batch,这个是因为XR可能有两个View所以这样做的吧</span></span><br><span class="line">            <span class="keyword">var</span> batchIndex = jobIndex; <span class="comment">//% batchCount;</span></span><br><span class="line">            <span class="comment">//viewIndex可以理解,只要不超过</span></span><br><span class="line">            <span class="keyword">var</span> viewIndex = jobIndex / batchCount;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> binStart = batchSize * batchIndex;</span><br><span class="line">            <span class="keyword">var</span> binEnd = math.min(binStart + batchSize, binCount) - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> binOffset = viewIndex * binCount;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> emptyHeader = EncodeHeader(<span class="built_in">ushort</span>.MaxValue, <span class="built_in">ushort</span>.MinValue);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> binIndex = binStart; binIndex &lt;= binEnd; binIndex++)</span><br><span class="line">            &#123;</span><br><span class="line">                bins[(binOffset + binIndex) * (headerLength + wordsPerTile) + <span class="number">0</span>] = emptyHeader;</span><br><span class="line">                bins[(binOffset + binIndex) * (headerLength + wordsPerTile) + <span class="number">1</span>] = emptyHeader;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Regarding itemOffset: minMaxZs contains [lights view 0, lights view 1, probes view 0, probes view 1] when</span></span><br><span class="line">            <span class="comment">// using XR single pass instanced, and otherwise [lights, probes]. So we figure out what the offset is based</span></span><br><span class="line">            <span class="comment">// on the view count and index.</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// Fill ZBins for lights.</span></span><br><span class="line">            FillZBins(binStart, binEnd, <span class="number">0</span>, lightCount, <span class="number">0</span>, viewIndex * lightCount, binOffset);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">FillZBins</span>(<span class="params"><span class="built_in">int</span> binStart, <span class="built_in">int</span> binEnd, <span class="built_in">int</span> itemStart, <span class="built_in">int</span> itemEnd, <span class="built_in">int</span> headerIndex, <span class="built_in">int</span> itemOffset, <span class="built_in">int</span> binOffset</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> index = itemStart; index &lt; itemEnd; index++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//item的Z深度</span></span><br><span class="line">                <span class="keyword">var</span> minMax = minMaxZs[itemOffset + index];</span><br><span class="line">                <span class="comment">//计算出每个item的最小bin和最大bin</span></span><br><span class="line">                <span class="keyword">var</span> minBin = math.max((<span class="built_in">int</span>)((isOrthographic ? minMax.x : math.log2(minMax.x)) * zBinScale + zBinOffset), binStart);</span><br><span class="line">                <span class="keyword">var</span> maxBin = math.min((<span class="built_in">int</span>)((isOrthographic ? minMax.y : math.log2(minMax.y)) * zBinScale + zBinOffset), binEnd);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> wordIndex = index / <span class="number">32</span>;</span><br><span class="line">                <span class="keyword">var</span> bitMask = <span class="number">1u</span> &lt;&lt; (index % <span class="number">32</span>);</span><br><span class="line">                <span class="comment">//然后对于每个bin进行赋值</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> binIndex = minBin; binIndex &lt;= maxBin; binIndex++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> baseIndex = (binOffset + binIndex) * (headerLength + wordsPerTile);</span><br><span class="line">                    <span class="keyword">var</span> (minIndex, maxIndex) = DecodeHeader(bins[baseIndex + headerIndex]);</span><br><span class="line">                    minIndex = math.min(minIndex, (<span class="built_in">uint</span>)index);</span><br><span class="line">                    maxIndex = math.max(maxIndex, (<span class="built_in">uint</span>)index);</span><br><span class="line">                    <span class="comment">//更新最大与最小</span></span><br><span class="line">                    bins[baseIndex + headerIndex] = EncodeHeader(minIndex, maxIndex);</span><br><span class="line">                    bins[baseIndex + headerLength + wordIndex] = bitMask;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码中如果在 view 只有一个的前提下，batchIndex 可以直接等于 jobIndex，viewIndex 可以直接设置为 0。 binStart 和 binEnd 就是当前 job 需要计算的 bin 的下标范围 另外需要注意的一点是，每个 BIN 存储的是灯光最大下标和最小下标的范围，编码使用的是一个 uint，高 16 位存储最大下标，低 16 位存储最小下标。即上述代码中的 EncodeHeader 然后在 FillZBins 中计算每个灯覆盖的最小的 binIndex 和最大的 binIndex 对于以上更新 bin 数据的注释如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FillZBins</span>(<span class="params"><span class="built_in">int</span> binStart, <span class="built_in">int</span> binEnd, <span class="built_in">int</span> itemStart, <span class="built_in">int</span> itemEnd, <span class="built_in">int</span> headerIndex, <span class="built_in">int</span> itemOffset, <span class="built_in">int</span> binOffset</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> index = itemStart; index &lt; itemEnd; index++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//item的Z深度</span></span><br><span class="line">        <span class="keyword">var</span> minMax = minMaxZs[itemOffset + index];</span><br><span class="line">        <span class="comment">//计算出每个item的最小bin和最大bin</span></span><br><span class="line">        <span class="keyword">var</span> minBin = math.max((<span class="built_in">int</span>)((isOrthographic ? minMax.x : math.log2(minMax.x)) * zBinScale + zBinOffset), binStart);</span><br><span class="line">        <span class="keyword">var</span> maxBin = math.min((<span class="built_in">int</span>)((isOrthographic ? minMax.y : math.log2(minMax.y)) * zBinScale + zBinOffset), binEnd);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将灯光的index写入到最小到最大的bin中,这个32到底是什么，是指最多32个灯光么</span></span><br><span class="line">        <span class="comment">//灯光是item，word是一个int32位码，wordIndex算的是根据lightIndex计算是第几个word</span></span><br><span class="line">        <span class="keyword">var</span> wordIndex = index / <span class="number">32</span>;</span><br><span class="line">        <span class="keyword">var</span> bitMask = <span class="number">1u</span> &lt;&lt; (index % <span class="number">32</span>);</span><br><span class="line">        <span class="comment">//然后对于每个bin进行赋值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> binIndex = minBin; binIndex &lt;= maxBin; binIndex++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//binoffset在view为一个时，默认为0,每个bin存储的是 2个header和每个bin里有多少item</span></span><br><span class="line">            <span class="keyword">var</span> baseIndex = (binOffset + binIndex) * (headerLength + wordsPerTile);</span><br><span class="line">            <span class="comment">//这里就是找到对应的bin -&gt; bins[baseIndex](灯光)</span></span><br><span class="line">            <span class="keyword">var</span> (minIndex, maxIndex) = DecodeHeader(bins[baseIndex + headerIndex]);</span><br><span class="line">            <span class="comment">//更新每个bin的最小与最大灯光的index</span></span><br><span class="line">            minIndex = math.min(minIndex, (<span class="built_in">uint</span>)index);</span><br><span class="line">            maxIndex = math.max(maxIndex, (<span class="built_in">uint</span>)index);</span><br><span class="line">            <span class="comment">//更新最大与最小</span></span><br><span class="line">            <span class="comment">//baseIndex偏移headerIndex</span></span><br><span class="line">            <span class="comment">//第一个很好说,就是直接encoder</span></span><br><span class="line">            <span class="comment">//第一个header存储最小到最大的下标</span></span><br><span class="line">            bins[baseIndex + headerIndex] = EncodeHeader(minIndex, maxIndex);</span><br><span class="line">            <span class="comment">//第二个是更新第i个灯光在的word里面的灯光列表</span></span><br><span class="line">            bins[baseIndex + headerLength + wordIndex] = bitMask;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="划分tile-tilingjob"><a class="markdownIt-Anchor" href="#划分tile-tilingjob">#</a> 划分 Tile - TilingJob</h2>
+<p>先看一下 Execute 方法:<br>
+ 其中以 TileLight 为例，其他的暂时不看，这个 Job 是对于每个灯执行一次，这个主要是标记每个灯光影响到的 Tile</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params"><span class="built_in">int</span> jobIndex</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> index = jobIndex % itemsPerTile;</span><br><span class="line">    m_ViewIndex = jobIndex / itemsPerTile;</span><br><span class="line">    m_CenterOffset = m_ViewIndex == <span class="number">0</span> ? centerOffset.xy : centerOffset.zw;</span><br><span class="line">    m_Offset = jobIndex * rangesPerItem;</span><br><span class="line"></span><br><span class="line">    m_TileYRange = <span class="keyword">new</span> InclusiveRange(<span class="built_in">short</span>.MaxValue, <span class="built_in">short</span>.MinValue);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; rangesPerItem; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        tileRanges[m_Offset + i] = <span class="keyword">new</span> InclusiveRange(<span class="built_in">short</span>.MaxValue, <span class="built_in">short</span>.MinValue);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (index &lt; lights.Length)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (isOrthographic) &#123; TileLightOrthographic(index); &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123; TileLight(index); &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123; TileReflectionProbe(index); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="合并tile与lightrangejob"><a class="markdownIt-Anchor" href="#合并tile与lightrangejob">#</a> 合并 Tile 与 LightRangeJob</h2>
+<p>这个 Job 是针对于 Tile 进行的，主要是根据上一个 job 中生成的灯光范围来计算 TileMask</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" title="【图形学】 Cluster Based Forward+">https://mymetalseed.github.io/2023/11/25/【图形学】-cluster-based-forward/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【URP源码阅读】 Setup阶段">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【URP源码阅读】 Setup阶段</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【编译原理】 阶段性小结(前端)">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 编译原理</span>
+  <h3>【编译原理】 阶段性小结(前端)</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#zbining%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> zbining 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text"> 代码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86%E7%81%AF%E5%85%89%E7%9A%84z%E5%8C%BA%E9%97%B4%E8%8C%83%E5%9B%B4"><span class="toc-number">2.1.</span> <span class="toc-text"> 划分灯光的 Z 区间范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86zbin"><span class="toc-number">2.2.</span> <span class="toc-text"> 划分 ZBin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86tile-tilingjob"><span class="toc-number">2.3.</span> <span class="toc-text"> 划分 Tile - TilingJob</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6tile%E4%B8%8Elightrangejob"><span class="toc-number">2.4.</span> <span class="toc-text"> 合并 Tile 与 LightRangeJob</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="【图形学】 Cluster Based Forward+">【图形学】 Cluster Based Forward+</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../12/30/%E3%80%90%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E3%80%91-%E9%98%B6%E6%AE%B5%E6%80%A7%E5%B0%8F%E7%BB%93%E5%89%8D%E7%AB%AF/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" title="【TA101】 ComputeShader &amp; Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GLSL/" title="In GLSL">GLSL</a>
+</div>
+
+    <span><a href="../../../../2021/03/27/games202-glsl/" title="Games202 - GLSL">Games202 - GLSL</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/10/shaderlab%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="ShaderLab模板测试 《ShaderLab新手宝典》">ShaderLab模板测试 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/08/04/%E5%86%8D%E5%A4%9A%E7%BB%99%E8%87%AA%E5%B7%B1%E4%B8%80%E4%BA%9B%E5%89%8D%E8%BF%9B%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%90%A7/" title="再多给自己一些前进的动力吧">再多给自己一些前进的动力吧</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/04/03/shaderlab-%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80-%E3%80%8Aunityshaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="ShaderLab 语法基础 -《UnityShaderLab新手宝典》">ShaderLab 语法基础 -《UnityShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/cjj/" title="C++随记">C++随记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/13/5-13-%E6%97%A5%E8%AE%B0-%E5%BF%BD%E7%84%B6%E6%83%B3%E8%B5%B7%E4%BA%86%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%83%B3%E4%BE%9D%E9%9D%A0%E5%88%AB%E4%BA%BA%E7%9A%84%E5%8E%9F%E5%9B%A0/" title="5&#x2F;13 日记 忽然想起了为什么不想依靠别人的原因">5/13 日记 忽然想起了为什么不想依靠别人的原因</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/11/25/【图形学】-cluster-based-forward/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

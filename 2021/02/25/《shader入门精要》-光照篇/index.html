@@ -1,0 +1,542 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/02/25/%E3%80%8Ashader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%85%89%E7%85%A7%E7%AF%87/">
+
+
+
+  <title>
+《shader入门精要》 - 光照篇 - uncategorized |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">《shader入门精要》 - 光照篇
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-02-25 22:39:52">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-02-25T22:39:52+08:00">2021-02-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/uncategorized/" itemprop="item" rel="index" title="In uncategorized"><span itemprop="name">uncategorized</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/02/25/%E3%80%8Ashader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%85%89%E7%85%A7%E7%AF%87/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="吸收与散射"><a class="markdownIt-Anchor" href="#吸收与散射">#</a> 吸收与散射</h1>
+<p>光线在物体表面经过散射后。有两种方向：<br>
+- 散射到物体内部： （折射，透射） - 散射到外部： （反射） 散射出来的光线并不多<br>
+通常物体表面被反射的光线被称为<strong>高光反射（Specular）</strong><br>
+折射吸收与散射出表面的则被称为<strong>漫反射</strong> 根据入射光线的数量与方向，我们可以计算出出射光线的数量和方向，这部分被称为 **・出射度・**</p>
+<h2 id="着色"><a class="markdownIt-Anchor" href="#着色">#</a> 着色</h2>
+<p>Shading 指的是，根据材质属性（如漫反射属性，光源信息等）使用一个等式去计算延某个观察方向的出射度的过程。我们将这个等式称为<strong>光照模型</strong></p>
+<h2 id="brdf光照模型"><a class="markdownIt-Anchor" href="#brdf光照模型">#</a> BRDF 光照模型</h2>
+<p>BRDF 只是一个经验模型。・计算机图形学第一定律： 如果它看起来是对的，那么它就是对的・更加真实的模拟光和物体的交互的话，就出现了基于物理的 BRDF 模型</p>
+<h2 id="标准光照模型"><a class="markdownIt-Anchor" href="#标准光照模型">#</a> 标准光照模型</h2>
+<p>标准光照模型只关心直接光照，也就是那些直接从光源发射出来照射到物体表面后，经过一次反射直接进入摄像机的光线。 它的方法是： <strong>把进入到摄像机内的光线分为 4 个部分，每个部分使用一种方法来计算它的贡献度</strong></p>
+<ul>
+<li>
+<p>自发光（emissive）<br>
+这部分用于描述当给定一个方向时，一个表面本身会向该方向发射多少辐射量。（如果没有 GI 技术，这个量并不能照亮周围的物体，只是他自身更加的亮了而已）</p>
+</li>
+<li>
+<p>高光反射（specular）<br>
+这个部分哟关于描述当光线从光源照射到模型表面时，该表面会在完全镜面反射方向散射多少辐射量</p>
+</li>
+<li>
+<p>漫反射（diffuse）<br>
+这个部分用于描述，当光线从光源照射到模型表面时，该表面会向每个方向散射多少辐射量</p>
+</li>
+<li>
+<p>环境光（ambient）<br>
+用于描述其他所有的间接光照</p>
+</li>
+</ul>
+<h3 id="环境光"><a class="markdownIt-Anchor" href="#环境光">#</a> 环境光</h3>
+<p>真实世界中，物体可以被间接光照所照亮。间接光照是<strong>光照在多个物体间进行的反射</strong>，即光线在进入摄像机之前，经过了不止一次的物体的反射。 在标准光照模型中，我们使用一种被称为环境光的部分来近似模拟间接光照，环境光通常是一个全局变量，用这个变量来计算所有物体的环境光。</p>
+<h3 id="漫反射"><a class="markdownIt-Anchor" href="#漫反射">#</a> 漫反射</h3>
+<p>漫反射视角的位置并不重要，入射的角度很重要。<br>
+漫反射光照符合<strong>兰伯特定律（Lambert’s law）</strong><br>
+反射光线的强度与表面法线和光源方向之间的夹角的余弦值成正比。</p>
+<h3 id="自发光"><a class="markdownIt-Anchor" href="#自发光">#</a> 自发光</h3>
+<p>直接由光源发射进入摄像机 (比如物体发出的光，再比如，你发出的光 (狗头))</p>
+<h3 id="高光反射"><a class="markdownIt-Anchor" href="#高光反射">#</a> 高光反射</h3>
+<p>高光反射通常使用两个模型来做: Phong 模型和 Blinn Phong 模型<br>
+后者是基于前者进行的优化。后者对于前者而言可以少计算一个变量。并且在实验中，Blinn Phong 模型通常更接近真实结果。但 Blinn Phong 在某些情况下会出问题，比如 <code>菲涅尔反射(Fresnel reflection)</code> ,Blinn Phong 是各向同性的 (isotropic), 也就是说，当我们固定视角和广元方向旋转这个表面时，反射不会发生任何改变。但有些表面是具有各向异性 (anisotropic) 反射性质的.</p>
+<h3 id="逐像素与逐顶点"><a class="markdownIt-Anchor" href="#逐像素与逐顶点">#</a> 逐像素与逐顶点</h3>
+<p>对于颜色的计算地方，在片元着色器计算中，是逐像素光照的，顶点着色器中计算，则被称为逐顶点光照。逐像素计算中，我们会以每个像素为基础，得到法线，然后进行光照模型的计算，这种面片之间对顶点法线进行插值的技术被称为 <code>Phong着色</code> ，也被称为 Phong 插值或发现插值着色技术。逐顶点光照，被称为高洛德着色，计算量往往小于逐像素但容易出问题</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/02/25/%E3%80%8Ashader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%85%89%E7%85%A7%E7%AF%87/" title="《shader入门精要》 - 光照篇">https://mymetalseed.github.io/2021/02/25/《shader入门精要》-光照篇/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="冯乐乐卡渲一 : 渲染轮廓线">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>冯乐乐卡渲一 : 渲染轮廓线</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Unity工具链开发杂记">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>Unity工具链开发杂记</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%B8%E6%94%B6%E4%B8%8E%E6%95%A3%E5%B0%84"><span class="toc-number">1.</span> <span class="toc-text"> 吸收与散射</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%80%E8%89%B2"><span class="toc-number">1.1.</span> <span class="toc-text"> 着色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brdf%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> BRDF 光照模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text"> 标准光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%85%89"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 环境光</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%AB%E5%8F%8D%E5%B0%84"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 漫反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8F%91%E5%85%89"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 自发光</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E5%85%89%E5%8F%8D%E5%B0%84"><span class="toc-number">1.3.4.</span> <span class="toc-text"> 高光反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E5%83%8F%E7%B4%A0%E4%B8%8E%E9%80%90%E9%A1%B6%E7%82%B9"><span class="toc-number">1.3.5.</span> <span class="toc-text"> 逐像素与逐顶点</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../01/09/wordpress/" rel="bookmark" title="久违的回到了ｗｏｒｄｐｒｅｓｓ">久违的回到了ｗｏｒｄｐｒｅｓｓ</a></li><li><a href="../../../01/15/unity-callback-android-function/" rel="bookmark" title="Unity调用Android方法">Unity调用Android方法</a></li><li><a href="../../../01/16/openxr-two/" rel="bookmark" title="OpenXR (二)">OpenXR (二)</a></li><li><a href="../../../01/17/openxr3/" rel="bookmark" title="OpenXR (三)">OpenXR (三)</a></li><li><a href="../../17/shaderlab%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%815-3-%E5%86%85%E7%BD%AE%E6%96%87%E4%BB%B6/" rel="bookmark" title="ShaderLab入门精要5.3 - 内置文件">ShaderLab入门精要5.3 - 内置文件</a></li><li><a href="../../20/c-%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95/" rel="bookmark" title="C# 扩展方法">C# 扩展方法</a></li><li><a href="../%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" rel="bookmark" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></li><li class="active"><a href="" rel="bookmark" title="《shader入门精要》 - 光照篇">《shader入门精要》 - 光照篇</a></li><li><a href="../../26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" rel="bookmark" title="Unity工具链开发杂记">Unity工具链开发杂记</a></li><li><a href="../../../03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" rel="bookmark" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></li><li><a href="../../../03/08/shaderlab-%E5%86%85%E7%BD%AE%E7%BB%93%E6%9E%84%E4%BD%93%E5%8F%82%E6%95%B0/" rel="bookmark" title="ShaderLab  内置结构体参数">ShaderLab  内置结构体参数</a></li><li><a href="../../../04/03/shaderlab-%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80-%E3%80%8Aunityshaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="ShaderLab 语法基础 -《UnityShaderLab新手宝典》">ShaderLab 语法基础 -《UnityShaderLab新手宝典》</a></li><li><a href="../../../04/04/leetcode-cookbook-%E7%AE%97%E6%B3%95%E6%91%98%E8%AE%B0/" rel="bookmark" title="LeetCode CookBook - 算法摘记 - 位操作符">LeetCode CookBook - 算法摘记 - 位操作符</a></li><li><a href="../../../04/11/%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="表面着色器 -《ShaderLab新手宝典》">表面着色器 -《ShaderLab新手宝典》</a></li><li><a href="../../../07/08/%E9%9D%A2%E8%AF%95%E7%A0%94%E4%B9%A0/" rel="bookmark" title="面试研习">面试研习</a></li><li><a href="../../../07/11/%E7%AD%91%E6%A2%A6%E4%B9%8B%E8%B7%AF%E6%B8%B8%E6%88%8F%E5%AD%A6%E9%99%A2-%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="筑梦之路游戏学院 - 技能系统">筑梦之路游戏学院 - 技能系统</a></li><li><a href="../../../08/01/pathtracing%E5%B0%84%E7%BA%BF%E5%8E%9F%E7%90%86/" rel="bookmark" title="PathTracing射线原理">PathTracing射线原理</a></li><li><a href="../../../09/10/%E7%9C%8B%E5%B1%8E%E5%B1%B1%E4%BB%A3%E7%A0%81%E6%9C%89%E6%84%9F/" rel="bookmark" title="看屎山代码有感">看屎山代码有感</a></li><li><a href="../../../09/12/b-b-tree/" rel="bookmark" title="B & B+ Tree">B & B+ Tree</a></li><li><a href="../../../09/12/912%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95b/" rel="bookmark" title="米哈游笔试B">米哈游笔试B</a></li><li><a href="../../../09/14/%E5%87%89%E7%BB%8F/" rel="bookmark" title="凉经">凉经</a></li><li><a href="../../../11/06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" rel="bookmark" title="TextMesh Pro 创建中文字体流程">TextMesh Pro 创建中文字体流程</a></li><li><a href="../../../../2022/02/05/%E5%9F%BA%E4%BA%8E%E8%8A%82%E7%82%B9%E7%9A%84%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88/" rel="bookmark" title="基于节点的战斗系统设计方案">基于节点的战斗系统设计方案</a></li><li><a href="../../../../2022/03/31/%E5%B1%82%E6%AC%A1%E5%8C%85%E5%9B%B4%E6%A0%91bounding-volume-hierarchy-based-on-treebvh/" rel="bookmark" title="层次包围树(Bounding Volume Hierarchy Based On Tree,BVH)">层次包围树(Bounding Volume Hierarchy Based On Tree,BVH)</a></li><li><a href="../../../../2022/04/05/games104-pilot%E5%BC%95%E6%93%8E-1-%E5%8F%8D%E5%B0%84%E6%A1%86%E6%9E%B6%E7%BB%93%E6%9E%84/" rel="bookmark" title="Games104 Pilot引擎 (1) 反射框架结构">Games104 Pilot引擎 (1) 反射框架结构</a></li><li><a href="../../../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="bookmark" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></li><li><a href="../../../../2022/08/13/directx12-%E4%B8%93%E9%A2%98-c-15-%E6%9E%84%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%BA%BA%E7%A7%B0%E8%A7%86%E8%A7%92%E7%9A%84%E6%91%84%E5%83%8F%E6%9C%BA/" rel="bookmark" title="DirectX12 专题 C.15 - 构建第一人称视角的摄像机">DirectX12 专题 C.15 - 构建第一人称视角的摄像机</a></li><li><a href="../../../../2022/10/16/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91metaball/" rel="bookmark" title="【Shader技巧】MetaBall">【Shader技巧】MetaBall</a></li><li><a href="../../../../2023/09/16/%E3%80%90games104%E3%80%91-%E5%8A%A8%E6%80%81%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【Games104】 动态全局光照">【Games104】 动态全局光照</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../26/unity%E5%B7%A5%E5%85%B7%E9%93%BE%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../10/01/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86-leetcode-223/" title="【算法】容斥原理 leetcode 223  [推演概率论]">【算法】容斥原理 leetcode 223  [推演概率论]</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../03/08/materialpropertyblock-%E4%BC%98%E5%8C%96%E5%85%B1%E4%BA%AB%E6%9D%90%E8%B4%A8%E5%8F%82%E6%95%B0%E5%8F%98%E6%9B%B4/" title="MaterialPropertyBlock 优化共享材质参数变更">MaterialPropertyBlock 优化共享材质参数变更</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../05/13/5-13-%E6%97%A5%E8%AE%B0-%E5%BF%BD%E7%84%B6%E6%83%B3%E8%B5%B7%E4%BA%86%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%83%B3%E4%BE%9D%E9%9D%A0%E5%88%AB%E4%BA%BA%E7%9A%84%E5%8E%9F%E5%9B%A0/" title="5&#x2F;13 日记 忽然想起了为什么不想依靠别人的原因">5/13 日记 忽然想起了为什么不想依靠别人的原因</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../07/18/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92-%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95/" title="霜狼百人计划 - （二）深度测试">霜狼百人计划 - （二）深度测试</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../01/15/cjj/" title="C++随记">C++随记</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/02/25/《shader入门精要》-光照篇/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

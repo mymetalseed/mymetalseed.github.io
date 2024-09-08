@@ -1,0 +1,576 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/">
+
+
+
+  <title>
+CG语法 (二) - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">CG语法 (二)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-05-25 13:25:54">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-05-25T13:25:54+08:00">2021-05-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="三元运算符"><a class="markdownIt-Anchor" href="#三元运算符">#</a> 三元运算符</h1>
+<p>(a&lt;0) ?(b=a):(c=a); 正常来说是这样的，但是因为 CG 中向量也经常用到，所以三元运算符又多了一层含义 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">float3 h = <span class="built_in">float3</span>(<span class="number">-1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">float3 i = <span class="built_in">float3</span>(<span class="number">1.0</span>,<span class="number">0.0</span>,<span class="number">0.0</span>);</span><br><span class="line">float3 g = <span class="built_in">float3</span>(<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">0.0</span>);</span><br><span class="line">float3 k;</span><br><span class="line"></span><br><span class="line">k = (h&lt;<span class="built_in">float3</span>(<span class="number">0.0</span>,<span class="number">0.0</span>,<span class="number">0.0</span>))?(i):(g);</span><br></pre></td></tr></table></figure>
+<p>三元向量 h 与 float3 (0.0, 0.0, 0.0) 做比较运算后结果为（true, false, false）, 所以 i 的第一个数据赋值给 K 的第一个数据，g 的第二个和第三个数据赋值给 k 的第二个和第三个数据，K 的值为 (1.0, 1.0, 0.0)。</p>
+<h1 id="函数的递归是被禁止的"><a class="markdownIt-Anchor" href="#函数的递归是被禁止的">#</a> 函数的递归是被禁止的</h1>
+<p>RT 循环也不推荐使用</p>
+<h1 id="接下来产生的问题"><a class="markdownIt-Anchor" href="#接下来产生的问题">#</a> 接下来产生的问题</h1>
+<ul>
+<li>从应用程序传递到 GPU 的数据，分为图元信息数据 (在 GPU 处理的基本数据如顶点信息等) 和其他的离散数据 (在 GPU 运行流程中不会发生变化，如材质对光的反射、折射信息)，这两种输入数据如何区分？</li>
+<li>从应用程序传递到 GPU 中的图元信息如何区分类型，即，顶点程序怎么知道一个数据是位置数据，而不是法向量数据。</li>
+<li>顶点着色程序与片元着色程序之间的数据传递如何进行。</li>
+</ul>
+<h2 id="cg关键字"><a class="markdownIt-Anchor" href="#cg关键字">#</a> CG 关键字</h2>
+<p>基本数据变量，in/out/inout 用于表示数据的传递方式。</p>
+<h3 id="uniform"><a class="markdownIt-Anchor" href="#uniform">#</a> uniform</h3>
+<p>CG 语言将数据流分为两类，<br>
+- Varing inputs, 即数据输入图元信息的各种组成要素。・从应用程序输入到 GPU 的数据・如顶点数据，顶点的法向量数据，纹理坐标数据等。</p>
+<ul>
+<li>Uniform inputs，表示一些与三维渲染有关的离散信息数据，这些数据通常由应用程序传入，并通常不会随着图元信息的变化而变化，如材质对光的反射信息，运动矩阵等，同 OpenGL 的 uniform</li>
+</ul>
+<p>故 uniform 只允许修饰全局变量</p>
+<h3 id="const"><a class="markdownIt-Anchor" href="#const">#</a> const</h3>
+<p>CG 也提供 const 修辞符，与 C/C++ 中含义一样，被 const 所修辞的变量在初始化后不能再去改变它的值。</p>
+<h3 id="输入输出修饰符inoutinout"><a class="markdownIt-Anchor" href="#输入输出修饰符inoutinout">#</a> 输入 / 输出修饰符 (in\out\inout)</h3>
+<p>CG 语言同 C++ 一样使用值传递与引用传递，但是不会使用指针来实现引用传递</p>
+<ul>
+<li>
+<p>in: 修辞一个形参只是用于输入，进入函数体时被初始化，该形参不会影响实参</p>
+</li>
+<li>
+<p>out: 秀是一个形参只用于输出，进入函数体时并未被初始化，这种类型的形参一般是一个函数的运行结果.</p>
+</li>
+<li>
+<p>inout: 修辞一个形参即用于输入也用于输出，典型的引用</p>
+</li>
+</ul>
+<p>也可以用 return 来代替 out</p>
+<h3 id="语义词semantic与语义绑定binding-semantic"><a class="markdownIt-Anchor" href="#语义词semantic与语义绑定binding-semantic">#</a> 语义词 (Semantic) 与语义绑定 (Binding Semantic)</h3>
+<p>语义词，表示输入图元的数据含义 (是位置信息，还是法向量) GPU 不支持指针，所以 CG 语言通过将输入 / 输出数据和寄存器做一个映射关系。根据语义，CG 从对应的寄存器中取出数据，处理好数据后，再将数据放回寄存器中. Tag, 重点:  <code>语义: 是两个处理阶段(顶点程序,片段程序)之间的输入\输出数据和寄存器之间的桥梁</code> <br>
+同时，语义通常也表示数据的含义，如 <code>POSITION</code>  一般表示参数种存放的数据是顶点位置。 语义，只在两个处理阶段 (顶点 \ 片元) 有意义，也就是说，语义只有在入口函数中才有效。在内部函数中无效。</p>
+<h4 id="顶点着色器的输入语义"><a class="markdownIt-Anchor" href="#顶点着色器的输入语义">#</a> 顶点着色器的输入语义</h4>
+<ul>
+<li>POSITION</li>
+<li>BLENDWEIGHT</li>
+<li>NORMAL</li>
+<li>TANGENT</li>
+<li>BINORMAL</li>
+<li>PSIZE</li>
+<li>BLENDINDICES</li>
+<li>TEXCOORD0-TEXCOORD7</li>
+</ul>
+<p>语义词 POSITION0 等价于 POSITION</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">in float4 modelPos : POSITION</span><br></pre></td></tr></table></figure>
+<p>表示该参数中的数据是顶点位置坐标 (通常位于模型空间)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">in float4 modelNormal : NORMAL</span><br></pre></td></tr></table></figure>
+<p>表示该参数中的数据是顶点法向量坐标，(通常位于模型空间)</p>
+<blockquote>
+<p>Tip: 上面两个变量都是四元变量，目的是为了使用到齐次空间内</p>
+</blockquote>
+<p>位置坐标最后一元是 <code>1</code> , 顶点法向量最后一元是 <code>0</code></p>
+<h4 id="顶点着色器的输出语义"><a class="markdownIt-Anchor" href="#顶点着色器的输出语义">#</a> 顶点着色器的输出语义</h4>
+<p>顶点程序的输出语义被输入到片段着色器中，所以顶点着色器的输出语义，通常也是片段程序的输入语义，不过语义词 POSITION 除外。下面这些语义词适用于所有的 CG Vertex profiles 作为输出语义和 Cg fragment profiles 的输入语义: POSITION,PSIZE,FOG,COLOR0-COLOR1,TEXCOORD0-TEXCOORD7 顶点着色器必须包含一个带有 POSITION 的输出变量 如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">main_v</span><span class="params">(float4 position: POSITION,</span></span></span><br><span class="line"><span class="params"><span class="function">           <span class="comment">//out float4 oposition: POSITION,</span></span></span></span><br><span class="line"><span class="params"><span class="function">            uniform float4x4 modelViewProj</span></span></span><br><span class="line"><span class="params"><span class="function">           )</span></span>&#123;</span><br><span class="line">    <span class="comment">//oposition = mul(modelViewPorj,position);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码会报错，因为必须包含一个输出变量</p>
+<h4 id="使用struct保证输出语义与输入语义一致"><a class="markdownIt-Anchor" href="#使用struct保证输出语义与输入语义一致">#</a> 使用 struct 保证输出语义与输入语义一致</h4>
+<p>为了保证顶点程序输出语义和片段程序的输入语义的一致性，通常使用相同的 struct 类型数据作为两者之间的传递。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">VertexIn</span>&#123;</span><br><span class="line">    float4 position:POSITION;</span><br><span class="line">    float4 normal : NORMAL;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">VertexScreen</span>&#123;</span><br><span class="line">    float4 oPosition:POSITION;</span><br><span class="line">    float4 objectPos:TEXCOORD0;</span><br><span class="line">    float4 objectNormal: TEXCOORD1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意：当时用 struct 结构中的成员变量绑定语义时，需要注意到顶点着色器程序中使用的 POSITION 语义词，是不会被片段程序所使用的。 顶点程序中绑定的语义 (POSITION 除外) 会传递到对应的片元着色器相同的语义中去。</p>
+<h4 id="片段着色器的输出语义"><a class="markdownIt-Anchor" href="#片段着色器的输出语义">#</a> 片段着色器的输出语义</h4>
+<p>片段着色器的输出语义比较少，通常是 COLOR, 片段着色器必须声明一个 out 向量 (三元或者四元), 绑定到 COLOR 语义上，这个值将被用作最终的颜色值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">main_f</span><span class="params">(out float4 color:COLOR)</span></span>&#123;</span><br><span class="line">    color.xyz = <span class="built_in">float3</span>(<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>);</span><br><span class="line">    color.w = <span class="number">1.0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="语义绑定方法"><a class="markdownIt-Anchor" href="#语义绑定方法">#</a> 语义绑定方法</h3>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">https://mymetalseed.github.io/2021/05/25/cg语法-二/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="基于模型的体积云 - 尝试复现WalkingFat文章">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 特效</span>
+  <h3>基于模型的体积云 - 尝试复现WalkingFat文章</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../28/gameframework-%E5%AF%B9%E8%B1%A1%E6%B1%A0/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="GameFramework 对象池">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> GameFramework</span>
+  <h3>GameFramework 对象池</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.</span> <span class="toc-text"> 三元运算符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E9%80%92%E5%BD%92%E6%98%AF%E8%A2%AB%E7%A6%81%E6%AD%A2%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text"> 函数的递归是被禁止的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text"> 接下来产生的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cg%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.1.</span> <span class="toc-text"> CG 关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uniform"><span class="toc-number">3.1.1.</span> <span class="toc-text"> uniform</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#const"><span class="toc-number">3.1.2.</span> <span class="toc-text"> const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E4%BF%AE%E9%A5%B0%E7%AC%A6inoutinout"><span class="toc-number">3.1.3.</span> <span class="toc-text"> 输入 &#x2F; 输出修饰符 (in\out\inout)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E4%B9%89%E8%AF%8Dsemantic%E4%B8%8E%E8%AF%AD%E4%B9%89%E7%BB%91%E5%AE%9Abinding-semantic"><span class="toc-number">3.1.4.</span> <span class="toc-text"> 语义词 (Semantic) 与语义绑定 (Binding Semantic)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E8%BE%93%E5%85%A5%E8%AF%AD%E4%B9%89"><span class="toc-number">3.1.4.1.</span> <span class="toc-text"> 顶点着色器的输入语义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E8%BE%93%E5%87%BA%E8%AF%AD%E4%B9%89"><span class="toc-number">3.1.4.2.</span> <span class="toc-text"> 顶点着色器的输出语义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8struct%E4%BF%9D%E8%AF%81%E8%BE%93%E5%87%BA%E8%AF%AD%E4%B9%89%E4%B8%8E%E8%BE%93%E5%85%A5%E8%AF%AD%E4%B9%89%E4%B8%80%E8%87%B4"><span class="toc-number">3.1.4.3.</span> <span class="toc-text"> 使用 struct 保证输出语义与输入语义一致</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%87%E6%AE%B5%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E8%BE%93%E5%87%BA%E8%AF%AD%E4%B9%89"><span class="toc-number">3.1.4.4.</span> <span class="toc-text"> 片段着色器的输出语义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E4%B9%89%E7%BB%91%E5%AE%9A%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.5.</span> <span class="toc-text"> 语义绑定方法</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../01/11/renderer-pipeline/" rel="bookmark" title="渲染管线">渲染管线</a></li><li><a href="../../../01/12/nrp/" rel="bookmark" title="卡通渲染 (一)">卡通渲染 (一)</a></li><li><a href="../../../01/12/shaderlab/" rel="bookmark" title="ShaderLab语法">ShaderLab语法</a></li><li><a href="../../../01/12/toonrender2/" rel="bookmark" title="卡通渲染 (二)">卡通渲染 (二)</a></li><li><a href="../../../01/14/shaderlab-two/" rel="bookmark" title="ShaderLab语法 (二)">ShaderLab语法 (二)</a></li><li><a href="../../../02/25/minions-art%E7%B3%BB%E5%88%97-%E8%BF%9970%E4%B8%8D%E8%83%BD%E7%99%BD%E8%8A%B1/" rel="bookmark" title="Minions Art系列一 - 这70不能白花">Minions Art系列一 - 这70不能白花</a></li><li><a href="../../../03/01/unity-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/" rel="bookmark" title="Unity 自定义后处理">Unity 自定义后处理</a></li><li><a href="../../../04/04/shader%E4%B8%AD%E7%9A%84%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/" rel="bookmark" title="Shader中的光照模型">Shader中的光照模型</a></li><li><a href="../../../04/05/shader-%E9%80%8F%E6%98%8E%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="Shader 透明效果 《Shaderlab新手宝典》">Shader 透明效果 《Shaderlab新手宝典》</a></li><li><a href="../../../04/10/shaderlab%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="ShaderLab模板测试 《ShaderLab新手宝典》">ShaderLab模板测试 《ShaderLab新手宝典》</a></li><li><a href="../../../04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="编写表面着色器 - 《Shaderlab新手宝典》">编写表面着色器 - 《Shaderlab新手宝典》</a></li><li><a href="../../../04/17/%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="曲面细分 - 《ShaderLab新手宝典》">曲面细分 - 《ShaderLab新手宝典》</a></li><li><a href="../../../04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></li><li><a href="../../../04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></li><li><a href="../../../04/19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" rel="bookmark" title="建立一个屏幕后处理系统 - 《Unity Shader入门精要》">建立一个屏幕后处理系统 - 《Unity Shader入门精要》</a></li><li><a href="../../../04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" rel="bookmark" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></li><li><a href="../../05/%E3%80%8Aunity-sahder%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" rel="bookmark" title="《Unity Sahder入门精要》 - 坐标空间变换">《Unity Sahder入门精要》 - 坐标空间变换</a></li><li><a href="../../07/%E3%80%8Agpu%E7%BC%96%E7%A8%8B%E4%B8%8Ecg%E8%AF%AD%E8%A8%80%E3%80%8B-%E6%91%98%E8%AE%B0/" rel="bookmark" title="《GPU编程与CG语言》 - 摘记">《GPU编程与CG语言》 - 摘记</a></li><li><a href="../../09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" rel="bookmark" title="《Unity Shader入门精要》 - 法线变换">《Unity Shader入门精要》 - 法线变换</a></li><li><a href="../../09/%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" rel="bookmark" title="点积概念巩固">点积概念巩固</a></li><li><a href="../../16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" rel="bookmark" title="基于模型的体积云 - 尝试复现WalkingFat文章">基于模型的体积云 - 尝试复现WalkingFat文章</a></li><li class="active"><a href="" rel="bookmark" title="CG语法 (二)">CG语法 (二)</a></li><li><a href="../../../06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" rel="bookmark" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></li><li><a href="../../../07/04/games101-mipmap/" rel="bookmark" title="Games101 - mipmap">Games101 - mipmap</a></li><li><a href="../../../07/07/grap-%E7%AC%94%E8%AE%B0/" rel="bookmark" title="Grap 笔记">Grap 笔记</a></li><li><a href="../../../07/12/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95/" rel="bookmark" title="霜狼百人计划笔记 - (一) 模板测试">霜狼百人计划笔记 - (一) 模板测试</a></li><li><a href="../../../07/18/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92-%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95/" rel="bookmark" title="霜狼百人计划 - （二）深度测试">霜狼百人计划 - （二）深度测试</a></li><li><a href="../../../07/25/%E5%B1%80%E9%83%A8%E7%A9%BA%E9%97%B4%E5%88%B0%E4%B8%96%E7%95%8C%E7%A9%BA%E9%97%B4%E7%9A%84%E5%B5%8C%E5%A5%97%E5%8F%98%E6%8D%A2/" rel="bookmark" title="局部空间到世界空间的嵌套变换 & 相机空间">局部空间到世界空间的嵌套变换 & 相机空间</a></li><li><a href="../../../08/01/3d%E9%80%8F%E8%A7%86%E5%8E%9F%E7%90%86/" rel="bookmark" title="3D透视原理">3D透视原理</a></li><li><a href="../../../08/29/%E6%B0%B4%E5%A2%A8%E9%A3%8E%E6%B8%B2%E6%9F%93%E8%AE%B0%E5%BD%95/" rel="bookmark" title="水墨风渲染记录">水墨风渲染记录</a></li><li><a href="../../../09/01/unity-urp%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E8%B5%84%E6%96%99%E6%95%B4%E5%90%88/" rel="bookmark" title="Unity URP渲染管线资料整合">Unity URP渲染管线资料整合</a></li><li><a href="../../../11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/" rel="bookmark" title="在Unity中使用Shader和SDF制作渐变血条">在Unity中使用Shader和SDF制作渐变血条</a></li><li><a href="../../../11/08/%E7%89%A9%E4%BD%93%E6%B6%88%E9%9A%90dissolve/" rel="bookmark" title="Shader物体消隐(Dissolve)">Shader物体消隐(Dissolve)</a></li><li><a href="../../../../2022/04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" rel="bookmark" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></li><li><a href="../../../../2022/04/16/games104-5-%E6%B8%B2%E6%9F%93%E4%B8%AD%E5%85%89%E5%92%8C%E6%9D%90%E8%B4%A8%E7%9A%84%E6%95%B0%E5%AD%A6%E9%AD%94%E6%B3%95/" rel="bookmark" title="Games104 5 - 渲染中光和材质的数学魔法">Games104 5 - 渲染中光和材质的数学魔法</a></li><li><a href="../../../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../../../../2022/04/23/vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" rel="bookmark" title="Vulkan2. 概念扫盲">Vulkan2. 概念扫盲</a></li><li><a href="../../../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></li><li><a href="../../../../2022/05/01/games104-h1-lut-color-gradiant/" rel="bookmark" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></li><li><a href="../../../../2022/05/03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" rel="bookmark" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></li><li><a href="../../../../2022/05/04/directx-12-3-%E5%AE%9E%E6%93%8D1-%E5%88%9D%E5%A7%8B%E5%8C%96direct3d/" rel="bookmark" title="DirectX 12 - 3. 实操1 - 初始化Direct3D">DirectX 12 - 3. 实操1 - 初始化Direct3D</a></li><li><a href="../../../../2022/05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../../2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../../2022/06/26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../../2022/07/24/directx-10-%E6%B7%B7%E5%90%88/" rel="bookmark" title="DirectX 11 混合">DirectX 11 混合</a></li><li><a href="../../../../2022/07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" rel="bookmark" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></li><li><a href="../../../../2022/07/24/directx12-11-%E6%A8%A1%E6%9D%BF/" rel="bookmark" title="DirectX12 12 模板">DirectX12 12 模板</a></li><li><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../../2022/07/30/ugui-text-%E6%89%A9%E5%B1%95/" rel="bookmark" title="UGUI - TEXT 扩展">UGUI - TEXT 扩展</a></li><li><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" rel="bookmark" title="DirectX12 图像模糊">DirectX12 图像模糊</a></li><li><a href="../../../../2022/08/13/directx12-15-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" rel="bookmark" title="DirectX12 15 贝塞尔曲线">DirectX12 15 贝塞尔曲线</a></li><li><a href="../../../../2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" rel="bookmark" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></li><li><a href="../../../../2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="bookmark" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></li><li><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../../2022/12/11/%E3%80%90ta101%E3%80%91-pbr/" rel="bookmark" title="【TA101】 PBR">【TA101】 PBR</a></li><li><a href="../../../../2022/12/13/%E3%80%90rtr3-%E6%8F%90%E7%82%BC%E6%80%BB%E7%BB%93%E6%AF%9B%E6%98%9F%E4%BA%91%E3%80%91-the-graphics-processing-unit/" rel="bookmark" title="【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit">【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit</a></li><li><a href="../../../../2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../../../2022/12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="bookmark" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></li><li><a href="../../../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" rel="bookmark" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></li><li><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li><a href="../../../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" rel="bookmark" title="【技巧】Hi-Z裁剪">【技巧】Hi-Z裁剪</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" rel="bookmark" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></li><li><a href="../../../../2023/03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></li><li><a href="../../../../2023/04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" rel="bookmark" title="【TA效果】 GpuInstance实现雨点打击地面的效果">【TA效果】 GpuInstance实现雨点打击地面的效果</a></li><li><a href="../../../../2023/04/09/%E3%80%90gdc%E3%80%91adaptive-virtual-texture-rendering-in-far-cry-4/" rel="bookmark" title="【GDC】Adaptive Virtual Texture Rendering in Far Cry 4">【GDC】Adaptive Virtual Texture Rendering in Far Cry 4</a></li><li><a href="../../../../2023/04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" rel="bookmark" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></li><li><a href="../../../../2023/04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" rel="bookmark" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></li><li><a href="../../../../2023/05/07/%E3%80%90games106%E3%80%91-homework1/" rel="bookmark" title="【Games106】 homework1">【Games106】 homework1</a></li><li><a href="../../../../2023/05/28/%E3%80%90%E6%95%88%E6%9E%9C%E3%80%91-cascade-shadow-%E7%BA%A7%E8%81%94%E9%98%B4%E5%BD%B1/" rel="bookmark" title="【效果】 Cascade Shadow 级联阴影">【效果】 Cascade Shadow 级联阴影</a></li><li><a href="../../../../2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" rel="bookmark" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></li><li><a href="../../../../2023/07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" rel="bookmark" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></li><li><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../../2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../../../2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li><li><a href="../../../../2023/09/09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="【Games104】 动画系统">【Games104】 动画系统</a></li><li><a href="../../../../2023/09/19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" rel="bookmark" title="【GDC】 再探Virtual Texture">【GDC】 再探Virtual Texture</a></li><li><a href="../../../../2023/10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" rel="bookmark" title="【URP】 以毛玻璃后处理为例学一下RenderFeature是什么">【URP】 以毛玻璃后处理为例学一下RenderFeature是什么</a></li><li><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li><li><a href="../../../../2023/11/25/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-cluster-based-forward/" rel="bookmark" title="【图形学】 Cluster Based Forward+">【图形学】 Cluster Based Forward+</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../28/gameframework-%E5%AF%B9%E8%B1%A1%E6%B1%A0/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../02/22/%E8%85%BE%E8%AE%AFrtc-sdk%E9%9B%86%E6%88%90%E5%88%B0unity/" title="腾讯RTC SDK集成到Unity">腾讯RTC SDK集成到Unity</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" title="【UE&#x2F;HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../04/19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" title="建立一个屏幕后处理系统 - 《Unity Shader入门精要》">建立一个屏幕后处理系统 - 《Unity Shader入门精要》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" title="【GPGPU】 Unity ComputeShader &amp; Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../10/01/c-%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%E7%BA%BF-%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3/" title="C++ （十一）线&#x2F;进程相关">C++ （十一）线/进程相关</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../05/%E3%80%8A%E6%98%9F%E6%98%9F%E4%B9%8B%E5%8D%B5%E3%80%8B-%E6%AF%95/" title="《星星之卵》 毕">《星星之卵》 毕</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../02/22/c-with-unity-%E6%93%8D%E4%BD%9Cexcel-epplus/" title="C# With Unity 操作Excel - EPPlus">C# With Unity 操作Excel - EPPlus</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" title="【TA101】 ComputeShader &amp; Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/05/25/cg语法-二/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

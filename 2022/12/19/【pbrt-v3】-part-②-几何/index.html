@@ -1,0 +1,567 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/">
+
+
+
+  <title>
+【PBRT V3】 part ② 几何 - PBRT - 渲染引擎开发 - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【PBRT V3】 part ② 几何
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-12-19 23:56:04">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-12-19T23:56:04+08:00">2022-12-19</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" itemprop="item" rel="index" title="In 渲染引擎开发"><span itemprop="name">渲染引擎开发</span></a>
+<meta itemprop="position" content="3" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/PBRT/" itemprop="item" rel="index" title="In PBRT"><span itemprop="name">PBRT</span></a>
+<meta itemprop="position" content="4" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="vector3"><a class="markdownIt-Anchor" href="#vector3">#</a> Vector3</h1>
+<ol>
+<li>通过重载运算符实现下标访问器</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">T <span class="keyword">operator</span>[](<span class="type">int</span> i) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(i &gt;= <span class="number">0</span> &amp;&amp; i &lt;= <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">1</span>) <span class="keyword">return</span> y;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br><span class="line">T &amp;<span class="keyword">operator</span>[](<span class="type">int</span> i) &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(i &gt;= <span class="number">0</span> &amp;&amp; i &lt;= <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">1</span>) <span class="keyword">return</span> y;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>通过重载名称实现方便的类型系统</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> Vector2&lt;Float&gt; Vector2f;</span><br><span class="line"><span class="keyword">typedef</span> Vector2&lt;<span class="type">int</span>&gt; Vector2i;</span><br><span class="line"><span class="keyword">typedef</span> Vector3&lt;Float&gt; Vector3f;</span><br><span class="line"><span class="keyword">typedef</span> Vector3&lt;<span class="type">int</span>&gt; Vector3i;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>通过宏控制 Debug 信息，以及编译期检查的代码裁剪</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Vector3</span>(T x, T y, T z) : <span class="built_in">x</span>(x), <span class="built_in">y</span>(y), <span class="built_in">z</span>(z) &#123; <span class="built_in">DCHECK</span>(!<span class="built_in">HasNaNs</span>()); &#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_f65a5b19c236079c1f94363edfb03bb1.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_f65a5b19c236079c1f94363edfb03bb1.jpg" alt=""></a></p>
+<ol start="4">
+<li>向量加法与向量减法等</li>
+</ol>
+<blockquote>
+<p>重载运算符实现 (注意，+= 方法等需要添加引用)</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Vector3&lt;T&gt; <span class="keyword">operator</span>+(<span class="type">const</span> Vector3&lt;T&gt; &amp;v) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Vector3</span>(x + v.x, y + v.y, z + v.z);</span><br><span class="line">&#125;</span><br><span class="line">Vector3&lt;T&gt; &amp;<span class="keyword">operator</span>+=(<span class="type">const</span> Vector3&lt;T&gt; &amp;v) &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    x += v.x;</span><br><span class="line">    y += v.y;</span><br><span class="line">    z += v.z;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line">Vector3&lt;T&gt; <span class="keyword">operator</span>-(<span class="type">const</span> Vector3&lt;T&gt; &amp;v) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Vector3</span>(x - v.x, y - v.y, z - v.z);</span><br><span class="line">&#125;</span><br><span class="line">Vector3&lt;T&gt; &amp;<span class="keyword">operator</span>-=(<span class="type">const</span> Vector3&lt;T&gt; &amp;v) &#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    x -= v.x;</span><br><span class="line">    y -= v.y;</span><br><span class="line">    z -= v.z;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>使用除法的倒数优化 CPU 上除法与乘法的性能差异</li>
+</ol>
+<blockquote>
+<p>可以看出，下述代码实际上将三次除法改成了三次乘法</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</span><br><span class="line">Vector3&lt;T&gt; <span class="keyword">operator</span>/(U f) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="built_in">CHECK_NE</span>(f, <span class="number">0</span>);</span><br><span class="line">    Float inv = (Float)<span class="number">1</span> / f;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Vector3</span>&lt;T&gt;(x * inv, y * inv, z * inv);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</span><br><span class="line">Vector3&lt;T&gt; &amp;<span class="keyword">operator</span>/=(U f) &#123;</span><br><span class="line">    <span class="built_in">CHECK_NE</span>(f, <span class="number">0</span>);</span><br><span class="line">    Float inv = (Float)<span class="number">1</span> / f;</span><br><span class="line">    x *= inv;</span><br><span class="line">    y *= inv;</span><br><span class="line">    z *= inv;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>点积与叉积实现</li>
+</ol>
+<blockquote>
+<p>叉积需要在计算前转换成 double 来抵消误差</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> T <span class="title">Dot</span><span class="params">(<span class="type">const</span> Vector3&lt;T&gt; &amp;v1, <span class="type">const</span> Vector3&lt;T&gt; &amp;v2)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v1.<span class="built_in">HasNaNs</span>() &amp;&amp; !v2.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    <span class="keyword">return</span> v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> T <span class="title">AbsDot</span><span class="params">(<span class="type">const</span> Vector3&lt;T&gt; &amp;v1, <span class="type">const</span> Vector3&lt;T&gt; &amp;v2)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v1.<span class="built_in">HasNaNs</span>() &amp;&amp; !v2.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">abs</span>(<span class="built_in">Dot</span>(v1, v2));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> Vector3&lt;T&gt; <span class="title">Cross</span><span class="params">(<span class="type">const</span> Vector3&lt;T&gt; &amp;v1, <span class="type">const</span> Vector3&lt;T&gt; &amp;v2)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">DCHECK</span>(!v1.<span class="built_in">HasNaNs</span>() &amp;&amp; !v2.<span class="built_in">HasNaNs</span>());</span><br><span class="line">    <span class="type">double</span> v1x = v1.x, v1y = v1.y, v1z = v1.z;</span><br><span class="line">    <span class="type">double</span> v2x = v2.x, v2y = v2.y, v2z = v2.z;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Vector3</span>&lt;T&gt;((v1y * v2z) - (v1z * v2y), (v1z * v2x) - (v1x * v2z),</span><br><span class="line">                      (v1x * v2y) - (v1y * v2x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>叉积特性:<br>
+1. 单位叉积的模等于 sinθ 的值<br>
+ 2. 叉积的模等于以两边为边的平行四边形的面积<br>
+ 3. 单位叉积的模 -&gt; sinθ 等于平行四边形的面积 (单位下）</p>
+<ol start="7">
+<li>给单个向量规定坐标系</li>
+</ol>
+<p>类似于广告牌的做法，确定出一个垂直于当前向量的分量，然后叉积得到第三个分量 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_213473def99ba74cd65f459555d78e51.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_213473def99ba74cd65f459555d78e51.jpg" alt=""></a></p>
+<h1 id="ray"><a class="markdownIt-Anchor" href="#ray">#</a> Ray</h1>
+<blockquote>
+<p>射线在 pbrt 中的存储方式如下:</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Ray Declarations</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Ray</span> &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Ray Public Methods</span></span><br><span class="line">    <span class="built_in">Ray</span>() : <span class="built_in">tMax</span>(Infinity), <span class="built_in">time</span>(<span class="number">0.f</span>), <span class="built_in">medium</span>(<span class="literal">nullptr</span>) &#123;&#125;</span><br><span class="line">    <span class="built_in">Ray</span>(<span class="type">const</span> Point3f &amp;o, <span class="type">const</span> Vector3f &amp;d, Float tMax = Infinity,</span><br><span class="line">        Float time = <span class="number">0.f</span>, <span class="type">const</span> Medium *medium = <span class="literal">nullptr</span>)</span><br><span class="line">        : <span class="built_in">o</span>(o), <span class="built_in">d</span>(d), <span class="built_in">tMax</span>(tMax), <span class="built_in">time</span>(time), <span class="built_in">medium</span>(medium) &#123;&#125;</span><br><span class="line">    <span class="function">Point3f <span class="title">operator</span><span class="params">()</span><span class="params">(Float t)</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> o + d * t; &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">HasNaNs</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> (o.<span class="built_in">HasNaNs</span>()  d.<span class="built_in">HasNaNs</span>()  <span class="built_in">isNaN</span>(tMax)); &#125;</span><br><span class="line">    <span class="keyword">friend</span> std::ostream &amp;<span class="keyword">operator</span>&lt;&lt;(std::ostream &amp;os, <span class="type">const</span> Ray &amp;r) &#123;</span><br><span class="line">        os &lt;&lt; <span class="string">&quot;[o=&quot;</span> &lt;&lt; r.o &lt;&lt; <span class="string">&quot;, d=&quot;</span> &lt;&lt; r.d &lt;&lt; <span class="string">&quot;, tMax=&quot;</span> &lt;&lt; r.tMax</span><br><span class="line">           &lt;&lt; <span class="string">&quot;, time=&quot;</span> &lt;&lt; r.time &lt;&lt; <span class="string">&quot;]&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> os;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ray Public Data</span></span><br><span class="line">    Point3f o;</span><br><span class="line">    Vector3f d;</span><br><span class="line">    <span class="keyword">mutable</span> Float tMax;</span><br><span class="line">    Float time;</span><br><span class="line">    <span class="type">const</span> Medium *medium;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_62cf14a68fb01e9aaf6bf116454d9c70.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_62cf14a68fb01e9aaf6bf116454d9c70.jpg" alt=""></a> 即 射线是以参数形式进行存储的 注意一点，接口中有一个 <code>tMax</code>  变量被限制为 mutable, 这个参数的主要作用是用来将射线变成一个线段，这种表示形式的一个好处是 <code>可以认为我们默认在一个射线变量中,它的起点和方向是不可改变的</code>  另外， <code>medium</code>  代表的是射线端点的介质，<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_6ee2664d0438d24c7b44be0ac0b26dd6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/12/wp_editor_md_6ee2664d0438d24c7b44be0ac0b26dd6.jpg" alt=""></a></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" title="【PBRT V3】 part ② 几何">https://mymetalseed.github.io/2022/12/19/【pbrt-v3】-part-②-几何/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../13/%E3%80%90rtr3-%E6%8F%90%E7%82%BC%E6%80%BB%E7%BB%93%E6%AF%9B%E6%98%9F%E4%BA%91%E3%80%91-the-graphics-processing-unit/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> RTR</span>
+  <h3>【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【PBRT V3】 part ④ 图元和相交加速">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>【PBRT V3】 part ④ 图元和相交加速</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vector3"><span class="toc-number">1.</span> <span class="toc-text"> Vector3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ray"><span class="toc-number">2.</span> <span class="toc-text"> Ray</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../../../2024/06/02/%E3%80%90pbrt-v4-1%E3%80%91-chapter1/" rel="bookmark" title="【PBRT V4 -1】 Chapter1">【PBRT V4 -1】 Chapter1</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../13/%E3%80%90rtr3-%E6%8F%90%E7%82%BC%E6%80%BB%E7%BB%93%E6%AF%9B%E6%98%9F%E4%BA%91%E3%80%91-the-graphics-processing-unit/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/05/09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" title="《Unity Shader入门精要》 - 法线变换">《Unity Shader入门精要》 - 法线变换</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/20/c-%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95/" title="C# 扩展方法">C# 扩展方法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/09/03/ecs%E6%80%9D%E6%83%B3/" title="ECS思想">ECS思想</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/14/c%EF%BC%88%E4%BA%8C%EF%BC%89%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="C++（二）内存管理">C++（二）内存管理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" title="【GPGPU】 Unity ComputeShader &amp; Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/04/%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="技能系统">技能系统</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/12/19/【pbrt-v3】-part-②-几何/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

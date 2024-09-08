@@ -1,0 +1,548 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/">
+
+
+
+  <title>
+【UE_Source】 部分FileSystem - UE - 游戏引擎 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【UE_Source】 部分FileSystem
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-08-13 11:19:24">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-08-13T11:19:24+08:00">2023-08-13</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" itemprop="item" rel="index" title="In 游戏引擎"><span itemprop="name">游戏引擎</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/UE/" itemprop="item" rel="index" title="In UE"><span itemprop="name">UE</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="序"><a class="markdownIt-Anchor" href="#序">#</a> 序</h1>
+<p>学习 UE5 的渲染。</p>
+<h1 id="shader加载流"><a class="markdownIt-Anchor" href="#shader加载流">#</a> Shader 加载流</h1>
+<h2 id="读取虚拟着色期目录"><a class="markdownIt-Anchor" href="#读取虚拟着色期目录">#</a> 读取虚拟着色期目录</h2>
+<p>在 UE 引擎对一系列的 args 处理完毕后，会有一个阶段进入 Shader 的加载流程</p>
+<blockquote>
+<p>LaunchEngineLoop.cpp</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_ENGINE</span></span><br><span class="line">    <span class="comment">// Add the default engine shader dir</span></span><br><span class="line">    <span class="built_in">AddShaderSourceDirectoryMapping</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/Engine&quot;</span>), FPlatformProcess::<span class="built_in">ShaderDir</span>());</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>检查是否在主线程</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">check</span>(<span class="built_in">IsInGameThread</span>());</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>如果使用 CookData 或者不允许 Shader 编译，就结束流程</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (FPlatformProperties::<span class="built_in">RequiresCookedData</span>()  !<span class="built_in">AllowShaderCompiling</span>())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>源码版本的 Shader 在 <code>EngineShaders</code>  目录下 (Combind Engine Dir/Shaders/)</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_36b9bc120545dc231f8f1ca19869c52b.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_36b9bc120545dc231f8f1ca19869c52b.jpg" alt=""></a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">const</span> TCHAR* <span class="title">FGenericPlatformProcess::ShaderDir</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Generic_ShaderDir.<span class="built_in">Len</span>() == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Generic_ShaderDir = FPaths::<span class="built_in">Combine</span>(*(FPaths::<span class="built_in">EngineDir</span>()), <span class="built_in">TEXT</span>(<span class="string">&quot;Shaders&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *Generic_ShaderDir;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>将着色器目录添加到全局 Mapping 中 (虚拟着色器 -&gt; 真实着色器映射)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GShaderSourceDirectoryMappings.<span class="built_in">Add</span>(VirtualShaderDirectory, RealShaderDirectory);</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>自动着色器目录 <code>[项目名]IntermediateShaderAutogen</code> , 同样也会被添加到虚拟着色器映射中</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITOR</span></span><br><span class="line">    &#123;</span><br><span class="line">        IPlatformFile&amp; PlatformFile = FPlatformFileManager::<span class="built_in">Get</span>().<span class="built_in">GetPlatformFile</span>();</span><br><span class="line">        FString ProjectIntermediateDir = FPaths::<span class="built_in">ProjectIntermediateDir</span>();</span><br><span class="line">        <span class="type">bool</span> bCreateIntermediateSuccess = PlatformFile.<span class="built_in">CreateDirectoryTree</span>(*ProjectIntermediateDir);</span><br><span class="line">        <span class="keyword">if</span> (!bCreateIntermediateSuccess)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">UE_LOG</span>(LogInit, Fatal, <span class="built_in">TEXT</span>(<span class="string">&quot;Failed to create Intermediate directory &#x27;%s&#x27;.&quot;</span>), *ProjectIntermediateDir);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        FString AutogenAbsolutePath = FPaths::<span class="built_in">ConvertRelativePathToFull</span>(ProjectIntermediateDir / <span class="built_in">TEXT</span>(<span class="string">&quot;ShaderAutogen&quot;</span>));</span><br><span class="line">        <span class="type">bool</span> bCreateAutogenSuccess = PlatformFile.<span class="built_in">CreateDirectory</span>(*AutogenAbsolutePath);</span><br><span class="line">        <span class="keyword">if</span> (!bCreateAutogenSuccess)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">UE_LOG</span>(LogInit, Fatal, <span class="built_in">TEXT</span>(<span class="string">&quot;Failed to create Intermediate/ShaderAutogen/ directory &#x27;%s&#x27;. Make sure Intermediate exists.&quot;</span>), *AutogenAbsolutePath);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">AddShaderSourceDirectoryMapping</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;/ShaderAutogen&quot;</span>), AutogenAbsolutePath);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">//WITH_EDITOR</span></span></span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>加载初始化模块</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="built_in">SCOPED_BOOT_TIMING</span>(<span class="string">&quot;LoadPreInitModules&quot;</span>);</span><br><span class="line">    <span class="built_in">LoadPreInitModules</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//内部实现 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FEngineLoop::LoadPreInitModules</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">DECLARE_SCOPE_CYCLE_COUNTER</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Loading PreInit Modules&quot;</span>), STAT_PreInitModules, STATGROUP_LoadTime);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// GGetMapNameDelegate is initialized here</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_ENGINE</span></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Engine&quot;</span>));</span><br><span class="line"></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Renderer&quot;</span>));</span><br><span class="line"></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;AnimGraphRuntime&quot;</span>));</span><br><span class="line"></span><br><span class="line">    FPlatformApplicationMisc::<span class="built_in">LoadPreInitModules</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !UE_SERVER</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">IsRunningDedicatedServer</span>() )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!GUsingNullRHI)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// This needs to be loaded before InitializeShaderTypes is called</span></span><br><span class="line">            FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModuleChecked</span>&lt;ISlateRHIRendererModule&gt;(<span class="string">&quot;SlateRHIRenderer&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Landscape&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Initialize ShaderCore before loading or compiling any shaders,</span></span><br><span class="line">    <span class="comment">// But after Renderer and any other modules which implement shader types.</span></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;RenderCore&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITORONLY_DATA</span></span><br><span class="line">    <span class="comment">// Load the texture compressor module before any textures load. They may</span></span><br><span class="line">    <span class="comment">// compress asynchronously and that can lead to a race condition.</span></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;TextureCompressor&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!FPlatformProperties::<span class="built_in">RequiresCookedData</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Virtualization&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// WITH_ENGINE</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> WITH_EDITOR</span></span><br><span class="line">    <span class="comment">// Load audio editor module before engine class CDOs are loaded</span></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;AudioEditor&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !(UE_BUILD_SHIPPING  UE_BUILD_TEST) <span class="comment">// todo: revist</span></span></span><br><span class="line">    FModuleManager::<span class="built_in">Get</span>().<span class="built_in">LoadModule</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;AnimationModifiers&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// !(UE_BUILD_SHIPPING  UE_BUILD_TEST)</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// WITH_EDITOR</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以发现，在这一部分，加载了大部分需要的模块，最终对于每一个模块返回的是一个指向模块的指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FORCEINLINE T* <span class="title">Get</span><span class="params">()</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="代理"><a class="markdownIt-Anchor" href="#代理">#</a> 代理</h1>
+<p>UE 理有很多代理，是用来掌控生命周期的，类似于 Unity 的 Update 之类的方法，有生命周期自行调用，其他模块进行注册 其中核心大部分代理都放在 <code>FCoreDelegates</code>  中 举几个最常见的例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Called at the beginning of a frame</span></span><br><span class="line"><span class="type">static</span> FSimpleMulticastDelegate OnBeginFrame;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called at the moment of sampling the input (currently on the gamethread)</span></span><br><span class="line"><span class="type">static</span> FSimpleMulticastDelegate OnSamplingInput;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called at the end of a frame</span></span><br><span class="line"><span class="type">static</span> FSimpleMulticastDelegate OnEndFrame;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called at the beginning of a frame on the renderthread</span></span><br><span class="line"><span class="type">static</span> FSimpleMulticastDelegate OnBeginFrameRT;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Called at the end of a frame on the renderthread</span></span><br><span class="line"><span class="type">static</span> FSimpleMulticastDelegate OnEndFrameRT;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>只需要在合适的地方调用 <code>Delegate.AddStatic(方法)</code>  即可</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" title="【UE_Source】 部分FileSystem">https://mymetalseed.github.io/2023/08/13/【ue-source】-部分filesystem/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【UE&#x2F;HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 算法</span>
+  <h3>【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text"> 序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#shader%E5%8A%A0%E8%BD%BD%E6%B5%81"><span class="toc-number">2.</span> <span class="toc-text"> Shader 加载流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E8%99%9A%E6%8B%9F%E7%9D%80%E8%89%B2%E6%9C%9F%E7%9B%AE%E5%BD%95"><span class="toc-number">2.1.</span> <span class="toc-text"> 读取虚拟着色期目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 代理</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/09/17/ue-c%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0-%E4%B8%80-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAcube/" rel="bookmark" title="UE5 C++编程学习 (一)   新建一个Cube">UE5 C++编程学习 (一)   新建一个Cube</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/07/23/ue-%E6%95%B4%E7%90%86/" rel="bookmark" title="UE 整理">UE 整理</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li class="active"><a href="" rel="bookmark" title="【UE_Source】 部分FileSystem">【UE_Source】 部分FileSystem</a></li><li><a href="../../../09/15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></li><li><a href="../../../09/17/%E3%80%90ue%E3%80%91-gc%E6%BA%90%E7%A0%81/" rel="bookmark" title="【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array">【UE】 GC源码1. FUObjectArray以及UObject注册到全局Array</a></li><li><a href="../../../../2024/01/20/%E3%80%90ue%E3%80%91%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E6%B8%B2%E6%9F%93%E4%B8%BB%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】源码学习-渲染主框架">【UE】源码学习-渲染主框架</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" title="【C++】 STL源码剖析">【C++】 STL源码剖析</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/02/19/%E8%AE%B0%E4%B8%80%E6%AC%A1ui%E4%BC%98%E5%8C%96-%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8/" title="记一次UI优化 - 无限滚动">记一次UI优化 - 无限滚动</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../../../2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/" title="Nest+Nuxt前后端分离式">Nest+Nuxt前后端分离式</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2022/07/09/%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86%E7%AE%97%E6%B3%95/" title="空间划分算法">空间划分算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/14/%E4%B8%83%E6%9C%88%E7%A6%BB%E4%BA%AC/" title="5&#x2F;14 七月">5/14 七月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/14/shaderlab-two/" title="ShaderLab语法 (二)">ShaderLab语法 (二)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" title="C# 反射机制">C# 反射机制</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/URP/" title="In URP">URP</a>
+</div>
+
+    <span><a href="../../../09/16/%E3%80%90urp%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E3%80%91-%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="【URP源码解读】 延迟渲染">【URP源码解读】 延迟渲染</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/08/13/【ue-source】-部分filesystem/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

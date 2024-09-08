@@ -1,0 +1,567 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/">
+
+
+
+  <title>
+【计算几何】 剖分算法 - 计算几何 - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【计算几何】 剖分算法
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-08-04 13:49:27">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-08-04T13:49:27+08:00">2023-08-04</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="item" rel="index" title="In 计算几何"><span itemprop="name">计算几何</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="几何数据结构"><a class="markdownIt-Anchor" href="#几何数据结构">#</a> 几何数据结构</h1>
+<p>先讨论最简单的多边形数据结构<br>
+就是对每个边建立两个顶点间的双向链表</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../Base/Vector.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Point.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>,<span class="type">size_t</span> dim&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Vertex</span> &#123;</span><br><span class="line">    jmk::Vector&lt;T, dim&gt; point;</span><br><span class="line">    Vertex* next;</span><br><span class="line">    Vertex* prev;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Vertex</span>(jmk::Vector&lt;T, dim&gt;&amp; _point, Vertex&lt;T, dim&gt;* _next, Vertex&lt;T, dim&gt;* _prev)</span><br><span class="line">    :<span class="built_in">point</span>(_point), <span class="built_in">next</span>(_next), <span class="built_in">prev</span>(_prev),</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> Vertex&lt;<span class="type">float</span>, DIM2&gt; Vertex2d;</span><br><span class="line"><span class="keyword">typedef</span> Vertex&lt;<span class="type">float</span>, DIM3&gt; Vertex3d;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>,<span class="type">size_t</span> dim = DIM3&gt;</span><br><span class="line"><span class="keyword">class</span> Polygon &#123;</span><br><span class="line">    std::vector&lt;Vertex&lt;T, dim&gt;*&gt; vertext_list;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Polygon</span>(std::list&lt;jmk::Vector&lt;T, dim&gt;&gt;&amp; points) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="type">int</span> size = points.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (size &lt; <span class="number">3</span>) &#123;</span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;Not enough points to construct a polygon&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//1. 将顶点加入到定点列表</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> _point : points) &#123;</span><br><span class="line">            vertext_list.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Vertex</span>(_point));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 每个顶点连接到下一个顶点(双向链表)</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            vertext_list[i].next = &amp;vertext_list[(i + <span class="number">1</span>) % size];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (i != <span class="number">0</span>) &#123;</span><br><span class="line">                vertext_list[i].prev = &amp;vertext_list[i - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                vertext_list[i].prev = &amp;vertext_list[size - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::vector&lt;Vertex&lt;T, dim&gt;*&gt; <span class="built_in">getVertices</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> vertext_list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> Polygon&lt;<span class="type">float</span>, DIM3&gt; PolygonS3d;</span><br><span class="line"><span class="keyword">typedef</span> Polygon&lt;<span class="type">float</span>, DIM2&gt; PolygonS2d;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="ear-clipping"><a class="markdownIt-Anchor" href="#ear-clipping">#</a> Ear Clipping</h1>
+<h2 id="ear-test"><a class="markdownIt-Anchor" href="#ear-test">#</a> Ear Test</h2>
+<ol>
+<li>Check whether the vertext from a  <code>Converx angle</code>  (检查是否一个点是来自于凸角)</li>
+<li>Line connecting two neighboring vertices hsould be a  <code>diagonal</code>  (链接相邻的两个顶点出现的边应该是 diagonal 的)</li>
+</ol>
+<p>其中 diagonal 是这样的，其中，AE 是 <code>diagpnal</code>  的，AC 不是，DC 也不是 (是否在多边形内部):<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_2a28245568900d6c94086cb43349cec1.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_2a28245568900d6c94086cb43349cec1.jpg" alt=""></a></p>
+<ol start="3">
+<li>仅仅检测连线是否与多边形的边相交是不足以判断这条连线是 <code>diagonal</code>  的，在此基础上，还需要判断这条边在多边形内部</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_56476557c0ef69a225786059c0d10679.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_56476557c0ef69a225786059c0d10679.jpg" alt=""></a></p>
+<blockquote>
+<p>Diagonal Check 总结</p>
+<blockquote>
+<ol>
+<li>首先 <code>连线不能和其他任意边相交</code></li>
+<li>如果开始连线的顶点是一个 <code>convex vertex</code> , 那么其两个邻居顶点应该位于连线的两侧</li>
+<li>如果连线开始的顶点是一个 <code>reflex vertex</code> , 那么连线应该位于多边形内部</li>
+</ol>
+</blockquote>
+</blockquote>
+<p><strong>Convex vertex: 凸顶点是指在凸多边形或凸曲线上的顶点。在凸多边形中，凸顶点是多边形的角的顶点，其内角小于 180 度。凸顶点的特点是无论从该顶点出发画出的任何一条直线，都不会与多边形的边界相交或内部相交。凸顶点对于描述和分析凸多边形的形状和性质非常重要。相反，非凸多边形具有凹顶点，其内角大于 180 度，从该顶点出发画出的直线会与多边形的边界或内部相交。</strong> <strong>reflex vertex： 凸多边形中内角大于 180° 的顶点</strong></p>
+<h2 id="实现"><a class="markdownIt-Anchor" href="#实现">#</a> 实现</h2>
+<ol>
+<li>完整实现</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">jmk::isDiagonal</span><span class="params">(<span class="type">const</span> Vertex2d* v1, <span class="type">const</span> Vertex2d* v2, PolygonS2d* poly)</span> </span>&#123;</span><br><span class="line">    <span class="type">bool</span> prospect = <span class="literal">true</span>;</span><br><span class="line">    std::vector&lt;Vertex2d*&gt; vertices;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//先获得所有顶点</span></span><br><span class="line">    <span class="keyword">if</span> (poly)</span><br><span class="line">        vertices = poly-&gt;<span class="built_in">getVertices</span>();</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">auto</span> vertex_ptr = v1-&gt;next;</span><br><span class="line">        vertices.<span class="built_in">push_back</span>((Vertex2d*)v1);</span><br><span class="line">        <span class="keyword">while</span> (vertex_ptr != v1) &#123;</span><br><span class="line">            vertices.<span class="built_in">push_back</span>(vertex_ptr);</span><br><span class="line">            vertex_ptr = vertex_ptr-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//遍历所有的点,判断是否有线和当前v1v2构成的线相交,有就相交测试失败 </span></span><br><span class="line">    Vertex2d* current, * next;</span><br><span class="line">    current = vertices[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        next = current-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (current != v1 &amp;&amp; next != v1 &amp;&amp; current != v2 &amp;&amp; next != v2</span><br><span class="line">            &amp;&amp; jmk::<span class="built_in">Intersection</span>(v1-&gt;point, v2-&gt;point, current-&gt;point, next-&gt;point)) &#123;</span><br><span class="line">            prospect = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        current = next;</span><br><span class="line">    &#125; <span class="keyword">while</span> (current != vertices[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> prospect &amp;&amp; <span class="built_in">interiorCheck</span>(v1,v2) &amp;&amp; <span class="built_in">interiorCheck</span>(v2,v1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中 Intersection 函数实现如下，其中 <code>orientation2d</code>  函数实现的是判断 c 点和 a-&gt;b 向量的关系 (根据数值求面积 (叉积) 的正负来判断)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">jmk::Intersection</span><span class="params">(<span class="type">const</span> jmk::Point2d&amp; a, <span class="type">const</span> jmk::Point2d&amp; b, <span class="type">const</span> jmk::Point2d&amp; c,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> jmk::Point2d&amp; d)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> ab_c = jmk::<span class="built_in">orientation2d</span>(a, b, c);</span><br><span class="line">    <span class="keyword">auto</span> ab_d = jmk::<span class="built_in">orientation2d</span>(a, b, d);</span><br><span class="line">    <span class="keyword">auto</span> cd_a = jmk::<span class="built_in">orientation2d</span>(c, d, a);</span><br><span class="line">    <span class="keyword">auto</span> cd_b = jmk::<span class="built_in">orientation2d</span>(c, d, b);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ab_c == BETWEEN  ab_c == ORIGIN  ab_c == DESTINATION</span><br><span class="line">         ab_d == BETWEEN  ab_d == ORIGIN  ab_d == DESTINATION</span><br><span class="line">         cd_a == BETWEEN  cd_a == ORIGIN  cd_a == DESTINATION</span><br><span class="line">         cd_b == BETWEEN  cd_b == ORIGIN  cd_b == DESTINATION) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _xor(ab_c == LEFT, ab_d == LEFT) &amp;&amp; _xor(cd_a == LEFT, cd_b == LEFT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a在bc的哪侧</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">jmk::orientation2d</span><span class="params">(<span class="type">const</span> Point2d&amp; a, <span class="type">const</span> Point2d&amp; b, <span class="type">const</span> Point2d&amp; c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> area = <span class="built_in">areaTriangle2d</span>(a, b, c);</span><br><span class="line">    <span class="keyword">if</span> (area &gt; <span class="number">0</span> &amp;&amp; area &lt; TOLERENCE) </span><br><span class="line">        area = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (area &lt; <span class="number">0</span> &amp;&amp; area &gt; TOLERENCE)</span><br><span class="line">        area = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    Vector2f ab = b - a;</span><br><span class="line">    Vector2f ac = c - a;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (area &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> LEFT;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (area &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> RIGHT;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((ab[X] * ac[X] &lt; <span class="number">0</span>)  (ab[Y] * ac[Y] &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> BEHIND;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ab.<span class="built_in">magnitude</span>() &lt; ac.<span class="built_in">magnitude</span>()) &#123;</span><br><span class="line">        <span class="keyword">return</span> BEYOND;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (a == c)</span><br><span class="line">        <span class="keyword">return</span> ORIGIN;</span><br><span class="line">    <span class="keyword">if</span> (b == c)</span><br><span class="line">        <span class="keyword">return</span> DESTINATION;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> BETWEEN;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>isDiagnoal</code>  函数的中间，是对 v1v2 构成的边进行整个多边形的相交检测，如果通过了，再使用 <code>interiorCheck</code>  函数来检查是否满足 <code>Ear Test</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_89af988575f47fe1cd463e05ed66da67.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_89af988575f47fe1cd463e05ed66da67.jpg" alt=""></a> 其中 <code>interiorCheck</code>  函数的具体实现如下，即检查 v2 是否通过 v1 的 <code>EarTest</code> , 且 v1 也要通过 v2 的 <code>Ear Test</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 检查v2v1是否在v1的三个邻接点组成的角的内部</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;param name=&quot;v1&quot;&gt;&lt;/param&gt;</span></span><br><span class="line"><span class="comment">/// &lt;param name=&quot;v2&quot;&gt;&lt;/param&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">jmk::interiorCheck</span><span class="params">(<span class="type">const</span> Vertex2d* v1, <span class="type">const</span> Vertex2d* v2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//判定v1是否是convex或者relex顶点,vPrev在v1VNext的哪侧</span></span><br><span class="line">    <span class="keyword">if</span> (jmk::<span class="built_in">leftOrBeyond</span>(v1-&gt;point, v1-&gt;next-&gt;point, v1-&gt;prev-&gt;point)) &#123;</span><br><span class="line">        <span class="comment">//左侧,检测是否是convex,性质: 位于v1v2连线的两侧</span></span><br><span class="line">        <span class="comment">//v1 is convex vertex</span></span><br><span class="line">        <span class="keyword">return</span> jmk::<span class="built_in">left</span>(v1-&gt;point, v2-&gt;point, v1-&gt;prev-&gt;point)</span><br><span class="line">            &amp;&amp; jmk::<span class="built_in">left</span>(v2-&gt;point, v1-&gt;point,v1-&gt;next-&gt;point);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//是凹角,则判断是否在relex条件下满足在多边形内部</span></span><br><span class="line">    <span class="comment">//不满足(取反结果):  </span></span><br><span class="line">    <span class="comment">//    1. 检查v1Next是否位于v1-&gt;v2 左侧</span></span><br><span class="line">    <span class="comment">//    2. 同时v1Prev位于v1-&gt;v2左侧时,不满足relex条件下在多边形内部的条件</span></span><br><span class="line">    <span class="comment">//v1 is relex vertex</span></span><br><span class="line">    <span class="keyword">return</span> !(jmk::<span class="built_in">leftOrBeyond</span>(v1-&gt;point, v2-&gt;point, v1-&gt;next-&gt;point)</span><br><span class="line">        &amp;&amp; jmk::<span class="built_in">leftOrBeyond</span>(v2-&gt;point, v1-&gt;point, v1-&gt;prev-&gt;point));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以 v1 为 <code>start vertex</code>  举例<br>
+算法的思路就是根据 v1 是 <code>convex</code>  角还是 <code>relex</code>  角来选择不同的测试方法，<br>
+1. 如果是 convex 角，则只需要判断 <code>v1</code>  相邻的两个点是否在 <code>v1v2</code>  向量的不同侧<br>
+ 2. 如果是 relex 角，则取反判断，即判断是否满足 <code>v1v2</code>  不在多边形内部，如果不通过，就代表 v1v2 在多边形内部，通过测试</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_0b4b2c1d946d6a145b17e2a2cc94584d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_0b4b2c1d946d6a145b17e2a2cc94584d.jpg" alt=""></a><br>
+如上图，判定在 v1 位 relex 角的前提下，v2 在多边形外部  <code>isDiagonal</code>  函数在相交测试、耳测试全通过后才能表明 v2v1 是一条 <code>diagonal(耳边?)</code></p>
+<h1 id="耳裁减三角化"><a class="markdownIt-Anchor" href="#耳裁减三角化">#</a> 耳裁减三角化</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_c35fc53648cd020e1358154c5f87ff7f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_c35fc53648cd020e1358154c5f87ff7f.jpg" alt=""></a></p>
+<blockquote>
+<p>伪代码</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 初始化耳状态  </span><br><span class="line">while(直到只有三个顶点为止)&#123;</span><br><span class="line">    2. 选择一个点并且找到一个在两个邻接点之间的diagonal </span><br><span class="line">    3. 移除选中的点</span><br><span class="line">    4. 更新邻接顶点的耳状态</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Triangulation.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> jmk;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">initialize_ear_status</span><span class="params">(PolygonS2d* polygon)</span> </span>&#123;</span><br><span class="line">    Vertex2d* v0, * v1, * v2;</span><br><span class="line">    <span class="keyword">auto</span> vertices = polygon-&gt;<span class="built_in">getVertices</span>();</span><br><span class="line">    v1 = vertices[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        v0 = v1-&gt;prev;</span><br><span class="line">        v2 = v1-&gt;next;</span><br><span class="line">        v1-&gt;is_ear = <span class="built_in">isDiagonal</span>(v0, v2);</span><br><span class="line">        v1 = v1-&gt;next;</span><br><span class="line">    &#125; <span class="keyword">while</span> (v1 != vertices[<span class="number">0</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Triangulate_earclipping</span><span class="params">(PolygonS2d* poly, std::vector&lt;Edge2d&gt;&amp; edge_list)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">initialize_ear_status</span>(poly);</span><br><span class="line">    <span class="keyword">auto</span> vertex_list = poly-&gt;<span class="built_in">getVertices</span>();</span><br><span class="line">    <span class="type">int</span> no_vertex_to_process = vertex_list.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    Vertex2d* v0, * v1, * v2, * v3, * v4;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (no_vertex_to_process &gt; <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; vertex_list.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            v2 - vertex_list[i];</span><br><span class="line">            <span class="keyword">if</span> (v2-&gt;is_ear &amp;&amp; !v2-&gt;is_processed) &#123;</span><br><span class="line">                v3 = v2-&gt;next;</span><br><span class="line">                v4 = v3-&gt;next;</span><br><span class="line">                v1 = v2-&gt;prev;</span><br><span class="line">                v0 = v1-&gt;prev;</span><br><span class="line"></span><br><span class="line">                edge_list.<span class="built_in">push_back</span>(<span class="built_in">Edge2d</span>(*v1, *v3));</span><br><span class="line">                v2-&gt;is_processed = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">                v1-&gt;next = v3;</span><br><span class="line">                v3-&gt;prev = v1;</span><br><span class="line"></span><br><span class="line">                v1-&gt;is_ear = <span class="built_in">isDiagonal</span>(v0, v3, <span class="literal">nullptr</span>);</span><br><span class="line">                v3-&gt;is_ear = <span class="built_in">isDiagonal</span>(v1, v4, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">                no_vertex_to_process--;</span><br><span class="line">                <span class="keyword">if</span> (no_vertex_to_process &lt;= <span class="number">3</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" title="【计算几何】 剖分算法">https://mymetalseed.github.io/2023/08/04/【计算几何】-剖分算法/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【计算几何】 Art Gallery theorem">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【计算几何】 Art Gallery theorem</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text"> 几何数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ear-clipping"><span class="toc-number">2.</span> <span class="toc-text"> Ear Clipping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ear-test"><span class="toc-number">2.1.</span> <span class="toc-text"> Ear Test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text"> 实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%B3%E8%A3%81%E5%87%8F%E4%B8%89%E8%A7%92%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text"> 耳裁减三角化</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li class="active"><a href="" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2022/05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" title="【GPGPU】 Unity ComputeShader &amp; Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/14/%E4%B8%83%E6%9C%88%E7%A6%BB%E4%BA%AC/" title="5&#x2F;14 七月">5/14 七月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/shaderlab/" title="ShaderLab语法">ShaderLab语法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../09/19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" title="【GDC】 再探Virtual Texture">【GDC】 再探Virtual Texture</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2022/10/25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="【OI Wiki Study】 – 计算几何">【OI Wiki Study】 – 计算几何</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/lettier/" title="In lettier">lettier</a>
+</div>
+
+    <span><a href="../../../../2021/05/12/%E8%AE%A1%E5%88%92-%E3%80%8A3d-game-shaders-for-beginners%E3%80%8B/" title="计划 - 《3D Game Shaders For Beginners》">计划 - 《3D Game Shaders For Beginners》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="In 操作系统">操作系统</a>
+</div>
+
+    <span><a href="../../../../2021/06/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%EF%BC%88%E4%B8%80%EF%BC%89/" title="操作系统 （一）">操作系统 （一）</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/08/04/【计算几何】-剖分算法/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

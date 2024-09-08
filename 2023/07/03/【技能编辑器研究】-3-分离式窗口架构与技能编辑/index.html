@@ -1,0 +1,545 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/07/03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/">
+
+
+
+  <title>
+【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体 - Gameplay |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-07-03 22:31:04">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-07-03T22:31:04+08:00">2023-07-03</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Gameplay/" itemprop="item" rel="index" title="In Gameplay"><span itemprop="name">Gameplay</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/07/03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] 前序:<br>
+ 技能编辑器主要是用来编辑<strong>一个行为过程中触发的事件</strong>，而这些行为本质上是存在相互依赖的关系的，比如: A 准备攻击 B, 前摇阶段被 B 打断<br>
+ A 离开攻击行为，进入被击行为。所以，实际上角色的每个行为本身都可以抽象成为一个状态，行为之间的转移就可以抽象为状态转移<br>
+而时间轴则可以给状态加入时间 (帧) 的概念，当前状态的每个时间点 (帧) 会发生什么事，发生的事情会转换到哪个状态… 即事实上的技能编辑器本意应该是<strong>专注在技能释放过程中的行为的有限状态机</strong><br>
+当然，也可以直接用蓝图来做，但是由于技能的时间段特征，蓝图需要自己去计算时间点发生什么事，这就很麻烦了.<br>
+ 所以最好的方法应该是:<br>
+ 技能编辑器编辑时间轴与触发的行为 -&gt; 蓝图用来处理行为状态间的转移 (不关心行为实际的表现)-&gt; 统一借助中间数据来达成双端显示同步</p>
+<h1 id="1-如何实现可以弹出的多窗体"><a class="markdownIt-Anchor" href="#1-如何实现可以弹出的多窗体">#</a> 1. 如何实现可以弹出的多窗体</h1>
+<p>设计图如下 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_3c69241dd30d3e9a86945a8448cd964d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_3c69241dd30d3e9a86945a8448cd964d.jpg" alt=""></a></p>
+<blockquote>
+<p><strong>主窗体绘制部分</strong></p>
+<ol>
+<li>首先需要将窗体的行为和属性抽象成一个中间结构 <code>IView</code></li>
+<li>最开始的根窗口持有所有的编辑器 <code>IView派生类</code> ，如 FrameListView/ActionListView 等</li>
+<li>根窗体每帧 (OnGUI) 调用 <code>所有子View的Draw方法</code> <br>
+ &gt; 3.1. 子 View 根据每次 OnGUI 数据，重写的 Draw 方法来进行实际的 Draw</li>
+<li>在 OnGUI 时可以通过行为来更改 IView 里的数据</li>
+</ol>
+<p><strong>窗体弹出部分</strong></p>
+<ol>
+<li>窗体本身的绘制是依赖 IView</li>
+<li>如果需要在其他窗体绘制，只需要把 IView 赋值给其他窗体，并由其他窗体来调用 IView 的 Draw 方法</li>
+<li>如果需要适配，建议使用相对大小</li>
+<li>如果想要支持弹出窗体还可以回到原窗体，只需要给 IView 加一个 <code>isPop</code>  的标记即可<br>
+ &gt; 4.1 如果在 Pop 状态，生成一个新的 EditorWindow, 把 IView 的 Draw 控制权交给新的 Window<br>
+&gt; 4.2 需要注意的一点是，如果有全局 Context, 则子 View 无论是否弹出，数据的更新一定是要在根窗口的 Context 上更新</li>
+</ol>
+</blockquote>
+<h1 id="2-两个主要界面的介绍"><a class="markdownIt-Anchor" href="#2-两个主要界面的介绍">#</a> 2. 两个主要界面的介绍</h1>
+<h2 id="21-状态列表statelistview"><a class="markdownIt-Anchor" href="#21-状态列表statelistview">#</a> 2.1 状态列表 (StateListView)</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_be4bc33b96313b2bf10c43b94daabc84.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_be4bc33b96313b2bf10c43b94daabc84.jpg" alt=""></a> 如上图，其中每个 State 在 <code>表现上是一个Button</code> , 在存储上是 <code>List中的一个StateConfig</code> <br>
+ 每次在 StateListView 调用 Draw 方法的时候，同时绘制 <code>List&lt;StateConfig&gt;</code> , 通过得到每个 StateConfig 中存储的 StateName 来显示 Button 的描述，点击的时候更改当前 StateListView 的选中状态</p>
+<h2 id="22-帧列表framelistview"><a class="markdownIt-Anchor" href="#22-帧列表framelistview">#</a> 2.2 帧列表 (FrameListView)</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_1574573c8b600602e53bf2af28b91dff.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_1574573c8b600602e53bf2af28b91dff.jpg" alt=""></a> 这个帧序列需要支持:<br>
+1. 实时在场景中查看动画的状态<br>
+ 2. 将动画在时间序列上拆成自己指定的帧数<br>
+ 3. 每帧触发的事件需要在帧上进行编辑<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_9255aa66f6221814beb1f4e78d1756ca.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_9255aa66f6221814beb1f4e78d1756ca.jpg" alt=""></a><br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_2c2c3307d7a312727e1c842532f91d9c.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_2c2c3307d7a312727e1c842532f91d9c.jpg" alt=""></a> 提供一个动作列表，可以在一帧上添加很多个动作</p>
+<h3 id="221-实现"><a class="markdownIt-Anchor" href="#221-实现">#</a> 2.2.1 实现</h3>
+<p>帧 View 存储一个 <code>List&lt;FrameConfig&gt;</code> <br>
+ 对于每个 FrameConfig, 和上述状态一样，在 View 中以 Button 的形式表现出来 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f661d4274a471ec52b225a955d23a041.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f661d4274a471ec52b225a955d23a041.jpg" alt=""></a> 但是同理， <code>技能编辑器</code> 只负责更改数据，实时的表现同步需要借助 <code>编写一个读取编辑器数据,并且转换成显示</code> 的工具。</p>
+<h3 id="222-sceneguidrawer-场景绘制"><a class="markdownIt-Anchor" href="#222-sceneguidrawer-场景绘制">#</a> 2.2.2 SceneGUIDrawer 场景绘制</h3>
+<p>除开 WindowEditor 的 <code>OnGui</code>  外，Unity 的 Scene 也提供了 GUIDraw 的方法 <code>SceneView.duringSceneGui</code> , 这是个委托，需要将自己的 OnSceneGui 方法注册进去<br>
+可以通过每帧检查当前选中的帧下标来更新动画，<br>
+ 也可以直接在 OnGui 的 Draw 之后更新动画</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnGui</span>()</span>&#123;</span><br><span class="line">    Draw();</span><br><span class="line">    UpdateAnimation();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateAnimation</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    AnimationClip clip = GetCurrentAnimationClip();</span><br><span class="line">    <span class="built_in">int</span> frameIndex = frameSelectIndex;</span><br><span class="line">    <span class="keyword">if</span>(clip == <span class="literal">null</span>  frameIndex &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">float</span> time = frameIndex * setting.frameRate;</span><br><span class="line">    <span class="keyword">var</span> state = currentState;</span><br><span class="line"></span><br><span class="line">    Animator animator = GetAnimator();</span><br><span class="line">    clip.SampleAnimation(animator.gameObject, time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/07/03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/" title="【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体">https://mymetalseed.github.io/2023/07/03/【技能编辑器研究】-3-分离式窗口架构与技能编辑/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GPGPU】 Unity ComputeShader &amp; Bresenham并发画圆算法">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> GPGPU</span>
+  <h3>【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【C++并发】 thread相关">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【C++并发】 thread相关</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AF%E4%BB%A5%E5%BC%B9%E5%87%BA%E7%9A%84%E5%A4%9A%E7%AA%97%E4%BD%93"><span class="toc-number">1.</span> <span class="toc-text"> 1. 如何实现可以弹出的多窗体</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%B8%A4%E4%B8%AA%E4%B8%BB%E8%A6%81%E7%95%8C%E9%9D%A2%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text"> 2. 两个主要界面的介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E7%8A%B6%E6%80%81%E5%88%97%E8%A1%A8statelistview"><span class="toc-number">2.1.</span> <span class="toc-text"> 2.1 状态列表 (StateListView)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E5%B8%A7%E5%88%97%E8%A1%A8framelistview"><span class="toc-number">2.2.</span> <span class="toc-text"> 2.2 帧列表 (FrameListView)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#221-%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 2.2.1 实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#222-sceneguidrawer-%E5%9C%BA%E6%99%AF%E7%BB%98%E5%88%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 2.2.2 SceneGUIDrawer 场景绘制</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="bookmark" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></li><li class="active"><a href="" rel="bookmark" title="【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体">【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体</a></li><li><a href="../../18/%E3%80%90gameplay%E3%80%91-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E7%95%85%E6%83%B3/" rel="bookmark" title="【GamePlay】 关卡编辑器畅想">【GamePlay】 关卡编辑器畅想</a></li><li><a href="../../23/%E3%80%90gameplay%E3%80%91-2-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E5%AE%9E%E7%8E%B0%E5%92%8C%E6%80%9D%E8%80%83-1/" rel="bookmark" title="【GamePlay】 2. 关卡编辑器实现和思考-1">【GamePlay】 2. 关卡编辑器实现和思考-1</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
+</div>
+
+    <span><a href="../../../../2021/05/28/gameframework-%E5%AF%B9%E8%B1%A1%E6%B1%A0/" title="GameFramework 对象池">GameFramework 对象池</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Vulkan/" title="In Vulkan">Vulkan</a>
+</div>
+
+    <span><a href="../../../04/20/%E3%80%90games106%E3%80%91-3-vulkan%E4%BB%8B%E7%BB%8D-2/" title="【Games106】 3. Vulkan介绍_2">【Games106】 3. Vulkan介绍_2</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
+</div>
+
+    <span><a href="../../../../2021/02/21/gameframework%E7%B3%BB%E5%88%97-resourcemanager/" title="GameFramework系列 - ResourceManager">GameFramework系列 - ResourceManager</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/25/c-%E5%8D%81-%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8Cauto/" title="C++ (十)  变量相关(类型转换和auto)">C++ (十)  变量相关(类型转换和auto)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/06/05/%E8%A1%8C%E4%B8%BA%E6%A0%91/" title="行为树">行为树</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/09/01/%E6%9D%8E%E5%AE%8F%E6%AF%85-%E7%94%9F%E6%88%90%E5%BC%8FAI-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="李宏毅-生成式AI-机器学习基本原理">李宏毅-生成式AI-机器学习基本原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/cjj/" title="C++随记">C++随记</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/07/03/【技能编辑器研究】-3-分离式窗口架构与技能编辑/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

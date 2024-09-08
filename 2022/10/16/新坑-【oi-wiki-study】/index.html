@@ -1,0 +1,543 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/">
+
+
+
+  <title>
+新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links - 算法 - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-10-16 07:54:10">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-10-16T07:54:10+08:00">2022-10-16</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%AE%97%E6%B3%95/" itemprop="item" rel="index" title="In 算法"><span itemprop="name">算法</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] <span class="exturl" data-url="aHR0cHM6Ly9vaXdpa2kuY29tL2dyYXBoLw==">https://oiwiki.com/graph/</span></p>
+<h1 id="dancing-links"><a class="markdownIt-Anchor" href="#dancing-links">#</a> Dancing Links</h1>
+<p>Dacing Links 主要可以用来解决 <code>精确覆盖问题</code></p>
+<h2 id="精确覆盖问题"><a class="markdownIt-Anchor" href="#精确覆盖问题">#</a> 精确覆盖问题</h2>
+<p>OI Wiki 上对与精确覆盖问题是这样定义的：精确覆盖问题: (Exact Cover Problem) 是指给定许多集合<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi mathvariant="normal">_</mi><mi>i</mi><mo stretchy="false">(</mo><mn>1</mn><mo>&lt;</mo><mo>=</mo><mi>i</mi><mo>&lt;</mo><mo>=</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">S\_i(1&lt;=i&lt;=N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">i</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69862em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> 以及一个集合 X, 求满足以下条件的无序多元组 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi mathvariant="normal">_</mi><mn>1</mn><mo separator="true">,</mo><mi>T</mi><mi mathvariant="normal">_</mi><mn>2</mn><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>T</mi><mi mathvariant="normal">_</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">T\_1,T\_2,...,T\_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99333em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">m</span></span></span></span>):</p>
+<ol>
+<li>\\forall i,j \\in \[1,m\],T\_i\\cap T\_j=\\emptyset (i\\neq j)</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mspace linebreak="newline"></mspace><mi>c</mi><mi>u</mi><mi>p</mi><mi mathvariant="normal">_</mi><msup><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></msup><mi>T</mi><mi mathvariant="normal">_</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">X = \\cup\_{i=1}^m T\_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1.023812em;vertical-align:-0.31em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal">p</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord"><span class="mord"><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">1</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.713812em;"><span style="top:-3.11242em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">i</span></span></span></span></li>
+<li>$\forall i\in [1,m],T_i\in S_1,S_2,…S_n $</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_9f5c8559733a3726d89222c55e8f3fcf.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_9f5c8559733a3726d89222c55e8f3fcf.jpg" alt=""></a> 问题可以转化为将数字与下标进行对齐的一个矩阵 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_328d1c541a077a5135d790774b9b75fe.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_328d1c541a077a5135d790774b9b75fe.jpg" alt=""></a></p>
+<h3 id="暴力解法1"><a class="markdownIt-Anchor" href="#暴力解法1">#</a> 暴力解法 1</h3>
+<blockquote>
+<p>枚举所有可能的状态，即，枚举所有可以选择的情况</p>
+<blockquote>
+<p>由于每行都有可选与不可选状态，所以总状态数量为 <code>2^N</code> <br>
+ 枚举状态后，对每个状态进行合理性检查</p>
+</blockquote>
+</blockquote>
+<p><code>伪代码如下</code>  ```c++ int ok = 0; for (int state = 0; state &lt; 1 &lt;&lt; n; ++state) { // 枚举每行是否被选 for (int i = 1; i &lt;= n; ++i) if ((1 &lt;&lt; i - 1) &amp; state) for (int j = 1; j &lt;= m; ++j) a [i][j] = 1; int flag = 1; for (int j = 1; j &lt;= m; ++j) for (int i = 1, bo = 0; i &lt;= n; ++i) if (a [i][j]) { if (bo) flag = 0; else bo = 1; } if (!flag) continue; else { ok = 1; for (int i = 1; i &lt;= n; ++i) if ((1 &lt;&lt; i - 1) &amp; state) printf (&quot;% d “, i); puts (”&quot;); } memset (a, 0, sizeof (a)); } if (!ok) puts (“No solution.”);</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">### 暴力解法2</span><br><span class="line"></span><br><span class="line">&gt; 考虑到01矩阵的性质,每一行都可以看做一个m位二进制数,问题转化为:  </span><br><span class="line">**给定n个m位二进制数,要求选择一些数,使得任意两个数的与都为0,且所有数的或为$2^m-1$。`tmp`表示的是截至目前被选中的二进制数的或**</span><br><span class="line"></span><br><span class="line">1. 同样需要枚举状态</span><br><span class="line">2. 省略了检查的步骤,直接对所有可能性进行与和或即可</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">int ok = 0;</span><br><span class="line">for (int i = 1; i &lt;= n; ++i)</span><br><span class="line">  for (int j = m; j &gt;= 1; --j) num[i] = num[i] &lt;&lt; 1  a[i][j];</span><br><span class="line">for (int state = 0; state &lt; 1 &lt;&lt; n; ++state) &#123;</span><br><span class="line">  int tmp = 0;</span><br><span class="line">  for (int i = 1; i &lt;= n; ++i)</span><br><span class="line">    if ((1 &lt;&lt; i - 1) &amp; state) &#123;</span><br><span class="line">      if (tmp &amp; num[i]) break;</span><br><span class="line">      tmp = num[i];</span><br><span class="line">    &#125;</span><br><span class="line">  if (tmp == (1 &lt;&lt; m) - 1) &#123;</span><br><span class="line">    ok = 1;</span><br><span class="line">    for (int i = 1; i &lt;= n; ++i)</span><br><span class="line">      if ((1 &lt;&lt; i - 1) &amp; state) printf(&quot;%d &quot;, i);</span><br><span class="line">    puts(&quot;&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">if (!ok) puts(&quot;No solution.&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="x算法"><a class="markdownIt-Anchor" href="#x算法">#</a> X 算法</h3>
+<p>X 算法的核心是方便优化，其原理比较简单，即不断地降低遍历区间，这里直接放上 X 算法的截图: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_446963783b35bdddac35585b8768f823.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_446963783b35bdddac35585b8768f823.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_627e25a4f24ff4bb6f2c3faeaa9fef38.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_627e25a4f24ff4bb6f2c3faeaa9fef38.jpg" alt=""></a> B 不难看出这个过程涉及到大量的删除行 / 删除列 / 恢复行 / 恢复列的行为.<br>
+ 基于这个方法产生的问题，Donald E.Knuth 想出了使用双向十字链表来维护这些操作 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_3f091fb8b3187f07df2bf59c7f54800b.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/10/wp_editor_md_3f091fb8b3187f07df2bf59c7f54800b.jpg" alt=""></a> 如上图所示，每一行 / 每一列都有一个指示 具体算法实现如下: <span class="exturl" data-url="aHR0cHM6Ly9vaXdpa2kuY29tL3NlYXJjaC9kbHgv">https://oiwiki.com/search/dlx/</span> 有了这个算法后，就可以很好地实现数独问题的求解了</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">https://mymetalseed.github.io/2022/10/16/新坑-【oi-wiki-study】/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【TA101】1. 各种Map">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C#</span>
+  <h3>【TA101】1. 各种Map</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91metaball/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【Shader技巧】MetaBall">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>【Shader技巧】MetaBall</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dancing-links"><span class="toc-number">1.</span> <span class="toc-text"> Dancing Links</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E8%A6%86%E7%9B%96%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text"> 精确覆盖问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E8%A7%A3%E6%B3%951"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 暴力解法 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#x%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text"> X 算法</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/09/15/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98%E9%9A%8F%E6%83%B3-162-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC-%E8%BF%AD%E4%BB%A3%E7%88%AC%E5%9D%A1/" rel="bookmark" title="迭代爬坡 力扣每日一题随想 - 162.寻找峰值">迭代爬坡 力扣每日一题随想 - 162.寻找峰值</a></li><li><a href="../../../../2021/09/17/%E3%80%90%E9%9A%8F%E8%AE%B0%E3%80%91-leetcode99-%E9%9D%9E%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%85%88%E4%B8%AD%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" rel="bookmark" title="【随记】 leetcode99  非递归方式实现先中后序遍历">【随记】 leetcode99  非递归方式实现先中后序遍历</a></li><li><a href="../../../../2021/10/01/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86-leetcode-223/" rel="bookmark" title="【算法】容斥原理 leetcode 223  [推演概率论]">【算法】容斥原理 leetcode 223  [推演概率论]</a></li><li><a href="../../../../2021/10/05/%E5%89%8D%E4%B8%AD%E5%90%8E%E5%BA%8F%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="bookmark" title="前中后序构造二叉树">前中后序构造二叉树</a></li><li><a href="../../../../2021/10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" rel="bookmark" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></li><li><a href="../../../07/09/%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="空间划分算法">空间划分算法</a></li><li><a href="../../../08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" rel="bookmark" title="【算法原理】 - 单调队列">【算法原理】 - 单调队列</a></li><li class="active"><a href="" rel="bookmark" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></li><li><a href="../../25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" rel="bookmark" title="【OI Wiki Study】 – 计算几何">【OI Wiki Study】 – 计算几何</a></li><li><a href="../../../11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2023/03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" rel="bookmark" title="【LeetCode打卡】">【LeetCode打卡】</a></li><li><a href="../../../../2023/04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" rel="bookmark" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></li><li><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../../2023/07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91metaball/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/07/04/c%E7%B3%BB%E5%88%97%E8%A1%A5%E9%BD%90-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0/" title="C++系列补齐 智能指针实现">C++系列补齐 智能指针实现</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/PBRT/" title="In PBRT">PBRT</a>
+</div>
+
+    <span><a href="../../../../2024/06/02/%E3%80%90pbrt-v4-1%E3%80%91-chapter1/" title="【PBRT V4 -1】 Chapter1">【PBRT V4 -1】 Chapter1</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="In 单调队列">单调队列</a>
+</div>
+
+    <span><a href="../../../08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="【算法原理】 - 单调队列">【算法原理】 - 单调队列</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../05/03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/toonrender2/" title="卡通渲染 (二)">卡通渲染 (二)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Oculus/" title="In Oculus">Oculus</a>
+</div>
+
+    <span><a href="../../../../2021/03/08/oculus%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E6%91%98-%EF%BC%88%E9%9A%8F-%E4%B8%80%EF%BC%89/" title="Oculus官方文档摘 （随 一）">Oculus官方文档摘 （随 一）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../07/24/directx12-11-%E6%A8%A1%E6%9D%BF/" title="DirectX12 12 模板">DirectX12 12 模板</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/10/16/新坑-【oi-wiki-study】/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

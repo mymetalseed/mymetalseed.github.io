@@ -1,0 +1,657 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+
+
+
+  <title>
+【C++】 STL源码剖析 - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【C++】 STL源码剖析
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-09-28 12:26:32">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-09-28T12:26:32+08:00">2023-09-28</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<blockquote>
+<p>前提：所说的都是《STL 源码剖析》这本书内的 CPP 源码的逻辑，书中使用的是 SGI C++，其他版本的基本上无法参考，但是大体思路应该可以借鉴</p>
+</blockquote>
+<h1 id="大体结构"><a class="markdownIt-Anchor" href="#大体结构">#</a> 大体结构</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_caed5abefc4ed8b36e3e5a209867ffc4.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_caed5abefc4ed8b36e3e5a209867ffc4.jpg" alt=""></a> 六大组件的关系:<br>
+ <code>Container</code>  通过 <code>Allocator</code>  取得数据储存空间， <code>Algorithm</code>  通过 <code>Iteator</code>  存取 <code>Container</code>  内容， <code>Functor</code>  可以协助 <code>Algorithm</code>  完成不同的策略变化， <code>Adapter</code>  可以修饰或套接 <code>Functor</code></p>
+<blockquote>
+<p>前闭后开区间</p>
+</blockquote>
+<p>STL 的迭代器是前闭后开的，即 first () 只想第一个元素，而 end 指向的则是 <code>最后一个元素的后一位</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_668f8a93b2c62e4e49e0c0f82a5f2f46.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_668f8a93b2c62e4e49e0c0f82a5f2f46.jpg" alt=""></a> 另外，由于迭代器本身是通过 Adaptor 实现的，所以其物理顺序并不需要连续</p>
+<h1 id="仿函数function-call"><a class="markdownIt-Anchor" href="#仿函数function-call">#</a> 仿函数 (function call)</h1>
+<p>通常，在 C++ 中如果我们需要 <code>将函数作为参数传递唯一的方法就是传递函数指针</code> <br>
+但是这种方法存在着缺陷，即所传递的函数是 <code>无状态的</code> <br>
+而 STL 中提供了一种 <code>用起来像是函数的东西</code> 来代替函数指针，即 <code>仿函数</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重载operator(),plus变成了一个仿函数</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">M_plus</span> &#123;</span><br><span class="line">    <span class="function">T <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> T&amp; x, <span class="type">const</span> T&amp; y)</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> x + y; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">M_minus</span> &#123;</span><br><span class="line">    <span class="function">T <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> T&amp; x, <span class="type">const</span> T&amp; y)</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> x - y; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    M_plus&lt;<span class="type">int</span>&gt; plusobj;</span><br><span class="line">    M_minus&lt;<span class="type">int</span>&gt; minusobj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以下使用仿函数,就类似于一般函数一样</span></span><br><span class="line">    cout &lt;&lt; <span class="built_in">plusobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">minusobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//临时对象仿函数</span></span><br><span class="line">    cout &lt;&lt; <span class="built_in">M_plus</span>&lt;<span class="type">int</span>&gt;()(<span class="number">43</span>, <span class="number">50</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">M_minus</span>&lt;<span class="type">int</span>&gt;()(<span class="number">43</span>, <span class="number">50</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这种实现还缺乏 &quot;可配接 (Adaptor)&quot; 的能力</p>
+<h1 id="空间分配器allocator"><a class="markdownIt-Anchor" href="#空间分配器allocator">#</a> 空间分配器 (allocator)</h1>
+<p>allocator 是用来给容器分配空间 (内存) 的适配器，如果需要构建一个新的 allocator, 则需要声明类似于下面代码中的变量和函数 (根据 C++ 版本和编译器不同需要做出对应的改变):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">allocator</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">    <span class="keyword">typedef</span> T* pointer;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T* const_pointer;</span><br><span class="line">    <span class="keyword">typedef</span> T&amp; reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">const</span> T&amp; const_reference;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">size_t</span> size_type;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="type">ptrdiff_t</span> difference_type;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//rebind allocator of type U</span></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">U</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">rebind</span> &#123;</span><br><span class="line">        <span class="keyword">typedef</span> allocator&lt;U&gt; other;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function">pointer <span class="title">allocate</span><span class="params">(size_type n, <span class="type">const</span> <span class="type">void</span>* hint = <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _allocate((difference_type)n, (pointer)<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">deallocate</span><span class="params">(pointer p, size_type n)</span> </span>&#123; _deallocate(p); &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">construct</span><span class="params">(pointer p, <span class="type">const</span> T&amp; value)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _construct(p, value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">destroy</span><span class="params">(pointer p)</span> </span>&#123; _destroy(p); &#125;</span><br><span class="line">    <span class="function">pointer <span class="title">address</span><span class="params">(reference x)</span> </span>&#123; <span class="keyword">return</span> (pointer)&amp;x; &#125;</span><br><span class="line">    <span class="function">const_pointer <span class="title">const_address</span><span class="params">(const_reference x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (const_pointer)&amp;x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">size_type <span class="title">max_size</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">size_type</span>(UINT_MAX / <span class="built_in">sizeof</span>(T));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用时直接传递给容器的 allocator 模板即可</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_787281ec7e2734f11bbc2f8145ce8e17.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_787281ec7e2734f11bbc2f8145ce8e17.jpg" alt=""></a> 如图，容器的某个模板类型上存在一个 allocator, 需要把自己构建好的 allocator 传递给这个默认模板:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;jjaloc.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> ia[<span class="number">5</span>] = &#123; <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span> &#125;;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> i;</span><br><span class="line"></span><br><span class="line">    vector&lt;<span class="type">int</span>, JJ::allocator&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">iv</span>(ia, ia + <span class="number">5</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; iv.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        cout &lt;&lt; iv[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上，目前的 allocator 只是 new 和 delete 的一层包装，再向下一层，我们知道，通常手动分配内存走的是 <code>malloc</code>  接口，而上述的 allocator 只是对 new/delete 的一层封装，那么再向下一层就是对于 new/delete 的封装了 再向下一层的封装是在 <code>stl_alloc.h</code>  文件中 (这个根据不同的 CPP 版本和实现方式存在不同的地方吧)。其大体的结构图如下：<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_63f47cadef9221cb4e510de3ce08bda2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_63f47cadef9221cb4e510de3ce08bda2.jpg" alt=""></a> 如上图所示，vector 容器的第二个参数传递的是一个 alloc，一个平凡的 alloc 需要实现下面四个函数<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_652fcd0792388fbb3d8ce96cec6bd80f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_652fcd0792388fbb3d8ce96cec6bd80f.jpg" alt=""></a> 上面有说 alloc 的引用对象中有一个是 <code>__malloc_alloc_template</code>  (被称为 <code>第一级内存配置</code> )，这个类的 allocate 实现如下:</p>
+<h2 id="一级内存配置器"><a class="markdownIt-Anchor" href="#一级内存配置器">#</a> 一级内存配置器</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span> * <span class="title">allocate</span><span class="params">(<span class="type">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">void</span> *result = <span class="built_in">malloc</span>(n);</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == result) result = <span class="built_in">oom_malloc</span>(n);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">int</span> inst&gt;</span><br><span class="line"><span class="type">void</span> * __malloc_alloc_template&lt;inst&gt;::<span class="built_in">oom_malloc</span>(<span class="type">size_t</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">void</span> (* my_malloc_handler)();</span><br><span class="line">    <span class="type">void</span> *result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        my_malloc_handler = __malloc_alloc_oom_handler;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == my_malloc_handler) &#123; __THROW_BAD_ALLOC; &#125;</span><br><span class="line">        (*my_malloc_handler)();</span><br><span class="line">        result = <span class="built_in">malloc</span>(n);</span><br><span class="line">        <span class="keyword">if</span> (result) <span class="keyword">return</span>(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，在 oom_alloc 的实现中调用了最底层的 <code>malloc</code>  方法。可以发现第一级内存配置始终调用 <code>malloc</code>  来进行内存分配，并没有做任何优化。</p>
+<h2 id="二级内存配置器"><a class="markdownIt-Anchor" href="#二级内存配置器">#</a> 二级内存配置器</h2>
+<p><code>__default_alloc_template</code> ，第二级内存配置器是为了防止小区块内存分配造成的碎片和分配内存造成的性能负担而诞生的。</p>
+<ol>
+<li>分配内存大于 128bytes 时，交给第一级配置器处理。</li>
+<li>小于 128bytes 时，交给内存池管理 (又称次级配置)。</li>
+</ol>
+<p>这里有一个比较迷的分配:<br>
+ 其中次级分配是放在池子中的: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_e3f8799c47a97821ce7444fbe05e1acd.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_e3f8799c47a97821ce7444fbe05e1acd.jpg" alt=""></a> 池子中的每个节点的结构体如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="title class_">obj</span> &#123;</span><br><span class="line">      <span class="keyword">union</span> <span class="title class_">obj</span> * free_list_link;</span><br><span class="line">      <span class="type">char</span> client_data[<span class="number">1</span>];    <span class="comment">/* The client sees this.        */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里需要结合上图来看，当内存区块还 <code>在池中</code> 时，会使用 free_list_link 作为指向下一个空闲区块的指针。<br>
+ <code>而在使用时，这个指针会变更为client_data，即相比指针仅占用1字节，但将其他所有的内存交给用户使用，节省内存空间</code> ，只有在池子中时才会占用指针的空间</p>
+<blockquote>
+<p>二级内存分配</p>
+</blockquote>
+<ol>
+<li>判断是否大于 128kb，是的话调用一级分配器</li>
+<li>寻找 16 个 free_list 是否存在满足条件的 list，存在的话分配，否则重新填充 <code>refill</code></li>
+<li>调整 free_list</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_b8bfdfe1d04f9510ae77c26391c05ce2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_b8bfdfe1d04f9510ae77c26391c05ce2.jpg" alt=""></a></p>
+<blockquote>
+<p>二级内存释放</p>
+</blockquote>
+<ol>
+<li>是否大于 128kb，是的话用一级释放</li>
+<li>寻找 free_list</li>
+<li>将内存回收至 free_list</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_e73cc99f96e8fb3ca8b988ff2545d692.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_e73cc99f96e8fb3ca8b988ff2545d692.jpg" alt=""></a></p>
+<blockquote>
+<p>内存池</p>
+</blockquote>
+<p>二级分配器申请内存时，如果发现 free_list 中不存在了，会先向内存池进行申请，如果不足，则向堆中申请新内存 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_0c64c8f564548dc91a4158f867ac517f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/09/wp_editor_md_0c64c8f564548dc91a4158f867ac517f.jpg" alt=""></a></p>
+<h1 id="迭代器iterators"><a class="markdownIt-Anchor" href="#迭代器iterators">#</a> 迭代器 (iterators)</h1>
+<h2 id="迭代器相应型别associated-types"><a class="markdownIt-Anchor" href="#迭代器相应型别associated-types">#</a> 迭代器相应型别 (associated types)</h2>
+<p>一个简单的型别范式:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_fa9511f074616f6792b4ff598015f633.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_fa9511f074616f6792b4ff598015f633.jpg" alt=""></a> 即通过 fucntion template 参数推导机制将实际的比较放到 <code>func_impl</code>  中，实际的入口则可以都放在 <code>func</code>  中</p>
+<h2 id="traits编程技法"><a class="markdownIt-Anchor" href="#traits编程技法">#</a> Traits 编程技法</h2>
+<p>上述参数型别在不需要确定返回值类型时是比较方便的，但如果需要确定返回值类型，就不方便了。</p>
+<blockquote>
+<p>内嵌型别声明</p>
+</blockquote>
+<p>通俗来讲，内嵌型别声明就是在类中将需要的类型声明出来<br>
+如:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyIter</span>&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;<span class="comment">//内嵌型别声明</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用时  </span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">I</span>&gt;</span><br><span class="line"><span class="keyword">typename</span> I::value_type <span class="comment">//这一整行是func的返回值类型(必须加入typename)</span></span><br><span class="line"><span class="built_in">func</span>(I ite)&#123;</span><br><span class="line">    <span class="keyword">return</span> *ite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是如果迭代器是 <code>指针</code> 而不是 <code>class type</code> ，就无法做到了，这时候就需要用到偏特化</p>
+<h2 id="偏特化partial-specialization"><a class="markdownIt-Anchor" href="#偏特化partial-specialization">#</a> 偏特化 (Partial Specialization)</h2>
+<p>偏特化就是如果 class template 有一个以及以上的 template 参数时，我们可以针对其中某个或多个 template 参数进行特化 偏特化的一个例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//泛化</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>&#123;...&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//偏特化</span></span><br><span class="line"><span class="comment">//更进一步限制T为T的原生指针</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>&lt;T*&gt; &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用偏特化改进迭代器入口模板"><a class="markdownIt-Anchor" href="#使用偏特化改进迭代器入口模板">#</a> 使用偏特化改进迭代器入口模板</h2>
+<blockquote>
+<p>使用特化来萃取参数类型</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">I</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">iterator_traits</span>&#123;<span class="comment">//traits 意为 &quot;特性&quot;</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> I::value_type value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即：如果对象内定义了 value_type, 则 iterator_traits 的 value_type 就是 I::value_type 模板的返回值就可以改写成这样:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">I</span>&gt;</span><br><span class="line"><span class="keyword">typename</span> iterator_traits&lt;I&gt;::value_type <span class="comment">//返回类型</span></span><br><span class="line"><span class="built_in">func</span>(I ite)</span><br><span class="line">&#123;<span class="keyword">return</span> *ite;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们需要返回指针，只需要多加一个偏特化的模板即可:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">iterator_traits</span>&lt;T*&gt; <span class="comment">//使用偏特化实现指针的迭代器,返回的类型是指针的原始类型</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果想要干掉 const</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">iterator_traits</span>&lt;<span class="type">const</span> T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">typedef</span> T value_type;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，不停类型的迭代器就可以单独声明了，需要特化就加一个偏特化的模板即可 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_aeb06d5e9ba75bb288952f55f28546a8.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_aeb06d5e9ba75bb288952f55f28546a8.jpg" alt=""></a></p>
+<h2 id="iterator_category"><a class="markdownIt-Anchor" href="#iterator_category">#</a> iterator_category</h2>
+<p>这个主题主要是和 STL 的 <code>Algorithm</code>  层有关的，由于算法层在执行不同的操作时需要对容器进行不同类型迭代的遍历，以及 <code>不同的容器也可能需要不同种类的迭代器遍历方法</code> ，所以出现了这玩意，sgi 版本的 stl 主要有五个 category<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ddc2995b15d922d066e33b71c6a8210d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ddc2995b15d922d066e33b71c6a8210d.jpg" alt=""></a> 简单的使用方法: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_0f7ca50e4e03d632522b57149525012e.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_0f7ca50e4e03d632522b57149525012e.jpg" alt=""></a> 上层算法的入口:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_2fbb502575e5a6c5bebca53858db7288.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_2fbb502575e5a6c5bebca53858db7288.jpg" alt=""></a></p>
+<h1 id="更泛化的traits-__type_traits"><a class="markdownIt-Anchor" href="#更泛化的traits-__type_traits">#</a> 更泛化的 traits: __type_traits</h1>
+<p>上面介绍了 traits 的语法，但其实 sgi stl 提供了 <code>更泛化的traits</code> ：__type_traits iterator_traits 主要用来萃取迭代器特性，而__type_traits 则主要用来萃取 <code>类型特性</code>  比如我们希望程序可以获得某一个类的某些特性: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_d15d0bce085369cb1bb6009bd874e913.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_d15d0bce085369cb1bb6009bd874e913.jpg" alt=""></a><br>
+那么就可以对不同的类型进行泛化声明:</p>
+<ol>
+<li>公共</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_6cb38bad4308a47ea82191a6a6062e26.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_6cb38bad4308a47ea82191a6a6062e26.jpg" alt=""></a></p>
+<ol start="2">
+<li>泛化例子<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_b79f2e7f6feead1aaabf985df56c6087.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_b79f2e7f6feead1aaabf985df56c6087.jpg" alt=""></a></li>
+</ol>
+<p>使用时，直接定义一个泛型类型，判断一下它内部定义的 type_traits 即可 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_f297680ceca10278aa1f4e158f3609fb.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_f297680ceca10278aa1f4e158f3609fb.jpg" alt=""></a></p>
+<h1 id="序列式容器"><a class="markdownIt-Anchor" href="#序列式容器">#</a> 序列式容器</h1>
+<h2 id="vector"><a class="markdownIt-Anchor" href="#vector">#</a> vector</h2>
+<p>array 是静态空间，vector 是动态空间<br>
+ vector 的空间分配示意图: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_73dfc211bcd23acdd7ccbc00376e12fe.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_73dfc211bcd23acdd7ccbc00376e12fe.jpg" alt=""></a> 从这点来看，和 C# 等语言的扩容方法近似<br>
+当没有备用空间，触发扩容时:<br>
+1. 扩容<br>
+ 2. 重新配置<br>
+ 3. 移动数据到新空间<br>
+ 4. 释放原空间 注意的点：时分配的新空间，而非旧空间</p>
+<h2 id="list"><a class="markdownIt-Anchor" href="#list">#</a> list</h2>
+<p>简单来说，双向链表，没有扩容的操作，但同时效率和随机访问就很弱 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_805230ddc98f0d9a4bced007d04bc46f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_805230ddc98f0d9a4bced007d04bc46f.jpg" alt=""></a></p>
+<h2 id="deque"><a class="markdownIt-Anchor" href="#deque">#</a> deque</h2>
+<p>双向开口的线性空间，可以在头部 / 尾部 添加 / 删除 vector 由于单向线性表，所以头部插入的效率极差，deque 并不是 deque 的实现方式是: <code>在头部和尾部由一段一段连续的空间组合而成，而不是整个容器都像vector一样是个连续空间</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_8c0d77842dbe3c8b4ef3601cb696488d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_8c0d77842dbe3c8b4ef3601cb696488d.jpg" alt=""></a> 在实际使用时，是双向队列的使用方式</p>
+<blockquote>
+<p>push_front</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_564c2b9751c2cacea96a1aef1065a65f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_564c2b9751c2cacea96a1aef1065a65f.jpg" alt=""></a></p>
+<h2 id="stack和queue"><a class="markdownIt-Anchor" href="#stack和queue">#</a> stack 和 queue</h2>
+<p>这俩容器都是用 list 作为底层容器实现的，所以并不是顺序的</p>
+<h2 id="heap和priority_queue"><a class="markdownIt-Anchor" href="#heap和priority_queue">#</a> heap 和 priority_queue</h2>
+<p>前者是大根 / 小根堆，后者是基于 heap 实现的优先队列 (元素是有顺序的) 具体算法不赘述</p>
+<h2 id="slist"><a class="markdownIt-Anchor" href="#slist">#</a> slist</h2>
+<p>单向链表 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ba92ac7837e784818be3f303a4e30e4f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ba92ac7837e784818be3f303a4e30e4f.jpg" alt=""></a></p>
+<h1 id="关联式容器"><a class="markdownIt-Anchor" href="#关联式容器">#</a> 关联式容器</h1>
+<p>map/set/multimap/hashtable 前三者底层是用 RB-Tree 实现的，后者是哈希桶 hash_set/hash_map/hash_multiset/hash_multimap 以 hashtable 为底层实现 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_030dcd178833b4568cef452c70c99ad7.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_030dcd178833b4568cef452c70c99ad7.jpg" alt=""></a></p>
+<h2 id="hash_functions"><a class="markdownIt-Anchor" href="#hash_functions">#</a> hash_functions</h2>
+<p>对于不同类型的哈希算法，用上述的 traits 范式对不同类型进行模板特化即可 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_5367ddf316ca39518ba61f075ac5b682.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_5367ddf316ca39518ba61f075ac5b682.jpg" alt=""></a></p>
+<h1 id="算法"><a class="markdownIt-Anchor" href="#算法">#</a> 算法</h1>
+<p>即 stl 中的 <code>nth_element</code> / <code>sort</code> / <code>power</code>  等这种函数<br>
+ algorithm 中的 但其实算法也参与了泛化 (偏特化) 的过程，这个过程主要借助于迭代器的泛化和 category / 仿函数等实现</p>
+<h1 id="仿函数函数对象-function-objects"><a class="markdownIt-Anchor" href="#仿函数函数对象-function-objects">#</a> 仿函数 (函数对象 function objects)</h1>
+<p>及类似于 C# 等语言中的回调函数 (Action/Delegate) 由于 C++ 中虽然可以将函数指针作为参数传递，但不够抽象。<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_50b3f35296077ffd63c1bc24559844bc.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_50b3f35296077ffd63c1bc24559844bc.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ea6b545ddf8703ec20250bb86709669e.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_ea6b545ddf8703ec20250bb86709669e.jpg" alt=""></a> 使用方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//一下产生一些仿函数实体</span></span><br><span class="line">    plus&lt;<span class="type">int</span>&gt; plusobj;  <span class="comment">//加法</span></span><br><span class="line">    minus&lt;<span class="type">int</span>&gt; minusobj;<span class="comment">//减法</span></span><br><span class="line">    divides&lt;<span class="type">int</span>&gt; dividesobj;<span class="comment">//乘法</span></span><br><span class="line">    multiplies&lt;<span class="type">int</span>&gt; multipliesobj;<span class="comment">//除法</span></span><br><span class="line">    modulus&lt;<span class="type">int</span>&gt; modulusobj;<span class="comment">//模取(余数)</span></span><br><span class="line">    negate&lt;<span class="type">int</span>&gt; negateobj;<span class="comment">//否定(取反)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; <span class="built_in">plusobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">minusobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">dividesobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">multipliesobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">modulusobj</span>(<span class="number">3</span>, <span class="number">5</span>) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">negateobj</span>(<span class="number">3</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>还有其他类似于关系运算符等一系列仿函数 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_e2a52e63cad57e3886ef7b7612c38bff.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_e2a52e63cad57e3886ef7b7612c38bff.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_7c6b140a00c745f2facfede80e3aaff0.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_7c6b140a00c745f2facfede80e3aaff0.jpg" alt=""></a> 事实上，使用 sort 时可以将 greater 传入，将小于转换为大于，这也是仿函数的一种用法</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/09/28/%E3%80%90c%E3%80%91-stl%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" title="【C++】 STL源码剖析">https://mymetalseed.github.io/2023/09/28/【c】-stl源码剖析/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GDC】 再探Virtual Texture">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>【GDC】 再探Virtual Texture</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【URP】 以毛玻璃后处理为例学一下RenderFeature是什么">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> URP</span>
+  <h3>【URP】 以毛玻璃后处理为例学一下RenderFeature是什么</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text"> 大体结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BF%E5%87%BD%E6%95%B0function-call"><span class="toc-number">2.</span> <span class="toc-text"> 仿函数 (function call)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D%E5%99%A8allocator"><span class="toc-number">3.</span> <span class="toc-text"> 空间分配器 (allocator)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%BA%A7%E5%86%85%E5%AD%98%E9%85%8D%E7%BD%AE%E5%99%A8"><span class="toc-number">3.1.</span> <span class="toc-text"> 一级内存配置器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BA%A7%E5%86%85%E5%AD%98%E9%85%8D%E7%BD%AE%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text"> 二级内存配置器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8iterators"><span class="toc-number">4.</span> <span class="toc-text"> 迭代器 (iterators)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9B%B8%E5%BA%94%E5%9E%8B%E5%88%ABassociated-types"><span class="toc-number">4.1.</span> <span class="toc-text"> 迭代器相应型别 (associated types)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#traits%E7%BC%96%E7%A8%8B%E6%8A%80%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text"> Traits 编程技法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%8F%E7%89%B9%E5%8C%96partial-specialization"><span class="toc-number">4.3.</span> <span class="toc-text"> 偏特化 (Partial Specialization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%81%8F%E7%89%B9%E5%8C%96%E6%94%B9%E8%BF%9B%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%85%A5%E5%8F%A3%E6%A8%A1%E6%9D%BF"><span class="toc-number">4.4.</span> <span class="toc-text"> 使用偏特化改进迭代器入口模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iterator_category"><span class="toc-number">4.5.</span> <span class="toc-text"> iterator_category</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%B3%9B%E5%8C%96%E7%9A%84traits-__type_traits"><span class="toc-number">5.</span> <span class="toc-text"> 更泛化的 traits: __type_traits</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%BC%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text"> 序列式容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#vector"><span class="toc-number">6.1.</span> <span class="toc-text"> vector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#list"><span class="toc-number">6.2.</span> <span class="toc-text"> list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#deque"><span class="toc-number">6.3.</span> <span class="toc-text"> deque</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stack%E5%92%8Cqueue"><span class="toc-number">6.4.</span> <span class="toc-text"> stack 和 queue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#heap%E5%92%8Cpriority_queue"><span class="toc-number">6.5.</span> <span class="toc-text"> heap 和 priority_queue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#slist"><span class="toc-number">6.6.</span> <span class="toc-text"> slist</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%BC%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text"> 关联式容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hash_functions"><span class="toc-number">7.1.</span> <span class="toc-text"> hash_functions</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text"> 算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BF%E5%87%BD%E6%95%B0%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1-function-objects"><span class="toc-number">9.</span> <span class="toc-text"> 仿函数 (函数对象 function objects)</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/01/15/cjj/" rel="bookmark" title="C++随记">C++随记</a></li><li><a href="../../../../2021/07/04/c%E7%B3%BB%E5%88%97%E8%A1%A5%E9%BD%90-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0/" rel="bookmark" title="C++系列补齐 智能指针实现">C++系列补齐 智能指针实现</a></li><li><a href="../../../../2021/09/12/%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" rel="bookmark" title="虚函数表">虚函数表</a></li><li><a href="../../../../2021/09/14/c%E4%B8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" rel="bookmark" title="C++(一) 编译过程">C++(一) 编译过程</a></li><li><a href="../../../../2021/09/14/c%EF%BC%88%E4%BA%8C%EF%BC%89%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="bookmark" title="C++（二）内存管理">C++（二）内存管理</a></li><li><a href="../../../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="bookmark" title="C++（三）变量的区别">C++（三）变量的区别</a></li><li><a href="../../../../2021/09/15/c%E5%9B%9B-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%88%9B%E5%BB%BA%EF%BC%9F%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6/" rel="bookmark" title="C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？">C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？</a></li><li><a href="../../../../2021/09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" rel="bookmark" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></li><li><a href="../../../../2021/09/17/c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" rel="bookmark" title="C++ (六) 类的大小">C++ (六) 类的大小</a></li><li><a href="../../../../2021/09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" rel="bookmark" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></li><li><a href="../../../../2021/09/18/c%EF%BC%88%E5%85%AB%EF%BC%89%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" rel="bookmark" title="C++（八）智能指针">C++（八）智能指针</a></li><li><a href="../../../../2021/09/25/c%EF%BC%88%E4%B9%9D%EF%BC%89%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC/" rel="bookmark" title="C++（九）左值和右值">C++（九）左值和右值</a></li><li><a href="../../../../2021/09/25/c-%E5%8D%81-%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8Cauto/" rel="bookmark" title="C++ (十)  变量相关(类型转换和auto)">C++ (十)  变量相关(类型转换和auto)</a></li><li><a href="../../../../2021/09/28/%E5%80%9F%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%B2%E4%B8%80%E4%B8%8B%E6%8C%87%E9%92%88-leetcode-21/" rel="bookmark" title="借一道题讲一下指针 Leetcode 21">借一道题讲一下指针 Leetcode 21</a></li><li><a href="../../../../2021/10/01/c-%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89%E7%BA%BF-%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3/" rel="bookmark" title="C++ （十一）线/进程相关">C++ （十一）线/进程相关</a></li><li><a href="../../../../2021/10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" rel="bookmark" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></li><li><a href="../../../../2021/11/16/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" rel="bookmark" title="C语言实现虚函数表">C语言实现虚函数表</a></li><li><a href="../../../../2021/11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" rel="bookmark" title="C语言EBNF实现简单四则运算">C语言EBNF实现简单四则运算</a></li><li><a href="../../../../2021/12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" rel="bookmark" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></li><li><a href="../../../../2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="bookmark" title="Lua虚拟机">Lua虚拟机</a></li><li><a href="../../../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" rel="bookmark" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></li><li><a href="../../../../2022/04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" rel="bookmark" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></li><li><a href="../../../../2022/04/19/c-%E5%A6%82%E4%BD%95-trace-debug/" rel="bookmark" title="C++ 如何 Trace Debug">C++ 如何 Trace Debug</a></li><li><a href="../../../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="bookmark" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></li><li><a href="../../../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../../../../2022/04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></li><li><a href="../../../../2022/05/01/games104-h1-lut-color-gradiant/" rel="bookmark" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></li><li><a href="../../../../2022/05/02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../../../2022/05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></li><li><a href="../../../../2022/05/03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" rel="bookmark" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></li><li><a href="../../../../2022/05/04/recastnavigation-%E4%BA%8C-%E4%BD%93%E7%B4%A0%E5%8C%96/" rel="bookmark" title="RecastNavigation (二) 体素化">RecastNavigation (二) 体素化</a></li><li><a href="../../../../2022/05/04/directx-12-3-%E5%AE%9E%E6%93%8D1-%E5%88%9D%E5%A7%8B%E5%8C%96direct3d/" rel="bookmark" title="DirectX 12 - 3. 实操1 - 初始化Direct3D">DirectX 12 - 3. 实操1 - 初始化Direct3D</a></li><li><a href="../../../../2022/05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="bookmark" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></li><li><a href="../../../../2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" rel="bookmark" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></li><li><a href="../../../../2022/05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../../2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../../2022/06/26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../../2022/07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></li><li><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" rel="bookmark" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></li><li><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../../2022/11/27/%E3%80%90c%E3%80%91%E7%8E%B0%E4%BB%A3cmake%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/" rel="bookmark" title="【C++】现代CMake模块化项目构建">【C++】现代CMake模块化项目构建</a></li><li><a href="../../../../2022/12/13/%E3%80%90rtr3-%E6%8F%90%E7%82%BC%E6%80%BB%E7%BB%93%E6%AF%9B%E6%98%9F%E4%BA%91%E3%80%91-the-graphics-processing-unit/" rel="bookmark" title="【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit">【RTR3 - 提炼总结(毛星云)】 The Graphics Processing Unit</a></li><li><a href="../../../../2022/12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../../../2022/12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="bookmark" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></li><li><a href="../../../../2022/12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" rel="bookmark" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></li><li><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li><a href="../../../03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" rel="bookmark" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></li><li><a href="../../../03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></li><li><a href="../../../03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" rel="bookmark" title="【LeetCode打卡】">【LeetCode打卡】</a></li><li><a href="../../../04/13/%E3%80%90games106%E3%80%91-2-vulkan%E4%BB%8B%E7%BB%8D/" rel="bookmark" title="【Games106】 2. Vulkan介绍">【Games106】 2. Vulkan介绍</a></li><li><a href="../../../04/16/%E3%80%90%E7%AE%97%E6%B3%95%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96%E3%80%91-k-d-tree/" rel="bookmark" title="【算法与可视化】 K-D Tree">【算法与可视化】 K-D Tree</a></li><li><a href="../../../04/20/%E3%80%90games106%E3%80%91-3-vulkan%E4%BB%8B%E7%BB%8D-2/" rel="bookmark" title="【Games106】 3. Vulkan介绍_2">【Games106】 3. Vulkan介绍_2</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" rel="bookmark" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" rel="bookmark" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></li><li><a href="../../../05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" rel="bookmark" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></li><li><a href="../../../05/07/%E3%80%90games106%E3%80%91-homework1/" rel="bookmark" title="【Games106】 homework1">【Games106】 homework1</a></li><li><a href="../../../07/06/%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" rel="bookmark" title="【C++并发】 thread相关">【C++并发】 thread相关</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../../08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../../08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li><li><a href="../../09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="【Games104】 动画系统">【Games104】 动画系统</a></li><li><a href="../../15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" rel="bookmark" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></li><li class="active"><a href="" rel="bookmark" title="【C++】 STL源码剖析">【C++】 STL源码剖析</a></li><li><a href="../../../10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/" rel="bookmark" title="【工具】 理解ToLua - 1. Lua源码级调试">【工具】 理解ToLua - 1. Lua源码级调试</a></li><li><a href="../../../10/18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="bookmark" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></li><li><a href="../../../10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="bookmark" title="【ToLua】 3. Lua源码 - Lua中的虚拟机">【ToLua】 3. Lua源码 - Lua中的虚拟机</a></li><li><a href="../../../11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" rel="bookmark" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></li><li><a href="../../../11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Minions-Art/" title="In Minions Art">Minions Art</a>
+</div>
+
+    <span><a href="../../../../2021/02/25/minions-art%E7%B3%BB%E5%88%97-%E8%BF%9970%E4%B8%8D%E8%83%BD%E7%99%BD%E8%8A%B1/" title="Minions Art系列一 - 这70不能白花">Minions Art系列一 - 这70不能白花</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/14/%E5%87%89%E7%BB%8F/" title="凉经">凉经</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" title="【TA101】 ComputeShader &amp; Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/17/%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="曲面细分 - 《ShaderLab新手宝典》">曲面细分 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/07/03/ugui%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E4%B8%80/" title="UGUI源码剖析">UGUI源码剖析</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="In 热更新">热更新</a>
+</div>
+
+    <span><a href="../../../../2021/02/21/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="热更新">热更新</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/07/11/%E7%AD%91%E6%A2%A6%E4%B9%8B%E8%B7%AF%E6%B8%B8%E6%88%8F%E5%AD%A6%E9%99%A2-%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="筑梦之路游戏学院 - 技能系统">筑梦之路游戏学院 - 技能系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../../2022/05/01/games104-h1-lut-color-gradiant/" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/09/28/【c】-stl源码剖析/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

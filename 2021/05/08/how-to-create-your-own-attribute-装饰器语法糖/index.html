@@ -1,0 +1,531 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/">
+
+
+
+  <title>
+How to create your own attribute - (装饰器语法糖) - C# |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">How to create your own attribute - (装饰器语法糖)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-05-08 18:10:07">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-05-08T18:10:07+08:00">2021-05-08</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C#"><span itemprop="name">C#</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20vZW4tdXMvZG90bmV0L2NzaGFycC90dXRvcmlhbHMvYXR0cmlidXRlcw==">https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/attributes</span></p>
+<h1 id="继承attribute"><a class="markdownIt-Anchor" href="#继承attribute">#</a> 继承 Attribute</h1>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MySpecialAttribute</span> : <span class="title">Attribute</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>With the above, I can now use [MySpecial] or [MySpecialAttribute] as an attribute elsewhere in the code base.</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">MySpecial</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SomeOtherClass</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Attributes 是在编译时进行的，其构造函数被限制只允许部分数据类型被传入，否则会编译无法通过 比如:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GotchaAttribute</span> : <span class="title">Attribute</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GotchaAttribute</span>(<span class="params">Foo myClass, <span class="built_in">string</span> str</span>)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">Gotcha(new Foo(), <span class="string">&quot;test&quot;</span>)</span>] <span class="comment">// 编译将无法通过</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AttributeFail</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="how-to-restrict-attribute-usage"><a class="markdownIt-Anchor" href="#how-to-restrict-attribute-usage">#</a> How to restrict attribute usage</h1>
+<p>特性可以被用于如下字段<br>
+ - Assembly - Class - Constructor - Delegate - Enum - Event - Field - GenericParameter - Interface - Method - Module - Parameter - Property - ReturnValue - Struct 如果你想限制到特定类，你需要在 Attribute 上添加限制</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">AttributeUsage(AttributeTargets.Class  AttributeTargets.Struct)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyAttributeForClassAndStructOnly</span> : <span class="title">Attribute</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="如何使用attribute连接code里的元素"><a class="markdownIt-Anchor" href="#如何使用attribute连接code里的元素">#</a> 如何使用 Attribute 连接 Code 里的元素</h1>
+<blockquote>
+<p>使用反射</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TypeInfo typeInfo = <span class="keyword">typeof</span>(MyClass).GetTypeInfo();</span><br><span class="line">Console.WriteLine(<span class="string">&quot;The assembly qualified name of MyClass is&quot;</span> + typeInfo.AssemblyQualifiedName);</span><br></pre></td></tr></table></figure>
+<p>That will print out something like:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The assembly qualified name of MyClass is ConsoleApplication.MyClass, attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</span><br></pre></td></tr></table></figure>
+<p>一旦你有了 TypeInfo (或者 MemberInfo/FieldInfo) Object, 你就可以使用 <code>GetCustomAttributes</code>  方法，他将会返回 Attribute 对象</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> attrs = typeInfo.GetCustomAttributes();</span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">var</span> attr <span class="keyword">in</span> attrs)&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">&quot;Attribute on MyClass: &quot;</span> + attr.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a class="markdownIt-Anchor" href="#示例">#</a> 示例</h1>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">CSharpStudy</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            LoginRoute lr = <span class="keyword">new</span> LoginRoute();</span><br><span class="line">            <span class="keyword">if</span> (lr.GetType().IsDefined(<span class="keyword">typeof</span>(MyAttribute),<span class="literal">false</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;定义了Router&quot;</span>);</span><br><span class="line">                <span class="built_in">object</span>[] objs =lr.GetType().GetCustomAttributes(<span class="literal">false</span>);</span><br><span class="line">                <span class="keyword">foreach</span>(<span class="keyword">var</span> obj <span class="keyword">in</span> objs)</span><br><span class="line">                &#123;</span><br><span class="line">                    MyAttribute ma = obj <span class="keyword">as</span> MyAttribute;</span><br><span class="line">                    Console.WriteLine(ma.route + <span class="string">&quot; &quot;</span> + ma.action);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            Console.Read();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyAttribute</span> : <span class="title">Attribute</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> route;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> action;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAttribute</span>(<span class="params"><span class="built_in">string</span> route,<span class="built_in">string</span> action</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">this</span>.route = route;</span><br><span class="line">            <span class="keyword">this</span>.action = action;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;MyAttribute执行&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">My(<span class="string">&quot;user&quot;</span>,<span class="string">&quot;Login&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LoginRoute</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LoginRoute</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;LoginRoute执行&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上述示例表示 Login 在特性之前运行，所以 C# 的 attribute 和装饰器模式还是不同的</p>
+<h1 id="简单封装"><a class="markdownIt-Anchor" href="#简单封装">#</a> 简单封装</h1>
+<blockquote>
+<p>加缓存的 Attribute</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Concurrent;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">CSharpStudy</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">CustomAttributeExtensions</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> Cache Data</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> ConcurrentDictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; Cache = <span class="keyword">new</span> ConcurrentDictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 获取CustomAttribute Value</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name=&quot;TAttribute&quot;&gt;</span>Attribute的子类型<span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name=&quot;TReturn&quot;&gt;</span>TReturn的子类型<span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;sourceType&quot;&gt;</span>取Attribute具体哪个属性值的匿名函数<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;attributeValueAction&quot;&gt;</span>返回Attribute的值，没有则返回null<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TReturn <span class="title">GetCustomAttributeValue</span>&lt;<span class="title">TAttribute</span>,<span class="title">TReturn</span>&gt;(<span class="params"><span class="keyword">this</span> Type sourceType,Func&lt;TAttribute,TReturn&gt; attributeValueAction,<span class="built_in">string</span> propertyName</span>)</span></span><br><span class="line"><span class="function">            <span class="keyword">where</span> TAttribute:Attribute</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> _getAttributeValue(sourceType, attributeValueAction, propertyName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TReturn <span class="title">GetCustomAttributeValue</span>&lt;<span class="title">TAttribute</span>, <span class="title">TReturn</span>&gt;(<span class="params"><span class="keyword">this</span> Type sourceType, Func&lt;TAttribute, TReturn&gt; attributeValueAction</span>)</span></span><br><span class="line"><span class="function">            <span class="keyword">where</span> TAttribute : Attribute</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> _getAttributeValue(sourceType, attributeValueAction, <span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="keyword">region</span> private method</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> TReturn _getAttributeValue&lt;TAttribute,TReturn&gt;(Type sourceType,Func&lt;TAttribute,TReturn&gt; attributeFunc,<span class="built_in">string</span> propertyName)</span><br><span class="line">            <span class="keyword">where</span> TAttribute : Attribute</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> cacheKey = BuildKey&lt;TAttribute&gt;(sourceType, propertyName);</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">value</span> = Cache.GetOrAdd(cacheKey, k =&gt; GetValue(sourceType, attributeFunc, propertyName));</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">value</span> <span class="keyword">is</span> TReturn) <span class="keyword">return</span> (TReturn)Cache[cacheKey];</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">default</span>(TReturn);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 获取类名</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;typeparam name=&quot;TAttribute&quot;&gt;</span><span class="doctag">&lt;/typeparam&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;type&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;propertyName&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">BuildKey</span>&lt;<span class="title">TAttribute</span>&gt;(<span class="params">Type type,<span class="built_in">string</span> propertyName</span>) <span class="keyword">where</span> TAttribute : Attribute</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> attributeName = <span class="keyword">typeof</span>(TAttribute).FullName;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(propertyName))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> type.FullName + <span class="string">&quot;.&quot;</span> + attributeName;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> type.FullName + <span class="string">&quot;.&quot;</span> + propertyName + <span class="string">&quot;.&quot;</span> + attributeName;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> TReturn <span class="title">GetValue</span>&lt;<span class="title">TAttribute</span>,<span class="title">TReturn</span>&gt;(<span class="params"><span class="keyword">this</span> Type type,Func&lt;TAttribute,TReturn&gt; attributeValueAction,<span class="built_in">string</span> name</span>)</span></span><br><span class="line"><span class="function">            <span class="keyword">where</span> TAttribute :Attribute</span></span><br><span class="line">        &#123;</span><br><span class="line">            TAttribute attribute = <span class="literal">default</span>(TAttribute);</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(name))</span><br><span class="line">            &#123;</span><br><span class="line">                attribute = type.GetCustomAttribute&lt;TAttribute&gt;(<span class="literal">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> propertyInfo = type.GetProperty(name);</span><br><span class="line">                <span class="keyword">if</span> (propertyInfo != <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    attribute = propertyInfo.GetCustomAttribute&lt;TAttribute&gt;(<span class="literal">false</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> fieldInfo = type.GetField(name);</span><br><span class="line">                    <span class="keyword">if</span> (fieldInfo != <span class="literal">null</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        attribute = fieldInfo.GetCustomAttribute&lt;TAttribute&gt;(<span class="literal">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> attribute == <span class="literal">null</span> ? <span class="literal">default</span>(TReturn) : attributeValueAction(attribute);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">#<span class="keyword">endregion</span></span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">CSharpStudy</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            LoginRoute lr = <span class="keyword">new</span> LoginRoute();</span><br><span class="line">            <span class="keyword">if</span> (lr.GetType().IsDefined(<span class="keyword">typeof</span>(MyAttribute),<span class="literal">false</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;定义了Router&quot;</span>);</span><br><span class="line">                <span class="built_in">object</span>[] objs =lr.GetType().GetCustomAttributes(<span class="literal">false</span>);</span><br><span class="line">                <span class="keyword">foreach</span>(<span class="keyword">var</span> obj <span class="keyword">in</span> objs)</span><br><span class="line">                &#123;</span><br><span class="line">                    MyAttribute ma = obj <span class="keyword">as</span> MyAttribute;</span><br><span class="line">                    Console.WriteLine(ma.route + <span class="string">&quot; &quot;</span> + ma.action);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> routerInfo = lr.GetType().GetCustomAttributeValue&lt;MyAttribute, <span class="built_in">string</span>&gt;(x =&gt; x.route+x.action);</span><br><span class="line">            <span class="comment">//上面那个框架会调用string的缓存,所以这里需要处理下</span></span><br><span class="line">            <span class="keyword">var</span> actionInfo = lr.GetType().GetCustomAttributeValue&lt;MyAttribute, <span class="built_in">string</span>&gt;(x =&gt;  x.action);</span><br><span class="line"></span><br><span class="line">            Console.WriteLine(routerInfo + <span class="string">&quot; &quot;</span> + actionInfo);</span><br><span class="line"></span><br><span class="line">            Console.Read();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyAttribute</span> : <span class="title">Attribute</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> route;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> action;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAttribute</span>(<span class="params"><span class="built_in">string</span> route,<span class="built_in">string</span> action</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">this</span>.route = route;</span><br><span class="line">            <span class="keyword">this</span>.action = action;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;MyAttribute执行&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">My(<span class="string">&quot;user&quot;</span>,<span class="string">&quot;Login&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LoginRoute</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LoginRoute</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;LoginRoute执行&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" title="How to create your own attribute - (装饰器语法糖)">https://mymetalseed.github.io/2021/05/08/how-to-create-your-own-attribute-装饰器语法糖/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../unity-%E5%85%A8%E5%B1%80%E5%AE%8F%E5%AE%9A%E4%B9%89-%E4%BB%A3%E7%A0%81%E6%96%B9%E6%A1%88/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Unity 全局宏定义 - 代码方案">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Unity 全局宏定义 - 代码方案</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="《Unity Shader入门精要》 - 法线变换">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算机图形学</span>
+  <h3>《Unity Shader入门精要》 - 法线变换</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%A7%E6%89%BFattribute"><span class="toc-number">1.</span> <span class="toc-text"> 继承 Attribute</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#how-to-restrict-attribute-usage"><span class="toc-number">2.</span> <span class="toc-text"> How to restrict attribute usage</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8attribute%E8%BF%9E%E6%8E%A5code%E9%87%8C%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-number">3.</span> <span class="toc-text"> 如何使用 Attribute 连接 Code 里的元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text"> 示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%B0%81%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text"> 简单封装</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="bookmark" title="C# 反射机制">C# 反射机制</a></li><li class="active"><a href="" rel="bookmark" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></li><li><a href="../../../06/21/%EF%BC%88%E8%BD%AC-%E7%83%9F%E9%9B%A8%EF%BC%89-c%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/" rel="bookmark" title="（转 - 烟雨） C#反射为什么这么慢">（转 - 烟雨） C#反射为什么这么慢</a></li><li><a href="../../../07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" rel="bookmark" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></li><li><a href="../../../12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="bookmark" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></li><li><a href="../../../../2022/08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" rel="bookmark" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></li><li><a href="../../../../2022/08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" rel="bookmark" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></li><li><a href="../../../../2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" rel="bookmark" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></li><li><a href="../../../../2022/10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="bookmark" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></li><li><a href="../../../../2023/01/08/%E3%80%90%E6%9E%B6%E6%9E%84-ecs%E4%B8%93%E9%A2%98%E3%80%91svelto-ecs/" rel="bookmark" title="【架构 - ECS专题】Svelto Ecs">【架构 - ECS专题】Svelto Ecs</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="bookmark" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></li><li><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li><li><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../unity-%E5%85%A8%E5%B1%80%E5%AE%8F%E5%AE%9A%E4%B9%89-%E4%BB%A3%E7%A0%81%E6%96%B9%E6%A1%88/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" title="DirectX12 图像模糊">DirectX12 图像模糊</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7%E4%B8%8E%E6%80%9D%E6%83%B3/" title="In 编程技巧与思想">编程技巧与思想</a>
+</div>
+
+    <span><a href="../../../11/22/c%E8%AF%AD%E8%A8%80ebnf%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/" title="C语言EBNF实现简单四则运算">C语言EBNF实现简单四则运算</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2022/04/22/2022-4-22-%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E6%A2%A6/" title="2022.4.22 做了一个梦">2022.4.22 做了一个梦</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2023/10/18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../09/03/ecs%E6%80%9D%E6%83%B3/" title="ECS思想">ECS思想</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" title="In 经济学">经济学</a>
+</div>
+
+    <span><a href="../../../../2024/05/05/economy-1/" title="经济学思维">经济学思维</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../08/29/%E6%B0%B4%E5%A2%A8%E9%A3%8E%E6%B8%B2%E6%9F%93%E8%AE%B0%E5%BD%95/" title="水墨风渲染记录">水墨风渲染记录</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/05/08/how-to-create-your-own-attribute-装饰器语法糖/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,640 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/">
+
+
+
+  <title>
+【GPGPU】 1. 前_GPU硬件架构 - GPGPU |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【GPGPU】 1. 前_GPU硬件架构
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-03-25 15:53:12">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-03-25T15:53:12+08:00">2023-03-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/GPGPU/" itemprop="item" rel="index" title="In GPGPU"><span itemprop="name">GPGPU</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<blockquote>
+<p>最近在学习 GPGPU 相关的知识，开这个系列对学习的知识进行总结</p>
+</blockquote>
+<h1 id="gpu是什么"><a class="markdownIt-Anchor" href="#gpu是什么">#</a> GPU 是什么</h1>
+<p>GPU 全称是<strong> Graphics Processing Unit</strong>，图形处理单元。它的功能最初与名字一致，是专门用于绘制图像和处理图元数据的特定芯片，后来渐渐加入了其它很多功能。</p>
+<blockquote>
+<p>GPU 架构发展史 (NVIDIA)</p>
+<blockquote>
+<p>大体而言: GPU 在早期是为了优化 3D 渲染管线而诞生的一种架构，其主要的目标就是对大批量的矩阵运算与数值运算进行高并发的处理。<br>
+ 在架构演化中，人们发现 GPU 的性能不应该值限制在 3D 渲染这一个领域内，同时，借助人工智能中神经网络的兴起，GPU 的架构也从早期的固定流水线逐渐的转换到现如今的通用计算单元的架构模式，这一转换，使得 GPU 从单一的图形处理变成了可以应对超高并发计算的硬件单元。<br>
+ 2007 年，CUDA 诞生，2008 年，NVIDIA 第一款统一管理计算单元的 GPU 处理器架构诞生。</p>
+</blockquote>
+</blockquote>
+<ul>
+<li>2008 - Tesla ： 首款统一了渲染管线中顶点 / 片元计算单元的处理器</li>
+<li>2010 - Fermi</li>
+<li>2012 - Kepler</li>
+<li>2014 - Maxwell</li>
+<li>2016 - Pascal</li>
+<li>2017 - Volta</li>
+<li>2018 - Turing</li>
+</ul>
+<p>计算能力的变迁 (GFLOAT/s 每秒可以计算多少 G 的浮点运算) <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_ffff56fbcaffb3bdb1ccdf4e7cdd1abd.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_ffff56fbcaffb3bdb1ccdf4e7cdd1abd.jpg" alt=""></a></p>
+<h1 id="cpu与gpu的区别"><a class="markdownIt-Anchor" href="#cpu与gpu的区别">#</a> CPU 与 GPU 的区别</h1>
+<ol>
+<li>CPU 是一种通用的处理器架构，而 GPU 则专注于超高并发的计算</li>
+<li>(举个栗子) CPU 的核心数量四核，GTX3060 GPU 核心数量 3584,<strong> 这里的核心可以理解为并发数量</strong></li>
+<li>CPU 会高效的处理程序中出现分支的情况，GPU 多一层分支可能多一个幂次的消耗</li>
+<li>CPU 单指令最多执行 4 次运算 (SIMD)，GPU 单次指令可以执行非常多的运算 (SIMT)</li>
+</ol>
+<h1 id="概念词语整理"><a class="markdownIt-Anchor" href="#概念词语整理">#</a> 概念词语整理</h1>
+<blockquote>
+<p>在进行下一步之前，现将所有可能用到的概念性词语整理在一起，方便后续遇到时查阅，可以对照着下图进行一一对应</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_3127dd13e9a689161901edf3ce4e9092.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_3127dd13e9a689161901edf3ce4e9092.jpg" alt=""></a></p>
+<p>名词</p>
+<p>英文</p>
+<p>中文</p>
+<p>GPC</p>
+<p>Graphics Processing Cluster</p>
+<p>图形处理簇 (簇在计算机科学中通常可以理解为<strong>块 / 一起</strong>)</p>
+<p>TPC</p>
+<p>Texture/Processor Cluster</p>
+<p>纹理处理簇</p>
+<p>Thread</p>
+<p>Thread</p>
+<p>线程</p>
+<p>SM</p>
+<p>Stream Multiprocessor</p>
+<p>流多处理器 (Tesla 架构下是包含在一组 TPC 中，即一组 TPC 内有多组 SM, 每个 SM 包含多个流处理器，所以叫流多), 但是 SM 的架构包括下述架构其实在后续迭代中都是一直变更的，这个表格单独记录的是 Tesla 架构</p>
+<p>SP</p>
+<p>Streaming Processor</p>
+<p>流处理器 (最基础的处理单元)</p>
+<p>SMX</p>
+<p>SM 的改进</p>
+<p>SMM</p>
+<p>SM 的改进</p>
+<p>Warp</p>
+<p>Warp</p>
+<p>多个 SM 单元组成的线程束 (组)</p>
+<p>ALU</p>
+<p>Arithmetic And Logic Unit)</p>
+<p>算数逻辑单元 (每个 SM 中有 1 个，包含在 SM 中，而非 SP)</p>
+<p>FPU</p>
+<p>Float Processor Unit</p>
+<p>浮点数运算单元 (每个 SM 中有 1 个，包含在 SM 中，而非 SP)</p>
+<p>SFU</p>
+<p>Special function units</p>
+<p>特殊数学运算单元 (sin/cos/log 等，每个 SM 中有多个)</p>
+<p>ROP</p>
+<p>render output unit</p>
+<p>渲染输入单元 (像素着色器后)</p>
+<p>Load/Store Unit</p>
+<p>L1/2 Cache</p>
+<p>SM-&gt;L1-&gt;L2-&gt;GPU Memory-&gt;System Memory 速度逐层递减</p>
+<p>Memory</p>
+<p>= =</p>
+<p>= =</p>
+<p>Register File</p>
+<p>Register File</p>
+<p>寄存器，SM 本身包含的</p>
+<p>SIMT</p>
+<p>Single Instruction Multiple Thread</p>
+<p>单指令多线程</p>
+<h1 id="层级理解"><a class="markdownIt-Anchor" href="#层级理解">#</a> 层级理解</h1>
+<p>以下均是我的个人理解，因为 GPU 相对于 CPU 而言，少了很多复杂的逻辑运算控制，而更多的是专注于运算单元的数量，所以至少从现在的 GPU 架构上来看，还是具备一种比较清晰的<strong>层级架构的</strong> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/GPGPU%E5%B1%82%E7%BA%A7%E6%9E%B6%E6%9E%84.drawio.png" title="GPGPU层级架构"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/GPGPU%E5%B1%82%E7%BA%A7%E6%9E%B6%E6%9E%84.drawio.png" alt="GPGPU层级架构" title="GPGPU层级架构"></a> 即</p>
+<ul>
+<li>一个 GPU 由多个 Graphics Process Cluster 组成</li>
+<li>一个 Graphis Process Cluster 由多个 Texture Process Cluster 组成</li>
+<li>一个 Texture Process Cluster 由多个 Stream Multiprocessor (SM) 组成</li>
+<li>一个 Stream Multiprocessor 由多个 Stream Processor (SP) 组成</li>
+</ul>
+<p>另外，</p>
+<ul>
+<li>ALU/SPU 等运算单元是在 SM 内存放的，而非 SP (所以多个 SP 可能会出现资源抢占的问题)</li>
+<li>CUDA 中的 Thread 对应的是一个 SP (可以理解为 Threa 就是 SP?)</li>
+<li>CUDA 中的 Wrap 对应的是一组线程束 (即多个 SP 的组合), 一个 SM 中可以运行多个 Wrap</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_eb3563f4a02cccdbd4d5a0c104a3b931.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_eb3563f4a02cccdbd4d5a0c104a3b931.jpg" alt=""></a></p>
+<h1 id="为什么gpu有远高于cpu的性能"><a class="markdownIt-Anchor" href="#为什么gpu有远高于cpu的性能">#</a> 为什么 GPU 有远高于 CPU 的性能？</h1>
+<p>GPU 其实是专注于<strong>计算</strong>的一种硬件设备，而且在人工智能不断发展的今天，同一个 GPU 硬件上可能还会携带不同种类的特殊计算单元 (SFU), 如专用于计算 FFT 的计算单元<br>
+  相对的，GPU 对于<strong>功能性的处理</strong>就即为弱势，如<strong>分支预测、条件转移、循环、逻辑判断、子程序调用等</strong>，在 GPGPU 代码中使用 if, 最坏的情况下，写多少层 if，就多 2^n 幂的消耗<br>
+  回到题目: <strong>为什么 GPU 有远高于 CPU 的性能？</strong>，通常，对于一个 GPU 处理单元 (核 / 同时是上面所说的 SP) 而言，会比 CPU 上的核心慢 N (有印象是 4—8) 倍，但是 GPU 由于<strong>抛弃了复杂的通用性</strong>，而专注于<strong>运算</strong>，所以其核心数量远高于 CPU 的核心数量 (GTX3060 是<strong> 3584 个处理核心</strong>，而 CPU 可能<strong>只有 4~32 核</strong>)。<br>
+  简单来说，<strong>很粗暴的数量压制</strong>   另外，通常 CPU 端会使用 SIMD 技术对四次运算进行单次指令的合并，而 GPU 端则有 SIMT 技术 (Single Instruction Multiple Thread、单指令多线程)<br>
+  SIMD 是在 ALU 硬件具备单指令计算四个浮点数的运算前提下实现的<br>
+  SIMT 是在 GPU 中的每个 SM 中组成</p>
+<h1 id="为什么说gpu的分支运算性能极低"><a class="markdownIt-Anchor" href="#为什么说gpu的分支运算性能极低">#</a> 为什么说 GPU 的分支运算性能极低</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_2b9d65417a9a8be48a8bde9503975152.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/03/wp_editor_md_2b9d65417a9a8be48a8bde9503975152.jpg" alt=""></a>  如上图，一个线程束内，可能有些线程走 if, 有些线程走 else，这就导致，在离开 if 前，需要将所有的线程<strong>同步到 if/esle 的运算结束</strong>，GPU 实现的很简单，就是等<strong>所有 If/Else 运算都结束了才允许进行下一步</strong>，所以，如果分支预测错误，就必然会导致<strong>所有线程消耗了执行完完整的 if/else 两个分支的时间</strong><br>
+ 可以想象，如果 if 嵌套层数过多会导致什么情况 (掀桌)</p>
+<h1 id="附-稀疏数据结构优化"><a class="markdownIt-Anchor" href="#附-稀疏数据结构优化">#</a> 附：稀疏数据结构优化</h1>
+<p>可以看到，无论是 GPU 还是 CPU 都有 L1/L2 Cache, 而不同层级的 Cache 访问次数对于性能的影响还是比较大的，《GPGPU 编程模型与架构原理》这本书中有说:<br>
+ L1 访问延时: 0.5ns<br>
+ L2 访问延时: 7ns (14 倍 L1)<br>
+ 主内存访问延时: 100ns (200 倍 L1)  更不要提 CPU 与 GPU 之间的访问延时了，至少在图形学编程中，一般都是要极力避免<strong>频繁的 CPU-GPU 数据拷贝</strong>的  Fermi 架构下的 L1 Cache 内存大小是 64KB，<br>
+ 所以，我们如何能够减少 L1/L2 / 主存之间的内存交换呢？<br>
+ 这就引出了，<strong> 稀疏数据结构</strong><br>
+ 在学生时期，我们有学到链表等数据结构，如果不采用密集的存储方式的话，很可能导致上一个节点到下一个节点并非是连续的，这就导致，处理器检查 L1/L2/L3 cache 时，很有可能发现<strong>下一个节点的数据不在缓存</strong>中，就会触发 Cache Miss,<strong> 过于离散的数据结构通常会带来非常频繁的 Cache miss</strong><br>
+ 解决这个问题的方式就是<strong>尽量保持数据结构的紧密性</strong>，如使用一维矩阵模拟高维矩阵，如<strong>电脑中存储图片通常也是一个线性数组</strong>，这就是稀疏数据结构。  之前有看太极语言创世人胡渊鸣的一个演讲:<br>
+<span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMVRKNDExVjdhQS8/c3BtX2lkX2Zyb209MzMzLjMzNy5zZWFyY2gtY2FyZC5hbGwuY2xpY2s=">MIT 在读博士生胡渊鸣：Taichi 编程语言 — 高性能稀疏视觉计算与可微编程</span>  大概讲的就是他们的这个框架处理稀疏数据结构非常简单 (最近看了之后就开始关注稀疏数据结构这个课题了)<strong> 其实稀疏数据结构是用来处理稀疏数据的稠密结构</strong>  还有他们的官网也有对稀疏数据结构的一个文档: <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnRhaWNoaS1sYW5nLmNuL2RvY3Mvc3BhcnNl">Taichi Lang - 空间稀疏数据结构</span></p>
+<h1 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章">#</a> 参考文章</h1>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC81NDUwNTY4MTk=">深入 GPU 硬件架构及运行机制</span> 《通用图形处理器设计 - GPGPU 编程模型与架构原理》 <span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMTZiNHkxRTc0Zi8/c3BtX2lkX2Zyb209MzMzLjc4OCZhbXA7dmRfc291cmNlPTExNDBiZmFjNTY5ZmU2YjdlODNjOWYxMjgyOTI0ZDA2">CUDA 开启 GPU 编程 - 小彭老师</span></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" title="【GPGPU】 1. 前_GPU硬件架构">https://mymetalseed.github.io/2023/03/25/【gpgpu】-1-前-gpu硬件架构/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【RayTracing】 光照度几个基础概念">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> RayTracing</span>
+  <h3>【RayTracing】 光照度几个基础概念</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【LeetCode打卡】">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 算法</span>
+  <h3>【LeetCode打卡】</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gpu%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text"> GPU 是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cpu%E4%B8%8Egpu%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text"> CPU 与 GPU 的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E8%AF%8D%E8%AF%AD%E6%95%B4%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 概念词语整理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%82%E7%BA%A7%E7%90%86%E8%A7%A3"><span class="toc-number">4.</span> <span class="toc-text"> 层级理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88gpu%E6%9C%89%E8%BF%9C%E9%AB%98%E4%BA%8Ecpu%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-number">5.</span> <span class="toc-text"> 为什么 GPU 有远高于 CPU 的性能？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4gpu%E7%9A%84%E5%88%86%E6%94%AF%E8%BF%90%E7%AE%97%E6%80%A7%E8%83%BD%E6%9E%81%E4%BD%8E"><span class="toc-number">6.</span> <span class="toc-text"> 为什么说 GPU 的分支运算性能极低</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96"><span class="toc-number">7.</span> <span class="toc-text"> 附：稀疏数据结构优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">8.</span> <span class="toc-text"> 参考文章</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></li><li><a href="../../../04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" rel="bookmark" title="【TA效果】 GpuInstance实现雨点打击地面的效果">【TA效果】 GpuInstance实现雨点打击地面的效果</a></li><li><a href="../../../07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" rel="bookmark" title="【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></li><li><a href="../../../07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" rel="bookmark" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></li><li><a href="../../../07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" rel="bookmark" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></li><li><a href="../../../08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/" title="在Unity中使用Shader和SDF制作渐变血条">在Unity中使用Shader和SDF制作渐变血条</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="In 技能系统">技能系统</a>
+</div>
+
+    <span><a href="../../../../2022/08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" title="C++（三）变量的区别">C++（三）变量的区别</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../09/19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" title="【GDC】 再探Virtual Texture">【GDC】 再探Virtual Texture</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2022/12/11/%E3%80%90ta101%E3%80%91-pbr/" title="【TA101】 PBR">【TA101】 PBR</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/03/25/【gpgpu】-1-前-gpu硬件架构/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

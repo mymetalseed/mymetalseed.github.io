@@ -1,0 +1,521 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/">
+
+
+
+  <title>
+【工具】 理解ToLua - 1. Lua源码级调试 - XLUA - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【工具】 理解ToLua - 1. Lua源码级调试
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-10-16 23:15:55">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-10-16T23:15:55+08:00">2023-10-16</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/XLUA/" itemprop="item" rel="index" title="In XLUA"><span itemprop="name">XLUA</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="在lua项目下添加调试用入口"><a class="markdownIt-Anchor" href="#在lua项目下添加调试用入口">#</a> 在 Lua 项目下添加调试用入口</h1>
+<p><code>main.cpp</code>  放到 lua-5.4.6 目录下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lua.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lauxlib.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lualib.h&quot;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">    <span class="type">int</span> status, result;</span><br><span class="line">    lua_State* L = <span class="built_in">luaL_newstate</span>();  <span class="comment">/* create state */</span></span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">//l_message(argv[0], &quot;cannot create state: not enough memory&quot;);</span></span><br><span class="line">        <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string cmd = <span class="string">&quot;a = 7+11&quot;</span>;</span><br><span class="line">    <span class="type">int</span> r = <span class="built_in">luaL_dostring</span>(L, cmd.<span class="built_in">c_str</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (r == LUA_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">lua_getglobal</span>(L, <span class="string">&quot;a&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">lua_isnumber</span>(L, <span class="number">-1</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">float</span> a_in_cpp = (<span class="type">float</span>)<span class="built_in">lua_tonumber</span>(L, <span class="number">-1</span>);</span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;a_in_cpp = &quot;</span> &lt;&lt; a_in_cpp &lt;&lt; std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        std::string errormsg = <span class="built_in">lua_tostring</span>(L, <span class="number">-1</span>);</span><br><span class="line">        std::cout &lt;&lt; errormsg &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//luaL_dofile(L, &quot;xxx.lua&quot;)</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">lua_close</span>(L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="添加构建cmakeliststxt文件"><a class="markdownIt-Anchor" href="#添加构建cmakeliststxt文件">#</a> 添加构建 CMakeLists.txt 文件</h1>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.20)</span><br><span class="line">project (LuaProject01)  <span class="comment"># project here actually means solution in premake</span></span><br><span class="line"></span><br><span class="line">set(LUA_VERSION 5.4.3)</span><br><span class="line"></span><br><span class="line">if(WIN32)</span><br><span class="line">    add_definitions(<span class="string">&quot;-DLUA_BUILD_AS_DLL&quot;</span>)</span><br><span class="line">    add_definitions( -D_CRT_SECURE_NO_WARNINGS )</span><br><span class="line"><span class="keyword">endif</span>(WIN32)</span><br><span class="line"></span><br><span class="line">aux_source_directory(src LUA_SOURCES)</span><br><span class="line">list(REMOVE_ITEM LUA_SOURCES <span class="string">&quot;src/lua.c&quot;</span> <span class="string">&quot;src/luac.c&quot;</span>)</span><br><span class="line"></span><br><span class="line">set(LUA_LIBRARY lua$&#123;LUA_VERSION&#125;)</span><br><span class="line">add_library($&#123;LUA_LIBRARY&#125; SHARED $&#123;LUA_SOURCES&#125;)</span><br><span class="line"></span><br><span class="line">add_executable(lua src/lua.c)</span><br><span class="line">target_link_libraries(lua $&#123;LUA_LIBRARY&#125;)</span><br><span class="line">if(UNIX AND NOT APPLE) <span class="comment">#add math library for linux</span></span><br><span class="line">    target_link_libraries(lua m)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line">add_executable(luac $&#123;LUA_SOURCES&#125; src/luac.c)</span><br><span class="line">if(UNIX AND NOT APPLE)</span><br><span class="line">    target_link_libraries(luac m)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line">include_directories(src)</span><br><span class="line">add_executable (LuaProject01 main.cpp)</span><br><span class="line">target_link_libraries (LuaProject01 $&#123;LUA_LIBRARY&#125;)</span><br><span class="line">if(UNIX AND NOT APPLE) <span class="comment">#add math library for linux</span></span><br><span class="line">    target_link_libraries( LuaProject01 m )</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<p>其中 LuaProject01 就是调试入口，之后 <code>cmake .</code>  即可</p>
+<h1 id="调试lua源码文件"><a class="markdownIt-Anchor" href="#调试lua源码文件">#</a> 调试 Lua 源码文件</h1>
+<p>编写 main 函数如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> status, result;</span><br><span class="line">    lua_State* L = <span class="built_in">luaL_newstate</span>();  <span class="comment">/* create state */</span></span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">//l_message(argv[0], &quot;cannot create state: not enough memory&quot;);</span></span><br><span class="line">        <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string cmd = <span class="string">&quot;a = 7+11&quot;</span>;</span><br><span class="line">    <span class="type">int</span> r = <span class="built_in">luaL_dostring</span>(L, cmd.<span class="built_in">c_str</span>());</span><br><span class="line"></span><br><span class="line">    <span class="built_in">lua_getglobal</span>(L, <span class="string">&quot;a&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">lua_isnumber</span>(L, <span class="number">-1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">float</span> a_in_cpp = (<span class="type">float</span>)<span class="built_in">lua_tonumber</span>(L, <span class="number">-1</span>);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;a_in_cpp = &quot;</span> &lt;&lt; a_in_cpp &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">luaL_dofile</span>(L, <span class="string">&quot;D:/Software/lua-5.4.6/lua-5.1.5/Lua/test.lua&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">lua_close</span>(L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>test.lua</code>  文件如下:</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Hello world&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>但是点击执行后不会报错，但也不会有什么输出，原因是因为没有注册 lua 的 libs 修改后的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> status, result;</span><br><span class="line">    lua_State* L = <span class="built_in">luaL_newstate</span>();  <span class="comment">/* create state */</span></span><br><span class="line">    <span class="keyword">if</span> (L == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="comment">//l_message(argv[0], &quot;cannot create state: not enough memory&quot;);</span></span><br><span class="line">        <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">luaL_openlibs</span>(L);</span><br><span class="line">    std::string cmd = <span class="string">&quot;a = 7+11&quot;</span>;</span><br><span class="line">    <span class="type">int</span> r = <span class="built_in">luaL_dostring</span>(L, cmd.<span class="built_in">c_str</span>());</span><br><span class="line"></span><br><span class="line">    <span class="built_in">lua_getglobal</span>(L, <span class="string">&quot;a&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">lua_isnumber</span>(L, <span class="number">-1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">float</span> a_in_cpp = (<span class="type">float</span>)<span class="built_in">lua_tonumber</span>(L, <span class="number">-1</span>);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;a_in_cpp = &quot;</span> &lt;&lt; a_in_cpp &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">luaL_dofile</span>(L, <span class="string">&quot;D:/Software/lua-5.4.6/lua-5.1.5/Lua/test.lua&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">lua_close</span>(L);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中 LuaL_openlibs 的實現如下: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_7acc31a6a3ef43bba5a878cae47779a6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/10/wp_editor_md_7acc31a6a3ef43bba5a878cae47779a6.jpg" alt=""></a></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/" title="【工具】 理解ToLua - 1. Lua源码级调试">https://mymetalseed.github.io/2023/10/16/【工具】-理解tolua-1-lua源码级调试/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../15/%E3%80%90hybridclr%E3%80%91-hybridclr%E7%9B%B8%E5%85%B3/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【HybridCLR】 HybridCLR相关">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>【HybridCLR】 HybridCLR相关</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【ToLua】 2. Lua源码 - Lua中的数据结构">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【ToLua】 2. Lua源码 - Lua中的数据结构</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8lua%E9%A1%B9%E7%9B%AE%E4%B8%8B%E6%B7%BB%E5%8A%A0%E8%B0%83%E8%AF%95%E7%94%A8%E5%85%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text"> 在 Lua 项目下添加调试用入口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%9E%84%E5%BB%BAcmakeliststxt%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text"> 添加构建 CMakeLists.txt 文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E8%AF%95lua%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text"> 调试 Lua 源码文件</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/07/14/xluaframework-%EF%BC%88%E4%B8%80%EF%BC%89/" rel="bookmark" title="XLuaFramework - （一） XLuaManager">XLuaFramework - （一） XLuaManager</a></li><li><a href="../../../../2021/07/27/lua%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="bookmark" title="学习笔记 - Lua实现生产者-消费者模式">学习笔记 - Lua实现生产者-消费者模式</a></li><li><a href="../../../../2022/01/08/lua%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="bookmark" title="Lua虚拟机">Lua虚拟机</a></li><li class="active"><a href="" rel="bookmark" title="【工具】 理解ToLua - 1. Lua源码级调试">【工具】 理解ToLua - 1. Lua源码级调试</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../15/%E3%80%90hybridclr%E3%80%91-hybridclr%E7%9B%B8%E5%85%B3/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/03/11/unity-%E7%BC%96%E8%BE%91%E5%99%A8%E5%BC%80%E5%8F%91-selection/" title="Unity 编辑器开发 - Selection">Unity 编辑器开发 - Selection</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" title="In 寻路算法">寻路算法</a>
+</div>
+
+    <span><a href="../../../../2022/05/04/recastnavigation-%E4%BA%8C-%E4%BD%93%E7%B4%A0%E5%8C%96/" title="RecastNavigation (二) 体素化">RecastNavigation (二) 体素化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Math/" title="In Math">Math</a>
+</div>
+
+    <span><a href="../../../../2021/05/09/%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" title="点积概念巩固">点积概念巩固</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/11/08/%E7%89%A9%E4%BD%93%E6%B6%88%E9%9A%90dissolve/" title="Shader物体消隐(Dissolve)">Shader物体消隐(Dissolve)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/09/01/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/11/06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" title="TextMesh Pro 创建中文字体流程">TextMesh Pro 创建中文字体流程</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/wwise/" title="In wwise">wwise</a>
+</div>
+
+    <span><a href="../../../../2022/08/22/%E3%80%90%E6%B8%B8%E6%88%8F%E9%9F%B3%E9%A2%91%E7%AE%A1%E7%90%86-wwise%E7%88%AC%E5%9D%91%E3%80%91-event/" title="【游戏音频管理-wwise爬坑】 -  Event">【游戏音频管理-wwise爬坑】 -  Event</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/05/09/%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B-%E6%B3%95%E7%BA%BF%E5%8F%98%E6%8D%A2/" title="《Unity Shader入门精要》 - 法线变换">《Unity Shader入门精要》 - 法线变换</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/10/16/【工具】-理解tolua-1-lua源码级调试/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

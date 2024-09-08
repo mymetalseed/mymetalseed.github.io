@@ -1,0 +1,570 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/">
+
+
+
+  <title>
+DirectX12 番外: 名词摘记 - DirectX - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">DirectX12 番外: 名词摘记
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-06-04 22:12:14">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-06-04T22:12:14+08:00">2022-06-04</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/DirectX/" itemprop="item" rel="index" title="In DirectX"><span itemprop="name">DirectX</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="引用"><a class="markdownIt-Anchor" href="#引用">#</a> 引用</h1>
+<p>[1] 游戏引擎编程实战 <span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80MjQ3ODUyNjQ=">https://zhuanlan.zhihu.com/p/424785264</span><br>
+ [2] DirectX123D 游戏开发实战<br>
+ [3] Direct12 入门学习 <span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8zNTI0MzMzMzk=">https://zhuanlan.zhihu.com/p/352433339</span> [toc]</p>
+<h1 id="资源"><a class="markdownIt-Anchor" href="#资源">#</a> 资源</h1>
+<h2 id="resource"><a class="markdownIt-Anchor" href="#resource">#</a> Resource</h2>
+<p>D3D 使用资源来统一表示 <code>GPU资源</code> ，不管是一块 Buffer 还是一张 texture。<br>
+GPU 不与渲染管线直接绑定，而是通过 <code>描述符(Descriptor)</code>  作为中间对象来绑定。</p>
+<h2 id="descriptorview"><a class="markdownIt-Anchor" href="#descriptorview">#</a> Descriptor/View</h2>
+<p>视图与描述符是同义词 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_6be256f43cf3a23a0d4138c236bf2355.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_6be256f43cf3a23a0d4138c236bf2355.jpg" alt=""></a> 描述符，实际上 D3D 中的大部分对象的创建都需要通过描述符来设置，如<br>
+ - 命令队列 - 命令列表 - 命令分配器 - 资源 - 交换链</p>
+<blockquote>
+<p>描述资源分配</p>
+</blockquote>
+<ul>
+<li>描述符堆</li>
+</ul>
+<p>描述符堆存放的是多个描述符在同一块内存中的分布，主要用于描述一个渲染管线内所需要的描述符集合.</p>
+<ul>
+<li>Root Signatures<br>
+![Image Uploading…]</li>
+</ul>
+<h2 id="heap"><a class="markdownIt-Anchor" href="#heap">#</a> Heap</h2>
+<p><code>GPU资源都存放在资源堆中</code>  H,eap 是一块连续的显存块。 堆分为以下几种类型:<br>
+- 默认堆 - 上传堆 - 回读堆</p>
+<h2 id="显存分配接口和方案"><a class="markdownIt-Anchor" href="#显存分配接口和方案">#</a> 显存分配接口和方案</h2>
+<h3 id="接口-committedresource"><a class="markdownIt-Anchor" href="#接口-committedresource">#</a> 接口 - CommittedResource</h3>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_48fa236d257c67ff3226d1034ef2fa87.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_48fa236d257c67ff3226d1034ef2fa87.jpg" alt=""></a> ID3D12Device::CreateCommittedResource : 申请显存资源 Resource 会映射到这个堆上。</p>
+<h3 id="接口-placedresource"><a class="markdownIt-Anchor" href="#接口-placedresource">#</a> 接口 - PlacedResource</h3>
+<p>在已经分配好内存的 Heap 中再分配一段小的 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_892f39ecee4d88a42d43f77055fd6f6c.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_892f39ecee4d88a42d43f77055fd6f6c.jpg" alt=""></a></p>
+<ul>
+<li>调用 ID3D12Device::CreateHeap 显示分配一个比较大的 Heap</li>
+<li>调用 ID3D12Device::CreatePlacedResource 在 Heap 中分配一小段空间给 Resource</li>
+</ul>
+<blockquote>
+<p>注意:</p>
+</blockquote>
+<p>PlacedResource 可以重叠，但是不能同时访问</p>
+<h3 id="接口-reservedresource"><a class="markdownIt-Anchor" href="#接口-reservedresource">#</a> 接口 - ReservedResource</h3>
+<p>类似于虚拟内存<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_5a159d25fa003e627a3dea331bea40b6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_5a159d25fa003e627a3dea331bea40b6.jpg" alt=""></a></p>
+<h3 id="方案-standalone"><a class="markdownIt-Anchor" href="#方案-standalone">#</a> 方案 - StandAlone</h3>
+<p>即一个资源对应一个 Resource 对象接口<br>
+缺点是如果存在大量分配显存需求时，存在很大的性能消耗</p>
+<h3 id="方案-suballocation"><a class="markdownIt-Anchor" href="#方案-suballocation">#</a> 方案 - SubAllocation</h3>
+<h3 id="方案-circular-buffer"><a class="markdownIt-Anchor" href="#方案-circular-buffer">#</a> 方案 - Circular Buffer</h3>
+<blockquote>
+<p>又称 <code>ring buffer</code></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_22971a7900eb8edef67cf9b897e72a39.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_22971a7900eb8edef67cf9b897e72a39.jpg" alt=""></a></p>
+<h3 id="方案-segregated-free-lists"><a class="markdownIt-Anchor" href="#方案-segregated-free-lists">#</a> 方案 - Segregated Free Lists</h3>
+<p>类似于段页式管理</p>
+<h3 id="方案-buddy-system"><a class="markdownIt-Anchor" href="#方案-buddy-system">#</a> 方案 - Buddy System</h3>
+<p>核心逻辑 （1）分配的时候，如果空闲的显存块太大，会对其不断二分（被分割的两块显存之间就是 Buddy），分割到再分割就会小于所需空间为止。<br>
+（2）释放的时候，会检测 Buddy 是否是空闲的，是的话就会和 Buddy 合并成一个大的空闲块。如果这个合并之后的大空闲块发现它的 Buddy 也是空闲的，那么会继续合并，直到无法合并为止。 缺点是碎片化 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_c922ff2f43d75a55bbec01dead246e79.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_c922ff2f43d75a55bbec01dead246e79.jpg" alt=""></a></p>
+<h2 id="命令分配器-命令列表以及命令队列"><a class="markdownIt-Anchor" href="#命令分配器-命令列表以及命令队列">#</a> 命令分配器、命令列表以及命令队列</h2>
+<p>三者之间的关系大概如下图:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_53a1ab6e4d6da9709410952441604495.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/06/wp_editor_md_53a1ab6e4d6da9709410952441604495.jpg" alt=""></a></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" title="DirectX12 番外: 名词摘记">https://mymetalseed.github.io/2022/06/04/directx12-番外-名词摘记/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 7.利用DirectX绘制几何体">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>DirectX12 7.利用DirectX绘制几何体</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text"> 引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%84%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text"> 资源</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#resource"><span class="toc-number">2.1.</span> <span class="toc-text"> Resource</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#descriptorview"><span class="toc-number">2.2.</span> <span class="toc-text"> Descriptor&#x2F;View</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#heap"><span class="toc-number">2.3.</span> <span class="toc-text"> Heap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E5%AD%98%E5%88%86%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%96%B9%E6%A1%88"><span class="toc-number">2.4.</span> <span class="toc-text"> 显存分配接口和方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3-committedresource"><span class="toc-number">2.4.1.</span> <span class="toc-text"> 接口 - CommittedResource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3-placedresource"><span class="toc-number">2.4.2.</span> <span class="toc-text"> 接口 - PlacedResource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3-reservedresource"><span class="toc-number">2.4.3.</span> <span class="toc-text"> 接口 - ReservedResource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-standalone"><span class="toc-number">2.4.4.</span> <span class="toc-text"> 方案 - StandAlone</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-suballocation"><span class="toc-number">2.4.5.</span> <span class="toc-text"> 方案 - SubAllocation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-circular-buffer"><span class="toc-number">2.4.6.</span> <span class="toc-text"> 方案 - Circular Buffer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-segregated-free-lists"><span class="toc-number">2.4.7.</span> <span class="toc-text"> 方案 - Segregated Free Lists</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-buddy-system"><span class="toc-number">2.4.8.</span> <span class="toc-text"> 方案 - Buddy System</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%88%86%E9%85%8D%E5%99%A8-%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E4%BB%A5%E5%8F%8A%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97"><span class="toc-number">2.5.</span> <span class="toc-text"> 命令分配器、命令列表以及命令队列</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="bookmark" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></li><li><a href="../../../05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" rel="bookmark" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></li><li><a href="../../../05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li class="active"><a href="" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../07/24/directx-10-%E6%B7%B7%E5%90%88/" rel="bookmark" title="DirectX 11 混合">DirectX 11 混合</a></li><li><a href="../../../07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" rel="bookmark" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></li><li><a href="../../../07/24/directx12-11-%E6%A8%A1%E6%9D%BF/" rel="bookmark" title="DirectX12 12 模板">DirectX12 12 模板</a></li><li><a href="../../../07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></li><li><a href="../../../07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" rel="bookmark" title="DirectX12 图像模糊">DirectX12 图像模糊</a></li><li><a href="../../../08/13/directx12-15-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" rel="bookmark" title="DirectX12 15 贝塞尔曲线">DirectX12 15 贝塞尔曲线</a></li><li><a href="../../../11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li><a href="../../../../2023/11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" rel="bookmark" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../../../2021/02/09/nuxt-js%E6%9D%82%E8%AE%B0/" title="Nuxt.js杂记">Nuxt.js杂记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/12/b-b-tree/" title="B &amp; B+ Tree">B & B+ Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/07/04/games101-mipmap/" title="Games101 - mipmap">Games101 - mipmap</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/unity-callback-android-function/" title="Unity调用Android方法">Unity调用Android方法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/XLUA/" title="In XLUA">XLUA</a>
+</div>
+
+    <span><a href="../../../../2021/07/14/xluaframework-%EF%BC%88%E4%B8%80%EF%BC%89/" title="XLuaFramework - （一） XLuaManager">XLuaFramework - （一） XLuaManager</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/06/04/directx12-番外-名词摘记/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

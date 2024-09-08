@@ -1,0 +1,545 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/05/09/%E5%8D%95%E8%B0%83%E6%A0%88/">
+
+
+
+  <title>
+单调栈 - LeetCode |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">单调栈
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-05-09 14:35:27">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-05-09T14:35:27+08:00">2021-05-09</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/LeetCode/" itemprop="item" rel="index" title="In LeetCode"><span itemprop="name">LeetCode</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/05/09/%E5%8D%95%E8%B0%83%E6%A0%88/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="单调栈的性质"><a class="markdownIt-Anchor" href="#单调栈的性质">#</a> 单调栈的性质:</h1>
+<p>下面这两条很重要</p>
+<ol>
+<li>单调栈实际上就是一个栈</li>
+<li>每次新元素入栈后，单调栈内元素都保持单调 (递增或递减)</li>
+</ol>
+<p>实现起来也很简单，就是标准入栈过程，只需要维护栈内的单调性就可以了 单调栈常用来解决一种典型问题：下一个最大元素</p>
+<blockquote>
+<p>输入一个数组，返回一个等长的数组，对应索引存储着下一个更大的元素，如果没有更大的元素，就存 - 1</p>
+</blockquote>
+<p>Leetcode</p>
+<h1 id="496next-greater-number"><a class="markdownIt-Anchor" href="#496next-greater-number">#</a> 496,Next Greater Number</h1>
+<p>这道题 O (N^2) 就可以了<br>
+一种优化方法是，在 map 上把 nums2 给装进去，然后遍历 nums1 时二分 map 然后这道题的描述很 shit, 其实这道题说的意思不是相同下标，而是两个数组相同值的右边 就是单调栈模板</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">nextGreaterElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; nm;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums1.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            nm[nums1[i]]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">n2</span><span class="params">(nums2.size())</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=nums2.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; st.<span class="built_in">top</span>()&lt;=nums2[i])&#123;</span><br><span class="line">                st.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            n2[i] = st.<span class="built_in">empty</span>()?<span class="number">-1</span>:st.<span class="built_in">top</span>();</span><br><span class="line">            st.<span class="built_in">push</span>(nums2[i]);</span><br><span class="line">            <span class="keyword">if</span>(nm.<span class="built_in">count</span>(nums2[i]))&#123;</span><br><span class="line">                nums1[nm[nums2[i]]] = n2[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="下一个更大的元素-2"><a class="markdownIt-Anchor" href="#下一个更大的元素-2">#</a> 下一个更大的元素 ②</h1>
+<p>这道题没规定循环只能到自己为止</p>
+<blockquote>
+<p>这道题本来想做一个 struct, 有下标和数据，然后拓展 vector 到二倍</p>
+<blockquote>
+<p>但是官方题解说可以直接用单调栈只记录下标</p>
+</blockquote>
+</blockquote>
+<p>确实，这样会省略掉很多麻烦的问题。然后是正向单调栈的方案 上一题用的是逆序插入单调栈，每次遇到的第一个大于当前元素的则一定是对的。正序插入单调栈，我们就需要维护该单调栈仍然是单调递减的，对于 pop 出来的而言，他就是第一个比他们大的。所以要在 pop 的时候赋值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">nextGreaterElements</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dev</span><span class="params">(nums.size(),<span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>()*<span class="number">2</span><span class="number">-1</span>;++i)&#123;</span><br><span class="line">            <span class="keyword">while</span>(!st.<span class="built_in">empty</span>() &amp;&amp; nums[st.<span class="built_in">top</span>()]&lt;nums[i%n])&#123;</span><br><span class="line">                dev[st.<span class="built_in">top</span>()] = nums[i%n];</span><br><span class="line">                st.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            st.<span class="built_in">push</span>(i%n);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="discuss-里的一道面试题"><a class="markdownIt-Anchor" href="#discuss-里的一道面试题">#</a> discuss 里的一道面试题</h1>
+<p><span class="exturl" data-url="aHR0cHM6Ly9sZWV0Y29kZS1jbi5jb20vY2lyY2xlL2Rpc2N1c3MvbDhIc2U0Lw==">https://leetcode-cn.com/circle/discuss/l8Hse4/</span> 第 1 题 给定一个长度为 m（m &gt;= 1）的字符串，这个字符串表示一个非负整数 N（应该可以用 long 装下，我是最后超时了）。其中 N 没有前导 0。 再给定一个整数 x（x &lt;= m），要你从整数 N 中删除 x 个数字，使得余下的数字最小。最后输出这个最小的数字。 例如：<br>
+输入：N=2020，x = 1<br>
+ 输出：20<br>
+ 解释：删除第一个 2，剩下 020=20 输入：N=1432319，x = 3<br>
+ 输出：1219</p>
+<blockquote>
+<p>先讨论性质 方法一，考虑保留哪些数</p>
+</blockquote>
+<ol>
+<li>考虑保留那些数</li>
+</ol>
+<p>方案 1：N 长度为 m，删除 x 个数字，那就剩 m-x 个数字，所以就是求原始序列 N 的长度为 m-x 的子序列，使得这个子序列最小。 以输入 N = 1432319 为例，m=7 x=3，m-x=4，所以我们的目标是要从 N 中挑出 4 个数来，这 4 个数的相对顺序是不能变的。下面是步骤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">N=1432319，目标长度4，所以第1个数只能从1432里面取，不然后面的数就不够用了。这里肯定选最小的1，结果变成1</span><br><span class="line">N=432319，目标长度3，所以第2个数只能从4323里面取，不然后面的数不够用了，同理选2，结果变成12</span><br><span class="line">N=319, 目标长度2，所以第3个数只能从31里面取，不然后面的数不够用了，同理选1，结果变成121</span><br><span class="line">N=9，不说了。。。，最终结果变成1219</span><br></pre></td></tr></table></figure>
+<p>方案 2：上面的方案中，需要每次去找某个区间的最小值，导致时间复杂度是 O (m*x)，如果想优化可以针对这个问题引入单调 (递增) 栈，单调栈这里就不介绍了，网上随便搜一下就有。具体步骤：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">启动的时候先压入4个数1432，压完单调栈变成12</span><br><span class="line">栈底的1出栈，放到结果中，同时1432后面的3压栈，单调栈变成23</span><br><span class="line">栈底的2出栈，放到结果中，同时14323后面的1压栈，单调栈变成1</span><br><span class="line">栈底的1出栈，放到结果中，同时143231后面的9压栈，单调栈变成9</span><br><span class="line">栈底的9出栈，放到结果中</span><br><span class="line">返回最终结果1219</span><br></pre></td></tr></table></figure>
+<p>改进后时间复杂度变为 O (m)，但注意这是一个变种栈，我们从栈底而不是栈顶出栈，所以栈的底层实现需要是 linkedlist，而不是 array。 这句话中的那四步非常重要，即考虑剩下 4 个，那么就只能在前面 N-4 个值中取一个最小的放到最高位上 第一位找好了，找第二位，考虑剩下 3 个，就只能在刚才选好的下标后面的子串中  <code>不包含最后三位</code> 中找一个最小的放到最高位上 这个过程可以用单调栈进行区间最小值的查找 这个思路非常巧妙</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/05/09/%E5%8D%95%E8%B0%83%E6%A0%88/" title="单调栈">https://mymetalseed.github.io/2021/05/09/单调栈/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="点积概念巩固">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> Math</span>
+  <h3>点积概念巩固</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../12/%E8%AE%A1%E5%88%92-%E3%80%8A3d-game-shaders-for-beginners%E3%80%8B/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="计划 - 《3D Game Shaders For Beginners》">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> lettier</span>
+  <h3>计划 - 《3D Game Shaders For Beginners》</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E8%B0%83%E6%A0%88%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">1.</span> <span class="toc-text"> 单调栈的性质:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#496next-greater-number"><span class="toc-number">2.</span> <span class="toc-text"> 496,Next Greater Number</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E7%9A%84%E5%85%83%E7%B4%A0-2"><span class="toc-number">3.</span> <span class="toc-text"> 下一个更大的元素 ②</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#discuss-%E9%87%8C%E7%9A%84%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text"> discuss 里的一道面试题</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../03/04/leetcode%E9%A2%98%E8%A7%A3%E9%9B%86-%E4%B8%AD%E7%AD%89/" rel="bookmark" title="LeetCode题解集 - 中等">LeetCode题解集 - 中等</a></li><li class="active"><a href="" rel="bookmark" title="单调栈">单调栈</a></li><li><a href="../../31/leetcode-%E7%AE%80%E5%8D%95/" rel="bookmark" title="Leetcode - 简单">Leetcode - 简单</a></li><li><a href="../../../09/28/%E5%80%9F%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%B2%E4%B8%80%E4%B8%8B%E6%8C%87%E9%92%88-leetcode-21/" rel="bookmark" title="借一道题讲一下指针 Leetcode 21">借一道题讲一下指针 Leetcode 21</a></li><li><a href="../../../10/05/%E5%89%8D%E4%B8%AD%E5%90%8E%E5%BA%8F%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="bookmark" title="前中后序构造二叉树">前中后序构造二叉树</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../12/%E8%AE%A1%E5%88%92-%E3%80%8A3d-game-shaders-for-beginners%E3%80%8B/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/XLUA/" title="In XLUA">XLUA</a>
+</div>
+
+    <span><a href="../../../../2023/10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/" title="【工具】 理解ToLua - 1. Lua源码级调试">【工具】 理解ToLua - 1. Lua源码级调试</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2022/12/11/%E3%80%90ta101%E3%80%91-pbr/" title="【TA101】 PBR">【TA101】 PBR</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../04/04/shader%E4%B8%AD%E7%9A%84%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/" title="Shader中的光照模型">Shader中的光照模型</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../04/11/%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="表面着色器 -《ShaderLab新手宝典》">表面着色器 -《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" title="In 寻路算法">寻路算法</a>
+</div>
+
+    <span><a href="../../../../2022/05/04/recastnavigation-%E4%BA%8C-%E4%BD%93%E7%B4%A0%E5%8C%96/" title="RecastNavigation (二) 体素化">RecastNavigation (二) 体素化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF/" title="In 服务端">服务端</a>
+</div>
+
+    <span><a href="../../../12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../../2023/04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/05/09/单调栈/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/">
+
+
+
+  <title>
+【GPGPU】 ComputeShader 效果Demo - GPGPU - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【GPGPU】 ComputeShader 效果Demo
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-07-06 23:34:16">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-07-06T23:34:16+08:00">2023-07-06</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/GPGPU/" itemprop="item" rel="index" title="In GPGPU"><span itemprop="name">GPGPU</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="1-浮动的圆"><a class="markdownIt-Anchor" href="#1-浮动的圆">#</a> 1. 浮动的圆</h1>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/%E9%A3%9E%E4%B9%A620230706-233251.gif" alt=""></p>
+<h2 id="效果拆解"><a class="markdownIt-Anchor" href="#效果拆解">#</a> 效果拆解</h2>
+<ol>
+<li>单体圆的绘制:</li>
+</ol>
+<p><span class="exturl" data-url="aHR0cDovLzE0Ni41Ni4yMDkuMTE6OTAvMjAyMy8wNy8wMi8lZTMlODAlOTBncGdwdSVlMyU4MCU5MS11bml0eS1jb21wdXRlc2hhZGVyLw==">Bresenham 并发画圆算法</span> 有了上述并发画圆的方法，我们就可以在每帧绘制一个单体圆。<br>
+如果我们想绘制更多的圆，只需要分配更多的 <code>ThreadGroup</code> , 每个线程负责画一个 (如果想也可以画多个)</p>
+<ol start="2">
+<li>圆形如何移动？</li>
+</ol>
+<p>只需要在时序上更新圆的中心点即可</p>
+<ol start="3">
+<li>如何实现不同圆有不同的匀速？</li>
+</ol>
+<p>这就需要用到 <code>SSBO</code>   <code>Shader Storage Buffer Object</code> , 首先需要知道的是，这个 Buffer 的适配性很差，至少移动端基本不同架构的数量相差巨大，可以说不能用 (? 比如有的只允许 30 个，有的却可以允许 10000 个？？？)，但是作为 Demo 可以用来玩玩 直接类似于 CPU 端一样，在 GPU 上分配每个圆的数据 <code>Circle</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">circle</span></span><br><span class="line">&#123;</span><br><span class="line">    float2 origin;</span><br><span class="line">    float2 velocity;</span><br><span class="line">    <span class="type">float</span> radius;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">StructuredBuffer&lt;circle&gt; circlesBuffer;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后在 kernel 里使用线程下标来找到线程对应圆的数据</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">numthreads</span>(<span class="number">32</span>,<span class="number">1</span>,<span class="number">1</span>)]</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Circles</span> <span class="params">(uint3 id : SV_DispatchThreadID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    int2 center = (int2)(circlesBuffer[id.x].origin + circlesBuffer[id.x].velocity * time);</span><br><span class="line">    <span class="type">int</span> radius = (<span class="type">int</span>)circlesBuffer[id.x].radius;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(center.x &gt; texResolution) center.x -= texResolution;</span><br><span class="line">    <span class="keyword">while</span>(center.x &lt; <span class="number">0</span>) center.x += texResolution;</span><br><span class="line">    <span class="keyword">while</span>(center.y &gt; texResolution) center.y -= texResolution;</span><br><span class="line">    <span class="keyword">while</span>(center.y &lt; <span class="number">0</span>) center.y += texResolution;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">drawCircle</span>(center,radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="2-瞎转圈的星星"><a class="markdownIt-Anchor" href="#2-瞎转圈的星星">#</a> 2. 瞎转圈的星星</h1>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/%E9%A3%9E%E4%B9%A620230707-004258.gif" alt=""></p>
+<h2 id="效果拆解-2"><a class="markdownIt-Anchor" href="#效果拆解-2">#</a> 效果拆解</h2>
+<ol>
+<li>从圆心随机一个方向 <code>Vec</code></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_04dcfd07ade609c6054a33f5f415738e.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_04dcfd07ade609c6054a33f5f415738e.jpg" alt=""></a></p>
+<ol start="2">
+<li>然后求出某一个随机圆切面上的一个 <code>正交基</code></li>
+</ol>
+<p>- 随机一个 x 方向 (sinDir)<br>
+- 叉积 vec 与 sinDir 得到一个 cosDir 向量，其中 cosDir 和 sinDir 必然互相垂直 ( <code>其实和vec也是互相垂直</code> )<br>
+- 则 sinDir 和 cosDir 就是对应圆切面上的一组正交基，然后按单位圆的 x/y 轴计算坐标即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">numthreads</span>(<span class="number">64</span>,<span class="number">1</span>,<span class="number">1</span>)]</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">OrbitingStars</span><span class="params">(uint3 id : SV_DispatchThreadID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    float3 sinDir = <span class="built_in">normalize</span>(<span class="built_in">random3</span>(id.x) - <span class="number">0.5</span>);</span><br><span class="line">    float3 vec = <span class="built_in">normalize</span>(<span class="built_in">random3</span>(id.x + <span class="number">7.1393</span>) - <span class="number">0.5</span>);</span><br><span class="line">    float3 cosDir = <span class="built_in">normalize</span>(<span class="built_in">cross</span>(sinDir,vec));</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> scaledTime = time *<span class="number">0.5</span>+<span class="built_in">random</span>(id.x) * <span class="number">712.131234</span>;</span><br><span class="line"></span><br><span class="line">    float3 pos = sinDir * <span class="built_in">sin</span>(scaledTime) + cosDir * <span class="built_in">cos</span>(scaledTime);</span><br><span class="line"></span><br><span class="line">    Result[id.x] = pos * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>如何同步数据和显示</li>
+</ol>
+<p>实际上这里 ComputeShader 只是用来计算位置的 (这玩意完全可以用 Job 代替，因为使用 ComputeShader 还需要回读，回读性能消耗也很大的), 所以 Dispatch 之后，直接 <code>resultBuffer.GetData(目标数组)</code>  即可，其中 resultBuffer 的顶层封装是 <code>ComputeBuffer</code> , 获取到数据后对 Gameobject 的 Transform 进行赋值 (完全 Demo 做法 XD)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> Unity.Collections.LowLevel.Unsafe;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OrbitingStars</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> starCount = <span class="number">17</span>;</span><br><span class="line">    <span class="keyword">public</span> ComputeShader shader;</span><br><span class="line">    <span class="keyword">public</span> GameObject prefab;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ComputeBuffer resultBuffer;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> kernelHandle;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">uint</span> threadGroupSizeX;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> groupSizeX;</span><br><span class="line">    <span class="keyword">private</span> Vector3[] output;</span><br><span class="line">    <span class="keyword">private</span> Transform[] stars;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Start is called before the first frame update</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        kernelHandle = shader.FindKernel(<span class="string">&quot;OrbitingStars&quot;</span>);</span><br><span class="line">        shader.GetKernelThreadGroupSizes(kernelHandle,<span class="keyword">out</span> threadGroupSizeX,<span class="keyword">out</span> _,<span class="keyword">out</span> _);</span><br><span class="line">        groupSizeX = (<span class="built_in">int</span>)((starCount + threadGroupSizeX - <span class="number">1</span>) / threadGroupSizeX);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//buffer on the gpu in the ram</span></span><br><span class="line">        resultBuffer = <span class="keyword">new</span> ComputeBuffer(starCount, UnsafeUtility.SizeOf&lt;Vector3&gt;());</span><br><span class="line">        shader.SetBuffer(kernelHandle,<span class="string">&quot;Result&quot;</span>,resultBuffer);</span><br><span class="line">        output = <span class="keyword">new</span> Vector3[starCount];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//star we use for visual</span></span><br><span class="line">        stars = <span class="keyword">new</span> Transform[starCount];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; starCount; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            stars[i] = Instantiate(prefab, transform).transform;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        shader.SetFloat(<span class="string">&quot;time&quot;</span>,Time.time);</span><br><span class="line">        shader.Dispatch(kernelHandle,groupSizeX,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">        resultBuffer.GetData(output);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; stars.Length; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            stars[i].localPosition = output[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnDestroy</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        resultBuffer.Dispose();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="3-简单mesh变形"><a class="markdownIt-Anchor" href="#3-简单mesh变形">#</a> 3. 简单 Mesh 变形</h1>
+<p><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/20230708-140749.gif" alt=""></p>
+<ol>
+<li>
+<p>计算模型最适合的圆心的位置上 (假如 0.0 在最中心也可以)</p>
+</li>
+<li>
+<p>计算每个顶点到圆心的方向向量，然后乘上半径</p>
+</li>
+<li>
+<p>使用时间进行 sin/cos 的循环，然后 lerp</p>
+</li>
+</ol>
+<p>Tips, 个人感觉这种其实用隐式表达 ( <code>如SDF</code> ) 会更好，因为对于顶点而言的数据量是巨大的，直接上传或者回读对于性能的影响也是巨大的</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码">#</a> 代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Each #kernel tells which function to compile; you can have many kernels</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> kernel CSMain</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Vertex</span></span><br><span class="line">&#123;</span><br><span class="line">    float3 position;</span><br><span class="line">    float3 normal;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">RWStructuredBuffer&lt;Vertex&gt; vertexBuffer;</span><br><span class="line">StructuredBuffer&lt;Vertex&gt; initialBuffer;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> delta;</span><br><span class="line"><span class="type">float</span> radius;</span><br><span class="line"></span><br><span class="line">[<span class="built_in">numthreads</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)]</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSMain</span> <span class="params">(uint3 id : SV_DispatchThreadID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    float3 initialPos = initialBuffer[id.x].position;</span><br><span class="line">    float3 s = <span class="built_in">float3</span>(<span class="built_in">normalize</span>(initialPos)*radius*<span class="number">0.01</span>);</span><br><span class="line">    float3 pos = <span class="built_in">lerp</span>(initialPos,s,delta);</span><br><span class="line"></span><br><span class="line">    float3 initialNormal = initialBuffer[id.x].normal;</span><br><span class="line">    float3 snormal = <span class="built_in">normalize</span>(initialPos);</span><br><span class="line">    float3 norm = <span class="built_in">lerp</span>(initialNormal,snormal,delta);</span><br><span class="line"></span><br><span class="line">    vertexBuffer[id.x].normal = norm;</span><br><span class="line">    vertexBuffer[id.x].position = pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Numerics;</span><br><span class="line"><span class="keyword">using</span> Vector3 = UnityEngine.Vector3;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MeshDeform</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> ComputeShader shader;</span><br><span class="line">    [<span class="meta">Range(0.5f, 2.0f)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">float</span> radius;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">struct</span> Vertex</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> Vector3 position;</span><br><span class="line">        <span class="keyword">public</span> Vector3 normal;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Vertex</span>(<span class="params">Vector3 p, Vector3 n</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            position.x = p.x;</span><br><span class="line">            position.y = p.y;</span><br><span class="line">            position.z = p.z;</span><br><span class="line">            normal.x = n.x;</span><br><span class="line">            normal.y = n.y;</span><br><span class="line">            normal.z = n.z;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">int</span> kernelHandle;</span><br><span class="line">    Mesh mesh;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Vertex[] vertexArray;</span><br><span class="line">    <span class="keyword">private</span> Vertex[] initialArray;</span><br><span class="line">    <span class="keyword">private</span> ComputeBuffer vertexBuffer;</span><br><span class="line">    <span class="keyword">private</span> ComputeBuffer initialBuffer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Use this for initialization</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (InitData())</span><br><span class="line">        &#123;</span><br><span class="line">            InitShader();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="built_in">bool</span> <span class="title">InitData</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        kernelHandle = shader.FindKernel(<span class="string">&quot;CSMain&quot;</span>);</span><br><span class="line"></span><br><span class="line">        MeshFilter mf = GetComponent&lt;MeshFilter&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mf == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(<span class="string">&quot;No MeshFilter found&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InitVertexArrays(mf.mesh);</span><br><span class="line">        InitGPUBuffers();</span><br><span class="line"></span><br><span class="line">        mesh = mf.mesh;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitShader</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        shader.SetFloat(<span class="string">&quot;radius&quot;</span>, radius);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitVertexArrays</span>(<span class="params">Mesh mesh</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        vertexArray = <span class="keyword">new</span> Vertex[mesh.vertices.Length];</span><br><span class="line">        initialArray = <span class="keyword">new</span> Vertex[mesh.vertices.Length];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; vertexArray.Length; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            Vertex v1 = <span class="keyword">new</span> Vertex(mesh.vertices[i], mesh.normals[i]);</span><br><span class="line">            vertexArray[i] = v1;</span><br><span class="line">            Vertex v2 = <span class="keyword">new</span> Vertex(mesh.vertices[i], mesh.normals[i]);</span><br><span class="line">            initialArray[i] = v2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitGPUBuffers</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        vertexBuffer = <span class="keyword">new</span> ComputeBuffer(vertexArray.Length,<span class="keyword">sizeof</span>(<span class="built_in">float</span>) * <span class="number">6</span>);</span><br><span class="line">        vertexBuffer.SetData(vertexArray);</span><br><span class="line">        initialBuffer = <span class="keyword">new</span> ComputeBuffer(initialArray.Length, <span class="keyword">sizeof</span>(<span class="built_in">float</span>) * <span class="number">6</span>);</span><br><span class="line">        initialBuffer.SetData(initialArray);</span><br><span class="line"></span><br><span class="line">        shader.SetBuffer(kernelHandle,<span class="string">&quot;vertexBuffer&quot;</span>,vertexBuffer);</span><br><span class="line">        shader.SetBuffer(kernelHandle,<span class="string">&quot;initialBuffer&quot;</span>,initialBuffer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">GetVerticesFromGPU</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        vertexBuffer.GetData(vertexArray);</span><br><span class="line">        Vector3[] vertices = <span class="keyword">new</span> Vector3[vertexArray.Length];</span><br><span class="line">        Vector3[] normals = <span class="keyword">new</span> Vector3[vertexArray.Length];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; vertexArray.Length; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            vertices[i] = vertexArray[i].position;</span><br><span class="line">            normals[i] = vertexArray[i].normal;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mesh.vertices = vertices;</span><br><span class="line">        mesh.normals = normals;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (shader)</span><br><span class="line">        &#123;</span><br><span class="line">            shader.SetFloat(<span class="string">&quot;radius&quot;</span>, radius);</span><br><span class="line">            <span class="built_in">float</span> delta = (Mathf.Sin(Time.time) + <span class="number">1</span>)/ <span class="number">2</span>;</span><br><span class="line">            shader.SetFloat(<span class="string">&quot;delta&quot;</span>, delta);</span><br><span class="line">            shader.Dispatch(kernelHandle, vertexArray.Length, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            GetVerticesFromGPU();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">OnDestroy</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" title="【GPGPU】 ComputeShader 效果Demo">https://mymetalseed.github.io/2023/07/06/【gpgpu】-computeshader-效果demo/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【C++并发】 thread相关">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【C++并发】 thread相关</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【GPGPU】 ComputeShader 驱动的粒子特效">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> GPGPU</span>
+  <h3>【GPGPU】 ComputeShader 驱动的粒子特效</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E7%9A%84%E5%9C%86"><span class="toc-number">1.</span> <span class="toc-text"> 1. 浮动的圆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E6%8B%86%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text"> 效果拆解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%9E%8E%E8%BD%AC%E5%9C%88%E7%9A%84%E6%98%9F%E6%98%9F"><span class="toc-number">2.</span> <span class="toc-text"> 2. 瞎转圈的星星</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E6%8B%86%E8%A7%A3-2"><span class="toc-number">2.1.</span> <span class="toc-text"> 效果拆解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E7%AE%80%E5%8D%95mesh%E5%8F%98%E5%BD%A2"><span class="toc-number">3.</span> <span class="toc-text"> 3. 简单 Mesh 变形</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.1.</span> <span class="toc-text"> 代码</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" rel="bookmark" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></li><li><a href="../../../04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" rel="bookmark" title="【TA效果】 GpuInstance实现雨点打击地面的效果">【TA效果】 GpuInstance实现雨点打击地面的效果</a></li><li><a href="../../02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" rel="bookmark" title="【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></li><li class="active"><a href="" rel="bookmark" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></li><li><a href="../../08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" rel="bookmark" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></li><li><a href="../../../08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../%E3%80%90c%E5%B9%B6%E5%8F%91%E3%80%91-thread%E7%9B%B8%E5%85%B3/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/15/c%E5%9B%9B-%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%88%9B%E5%BB%BA%EF%BC%9F%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6/" title="C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？">C++(四) 如何限制类的对象只能在堆上创建？如何限制对象只能在栈上创建？</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../../../2021/03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" title="由CSS3学动效">由CSS3学动效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/11/16/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" title="C语言实现虚函数表">C语言实现虚函数表</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/LeetCode/" title="In LeetCode">LeetCode</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2021/10/05/%E5%89%8D%E4%B8%AD%E5%90%8E%E5%BA%8F%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/" title="前中后序构造二叉树">前中后序构造二叉树</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2022/10/16/%E6%96%B0%E5%9D%91-%E3%80%90oi-wiki-study%E3%80%91/" title="新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links">新坑 - 【OI Wiki Study】 - 可以求解数独的算法-Dacing Links</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/04/19/%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E5%B1%8F%E5%B9%95%E5%90%8E%E5%A4%84%E7%90%86%E7%B3%BB%E7%BB%9F-%E3%80%8Aunity-shader%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%81%E3%80%8B/" title="建立一个屏幕后处理系统 - 《Unity Shader入门精要》">建立一个屏幕后处理系统 - 《Unity Shader入门精要》</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/07/06/【gpgpu】-computeshader-效果demo/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

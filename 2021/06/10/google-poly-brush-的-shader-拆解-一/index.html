@@ -1,0 +1,548 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/">
+
+
+
+  <title>
+Google Poly Brush 的 Shader 拆解 (一) - 特效 - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Google Poly Brush 的 Shader 拆解 (一)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-06-10 10:43:02">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-06-10T10:43:02+08:00">2021-06-10</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%89%B9%E6%95%88/" itemprop="item" rel="index" title="In 特效"><span itemprop="name">特效</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>最近找到了 Google Poly 的插件 (Unity asset store 里下载就可以), 看里面的 Shader 很棒，所以开这个专栏来进行学习 (重点是应用) 主要是两个 cginc</p>
+<blockquote>
+<p>后面会对每个效果进行代码拆解</p>
+</blockquote>
+<h1 id="brushcginc-和-particlescginc"><a class="markdownIt-Anchor" href="#brushcginc-和-particlescginc">#</a> Brush.cginc 和 Particles.cginc</h1>
+<h1 id="brushparticesnow"><a class="markdownIt-Anchor" href="#brushparticesnow">#</a> Brush/Partice/Snow</h1>
+<h2 id="属性"><a class="markdownIt-Anchor" href="#属性">#</a> 属性</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Properties &#123;</span><br><span class="line">  _TintColor (<span class="string">&quot;Tint Color&quot;</span>, Color) = (<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>)</span><br><span class="line">  _MainTex (<span class="string">&quot;Particle Texture&quot;</span>, <span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">  _ScrollRate(<span class="string">&quot;Scroll Rate&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _ScrollDistance(<span class="string">&quot;Scroll Distance&quot;</span>, Vector) = (<span class="number">1.0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">  _ScrollJitterIntensity(<span class="string">&quot;Scroll Jitter Intensity&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _ScrollJitterFrequency(<span class="string">&quot;Scroll Jitter Frequency&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _SpreadRate (<span class="string">&quot;Spread Rate&quot;</span>, <span class="built_in">Range</span>(<span class="number">0.3</span>, <span class="number">5</span>)) = <span class="number">1.539</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TintColor: 色调</li>
+<li>MainTex: 主要贴图</li>
+<li>ScrollRate: 滚动频率 (下落)</li>
+<li>ScrollDistance: 滚动方向</li>
+<li>ScrollJitterIntensity: 滚动偏差强度</li>
+<li>ScrollJitterFrequency: 滚动偏差频率</li>
+<li>SpreadRate: 传播率 (没看懂)</li>
+</ul>
+<h2 id="渲染流程"><a class="markdownIt-Anchor" href="#渲染流程">#</a> 渲染流程</h2>
+<blockquote>
+<p>先上代码</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2017 Google Inc.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></span><br><span class="line"><span class="comment">// you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment">// You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//     http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment">// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></span><br><span class="line"><span class="comment">// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment">// See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment">// limitations under the License.</span></span><br><span class="line"></span><br><span class="line">Shader <span class="string">&quot;Brush/Particle/Snow&quot;</span> &#123;</span><br><span class="line">Properties &#123;</span><br><span class="line">  _TintColor (<span class="string">&quot;Tint Color&quot;</span>, Color) = (<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>,<span class="number">0.5</span>)</span><br><span class="line">  _MainTex (<span class="string">&quot;Particle Texture&quot;</span>, <span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">  _ScrollRate(<span class="string">&quot;Scroll Rate&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _ScrollDistance(<span class="string">&quot;Scroll Distance&quot;</span>, Vector) = (<span class="number">1.0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">  _ScrollJitterIntensity(<span class="string">&quot;Scroll Jitter Intensity&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _ScrollJitterFrequency(<span class="string">&quot;Scroll Jitter Frequency&quot;</span>, Float) = <span class="number">1.0</span></span><br><span class="line">  _SpreadRate (<span class="string">&quot;Spread Rate&quot;</span>, <span class="built_in">Range</span>(<span class="number">0.3</span>, <span class="number">5</span>)) = <span class="number">1.539</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Category &#123;</span><br><span class="line">  Tags &#123; <span class="string">&quot;Queue&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;IgnoreProjector&quot;</span>=<span class="string">&quot;True&quot;</span> <span class="string">&quot;RenderType&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;DisableBatching&quot;</span>=<span class="string">&quot;True&quot;</span> &#125;</span><br><span class="line">  Blend SrcAlpha One</span><br><span class="line">  AlphaTest Greater <span class="number">.01</span></span><br><span class="line">  ColorMask RGB</span><br><span class="line">  Cull Off Lighting Off ZWrite Off Fog &#123; <span class="built_in">Color</span> (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>) &#125;</span><br><span class="line"></span><br><span class="line">  SubShader &#123;</span><br><span class="line">    Pass &#123;</span><br><span class="line"></span><br><span class="line">      CGPROGRAM</span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> multi_compile_particles</span></span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> multi_compile __ AUDIO_REACTIVE</span></span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> multi_compile __ TBT_LINEAR_TARGET</span></span><br><span class="line">      <span class="meta">#<span class="keyword">pragma</span> target 3.0</span></span><br><span class="line"></span><br><span class="line">      <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UnityCG.cginc&quot;</span></span></span><br><span class="line">      <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../../../Shaders/Include/Brush.cginc&quot;</span></span></span><br><span class="line">      <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../../../Shaders/Include/Particles.cginc&quot;</span></span></span><br><span class="line"></span><br><span class="line">      sampler2D _MainTex;</span><br><span class="line">      fixed4 _TintColor;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">struct</span> <span class="title class_">v2f</span> &#123;</span><br><span class="line">        float4 vertex : SV_POSITION;</span><br><span class="line">        fixed4 color : COLOR;</span><br><span class="line">        float2 texcoord : TEXCOORD0;</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      float4 _MainTex_ST;</span><br><span class="line">      <span class="type">float</span> _ScrollRate;</span><br><span class="line">      float3 _ScrollDistance;</span><br><span class="line">      <span class="type">float</span> _ScrollJitterIntensity;</span><br><span class="line">      <span class="type">float</span> _ScrollJitterFrequency;</span><br><span class="line">      <span class="type">float</span> _SpreadRate;</span><br><span class="line"></span><br><span class="line">      <span class="function">v2f <span class="title">vert</span> <span class="params">(ParticleVertexWithSpread_t v)</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">        v2f o;</span><br><span class="line">        v.color = <span class="built_in">TbVertToSrgb</span>(v.color);</span><br><span class="line">        <span class="type">float</span> birthTime = v.texcoord.w;</span><br><span class="line">        <span class="type">float</span> rotation = v.texcoord.z;</span><br><span class="line">        <span class="type">float</span> halfSize = <span class="built_in">GetParticleHalfSize</span>(v.corner.xyz, v.center, birthTime);</span><br><span class="line">        <span class="type">float</span> spreadProgress = <span class="built_in">SpreadProgress</span>(birthTime, _SpreadRate);</span><br><span class="line">        float4 center = <span class="built_in">SpreadParticle</span>(v, spreadProgress);</span><br><span class="line">        float4 center_WS = <span class="built_in">mul</span>(unity_ObjectToWorld, center);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Custom vertex animation</span></span><br><span class="line">        <span class="type">float</span> scrollAmount = _Time.y;</span><br><span class="line">        <span class="type">float</span> t = <span class="built_in">fmod</span>(scrollAmount * _ScrollRate + v.color.a, <span class="number">1</span>);</span><br><span class="line">        float4 dispVec = (t - <span class="number">.5</span>f) * <span class="built_in">float4</span>(_ScrollDistance, <span class="number">0.0</span>);</span><br><span class="line">        dispVec.x += <span class="built_in">sin</span>(t * _ScrollJitterFrequency + _Time.y) * _ScrollJitterIntensity;</span><br><span class="line">        dispVec.z += <span class="built_in">cos</span>(t * _ScrollJitterFrequency * <span class="number">.5</span> + _Time.y) * _ScrollJitterIntensity;</span><br><span class="line">        dispVec.xyz = spreadProgress * dispVec * kDecimetersToWorldUnits;</span><br><span class="line">        center_WS += <span class="built_in">mul</span>(xf_CS, dispVec);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        float4 corner_WS = <span class="built_in">OrientParticle_WS</span>(center_WS.xyz, halfSize, v.vid, rotation);</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> AUDIO_REACTIVE</span></span><br><span class="line">        o.color = <span class="built_in">musicReactiveColor</span>(v.color, _BeatOutput.w);</span><br><span class="line">        corner_WS = <span class="built_in">musicReactiveAnimationWorldSpace</span>(corner_WS, v.color, _BeatOutput.w, corner_WS.y*<span class="number">5</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">        o.color = v.color;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">        o.vertex = <span class="built_in">mul</span>(UNITY_MATRIX_VP, corner_WS);</span><br><span class="line">        o.color.a = <span class="built_in">pow</span>(<span class="number">1</span> - <span class="built_in">abs</span>(<span class="number">2</span>*(t - <span class="number">.5</span>)), <span class="number">3</span>);</span><br><span class="line">        o.texcoord = <span class="built_in">TRANSFORM_TEX</span>(v.texcoord.xy, _MainTex);</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Input color is srgb</span></span><br><span class="line">      <span class="function">fixed4 <span class="title">frag</span> <span class="params">(v2f i)</span> : SV_Target</span></span><br><span class="line"><span class="function">      &#123;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">SrgbToNative</span>(<span class="number">2.0f</span> * i.color * _TintColor * <span class="built_in">tex2D</span>(_MainTex, i.texcoord));</span><br><span class="line">      &#125;</span><br><span class="line">      ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>首先是透明三个标签 然后是从 Particles.cginc 里引用的输入结构体 <code>ParticleVertexWithSpread_t</code></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ParticleVertexWithSpread_t ParticleVertex_t</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ParticleVertex_t</span> &#123;</span><br><span class="line">  uint vid : SV_VertexID;</span><br><span class="line">  float4 corner : POSITION;     <span class="comment">// pos: corner of randomly-oriented quad</span></span><br><span class="line">  float3 center : TEXCOORD1;</span><br><span class="line">  fixed4 color : COLOR;</span><br><span class="line">  float4 texcoord : TEXCOORD0;  <span class="comment">// xy: texcoord   z: rotation   w: birth time</span></span><br><span class="line">&#125;;`</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>函数解释</p>
+</blockquote>
+<p>TbVertToSrgb (Texture buffer vert to srgb) LinearToSrgb (float4 color)- 线性空间到 srgb</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float4 <span class="title">LinearToSrgb</span><span class="params">(float4 color)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Approximation http://chilliant.blogspot.com/2012/08/srgb-approximations-for-hlsl.html</span></span><br><span class="line">  float3 linearColor = color.rgb;</span><br><span class="line">  float3 S1 = <span class="built_in">sqrt</span>(linearColor);</span><br><span class="line">  float3 S2 = <span class="built_in">sqrt</span>(S1);</span><br><span class="line">  float3 S3 = <span class="built_in">sqrt</span>(S2);</span><br><span class="line">  color.rgb = <span class="number">0.662002687</span> * S1 + <span class="number">0.684122060</span> * S2 - <span class="number">0.323583601</span> * S3 - <span class="number">0.0225411470</span> * linearColor;</span><br><span class="line">  <span class="keyword">return</span> color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用来根据边角位置和中心位置计算当前粒子的大小，以及从创建开始的时间 (用来根据时间让他慢慢变小)<br>
+GetParticleHalfSize(float3 corner, float3 center, float birthTime)<br>
+- corner : 边角对象空间的位置 (仅用来计算大小) - center: 对象空间下的中心位置 完全出生 - birthTime: 粒子出生时间 _ParticleUnpackTime (inout birthTime)： 解包粒子得到时间<br>
+一般小大:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> sizeAdjust = _ParticleUnpackTime(<span class="comment">/* inout */</span> birthTime);</span><br><span class="line"><span class="type">float</span> halfSize = <span class="built_in">length</span>(corner - center) * kRecipSquareRootOfTwo * sizeAdjust;</span><br></pre></td></tr></table></figure>
+<p>kRecipSquareRootOfTwo = 0.70710678;</p>
+<blockquote>
+<p>这个函数是计算粒子位置从他的起始到重置点动画的中间值</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float4 <span class="title">SpreadParticle</span><span class="params">(ParticleVertexWithSpread_t particle, <span class="type">float</span> progress)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">float4</span>(particle.center.xyz, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>计算当前的透明度</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> t = <span class="built_in">fmod</span>(scrollAmount * _ScrollRate + v.color.a, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>这个不受光</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" title="Google Poly Brush 的 Shader 拆解 (一)">https://mymetalseed.github.io/2021/06/10/google-poly-brush-的-shader-拆解-一/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="操作系统 （一）">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 操作系统</span>
+  <h3>操作系统 （一）</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../13/solvarg%E6%95%85%E4%BA%8B%E8%84%89%E7%BB%9C/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Solvarg故事脉络">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 随笔</span>
+  <h3>Solvarg故事脉络</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#brushcginc-%E5%92%8C-particlescginc"><span class="toc-number">1.</span> <span class="toc-text"> Brush.cginc 和 Particles.cginc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#brushparticesnow"><span class="toc-number">2.</span> <span class="toc-text"> Brush&#x2F;Partice&#x2F;Snow</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">2.1.</span> <span class="toc-text"> 属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text"> 渲染流程</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></li><li><a href="../../../04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》</a></li><li><a href="../../../05/16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" rel="bookmark" title="基于模型的体积云 - 尝试复现WalkingFat文章">基于模型的体积云 - 尝试复现WalkingFat文章</a></li><li class="active"><a href="" rel="bookmark" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></li><li><a href="../../../07/08/%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF-%E6%9C%80%E7%AE%80%E6%98%93%E5%8F%AF%E8%A7%86%E5%8C%96%E7%90%86%E8%A7%A3-%E8%BD%AC%E8%87%AA%E7%9F%A5%E4%B9%8E/" rel="bookmark" title="贝赛尔曲线 - 最简易可视化理解 (转自知乎)">贝赛尔曲线 - 最简易可视化理解 (转自知乎)</a></li><li><a href="../../../11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/" rel="bookmark" title="在Unity中使用Shader和SDF制作渐变血条">在Unity中使用Shader和SDF制作渐变血条</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%EF%BC%88%E4%B8%80%EF%BC%89/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../13/solvarg%E6%95%85%E4%BA%8B%E8%84%89%E7%BB%9C/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Vulkan/" title="In Vulkan">Vulkan</a>
+</div>
+
+    <span><a href="../../../../2023/04/13/%E3%80%90games106%E3%80%91-2-vulkan%E4%BB%8B%E7%BB%8D/" title="【Games106】 2. Vulkan介绍">【Games106】 2. Vulkan介绍</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/17/c%E4%B8%83-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/" title="C++(七) 内存泄漏">C++(七) 内存泄漏</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../02/25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../07/18/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92-%EF%BC%88%E4%BA%8C%EF%BC%89%E6%B7%B1%E5%BA%A6%E6%B5%8B%E8%AF%95/" title="霜狼百人计划 - （二）深度测试">霜狼百人计划 - （二）深度测试</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/25/c-%E5%8D%81-%E5%8F%98%E9%87%8F%E7%9B%B8%E5%85%B3%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8Cauto/" title="C++ (十)  变量相关(类型转换和auto)">C++ (十)  变量相关(类型转换和auto)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/08/31/%E7%AE%97%E5%AD%90%E7%9A%84%E8%AE%BE%E8%AE%A1/" title="算子的设计">算子的设计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Math/" title="In Math">Math</a>
+</div>
+
+    <span><a href="../../../05/09/%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" title="点积概念巩固">点积概念巩固</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../02/22/c-with-unity-%E6%93%8D%E4%BD%9Cexcel-epplus/" title="C# With Unity 操作Excel - EPPlus">C# With Unity 操作Excel - EPPlus</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../04/04/shader%E4%B8%AD%E7%9A%84%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B/" title="Shader中的光照模型">Shader中的光照模型</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/06/10/google-poly-brush-的-shader-拆解-一/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

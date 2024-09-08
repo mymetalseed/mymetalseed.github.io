@@ -1,0 +1,575 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/">
+
+
+
+  <title>
+【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法 - GPGPU |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-07-02 12:29:15">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-07-02T12:29:15+08:00">2023-07-02</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/GPGPU/" itemprop="item" rel="index" title="In GPGPU"><span itemprop="name">GPGPU</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] 之前有记录过 GPU 硬件相关的知识，现在学习一下 ComputeShader.</p>
+<h1 id="computeshader线程组概念"><a class="markdownIt-Anchor" href="#computeshader线程组概念">#</a> ComputeShader 线程组概念</h1>
+<p>首先，编写 ComputeShader 时需要我们指定核函数，即 <code>#pragma kernel 名字</code> ，核函数的构造一般如下:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> kernel Circles</span></span><br><span class="line"></span><br><span class="line">[<span class="meta">numthreads(8,8,1)</span>]</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Circles</span> (<span class="params">uint3 id : SV_DispatchThreadID</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    int2 center = (texResolution &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">int</span> radius = <span class="number">80</span>;</span><br><span class="line">    drawCircle(center,radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上所示，kernel 函数需要一个分配线程组的声明 <code>[numthreads]</code> ，其中三维便是一个线程组内的线程数量，如上述函数一个线程组内的线程数量是 (8*8*1) = 64 个，即一次计算会有 64 个线程同时进行。<br>
+而每次进行并发计算时，还会存在一个名叫线程 Id 的标识，如上述函数中的入参 <code>id</code>  就是所谓的线程 Id, 它也是 <code>xyz</code>  三维的一个下标标识符</p>
+<ul>
+<li>x: 线程组的列数</li>
+<li>y: 线程组的行数</li>
+<li>z: 线程组的深度</li>
+</ul>
+<p>每次进入核函数进行运算时线程 Id 就是通过上述三个变量确定的，以及对应的线程组。 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_2b419775fa49c3ab1b961927d103f733.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_2b419775fa49c3ab1b961927d103f733.jpg" alt=""></a> 如上图，实际的 <code>DispatchId</code>  和 <code>ThreadId</code>  的映射公式如下：线程组大小 <code>[10,8,3]</code> <br>
+ 1. SV_GroupThreadID : (7,5,0) 目标组内 Id 2. SV_GroupID : (2,1,0) 目标组 3. SV_DispatchThreadID :  <code>([(2,1,0)*(10,8,3)] + (7,5,0)) = (27,13,0)</code>  对应的线程 ID<br>
+4. SV_GroupIndex :  <code>0*10*8+5*10+7=57</code>  组内一维下的坐标</p>
+<blockquote>
+<p>附: 3.2 可以简单理解为：目标线程 ID = (SV_GroupID * 线程组大小) + 组内 Id</p>
+</blockquote>
+<h2 id="举个栗子-使用线程组填充图片"><a class="markdownIt-Anchor" href="#举个栗子-使用线程组填充图片">#</a> 举个栗子：使用线程组填充图片</h2>
+<p>由上面的讨论，我们可以知道，对于每个核函数而言，存在一个下标索引 ID, 同时线程组内核的数量也对应着并发的数量，而图片是二维的，如果我们需要使每个算子计算每个图片上的像素，则只需要让线程 Id 和像素坐标匹配上就可以了。比如我们有一个 256*256 的图片，我们的核函数可以这样写:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Each #kernel tells which function to compile; you can have many kernels</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> kernel CSMain</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Create a RenderTexture with enableRandomWrite flag and set it</span></span><br><span class="line"><span class="comment">// with cs.SetTexture</span></span><br><span class="line">RWTexture2D&lt;float4&gt; Result;</span><br><span class="line"><span class="type">int</span> kernelCount;</span><br><span class="line"><span class="type">int</span> x,y;</span><br><span class="line"></span><br><span class="line">[<span class="built_in">numthreads</span>(<span class="number">8</span>,<span class="number">8</span>,<span class="number">1</span>)]</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CSMain</span> <span class="params">(uint3 id : SV_DispatchThreadID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> insert actual code here!</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Result[id.xy] = float4(id.x &amp; id.y, (id.x &amp; 15)/15.0, (id.y &amp; 15)/15.0, 0.0);</span></span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> AS = kernelCount  *<span class="number">1.0</span>;</span><br><span class="line">    <span class="type">float</span> res = (id.x * id.y) /(AS*AS);</span><br><span class="line">    Result[id.xy] = <span class="built_in">float4</span>(x/<span class="number">16.0</span>,y/<span class="number">16.0</span>,<span class="number">1</span> , <span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即每个线程组是 8x8x1 大小的，深度始终保持为 1, 就可以让三维降低为二维。 相应的，我们需要在 Dispatch 时根据核函数的大小来确定我们分配的组的 Id (不能大于图片的大小) 比如在图片大小为 256*256<br>
+ 线程并发度为 8*8*1 的条件下 每个 ThreadGroup 可以在 texture 上绘制的范围就是 8*8<br>
+GroupId 变化时:<br>
+X 每 + 1, 横向扩展 8 像素<br>
+ Y 每 + 1, 纵向扩展 8 像素 即 X/Y 的 ID 上限为 256/8 验证:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AssignTexture</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> ComputeShader shader;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> texResolution = <span class="number">256</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Renderer rend;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RenderTexture outputTexture;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> kernelHandle;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> X, Y;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Start is called before the first frame update</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        outputTexture = <span class="keyword">new</span> RenderTexture( texResolution, texResolution,<span class="number">0</span>);</span><br><span class="line">        outputTexture.enableRandomWrite = <span class="literal">true</span>;</span><br><span class="line">        outputTexture.Create();</span><br><span class="line">        X = <span class="number">1</span>; </span><br><span class="line">        Y = <span class="number">1</span>;</span><br><span class="line">        rend = GetComponent&lt;Renderer&gt;();</span><br><span class="line">        rend.enabled = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        InitShader();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitShader</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        kernelHandle = shader.FindKernel(<span class="string">&quot;CSMain&quot;</span>);</span><br><span class="line">        shader.SetTexture(kernelHandle,<span class="string">&quot;Result&quot;</span>,outputTexture);</span><br><span class="line">        shader.SetInt(<span class="string">&quot;kernelCount&quot;</span>,(<span class="built_in">int</span>)texResolution);</span><br><span class="line">        rend.material.SetTexture(<span class="string">&quot;_MainTex&quot;</span>,outputTexture);</span><br><span class="line"></span><br><span class="line">        DispatchShader();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DispatchShader</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        shader.SetInt(<span class="string">&quot;x&quot;</span>,(<span class="built_in">int</span>)X);</span><br><span class="line">        shader.SetInt(<span class="string">&quot;y&quot;</span>,(<span class="built_in">int</span>)Y);</span><br><span class="line">        shader.Dispatch(kernelHandle,X,Y,<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Update is called once per frame</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyUp(KeyCode.X))</span><br><span class="line">        &#123;</span><br><span class="line">            X++;</span><br><span class="line">            DispatchShader();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyUp(KeyCode.Y))</span><br><span class="line">        &#123;</span><br><span class="line">            Y++;</span><br><span class="line">            DispatchShader();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyUp(KeyCode.Z))</span><br><span class="line">        &#123;</span><br><span class="line">            X--;</span><br><span class="line">            <span class="keyword">if</span> (X &lt;= <span class="number">0</span>) X = <span class="number">1</span>;</span><br><span class="line">            DispatchShader();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (Input.GetKeyUp(KeyCode.T))</span><br><span class="line">        &#123;</span><br><span class="line">            Y--;</span><br><span class="line">            <span class="keyword">if</span> (Y &lt;= <span class="number">0</span>) Y = <span class="number">1</span>;</span><br><span class="line">            DispatchShader();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_c77de13ec9401273efcd178f151278bd.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_c77de13ec9401273efcd178f151278bd.jpg" alt=""></a> 每个线程组实际上画的区域是这么一点 (8*8):<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f0251197558b72333f7b27912c9bb938.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f0251197558b72333f7b27912c9bb938.jpg" alt=""></a></p>
+<h1 id="并发画圆算法bresenhaman画圆算法"><a class="markdownIt-Anchor" href="#并发画圆算法bresenhaman画圆算法">#</a> 并发画圆算法 (Bresenhaman 画圆算法)</h1>
+<p>考虑一个有趣的事情，既然我们可以使用 ComputeShader 在图上画东西了，那么很自然也可以画圆，比如一个最暴力的方法就是并发整个图的像素，然后判断每个像素是否在圆的边界上，且需要着色<br>
+但是这样就失去了使用 ComputeShader 的并发优势，且无效计算很多，所以最好的情况是我们可以并发的将圆周画出来，如何实现呢？<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f32dd4ee4ca7acf27bfe626c1636a6b7.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_f32dd4ee4ca7acf27bfe626c1636a6b7.jpg" alt=""></a> 如上图，我们可以适当将圆划分为 N 等分弧，<br>
+ 每次并发 N 个线程，填充对应区域的一个点，并发次数越多，对应区域填充的点越多<br>
+或者并发 M 次，每个线程填充 N 个区域<br>
+当一个弧画完时，一个圆就画完了 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_afa2ac8ecb5e07007843393f333476c3.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_afa2ac8ecb5e07007843393f333476c3.jpg" alt=""></a> 这里我们使用 Bresenham 画圆算法，伪代码如下 (我翻了好几个文章，发现他们最终得到的关于 d 的公式都不太一样，但是都能画出圆 XD, 下面只是其中一个我觉得写的比较好的伪代码):<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_56707f863c57b4e04287e477500ec735.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_56707f863c57b4e04287e477500ec735.jpg" alt=""></a> 上述代码看起来很简单，实现起来也很简单，根据伪代码实现的核函数如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">plot1</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,int2 center)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Result[<span class="built_in">uint2</span>(center.x + x,center.y + y)] = circleColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">plot8</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,int2 center)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">plot1</span>(x,y,center); <span class="built_in">plot1</span>(y,x,center);</span><br><span class="line">    <span class="built_in">plot1</span>(x,-y,center); <span class="built_in">plot1</span>(y,-x,center);</span><br><span class="line">    <span class="built_in">plot1</span>(-x,-y,center); <span class="built_in">plot1</span>(-y,-x,center);</span><br><span class="line">    <span class="built_in">plot1</span>(-x,y,center); <span class="built_in">plot1</span>(-y,x,center);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">drawCircle</span><span class="params">(int2 center,<span class="type">int</span> radius)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> y = radius;</span><br><span class="line">    <span class="type">int</span> d = <span class="number">1</span> - radius;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(x&lt;y)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(d &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            d += <span class="number">4</span>*x + <span class="number">6</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            d += <span class="number">4</span>*(x-y) + <span class="number">10</span>;</span><br><span class="line">            y--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">plot8</span>(x,y,center);</span><br><span class="line">        x++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="built_in">numthreads</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)]</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Circles</span> <span class="params">(uint3 id : SV_DispatchThreadID)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    int2 center = (texResolution &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> radius = <span class="number">80</span>;</span><br><span class="line">    <span class="built_in">drawCircle</span>(center,radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这段代码隐藏了一个巨大的细节，就是 <code>d</code>  到底是什么，</p>
+<h2 id="bresenham画圆算法解析"><a class="markdownIt-Anchor" href="#bresenham画圆算法解析">#</a> Bresenham 画圆算法解析</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_7dcad37399b1d3c0b76d23e5c9bed1ba.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_7dcad37399b1d3c0b76d23e5c9bed1ba.jpg" alt=""></a> 如上图：对于每一个 <code>x</code>  对应的 <code>y</code> , 和上一个圆周上像素的关系有两种可能<br>
+ 1. y 轴和上一个像素一样 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_ffc489b9b49962b58e4bf8b26808c684.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_ffc489b9b49962b58e4bf8b26808c684.jpg" alt=""></a></p>
+<ol start="2">
+<li>在上一个像素的右下角</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_ab5310057aa533c77612eee5abee0f04.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_ab5310057aa533c77612eee5abee0f04.jpg" alt=""></a> y 与 x 的关系可以用一个公式表达 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_e94a79cd8412a5bc806ee03b8ab33270.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_e94a79cd8412a5bc806ee03b8ab33270.jpg" alt=""></a> 那么，我们在累加 X 的时候如何确定下一个 Y 点是在右侧还是右下角呢？<br>
+ 显而易见，如果像素单位为 1, <code>(y(x+1)-y(x) &lt; 0.5)</code>  的时候，选择右侧，大于的时候，选择右下角 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_977194814a7fd3690b85ce5ba5aa01cf.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_977194814a7fd3690b85ce5ba5aa01cf.jpg" alt=""></a> 所以我们提出一个误差值 <code>d</code>  的概念:<br>
+1. 像素 y,X+1 距离圆周上的边的距离<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_02f20e3c26f3e81d8d2b9adbad9611cf.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_02f20e3c26f3e81d8d2b9adbad9611cf.jpg" alt=""></a><br>
+ 2. y-1,X+1 距离圆周上的边的距离<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_4837c4250d898e92eba50f38cdf1ee74.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_4837c4250d898e92eba50f38cdf1ee74.jpg" alt=""></a> 误差值 <code>d</code>  = 条件 1 + 条件 2, 得到一个递归式 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_7627043c0cf574e1deeb439be6602211.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_7627043c0cf574e1deeb439be6602211.jpg" alt=""></a> 再借助每次下一个只有 y 或者 y-1 这连个像素可以选择的条件知:<br>
+1. di&lt;0 时，选择右侧像素，此时 Y_(i+1) = Yi, 代入原式得:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_b6935f1e446bc490e6d6ff7db9546717.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_b6935f1e446bc490e6d6ff7db9546717.jpg" alt=""></a></p>
+<ol start="2">
+<li>di&gt;0 时，选择右下角像素，此时 Y_(i+1) = Yi - 1, 代入原式得:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_5917769d649c459ea3005896085a7de6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_5917769d649c459ea3005896085a7de6.jpg" alt=""></a></li>
+</ol>
+<p>即 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_388d4c8b08417d72f31c3f0fddc7132e.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_388d4c8b08417d72f31c3f0fddc7132e.jpg" alt=""></a></p>
+<blockquote>
+<p>从 0 开始到 XY 时，刚好是 1/8 个圆弧，同时根据 8 方向的加加减减可以直接得到其他 7 个圆弧上的坐标 然后我发现另外一个公式也可以画出类似的结果:</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_9a51199547feb9ca331c73a316806897.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_9a51199547feb9ca331c73a316806897.jpg" alt=""></a></p>
+<h2 id="最终效果"><a class="markdownIt-Anchor" href="#最终效果">#</a> 最终效果</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_dc95de21be11354a1ade17df9b96d196.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/07/wp_editor_md_dc95de21be11354a1ade17df9b96d196.jpg" alt=""></a></p>
+<blockquote>
+<p>总结：根据下一个像素的两种可能，以及其到圆边上的距离，选择其中小的那个作为最终像素选择位置，来得出一个递归式 <code>di</code> , 简化 <code>di</code>  来避免浮点运算</p>
+</blockquote>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/07/02/%E3%80%90gpgpu%E3%80%91-unity-computeshader/" title="【GPGPU】 Unity ComputeShader &amp; Bresenham并发画圆算法">https://mymetalseed.github.io/2023/07/02/【gpgpu】-unity-computeshader/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> GOAP</span>
+  <h3>【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> Gameplay</span>
+  <h3>【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#computeshader%E7%BA%BF%E7%A8%8B%E7%BB%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> ComputeShader 线程组概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90-%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E7%BB%84%E5%A1%AB%E5%85%85%E5%9B%BE%E7%89%87"><span class="toc-number">1.1.</span> <span class="toc-text"> 举个栗子：使用线程组填充图片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%94%BB%E5%9C%86%E7%AE%97%E6%B3%95bresenhaman%E7%94%BB%E5%9C%86%E7%AE%97%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> 并发画圆算法 (Bresenhaman 画圆算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bresenham%E7%94%BB%E5%9C%86%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text"> Bresenham 画圆算法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C"><span class="toc-number">2.2.</span> <span class="toc-text"> 最终效果</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" rel="bookmark" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></li><li><a href="../../../04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" rel="bookmark" title="【TA效果】 GpuInstance实现雨点打击地面的效果">【TA效果】 GpuInstance实现雨点打击地面的效果</a></li><li class="active"><a href="" rel="bookmark" title="【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法">【GPGPU】 Unity ComputeShader & Bresenham并发画圆算法</a></li><li><a href="../../06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" rel="bookmark" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></li><li><a href="../../08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" rel="bookmark" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></li><li><a href="../../../08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/15/c%EF%BC%88%E4%B8%89%EF%BC%89%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB/" title="C++（三）变量的区别">C++（三）变量的区别</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" title="C++ (六) 类的大小">C++ (六) 类的大小</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../09/15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/02/22/%E8%85%BE%E8%AE%AFrtc-sdk%E9%9B%86%E6%88%90%E5%88%B0unity/" title="腾讯RTC SDK集成到Unity">腾讯RTC SDK集成到Unity</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../09/16/%E3%80%90games104%E3%80%91-%E5%8A%A8%E6%80%81%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" title="【Games104】 动态全局光照">【Games104】 动态全局光照</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="In 热更新">热更新</a>
+</div>
+
+    <span><a href="../../../../2021/12/10/%E8%B5%84%E6%BA%90%E7%83%AD%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B/" title="资源热更新流程">资源热更新流程</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/07/02/【gpgpu】-unity-computeshader/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

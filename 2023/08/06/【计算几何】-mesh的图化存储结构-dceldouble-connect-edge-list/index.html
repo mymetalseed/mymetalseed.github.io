@@ -1,0 +1,647 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/">
+
+
+
+  <title>
+【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List) - 计算几何 - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-08-06 18:54:09">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-08-06T18:54:09+08:00">2023-08-06</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="item" rel="index" title="In 计算几何"><span itemprop="name">计算几何</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="dcel为了解决什么"><a class="markdownIt-Anchor" href="#dcel为了解决什么">#</a> DCEL 为了解决什么？</h1>
+<ol>
+<li>首先我们知道，三角化后的 Mesh 的存储是一个又一个由顶点和边构成的的三角形</li>
+<li>三角形与三角形之间存在的一定的关系，如 <code>相邻</code> 、 <code>洞(包含在一个多边形内部的多边形)</code>  等关系</li>
+<li>三角形可能某些边有邻接边，但是某些边没有邻接边</li>
+</ol>
+<p>为了能够更好的管理 Mesh 化后的图形，业界提出了 <code>DCEL</code>  这样的计算几何存储数据结构， <code>这种结构对于切分Mesh等操作而言非常的方便</code></p>
+<blockquote>
+<p>共边<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_dceb542df10fee90ca87c0b81139cc15.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_dceb542df10fee90ca87c0b81139cc15.jpg" alt=""></a> 计算几何的图形最多只会存在一条边被两个 <code>face</code>  公用的情况</p>
+<blockquote>
+<p>合法:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_f8803d12c09994f7fabe2056ed22be0f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_f8803d12c09994f7fabe2056ed22be0f.jpg" alt=""></a><br>
+ 非法:<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_3978ee51ee87c013e6a54070f124f9ca.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_3978ee51ee87c013e6a54070f124f9ca.jpg" alt=""></a></p>
+</blockquote>
+</blockquote>
+<h2 id="dcel的一些定义"><a class="markdownIt-Anchor" href="#dcel的一些定义">#</a> DCEL 的一些定义</h2>
+<ol>
+<li>The main building block of a DCEL is a list of half edges.Every actual edge is represented by two half edges going in opposite directions,and these are called twins</li>
+</ol>
+<p>DCEL 构建的最基本单位是 <code>半边(half edges)</code> ，半边是指:  <code>有方向的两个顶点之间的边</code> ，通常，如果两个面相邻，有共边，则 <code>共边是由两个半边构成,且方向相反</code> ，而这两个半边被称为 <code>Twin</code> 。 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_ba2ea951f19a6d231b288980092b05d2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_ba2ea951f19a6d231b288980092b05d2.jpg" alt=""></a><br>
+如上图， <code>g2</code>  和 <code>h2</code>  就是一个 twin, 且所有有向边都是 <code>半边</code> <br>
+其中对于半边和 twin 相关的函数式表达如下: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_2f581ede2531874280e02fe68e79552b.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_2f581ede2531874280e02fe68e79552b.jpg" alt=""></a></p>
+<blockquote>
+<p><strong>Tag: 但是看后面的实现，实际上会对每个半边都建立一个 twin, 而不是邻接边才会建立 twin</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_464cdca4cfeaea5479921bf5dcaf69d6.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_464cdca4cfeaea5479921bf5dcaf69d6.jpg" alt=""></a></p>
+<blockquote>
+<p>洞</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_ccc32bda7ac7505ad2a21c3c465ee947.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_ccc32bda7ac7505ad2a21c3c465ee947.jpg" alt=""></a> 如上图所示，一个多边形中很可能还包含一些 <code>洞</code> ，所以 DCEL 结构还需要考虑这些洞的存储方式</p>
+<h2 id="dcel的构建"><a class="markdownIt-Anchor" href="#dcel的构建">#</a> DCEL 的构建</h2>
+<p>主要分为:<br>
+1. 边表<br>
+ 2. 顶点表<br>
+ 3. 面表 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_5e67f3d4c56b55368ca5bbfba2b521b5.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_5e67f3d4c56b55368ca5bbfba2b521b5.jpg" alt=""></a></p>
+<blockquote>
+<p>首先一个 <code>edge</code>  需要保存的信息如上图所示</p>
+</blockquote>
+<ol>
+<li>它的 Twin 边</li>
+<li>它的 next 边</li>
+<li>它的 prev 边</li>
+<li>它的起点 (origin)</li>
+<li>它的 Id</li>
+<li>incident_face (这条边对应的面，位于边的左侧)</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_5af3f990088be1a03245ad5c04e476d2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_5af3f990088be1a03245ad5c04e476d2.jpg" alt=""></a></p>
+<blockquote>
+<p>顶点对应的需要存储的信息</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_519b461205e1ab13a9dedb97fb171a0f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_519b461205e1ab13a9dedb97fb171a0f.jpg" alt=""></a></p>
+<ol>
+<li>id</li>
+<li>坐标 (x/y)</li>
+<li>inc (以他为起始的第一条边)</li>
+</ol>
+<blockquote>
+<p>面表需要存储的信息</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_06ce3618f851a0b9b16a9154f6bf95ab.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/08/wp_editor_md_06ce3618f851a0b9b16a9154f6bf95ab.jpg" alt=""></a></p>
+<ol>
+<li>id</li>
+<li>inc (面对应的第一个边)</li>
+</ol>
+<h2 id="dcel结构的实现"><a class="markdownIt-Anchor" href="#dcel结构的实现">#</a> DCEL 结构的实现</h2>
+<h3 id="1-边表"><a class="markdownIt-Anchor" href="#1-边表">#</a> 1. 边表</h3>
+<ol>
+<li>边表的起点 <code>origin</code></li>
+<li>边的 <code>twin</code></li>
+<li>边的 <code>next</code></li>
+<li>边的 <code>prev</code></li>
+<li>边对应的表面 <code>incident_face</code></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">type</span> = <span class="type">float</span>,<span class="type">size_t</span> dim = DIM3&gt;</span><br><span class="line"><span class="keyword">struct</span> EdgeDCEL &#123;</span><br><span class="line">    VertexDCEL&lt;type, dim&gt;* origin = <span class="literal">nullptr</span>;</span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* twin = <span class="literal">nullptr</span>;</span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* next = <span class="literal">nullptr</span>;</span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* prev = <span class="literal">nullptr</span>;</span><br><span class="line">    FaceDCEL&lt;type, dim&gt;* incident_face = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">EdgeDCEL</span>() &#123; id = <span class="number">-1</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">EdgeDCEL</span>(VertexDCEL&lt;type, dim&gt;* _origin) : <span class="built_in">origin</span>(_origin) &#123;</span><br><span class="line">        id = _id++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">VertexDCEL&lt;type, dim&gt;* <span class="title">destination</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> twin-&gt;origin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;This point pointer&quot;</span> &lt;&lt; <span class="keyword">this</span> &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Origin : &quot;</span>; <span class="keyword">this</span>-&gt;origin-&gt;<span class="built_in">print</span>();</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Twin pointer&quot;</span> &lt;&lt; <span class="keyword">this</span>-&gt;twin &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Next pointer&quot;</span> &lt;&lt; <span class="keyword">this</span>-&gt;next &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Prev pointer&quot;</span> &lt;&lt; <span class="keyword">this</span>-&gt;prev &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;    </span><br></pre></td></tr></table></figure>
+<h3 id="2-顶点表"><a class="markdownIt-Anchor" href="#2-顶点表">#</a> 2. 顶点表</h3>
+<ol>
+<li>顶点的坐标</li>
+<li>以顶点为始的第一条边</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">type</span> = <span class="type">float</span>, <span class="type">size_t</span> dim = DIM3&gt;</span><br><span class="line"><span class="keyword">struct</span> VertexDCEL &#123;</span><br><span class="line">    <span class="comment">//Coordinates of the vertex</span></span><br><span class="line">    Vector&lt;<span class="type">float</span>, dim&gt; point;</span><br><span class="line">    <span class="comment">//Incident edge to the vertex</span></span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* incident_edge = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">VertexDCEL</span>(Vector&lt;type,dim&gt;&amp; _point) : <span class="built_in">point</span>(_point)&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; point[X] &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; point[Y] &lt;&lt; <span class="string">&quot;)\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="面表"><a class="markdownIt-Anchor" href="#面表">#</a> 面表</h3>
+<ol>
+<li>该面的第一个边 outer</li>
+<li>inner 是干啥的暂时不知道 (应该是存边内的洞)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">type</span> = <span class="type">float</span>,<span class="type">size_t</span> dim = DIM3&gt;</span><br><span class="line"><span class="keyword">struct</span> FaceDCEL &#123;</span><br><span class="line">    <span class="comment">//Pointer to one of the counter clockwise edge</span></span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* outer = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="comment">//Pointer to first halfedges which represnt </span></span><br><span class="line">    std::vector&lt;EdgeDCEL&lt;type, dim&gt;*&gt; inner;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (outer) &#123;</span><br><span class="line">            <span class="keyword">auto</span> edge_ptr = outer;</span><br><span class="line">            <span class="keyword">auto</span> next_ptr = outer-&gt;next;</span><br><span class="line"></span><br><span class="line">            edge_ptr-&gt;origin-&gt;<span class="built_in">print</span>();</span><br><span class="line">            <span class="keyword">while</span> (next_ptr != edge_ptr) &#123;</span><br><span class="line">                next_ptr-&gt;origin-&gt;<span class="built_in">print</span>();</span><br><span class="line">                next_ptr = next_ptr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    std::vector&lt;EdgeDCEL&lt;type,dim&gt;*&gt; <span class="built_in">getEdgeList</span>()&#123;</span><br><span class="line">        std::vector&lt;EdgeDCEL&lt;type, dim&gt;*&gt; edge_list;</span><br><span class="line">        <span class="keyword">if</span> (outer) &#123;</span><br><span class="line">            <span class="keyword">auto</span> edge_ptr = outer;</span><br><span class="line">            <span class="keyword">auto</span> next_ptr = outer-&gt;next;</span><br><span class="line">            edge_list.<span class="built_in">push_back</span>(edge_list);</span><br><span class="line">            edge_ptr-&gt;origin-&gt;<span class="built_in">print</span>();</span><br><span class="line">            <span class="keyword">while</span> (next_ptr != edge_ptr) &#123;</span><br><span class="line">                edge_list.<span class="built_in">push_back</span>(next_ptr);</span><br><span class="line">                next_ptr = next_ptr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    std::vector&lt;Vector&lt;<span class="type">float</span>,dim&gt;&gt; <span class="built_in">getPoints</span>()&#123;</span><br><span class="line">        std::vector&lt;Vector&lt;<span class="type">float</span>, dim&gt;&gt; point_list;</span><br><span class="line">        <span class="keyword">if</span> (outer) &#123;</span><br><span class="line">            <span class="keyword">auto</span> edge_ptr = outer;</span><br><span class="line">            <span class="keyword">auto</span> next_ptr = outer-&gt;next;</span><br><span class="line">            point_list.<span class="built_in">push_back</span>(edge_ptr-&gt;origin-&gt;point);</span><br><span class="line">            <span class="keyword">while</span> (next_ptr != edge_ptr) &#123;</span><br><span class="line">                point_list.<span class="built_in">push_back</span>(next_ptr-&gt;origin-&gt;point);</span><br><span class="line">                next_ptr = next_ptr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> point_list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Polygon (由面表构成的几何图集), 这个是更上一层的封装</strong></p>
+</blockquote>
+<ol>
+<li><code>vertex_list</code>  代表该多边形的顶点列表</li>
+<li><code>edge_list</code>  代表该多边形的边列表</li>
+<li><code>face_list</code>  代表该多边形的面列表</li>
+<li><code>empty_edge</code>  是啥 (? 还没有被剖分过的列表么？)</li>
+</ol>
+<p>方法:  <code>PolygonDCEL</code> : 通过传入的顶点来初步构造 PolygonDCEL<br>
+ <code>split</code> : 就是在三角剖分后找到一条对角线后，如何 <code>插入这条对角线，并且对多边形进行切分</code> <strong>该切分边必须是一个合法的 diagonal</strong><br>
+ <code>join</code> : 合并两个面</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">type</span> = <span class="type">float</span>,<span class="type">size_t</span> dim = DIM3&gt;</span><br><span class="line"><span class="keyword">class</span> PolygonDCEL &#123;</span><br><span class="line">    <span class="keyword">typedef</span> Vector&lt;type, dim&gt; VectorNf;</span><br><span class="line">    std::vector&lt;VertexDCEL&lt;type, dim&gt;*&gt; vertex_list;</span><br><span class="line">    std::vector&lt;EdgeDCEL&lt;type, dim&gt;*&gt; edge_list;</span><br><span class="line">    std::vector&lt;FaceDCEL&lt;type, dim&gt;*&gt; face_list;</span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* empty_edge = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;();</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//Construct the DCEL using given points</span></span><br><span class="line">    <span class="comment">//Assume the given points list is for polygon and have counter clockwise order</span></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">PolygonDCEL</span><span class="params">(std::vector&lt;VectorNf&gt;&amp;)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Insert an edge between virtices _v1 and _v2 given that lies</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">split</span><span class="params">(VertexDCEL&lt;type, dim&gt;* _v1, VertexDCEL&lt;type, dim&gt;* _v2)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Join the two faces sepated by edge between _v1 and _v2</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">join</span><span class="params">(VertexDCEL&lt;type, dim&gt;* _v1, VertexDCEL&lt;type, dim&gt;* _v2)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Return the all the vertices across all the faces</span></span><br><span class="line">    std::vector&lt;VertexDCEL&lt;type, dim&gt;*&gt; <span class="built_in">getVertexList</span>();</span><br><span class="line"></span><br><span class="line">    std::vector&lt;FaceDCEL&lt;type, dim&gt;*&gt; <span class="built_in">getFaceList</span>();</span><br><span class="line"></span><br><span class="line">    std::vector&lt;EdgeDCEL&lt;type, dim&gt;*&gt; <span class="built_in">getEdgeList</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">VertexDCEL&lt;type, dim&gt;* <span class="title">getVertex</span><span class="params">(VectorNf&amp;)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">getEdgesWithSamefaceAndGivenOrigins</span><span class="params">(VertexDCEL&lt;type, dim&gt;* _v1, VertexDCEL&lt;type, dim&gt;* _v2,</span></span></span><br><span class="line"><span class="params"><span class="function">                                             EdgeDCEL&lt;type, dim&gt;** edge_leaving_v1, EdgeDCEL&lt;type, dim&gt;** edge_leaving_v2)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="相关方法"><a class="markdownIt-Anchor" href="#相关方法">#</a> 相关方法</h2>
+<blockquote>
+<p><strong>假设只传入顶点，且顶点只有两个相邻顶点之间才有一个边</strong></p>
+</blockquote>
+<p>该结构体<strong>一开始是一个最 pure 的多边形</strong> (很简单的所有点都在一个多边形上), 基于这个多边形可以去做一些三角剖分之类的事情，在做完这些事情后才会变得复杂</p>
+<h3 id="1-多边形dcel构造"><a class="markdownIt-Anchor" href="#1-多边形dcel构造">#</a> 1. 多边形 DCEL 构造</h3>
+<blockquote>
+<p>总览</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> <span class="title class_">type</span>,<span class="type">size_t</span> dim&gt;</span><br><span class="line"><span class="keyword">inline</span> PolygonDCEL&lt;type, dim&gt;::<span class="built_in">PolygonDCEL</span>(std::vector&lt;VectorNf&gt;&amp; _points) &#123;</span><br><span class="line">    <span class="type">int</span> size = _points.<span class="built_in">size</span>();</span><br><span class="line">    <span class="comment">//Polygon should have atleast tree vertices</span></span><br><span class="line">    <span class="keyword">if</span> (size &lt; <span class="number">3</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; _points.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        vertex_list.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Vertex2dDCEL</span>&lt;type, dim&gt;(_points[i]));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt;= vertex_list.<span class="built_in">size</span>() - <span class="number">2</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">auto</span> hfedge = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list[i]);</span><br><span class="line">        <span class="keyword">auto</span> edge_twin = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list[i + <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        vertex_list[i]-&gt;incident_edge = hfedge;</span><br><span class="line"></span><br><span class="line">        hfedge-&gt;twin = edge_twin;</span><br><span class="line">        edge_twin-&gt;twin = hfedge;</span><br><span class="line"></span><br><span class="line">        edge_list.<span class="built_in">push_back</span>(hfedge);</span><br><span class="line">        edge_list.<span class="built_in">push_back</span>(edge_twin);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> hfedge = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list.<span class="built_in">back</span>());</span><br><span class="line">    <span class="keyword">auto</span> edge_twin = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list.<span class="built_in">front</span>());</span><br><span class="line"></span><br><span class="line">    hfedge-&gt;twin = edge_twin;</span><br><span class="line">    edge_twin-&gt;twin = hfedge;</span><br><span class="line"></span><br><span class="line">    edge_list.<span class="built_in">push_back</span>(hfedge);</span><br><span class="line">    edge_list.<span class="built_in">push_back</span>(edge_twin);</span><br><span class="line"></span><br><span class="line">    vertex_list[vertex_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;incident_edge = hfedge;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Set the prev and next for the element middle of the list (2:size-2)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">2</span>; i &lt;= edge_list.<span class="built_in">size</span>() - <span class="number">3</span>; ++i) &#123;</span><br><span class="line">        <span class="comment">//偶数,计数</span></span><br><span class="line">        <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">            edge_list[i]-&gt;next = edge_list[i + <span class="number">2</span>];</span><br><span class="line">            edge_list[i]-&gt;prev = edge_list[i - <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            edge_list[i]-&gt;next = edge_list[i - <span class="number">2</span>];</span><br><span class="line">            edge_list[i]-&gt;prev = edge_list[i + <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    edge_list[<span class="number">0</span>]-&gt;next = edge_list[<span class="number">2</span>];</span><br><span class="line">    edge_list[<span class="number">0</span>]-&gt;prev = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>];</span><br><span class="line">    edge_list[<span class="number">1</span>]-&gt;next = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>];</span><br><span class="line">    edge_list[<span class="number">1</span>]-&gt;prev = edge_list[<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>]-&gt;next = edge_list[<span class="number">0</span>];</span><br><span class="line">    edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>]-&gt;prev = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">4</span>];</span><br><span class="line">    edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;next = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">3</span>];</span><br><span class="line">    edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;prev = edge_list[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Configure the faces</span></span><br><span class="line">    FaceDCEL&lt;type, dim&gt;* f1 = <span class="keyword">new</span> <span class="built_in">FaceDCEL</span>&lt;type, dim&gt;();</span><br><span class="line">    FaceDCEL&lt;type, dim&gt;* f2 = <span class="keyword">new</span> <span class="built_in">FaceDCEL</span>&lt;type, dim&gt;();</span><br><span class="line"></span><br><span class="line">    f1-&gt;outer = edge_list[<span class="number">0</span>];</span><br><span class="line">    f2-&gt;inner.<span class="built_in">push_back</span>(edge_list[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    face_list.<span class="built_in">push_back</span>(f1);</span><br><span class="line">    face_list.<span class="built_in">push_back</span>(f2);</span><br><span class="line"></span><br><span class="line">    f1-&gt;outer-&gt;incident_face = f1;</span><br><span class="line">    EdgeDCEL&lt;type, dim&gt;* edge = f1-&gt;outer-&gt;next;</span><br><span class="line">    <span class="keyword">while</span> (edge != f1-&gt;outer) &#123;</span><br><span class="line">        edge-&gt;incident_face = f1;</span><br><span class="line">        edge = edge-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    f2-&gt;inner[<span class="number">0</span>]-&gt;incident_face = f2;</span><br><span class="line">    edge = f2-&gt;inner[<span class="number">0</span>]-&gt;next;</span><br><span class="line">    <span class="keyword">while</span> (edge != f2-&gt;inner[<span class="number">0</span>]) &#123;</span><br><span class="line">        edge-&gt;incident_face = f2;</span><br><span class="line">        edge = edge-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>先将所有顶点推到顶点表中</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; _points.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">    vertex_list.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Vertex2dDCEL</span>&lt;type, dim&gt;(_points[i]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>根据一个边 / 一个 twin 边的规则，构造出所有的边表 (每相邻的两个点之间有一个边)</li>
+<li>最后连接一下起始点和终</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt;= vertex_list.<span class="built_in">size</span>() - <span class="number">2</span>; ++i) &#123;</span><br><span class="line">    <span class="keyword">auto</span> hfedge = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list[i]);</span><br><span class="line">    <span class="keyword">auto</span> edge_twin = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list[i + <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    vertex_list[i]-&gt;incident_edge = hfedge;</span><br><span class="line"></span><br><span class="line">    hfedge-&gt;twin = edge_twin;</span><br><span class="line">    edge_twin-&gt;twin = hfedge;</span><br><span class="line"></span><br><span class="line">    edge_list.<span class="built_in">push_back</span>(hfedge);</span><br><span class="line">    edge_list.<span class="built_in">push_back</span>(edge_twin);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> hfedge = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list.<span class="built_in">back</span>());</span><br><span class="line"><span class="keyword">auto</span> edge_twin = <span class="keyword">new</span> <span class="built_in">EdgeDCEL</span>&lt;type, dim&gt;(vertex_list.<span class="built_in">front</span>());</span><br><span class="line"></span><br><span class="line">hfedge-&gt;twin = edge_twin;</span><br><span class="line">edge_twin-&gt;twin = hfedge;</span><br><span class="line"></span><br><span class="line">edge_list.<span class="built_in">push_back</span>(hfedge);</span><br><span class="line">edge_list.<span class="built_in">push_back</span>(edge_twin);</span><br><span class="line"></span><br><span class="line">vertex_list[vertex_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;incident_edge = hfedge;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>构造内边与外边的顺序关系</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Set the prev and next for the element middle of the list (2:size-2)</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">2</span>; i &lt;= edge_list.<span class="built_in">size</span>() - <span class="number">3</span>; ++i) &#123;</span><br><span class="line">    <span class="comment">//偶数,计数</span></span><br><span class="line">    <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">        edge_list[i]-&gt;next = edge_list[i + <span class="number">2</span>];</span><br><span class="line">        edge_list[i]-&gt;prev = edge_list[i - <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        edge_list[i]-&gt;next = edge_list[i - <span class="number">2</span>];</span><br><span class="line">        edge_list[i]-&gt;prev = edge_list[i + <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">edge_list[<span class="number">0</span>]-&gt;next = edge_list[<span class="number">2</span>];</span><br><span class="line">edge_list[<span class="number">0</span>]-&gt;prev = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>];</span><br><span class="line">edge_list[<span class="number">1</span>]-&gt;next = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>];</span><br><span class="line">edge_list[<span class="number">1</span>]-&gt;prev = edge_list[<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>]-&gt;next = edge_list[<span class="number">0</span>];</span><br><span class="line">edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">2</span>]-&gt;prev = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">4</span>];</span><br><span class="line">edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;next = edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">3</span>];</span><br><span class="line">edge_list[edge_list.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;prev = edge_list[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>把第一个边当作面的起始边，构造面和边的顺序关系</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Configure the faces</span></span><br><span class="line">FaceDCEL&lt;type, dim&gt;* f1 = <span class="keyword">new</span> <span class="built_in">FaceDCEL</span>&lt;type, dim&gt;();</span><br><span class="line">FaceDCEL&lt;type, dim&gt;* f2 = <span class="keyword">new</span> <span class="built_in">FaceDCEL</span>&lt;type, dim&gt;();</span><br><span class="line"></span><br><span class="line">f1-&gt;outer = edge_list[<span class="number">0</span>];</span><br><span class="line">f2-&gt;inner.<span class="built_in">push_back</span>(edge_list[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">face_list.<span class="built_in">push_back</span>(f1);</span><br><span class="line">face_list.<span class="built_in">push_back</span>(f2);</span><br><span class="line"></span><br><span class="line">f1-&gt;outer-&gt;incident_face = f1;</span><br><span class="line">EdgeDCEL&lt;type, dim&gt;* edge = f1-&gt;outer-&gt;next;</span><br><span class="line"><span class="keyword">while</span> (edge != f1-&gt;outer) &#123;</span><br><span class="line">    edge-&gt;incident_face = f1;</span><br><span class="line">    edge = edge-&gt;next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f2-&gt;inner[<span class="number">0</span>]-&gt;incident_face = f2;</span><br><span class="line">edge = f2-&gt;inner[<span class="number">0</span>]-&gt;next;</span><br><span class="line"><span class="keyword">while</span> (edge != f2-&gt;inner[<span class="number">0</span>]) &#123;</span><br><span class="line">    edge-&gt;incident_face = f2;</span><br><span class="line">    edge = edge-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">https://mymetalseed.github.io/2023/08/06/【计算几何】-mesh的图化存储结构-dceldouble-connect-edge-list/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【计算几何】 剖分算法">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【计算几何】 剖分算法</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【UE_Source】 部分FileSystem">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> UE</span>
+  <h3>【UE_Source】 部分FileSystem</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#dcel%E4%B8%BA%E4%BA%86%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text"> DCEL 为了解决什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#dcel%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text"> DCEL 的一些定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dcel%E7%9A%84%E6%9E%84%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text"> DCEL 的构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dcel%E7%BB%93%E6%9E%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text"> DCEL 结构的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BE%B9%E8%A1%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 1. 边表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A1%B6%E7%82%B9%E8%A1%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 2. 顶点表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 面表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text"> 相关方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%A4%9A%E8%BE%B9%E5%BD%A2dcel%E6%9E%84%E9%80%A0"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 1. 多边形 DCEL 构造</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li class="active"><a href="" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/09/01/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Vulkan/" title="In Vulkan">Vulkan</a>
+</div>
+
+    <span><a href="../../../../2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/04/03/shaderlab-%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80-%E3%80%8Aunityshaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="ShaderLab 语法基础 -《UnityShaderLab新手宝典》">ShaderLab 语法基础 -《UnityShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/unity-callback-android-function/" title="Unity调用Android方法">Unity调用Android方法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/07/12/%E9%9C%9C%E7%8B%BC%E7%99%BE%E4%BA%BA%E8%AE%A1%E5%88%92%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95/" title="霜狼百人计划笔记 - (一) 模板测试">霜狼百人计划笔记 - (一) 模板测试</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%83%AD%E6%9B%B4%E6%96%B0/" title="In 热更新">热更新</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/xlua-1/" title="Xlua (一) 环境部署">Xlua (一) 环境部署</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/08/29/%E6%B0%B4%E5%A2%A8%E9%A3%8E%E6%B8%B2%E6%9F%93%E8%AE%B0%E5%BD%95/" title="水墨风渲染记录">水墨风渲染记录</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/08/06/【计算几何】-mesh的图化存储结构-dceldouble-connect-edge-list/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

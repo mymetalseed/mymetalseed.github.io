@@ -1,0 +1,545 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/">
+
+
+
+  <title>
+【RayTracing】 蒙特卡洛积分与路径追踪 - RayTracing |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【RayTracing】 蒙特卡洛积分与路径追踪
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-04-02 14:35:35">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-04-02T14:35:35+08:00">2023-04-02</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/RayTracing/" itemprop="item" rel="index" title="In RayTracing"><span itemprop="name">RayTracing</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="全局光照的定义"><a class="markdownIt-Anchor" href="#全局光照的定义">#</a> 全局光照的定义</h1>
+<p>一次弹射是直接光，多次弹射是间接光，直接光加上所有的间接光的和就是全局光照 其中积分形式的渲染方程定义如下 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_dd4879c39a74ba5cf573d825b4aabe2d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_dd4879c39a74ba5cf573d825b4aabe2d.jpg" alt=""></a></p>
+<h1 id="概率密度函数-pdfprobability-density-function"><a class="markdownIt-Anchor" href="#概率密度函数-pdfprobability-density-function">#</a> 概率密度函数 PDF (Probability Density Function)</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_36d4e2e5a68405c1553e7245f01693bc.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_36d4e2e5a68405c1553e7245f01693bc.jpg" alt=""></a> 最下面的式子是对应概率密度下的期望</p>
+<h1 id="蒙特卡洛解复杂积分数值"><a class="markdownIt-Anchor" href="#蒙特卡洛解复杂积分数值">#</a> 蒙特卡洛解复杂积分 (数值)</h1>
+<blockquote>
+<p>定积分</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_39d7bedf644a12b1be588c03c9960e00.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_39d7bedf644a12b1be588c03c9960e00.jpg" alt=""></a></p>
+<ol start="2">
+<li>如果一个积分表达式很难得到解析式，那我们如何得到积分的值呢？</li>
+</ol>
+<p>这就用到了蒙特卡洛方法。</p>
+<h2 id="黎曼积分"><a class="markdownIt-Anchor" href="#黎曼积分">#</a> 黎曼积分</h2>
+<p>黎曼积分是将函数划分为无数小的矩形 (二维) 来进行累加和求解积分数值</p>
+<h2 id="蒙特卡洛方法"><a class="markdownIt-Anchor" href="#蒙特卡洛方法">#</a> 蒙特卡洛方法</h2>
+<p>使用概率的方式采样曲线，在积分域内不断采样 x, 设采样的 y 值为积分域内的高，面积为积分的值，采样无数次之后<strong>平均</strong>就是积分的值 如果均匀的采样，则每次采样的蒙特卡洛积分的 PDF 是一个常数 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_6cec1059eb726534bc677b67bc9d478b.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_6cec1059eb726534bc677b67bc9d478b.jpg" alt=""></a> 蒙特卡洛积分的公式如下: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_8c893dfa40f5b9946054513cc4cef2dc.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_8c893dfa40f5b9946054513cc4cef2dc.jpg" alt=""></a> 即每次采样的值除以 PDF 的累加和的平均就是数值解 由上述我们知道，二维下的蒙特卡洛的 PDF 实际上就是 <strong>1/b-a</strong> 假设采样的结果是每次采样的和 (也可以理解为积分)，则最后积分的数值解就是： <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_f38138c29ed392c8efdaa5392e974e1a.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_f38138c29ed392c8efdaa5392e974e1a.jpg" alt=""></a> 上面的式子就可以用一个很直观的方式来理解，即每次采样区间是 b-a/N, 采样值是目标点的函数值，对应的矩形就是采样区间内的数值近似解</p>
+<h1 id="path-tracing"><a class="markdownIt-Anchor" href="#path-tracing">#</a> Path Tracing</h1>
+<p>如何使用蒙特卡洛方法来解决全局光照渲染方程对<strong>球面积分</strong>的问题？ 答:<br>
+ 在球面上选择几个方向，进行蒙特卡洛近似计算即可 最简单的 PDF 采样方法 (均匀): <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_e739aafc8481a68aa9090da93fce3c43.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_e739aafc8481a68aa9090da93fce3c43.jpg" alt=""></a> 半球面积是 2Π 蒙特卡洛渲染方程: <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_3654badccf365ab21dba35a9bf3da5c0.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_3654badccf365ab21dba35a9bf3da5c0.jpg" alt=""></a> 直接打到一个光源伪代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">    Randomly choose N directions wi~pdf</span><br><span class="line">    Lo = <span class="number">0.0</span></span><br><span class="line">    For each wi</span><br><span class="line">        Trace a ray <span class="built_in">r</span>(p,wi)</span><br><span class="line">        If ray r hit the light</span><br><span class="line">            Lo += (<span class="number">1</span>/N) *L_i * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">    Return Lo</span><br></pre></td></tr></table></figure>
+<p>因为全局光照等于直接光 + 所有间接光的和，如下图，所以当我们计算射线打到物体表面时的光照应该是一个递归表达式 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_f29ab69d47a3139f53dd44af1c2d2c4d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_f29ab69d47a3139f53dd44af1c2d2c4d.jpg" alt=""></a> 递归伪代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">    Randomly choose N directions wi~pdf</span><br><span class="line">    Lo = <span class="number">0.0</span></span><br><span class="line">    For each wi</span><br><span class="line">        Trace a ray <span class="built_in">r</span>(p,wi)</span><br><span class="line">        If ray r hit the light</span><br><span class="line">            Lo += (<span class="number">1</span>/N) *L_i * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">        Else If ray r hit an object at q</span><br><span class="line">            Lo += (<span class="number">1</span>/N) * <span class="built_in">shade</span>(q,-wi) * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">    Return Lo</span><br></pre></td></tr></table></figure>
+<p>上述代码有一个很明显的问题，就是如果每次射线都随机选取 N 个方向，则当递归次数躲起来的时候，就是指数级的爆炸，而路径追踪是选取 N=1 来防止递归爆炸的问题的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">    Randomly choose <span class="number">1</span> directions wi~pdf</span><br><span class="line">    Lo = <span class="number">0.0</span></span><br><span class="line">    For each wi</span><br><span class="line">        Trace a ray <span class="built_in">r</span>(p,wi)</span><br><span class="line">        If ray r hit the light</span><br><span class="line">            Lo += (<span class="number">1</span>/N) *L_i * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">        Else If ray r hit an object at q</span><br><span class="line">            Lo += (<span class="number">1</span>/N) * <span class="built_in">shade</span>(q,-wi) * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">    Return Lo</span><br></pre></td></tr></table></figure>
+<p>pathTracing 即从像素打出到物体无穷递归，优化到从一像素点打出<strong>很多路径求平均</strong> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_754842104bf194bc5e4c416da0f02b67.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_754842104bf194bc5e4c416da0f02b67.jpg" alt=""></a> 如上图的红、黑、蓝就是三个路径 pathTracing 的上层函数伪代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ray_generation</span>(camPos,pixel)</span><br><span class="line">    Uniformly choose N sample positions within the pixel</span><br><span class="line">    pixel_radiance = <span class="number">0.0</span></span><br><span class="line">    For each sample in the pixel</span><br><span class="line">        Shoot a ray <span class="built_in">r</span>(camPos,cam_to_sample)</span><br><span class="line">        If ray r hit the scene at p</span><br><span class="line">            pixel_radiance += <span class="number">1</span> / N * <span class="built_in">shade</span>(p,sample_to_cam)</span><br><span class="line">    Return pixel_radiance</span><br></pre></td></tr></table></figure>
+<p>其中 <code>shade函数是N=1的rayTracing</code>  <strong>但是上述代码还有一个问题</strong>，就是我们无法确定 RayTracing 什么时候会停下来，最坏的方式是限制递归的层数 (即反弹的次数)<br>
+ 那么怎样能使我们即可以让最后的结果<strong>期望值为 L0 (正确的 Lumen)</strong>,<br>
+ 这就引出了下一个方法: <code>俄罗斯轮盘赌</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_90fd90e69dfeb6f8b21228971353afa7.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_90fd90e69dfeb6f8b21228971353afa7.jpg" alt=""></a> 可以发现，这个公式最后的期望就是 LO 即自己拟定一个固定的<strong>概率 P</strong><br>
+ 对于每次发出射线，都使用概率判断是否发射，如果允许，则返回 LO (当前的 LO)/P, 否则返回 0 <strong>但最后结果就是可能对的 = =</strong> 改善后伪代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">    <span class="comment">//新添加</span></span><br><span class="line">    Mannually specify a probability P_RR</span><br><span class="line">    Randomly select ksi in a uniform dist. in[<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">If</span>(ksi &gt; P_RR) <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    <span class="comment">//新</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Randomly choose ONE direction wi~<span class="built_in">pdf</span>(w)</span><br><span class="line">    <span class="function">Trace a ray <span class="title">r</span><span class="params">(p,wi)</span></span></span><br><span class="line"><span class="function">    If ray r hit the light</span></span><br><span class="line"><span class="function">        Return L_i * f_r * cosine / <span class="title">pdf</span><span class="params">(wi)</span> / P_RR</span></span><br><span class="line"><span class="function">    Else If ray r hit an object at q</span></span><br><span class="line"><span class="function">        Rerturn <span class="title">shade</span><span class="params">(q,-wi)</span> * f_r * cosine /<span class="title">pdf</span><span class="params">(wi)</span> / P_RR</span></span><br></pre></td></tr></table></figure>
+<p>但是上述代码并不是很高效和有效的，因为返回正确流明完全看运气 = = 改善的方式是： 修改采样用的 PDF 核 如：直接在光源上采样，<strong>但是由于现在的积分是在物体半球上的积分，所以需要将蒙特卡洛方程改写成在光源上面积微分的积分</strong> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_099c47f2d8a2a263f1cfffd98ab1d06d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_099c47f2d8a2a263f1cfffd98ab1d06d.jpg" alt=""></a> 如上图，光源是<strong> luminaire</strong><br>
+ 球面表面的立体角微分和 dA 的转换关系就是<strong> dw 是光源 dA 照到球面的面积对应的立体角</strong> 即先把 dA 对准球体，然后计算出立体角即可 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_c41b4b681df3c6569e4c6f3c5ea931a1.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_c41b4b681df3c6569e4c6f3c5ea931a1.jpg" alt=""></a> 这个公式就是这个意思，如此一来，就可以改写成对光源的积分<br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_a07364f2a435a8a00a38e23ae3d463bb.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2023/04/wp_editor_md_a07364f2a435a8a00a38e23ae3d463bb.jpg" alt=""></a></p>
+<h2 id="对物体球面积分改写成对光源积分的形式"><a class="markdownIt-Anchor" href="#对物体球面积分改写成对光源积分的形式">#</a> 对物体球面积分改写成对光源积分的形式</h2>
+<p>因为改写成了对光源的积分，所以我们可以将对物体表面的光的贡献拆分<br>
+ 1. 光源对表面的贡献，使用上面的对光源的积分公式 (不需要俄罗斯轮盘赌)<br>
+ 2. 其他物体对表面的贡献，还是使用之前的方式 (需要俄罗斯轮盘赌) 伪代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">    #Contribution from the light source.</span><br><span class="line">    Uniformly sample the light at x<span class="number">&#x27;</span> (pdf_light = <span class="number">1</span>/A)</span><br><span class="line">    L_dir = L_i * f_r * cos θ * cos θ<span class="string">&#x27; / x&#x27;</span>-p^<span class="number">2</span> / pdf_light</span><br><span class="line"></span><br><span class="line">    #Contribution from other reflectors.</span><br><span class="line">    L_indir = <span class="number">0.0</span></span><br><span class="line">    Test Russian R with probability P_RR</span><br><span class="line">    Uniformly sample the hemisphere toward <span class="built_in">wi</span> (pdf_hemi = <span class="number">1</span>/<span class="number">2</span>pi)</span><br><span class="line">    Trace a ray <span class="built_in">r</span>(p,wi)</span><br><span class="line">    If ray r hit a non-emitting object at q</span><br><span class="line">        L_indir = <span class="built_in">shade</span>(q,-wi) * f_r * cos θ / pdf_hemi / P_RR</span><br><span class="line"></span><br><span class="line">    Return L_dir + L_indir</span><br></pre></td></tr></table></figure>
+<p>在计算光照的时候，需要判断下光源是否被挡住了，如果挡住了，就直接返回 0 就行</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" title="【RayTracing】 蒙特卡洛积分与路径追踪">https://mymetalseed.github.io/2023/04/02/【raytracing】-蒙特卡洛积分与路径追踪/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【LeetCode打卡】">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 算法</span>
+  <h3>【LeetCode打卡】</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【TA效果】 GpuInstance实现雨点打击地面的效果">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> GPGPU</span>
+  <h3>【TA效果】 GpuInstance实现雨点打击地面的效果</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text"> 全局光照的定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E5%87%BD%E6%95%B0-pdfprobability-density-function"><span class="toc-number">2.</span> <span class="toc-text"> 概率密度函数 PDF (Probability Density Function)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E8%A7%A3%E5%A4%8D%E6%9D%82%E7%A7%AF%E5%88%86%E6%95%B0%E5%80%BC"><span class="toc-number">3.</span> <span class="toc-text"> 蒙特卡洛解复杂积分 (数值)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%8E%E6%9B%BC%E7%A7%AF%E5%88%86"><span class="toc-number">3.1.</span> <span class="toc-text"> 黎曼积分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text"> 蒙特卡洛方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#path-tracing"><span class="toc-number">4.</span> <span class="toc-text"> Path Tracing</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E7%89%A9%E4%BD%93%E7%90%83%E9%9D%A2%E7%A7%AF%E5%88%86%E6%94%B9%E5%86%99%E6%88%90%E5%AF%B9%E5%85%89%E6%BA%90%E7%A7%AF%E5%88%86%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text"> 对物体球面积分改写成对光源积分的形式</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" rel="bookmark" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></li><li><a href="../../../03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" rel="bookmark" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></li><li><a href="../../../03/09/%E3%80%90raytracing%E3%80%91-%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7/" rel="bookmark" title="【RayTracing】 光照度几个基础概念">【RayTracing】 光照度几个基础概念</a></li><li class="active"><a href="" rel="bookmark" title="【RayTracing】 蒙特卡洛积分与路径追踪">【RayTracing】 蒙特卡洛积分与路径追踪</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-motion-blur/" rel="bookmark" title="【RayTracing】 Motion Blur">【RayTracing】 Motion Blur</a></li><li><a href="../../../05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" rel="bookmark" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></li><li><a href="../../../05/02/%E3%80%90raytracing%E3%80%91-raytracing%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E6%B8%B2%E6%9F%93/" rel="bookmark" title="【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）">【RayTracing】 rayTracing视角下的体积渲染（RayTracing In Next Week）</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../03/26/%E3%80%90leetcode%E6%89%93%E5%8D%A1%E3%80%91/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/URP/" title="In URP">URP</a>
+</div>
+
+    <span><a href="../../../10/04/%E3%80%90urp%E3%80%91-%E4%BB%A5%E6%AF%9B%E7%8E%BB%E7%92%83%E5%90%8E%E5%A4%84%E7%90%86%E4%B8%BA%E4%BE%8B%E5%AD%A6%E4%B8%80%E4%B8%8Brenderfeature%E6%98%AF%E4%BB%80%E4%B9%88/" title="【URP】 以毛玻璃后处理为例学一下RenderFeature是什么">【URP】 以毛玻璃后处理为例学一下RenderFeature是什么</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E9%9A%8F%E7%AC%94/" title="In 随笔">随笔</a>
+</div>
+
+    <span><a href="../../../../2021/05/13/5-13-%E6%97%A5%E8%AE%B0-%E5%BF%BD%E7%84%B6%E6%83%B3%E8%B5%B7%E4%BA%86%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%83%B3%E4%BE%9D%E9%9D%A0%E5%88%AB%E4%BA%BA%E7%9A%84%E5%8E%9F%E5%9B%A0/" title="5&#x2F;13 日记 忽然想起了为什么不想依靠别人的原因">5/13 日记 忽然想起了为什么不想依靠别人的原因</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2022/12/11/%E3%80%90ta101%E3%80%91-pbr/" title="【TA101】 PBR">【TA101】 PBR</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../03/05/%E3%80%90ray-tracing%E3%80%91-%E7%9D%80%E8%89%B2/" title="【Ray Tracing】 着色">【Ray Tracing】 着色</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/03/23/Sol-Index/" title="Sol.Index">Sol.Index</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/07/07/grap-%E7%AC%94%E8%AE%B0/" title="Grap 笔记">Grap 笔记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/02/25/%E5%86%AF%E4%B9%90%E4%B9%90%E5%8D%A1%E6%B8%B2%E4%B8%80-%E6%B8%B2%E6%9F%93%E8%BD%AE%E5%BB%93%E7%BA%BF/" title="冯乐乐卡渲一 : 渲染轮廓线">冯乐乐卡渲一 : 渲染轮廓线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" title="DirectX12 图像模糊">DirectX12 图像模糊</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2021/10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/04/02/【raytracing】-蒙特卡洛积分与路径追踪/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

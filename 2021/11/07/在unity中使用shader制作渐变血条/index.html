@@ -1,0 +1,664 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/">
+
+
+
+  <title>
+在Unity中使用Shader和SDF制作渐变血条 - 特效 - Unity - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">在Unity中使用Shader和SDF制作渐变血条
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-11-07 12:59:51">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-11-07T12:59:51+08:00">2021-11-07</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Unity/" itemprop="item" rel="index" title="In Unity"><span itemprop="name">Unity</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%89%B9%E6%95%88/" itemprop="item" rel="index" title="In 特效"><span itemprop="name">特效</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p><img data-src="https://pic1.zhimg.com/v2-a3cff081925f29b68fda554518924f04_b.webp" alt=""></p>
+<p>血条效果</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9saW5rLnpoaWh1LmNvbS8/dGFyZ2V0PWh0dHBzJTNBLy93d3cueW91dHViZS5jb20vY2hhbm5lbC9VQzdNLVd6NHpLOG9pa3Q2QVRjb1R3QkE=">Freya Holmér</span> 的《Shaders for GameDev》</p>
+<p>[toc]</p>
+<h1 id="血条渐变"><a class="markdownIt-Anchor" href="#血条渐变">#</a> 血条渐变</h1>
+<p>首先我们需要一个参数 (范围限定在 [0-1])，当健康度为 0 时显示红色，健康度为 1 时显示绿色.</p>
+<p>然后我们需要血条随着健康度变化 (渐变)</p>
+<p>这时候就需要用到渐变贴图.</p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-9b807492fae8c611fe47925e6c5b0049_720w.jpg" alt=""></p>
+<p>血条类渐变贴图模板</p>
+<p>另外两种渐变图</p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-a269ec4f82f7c6ad7686bbe987280e1f_720w.jpg" alt=""></p>
+<p>径向渐变</p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-5335003199719f946714c838f0e87b28_720w.jpg" alt=""></p>
+<p>随角度渐变</p>
+<blockquote>
+<p>通过_Health 得到渐变位置</p>
+<p>所有的都基于一个 quad 面片，这个面片的 uv 坐标上有 x 分量，且 x 是 clamp (0,1) 的。所以我们可以通过设置一个 [0,1] 的 float 变量_Health 来确定当前渲染的是血条的哪个位置</p>
+</blockquote>
+<p>然后我们可以以 `健康度` 为 Time 通道，计算渐变后的 rgb 值</p>
+<p>float3 healthColor = lerp(float3(1,0,0),float3(0,1,0),_Health);</p>
+<p><img data-src="https://pic2.zhimg.com/v2-4ca28c517a34924791f0ab6cf3169681_b.webp" alt=""></p>
+<p>渐变图</p>
+<p>将上面的渐变和遮罩结合起来</p>
+<p>float3 bgColor = = float3(0,0,0)</p>
+<p>float3 outCol = bgColor* healthbarMask +healthColor*(1- healthbarMask );</p>
+<p><img data-src="https://pic2.zhimg.com/v2-b41af2ab77ef203b213b9090637474f1_b.webp" alt=""></p>
+<p>渐变叠加</p>
+<h2 id="让血量小于20恒显示红色大于75恒显示绿色"><a class="markdownIt-Anchor" href="#让血量小于20恒显示红色大于75恒显示绿色">#</a> 让血量小于 20% 恒显示红色，大于 75% 恒显示绿色</h2>
+<p>这个只需要计算一下即可</p>
+<p>float InverseLerp( float a, float b, float v ) {<br>
+return (v-a)/(b-a);<br>
+}<br>
+float tHealthColor = saturate(InverseLerp(0.2,0.8,_Health));</p>
+<h2 id="使用渐变贴图代替计算的颜色"><a class="markdownIt-Anchor" href="#使用渐变贴图代替计算的颜色">#</a> 使用渐变贴图代替计算的颜色</h2>
+<blockquote>
+<p>我们可以在计算时得到对应 uv.x 时的灰度值，根据灰度值在 ramp 图上进行采样，贴图 uv 坐标上的 y 轴是一定完整映射的，但是需要通过 x 轴获取在 uv 图上的 x 坐标</p>
+</blockquote>
+<p>float healthbarMask = _Health &gt; i.uv.x;<br>
+float3 healthbarColor = tex2D( _MainTex, float2( _Health, i.uv.y) );</p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-ad01c3246b951b3258da2d456f079ff5_720w.jpg" alt=""></p>
+<p>采样时 y 轴完整采样</p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-dfcc0caff01764702ef781e0db8291af_720w.jpg" alt=""></p>
+<p>采样贴图</p>
+<h2 id="有向距离场制作血条圆角"><a class="markdownIt-Anchor" href="#有向距离场制作血条圆角">#</a> 有向距离场制作血条圆角</h2>
+<p><img data-src="https://pic2.zhimg.com/80/v2-0d4d6b0a69d126e6cdcdb0945c8f0401_720w.jpg" alt=""></p>
+<p>SDF (Signed Distance Field) 距离场</p>
+<p>通俗点来说，距离场就是某个点到固定点的距离，或者固定模型，这个距离长可以为负值，负值就代表在区域内</p>
+<p>比如一个对于中心的有向距离场 (计算很简单，直接 length (uv-(0.5,0.5)) 后的颜色输出到图上即可</p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-c246f24b07333da9e410c7085069678f_720w.jpg" alt=""></p>
+<p>注意，SDF 不一定是圆形，他只是一种描述了距离的方式</p>
+<p>那么，如下这张图的距离场是什么</p>
+<p><img data-src="https://pic3.zhimg.com/80/v2-30ec471cfb6fc5c90bf1dd320b61df36_720w.jpg" alt=""></p>
+<p>血条边框</p>
+<p>答案是中间的一条线</p>
+<p><img data-src="https://pic2.zhimg.com/80/v2-d6f38f677377a7550880a3d894dd27fd_720w.jpg" alt=""></p>
+<p>距离场中心 (中间那条线)</p>
+<p><img data-src="https://pic4.zhimg.com/80/v2-d309a993d5ee75192e720c97481cf06f_720w.jpg" alt=""></p>
+<p>上图代表的是每个中线上的点到周围的距离场</p>
+<p>那么我们如何通过 Health 这个变量得到距离场呢？</p>
+<p>首先，我们可以通过_Health 得到 uv 的 x 坐标，然后基于这个 x 坐标可以计算 `到他最近的中间那条线上某点的距离`, 比如 x 刚好在线下面，那么距离就是 uv.y 减去中间那条线的 y 坐标</p>
+<p>否则 (如果不在线段上下方), 就找到线段两个端点，计算距离</p>
+<p><img data-src="https://pic1.zhimg.com/80/v2-fb6d5546602b35eb13fd957bb017e400_720w.jpg" alt=""></p>
+<p>计算两层 SDF 即可在制作可以伸缩的边框</p>
+<p><img data-src="https://pic3.zhimg.com/v2-78bb2f8dd26cdbda149c479231aef52e_b.webp" alt=""></p>
+<p>代码:</p>
+<p RenderType="Transparent" Queue="Transparent">Shader “Unlit/Healthbar” {<br>
+Properties {<br>
+[ToggleOff] _toggle(&quot;_reverse&quot;,Int) = 0<br>
+[NoScaleOffset] _MainTex (“Texture”, 2D) = “white” {}<br>
+_Health (“Health”, Range(0,1)) = 1<br>
+_BorderSize (“Border Size”, Range(0,0.5)) = 0.1<br>
+}<br>
+SubShader {<br>
+Tags</p>
+<pre><code>    Pass &#123;
+        ZWrite Off
+        // src \* srcAlpha + dst \* (1-srcAlpha)
+        Blend SrcAlpha OneMinusSrcAlpha // Alpha blending
+        
+        CGPROGRAM
+        #pragma vertex vert
+        #pragma fragment frag
+        #pragma multi\_compile
+        #pragma shader\_feature \_TOGGLE\_OFF
+        
+        #include &quot;UnityCG.cginc&quot;
+
+        bool \_reverse;  
+        struct MeshData &#123;
+            float4 vertex : POSITION;
+            float2 uv : TEXCOORD0;
+        &#125;;
+
+        struct Interpolators &#123;
+            float2 uv : TEXCOORD0;
+            float4 vertex : SV\_POSITION;
+        &#125;;
+
+        sampler2D \_MainTex;
+        float \_Health;
+        float \_BorderSize;
+        
+
+        Interpolators vert (MeshData v) &#123;
+            Interpolators o;
+            o.vertex = UnityObjectToClipPos(v.vertex);
+            o.uv = v.uv;
+            return o;
+        &#125;
+
+        float InverseLerp( float a, float b, float v ) &#123;
+            return (v-a)/(b-a);
+        &#125;
+
+        float4 frag (Interpolators i) : SV\_Target &#123;
+
+            // rounded corner clipping
+            float2 coords = i.uv;
+            coords.x \*= 8;
+            float2 pointOnLineSeg = float2( clamp( coords.x, 0.5, 7.5 ), 0.5);
+            float sdf = distance(coords, pointOnLineSeg) \* 2 - 1;
+            clip(-sdf);
+
+            float borderSdf = sdf + \_BorderSize;
+            float pd = fwidth(borderSdf); // screen space partial derivative
+            float borderMask = 1-saturate(borderSdf / pd);
+
+            //return float4(borderMask.xxx,1);
+            
+            float healthbarMask = \_Health &gt; i.uv.x;
+            float3 healthbarColor = tex2D( \_MainTex, float2( \_Health, i.uv.y) );
+
+            float flash = \_Health-0.2&lt;=0?cos( \_Time.y \* 4 ) \* 0.4 + 1:1;
+            healthbarColor \*= flash;
+
+            #if defined(\_TOGGLE\_OFF)
+            healthbarColor = float3(healthbarColor.x, healthbarColor.z, healthbarColor.y);
+            float3 col = (healthbarColor) \* healthbarMask \* borderMask;
+                return float4(col, 1);
+            #endif
+            return float4(healthbarColor \* healthbarMask \* borderMask, 1);
+        &#125;
+        ENDCG
+    &#125;
+&#125;
+</code></pre>
+<p>}</p>
+<h2 id="血条反转"><a class="markdownIt-Anchor" href="#血条反转">#</a> 血条反转</h2>
+<p>可以自己制作 texture 贴图，也可以直接通过代码交换 g 和 b 通道的值</p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/11/07/%E5%9C%A8unity%E4%B8%AD%E4%BD%BF%E7%94%A8shader%E5%88%B6%E4%BD%9C%E6%B8%90%E5%8F%98%E8%A1%80%E6%9D%A1/" title="在Unity中使用Shader和SDF制作渐变血条">https://mymetalseed.github.io/2021/11/07/在unity中使用shader制作渐变血条/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="TextMesh Pro 创建中文字体流程">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>TextMesh Pro 创建中文字体流程</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../08/%E7%89%A9%E4%BD%93%E6%B6%88%E9%9A%90dissolve/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Shader物体消隐(Dissolve)">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Shader物体消隐(Dissolve)</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%80%E6%9D%A1%E6%B8%90%E5%8F%98"><span class="toc-number">1.</span> <span class="toc-text"> 血条渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A9%E8%A1%80%E9%87%8F%E5%B0%8F%E4%BA%8E20%E6%81%92%E6%98%BE%E7%A4%BA%E7%BA%A2%E8%89%B2%E5%A4%A7%E4%BA%8E75%E6%81%92%E6%98%BE%E7%A4%BA%E7%BB%BF%E8%89%B2"><span class="toc-number">1.1.</span> <span class="toc-text"> 让血量小于 20% 恒显示红色，大于 75% 恒显示绿色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B8%90%E5%8F%98%E8%B4%B4%E5%9B%BE%E4%BB%A3%E6%9B%BF%E8%AE%A1%E7%AE%97%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="toc-number">1.2.</span> <span class="toc-text"> 使用渐变贴图代替计算的颜色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E8%B7%9D%E7%A6%BB%E5%9C%BA%E5%88%B6%E4%BD%9C%E8%A1%80%E6%9D%A1%E5%9C%86%E8%A7%92"><span class="toc-number">1.3.</span> <span class="toc-text"> 有向距离场制作血条圆角</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%80%E6%9D%A1%E5%8F%8D%E8%BD%AC"><span class="toc-number">1.4.</span> <span class="toc-text"> 血条反转</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></li><li><a href="../../../04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" rel="bookmark" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》</a></li><li><a href="../../../05/16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" rel="bookmark" title="基于模型的体积云 - 尝试复现WalkingFat文章">基于模型的体积云 - 尝试复现WalkingFat文章</a></li><li><a href="../../../06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" rel="bookmark" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></li><li><a href="../../../07/08/%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF-%E6%9C%80%E7%AE%80%E6%98%93%E5%8F%AF%E8%A7%86%E5%8C%96%E7%90%86%E8%A7%A3-%E8%BD%AC%E8%87%AA%E7%9F%A5%E4%B9%8E/" rel="bookmark" title="贝赛尔曲线 - 最简易可视化理解 (转自知乎)">贝赛尔曲线 - 最简易可视化理解 (转自知乎)</a></li><li class="active"><a href="" rel="bookmark" title="在Unity中使用Shader和SDF制作渐变血条">在Unity中使用Shader和SDF制作渐变血条</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../06/textmesh-pro-%E5%88%9B%E5%BB%BA%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E6%B5%81%E7%A8%8B/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../08/%E7%89%A9%E4%BD%93%E6%B6%88%E9%9A%90dissolve/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+</div>
+
+    <span><a href="../../../../2022/08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GOAP/" title="In GOAP">GOAP</a>
+</div>
+
+    <span><a href="../../../../2023/06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../01/15/unity-callback-android-function/" title="Unity调用Android方法">Unity调用Android方法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C#">C#</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F/" title="In 技能系统">技能系统</a>
+</div>
+
+    <span><a href="../../../../2022/08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPUDriven/" title="In GPUDriven">GPUDriven</a>
+</div>
+
+    <span><a href="../../../../2023/04/09/%E3%80%90gdc%E3%80%91adaptive-virtual-texture-rendering-in-far-cry-4/" title="【GDC】Adaptive Virtual Texture Rendering in Far Cry 4">【GDC】Adaptive Virtual Texture Rendering in Far Cry 4</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GameFramework/" title="In GameFramework">GameFramework</a>
+</div>
+
+    <span><a href="../../../02/27/c-%E8%A7%A3%E6%9E%90xml/" title="GameFramwork - 本地化中的定制 C# 解析XML">GameFramwork - 本地化中的定制 C# 解析XML</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../08/01/3d%E9%80%8F%E8%A7%86%E5%8E%9F%E7%90%86/" title="3D透视原理">3D透视原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../10/08/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C/" title="leetcode 187 字符串哈希">leetcode 187 字符串哈希</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/11/07/在unity中使用shader制作渐变血条/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,577 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/">
+
+
+
+  <title>
+Vulkan 1. 从Pilot出发-初始化Vulkan - Vulkan - 游戏引擎 - 渲染引擎开发 - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Vulkan 1. 从Pilot出发-初始化Vulkan
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-04-23 00:42:48">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-04-23T00:42:48+08:00">2022-04-23</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" itemprop="item" rel="index" title="In 渲染引擎开发"><span itemprop="name">渲染引擎开发</span></a>
+<meta itemprop="position" content="3" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" itemprop="item" rel="index" title="In 游戏引擎"><span itemprop="name">游戏引擎</span></a>
+<meta itemprop="position" content="4" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Vulkan/" itemprop="item" rel="index" title="In Vulkan"><span itemprop="name">Vulkan</span></a>
+<meta itemprop="position" content="5" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/04/wp_editor_md_9b31745b5f607c5549f8ba6c4635caf3.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/04/wp_editor_md_9b31745b5f607c5549f8ba6c4635caf3.jpg" alt=""></a> Vulkan 实际上是应用和硬件之间的一个接口，对于 Vulkan 而言，Instance 会携带一个 Loader, 并且对其初始化，loader 负责加载驱动和 layers, 其中 Layers 一般用于错误校验，调试输出</p>
+<h1 id="构建vulkaninstance-createinstance"><a class="markdownIt-Anchor" href="#构建vulkaninstance-createinstance">#</a> 构建 VulkanInstance - createInstance</h1>
+<h2 id="初始化-vkapplicationinfo"><a class="markdownIt-Anchor" href="#初始化-vkapplicationinfo">#</a> 初始化 VkApplicationInfo</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app info</span></span><br><span class="line">VkApplicationInfo appInfo &#123;&#125;;</span><br><span class="line">appInfo.sType              = VK_STRUCTURE_TYPE_APPLICATION_INFO;</span><br><span class="line">appInfo.pApplicationName   = <span class="string">&quot;pilot_renderer&quot;</span>;</span><br><span class="line">appInfo.applicationVersion = <span class="built_in">VK_MAKE_VERSION</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">appInfo.pEngineName        = <span class="string">&quot;Pilot&quot;</span>;</span><br><span class="line">appInfo.engineVersion      = <span class="built_in">VK_MAKE_VERSION</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">appInfo.apiVersion         = m_vulkan_api_version;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>创建 Instance 之前需要初始化应用程序 <code>VkApplicationInfo</code> , 主要是用于验证应用的信息</p>
+</blockquote>
+<h2 id="初始化-vkinstancecreateinfo"><a class="markdownIt-Anchor" href="#初始化-vkinstancecreateinfo">#</a> 初始化 VkInstanceCreateInfo</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">VkInstanceCreateInfo instance_create_info &#123;&#125;;</span><br><span class="line">instance_create_info.sType            = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;</span><br><span class="line">instance_create_info.pApplicationInfo = &amp;appInfo; <span class="comment">// the appInfo is stored here</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> extensions                              = <span class="built_in">getRequiredExtensions</span>();</span><br><span class="line">instance_create_info.enabledExtensionCount   = <span class="built_in">static_cast</span>&lt;<span class="type">uint32_t</span>&gt;(extensions.<span class="built_in">size</span>());</span><br><span class="line">instance_create_info.ppEnabledExtensionNames = extensions.<span class="built_in">data</span>();</span><br></pre></td></tr></table></figure>
+<p>其中 <code>VkApplicationInfo</code>  是 VkInstanceCreateInfo 的一个参数  <code>getRequiredExtensions()</code>  函数用于获取当前环境上允许的扩展 -  <code>Layers</code></p>
+<h2 id="初始化-vkdebugutilsmessengercreateinfoext"><a class="markdownIt-Anchor" href="#初始化-vkdebugutilsmessengercreateinfoext">#</a> 初始化 VkDebugUtilsMessengerCreateInfoEXT</h2>
+<p>// 暂时不看，从名字上可以看出来是 Debug 用的</p>
+<h2 id="构建instance-vkinstance"><a class="markdownIt-Anchor" href="#构建instance-vkinstance">#</a> 构建 Instance - VkInstance</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">vkCreateInstance</span>(&amp;instance_create_info, <span class="literal">nullptr</span>, &amp;_instance) != VK_SUCCESS)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;vk create instance&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 instance 就是创建好的 VkInstance, 存在 <code>PVulkanContext</code>  中</p>
+<h1 id="初始化debug"><a class="markdownIt-Anchor" href="#初始化debug">#</a> 初始化 Debug</h1>
+<p>// 暂时忽略  <code>initializeDebugMessenger()</code></p>
+<h1 id="创建glfw的windows接口"><a class="markdownIt-Anchor" href="#创建glfw的windows接口">#</a> 创建 GLFW 的 Windows 接口</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createWindowSurface</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">glfwCreateWindowSurface</span>(_instance, _window, <span class="literal">nullptr</span>, &amp;_surface) != VK_SUCCESS)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;glfwCreateWindowSurface&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>简单来说，Surface 层就是 Vulkan 与窗体的交互链接，其中这里使用到的是 GLFW 的 Vulkan 实现</p>
+</blockquote>
+<p>Surface 存到了 <code>PVulkanContext</code>  的 <code>VkSurfaceKHR</code>  中</p>
+<h1 id="确定使用哪个物理设备"><a class="markdownIt-Anchor" href="#确定使用哪个物理设备">#</a> 确定使用哪个物理设备</h1>
+<p><code>vkEnumeratePhysicalDevices</code>  函数返回的仅仅是系统里每一个 physical device (比如显卡) 的句柄列表，我们的应用程序必须选择其中一个.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">initializePhysicalDevice</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint32_t</span> physical_device_count;</span><br><span class="line">    <span class="built_in">vkEnumeratePhysicalDevices</span>(_instance, &amp;physical_device_count, <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">if</span> (physical_device_count == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enumerate physical devices&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// find one device that matches our requirement</span></span><br><span class="line">        <span class="comment">// or find which is the best</span></span><br><span class="line">        std::vector&lt;VkPhysicalDevice&gt; <span class="built_in">physical_devices</span>(physical_device_count);</span><br><span class="line">        <span class="built_in">vkEnumeratePhysicalDevices</span>(_instance, &amp;physical_device_count, physical_devices.<span class="built_in">data</span>());</span><br><span class="line"></span><br><span class="line">        std::vector&lt;std::pair&lt;<span class="type">int</span>, VkPhysicalDevice&gt;&gt; ranked_physical_devices;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; device : physical_devices)</span><br><span class="line">        &#123;</span><br><span class="line">            VkPhysicalDeviceProperties physical_device_properties;</span><br><span class="line">            <span class="built_in">vkGetPhysicalDeviceProperties</span>(device, &amp;physical_device_properties);</span><br><span class="line">            <span class="type">int</span> score = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (physical_device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)</span><br><span class="line">            &#123;</span><br><span class="line">                score += <span class="number">1000</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (physical_device_properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)</span><br><span class="line">            &#123;</span><br><span class="line">                score += <span class="number">100</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ranked_physical_devices.<span class="built_in">push_back</span>(&#123;score, device&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        std::<span class="built_in">sort</span>(ranked_physical_devices.<span class="built_in">begin</span>(),</span><br><span class="line">                  ranked_physical_devices.<span class="built_in">end</span>(),</span><br><span class="line">                  [](<span class="type">const</span> std::pair&lt;<span class="type">int</span>, VkPhysicalDevice&gt;&amp; p1, <span class="type">const</span> std::pair&lt;<span class="type">int</span>, VkPhysicalDevice&gt;&amp; p2) &#123;</span><br><span class="line">                      <span class="keyword">return</span> p1 &gt; p2;</span><br><span class="line">                  &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; device : ranked_physical_devices)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isDeviceSuitable</span>(device.second))</span><br><span class="line">            &#123;</span><br><span class="line">                _physical_device = device.second;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_physical_device == VK_NULL_HANDLE)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;failed to find suitable physical device&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上述代码主要是对当前设备里的硬件设备进行加分排序，选择得分最高的且可以使用的那个作为最终选择的设备</p>
+</blockquote>
+<p>最终可以使用的设备存储在 <code>VkPhysicalDevice</code>  中</p>
+<h1 id="构建逻辑设备"><a class="markdownIt-Anchor" href="#构建逻辑设备">#</a> 构建逻辑设备</h1>
+<p><code>createLogicalDevice()</code>  Vulkan 中所有的操作都需要将命令提交到 <code>队列</code> 中，不同的队列族有不同的队列类型，所以在这个阶段主要是查看硬件队列族 代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Pilot::QueueFamilyIndices</span><br><span class="line">Pilot::PVulkanContext::<span class="built_in">findQueueFamilies</span>(VkPhysicalDevice physical_device) <span class="comment">// for device and surface</span></span><br><span class="line">&#123;</span><br><span class="line">    QueueFamilyIndices indices;</span><br><span class="line">    <span class="type">uint32_t</span>           queue_family_count = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vkGetPhysicalDeviceQueueFamilyProperties</span>(physical_device, &amp;queue_family_count, <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="function">std::vector&lt;VkQueueFamilyProperties&gt; <span class="title">queue_families</span><span class="params">(queue_family_count)</span></span>;</span><br><span class="line">    <span class="built_in">vkGetPhysicalDeviceQueueFamilyProperties</span>(physical_device, &amp;queue_family_count, queue_families.<span class="built_in">data</span>());</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; queue_family : queue_families)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (queue_family.queueFlags &amp; VK_QUEUE_GRAPHICS_BIT) <span class="comment">// if support graphics command queue</span></span><br><span class="line">        &#123;</span><br><span class="line">            indices.graphicsFamily = i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        VkBool32 is_present_support = <span class="literal">false</span>;</span><br><span class="line">        <span class="built_in">vkGetPhysicalDeviceSurfaceSupportKHR</span>(physical_device,</span><br><span class="line">                                             i,</span><br><span class="line">                                             _surface,</span><br><span class="line">                                             &amp;is_present_support); <span class="comment">// if support surface presentation</span></span><br><span class="line">        <span class="keyword">if</span> (is_present_support)</span><br><span class="line">        &#123;</span><br><span class="line">            indices.presentFamily = i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (indices.<span class="built_in">isComplete</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> indices;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>先通过 <code>&amp;</code>  判断是否支持命令队列，然后判断表面 (前面的 Surface) 是否支持显示 (?)</p>
+</blockquote>
+<p>如果遍历的过程中发现设备上有支持的命令队列 (?), 就直接完成</p>
+<h1 id="构建命令池-createcommandpool"><a class="markdownIt-Anchor" href="#构建命令池-createcommandpool">#</a> 构建命令池 - createCommandPool</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// default graphics command pool</span></span><br><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createCommandPool</span>()</span><br><span class="line">&#123;</span><br><span class="line">    VkCommandPoolCreateInfo command_pool_create_info &#123;&#125;;</span><br><span class="line">    command_pool_create_info.sType            = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;</span><br><span class="line">    command_pool_create_info.pNext            = <span class="literal">NULL</span>;</span><br><span class="line">    command_pool_create_info.flags            = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;</span><br><span class="line">    command_pool_create_info.queueFamilyIndex = _queue_indices.graphicsFamily.<span class="built_in">value</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">vkCreateCommandPool</span>(_device, &amp;command_pool_create_info, <span class="literal">nullptr</span>, &amp;_command_pool) != VK_SUCCESS)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;vk create command pool&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先创建命令队列的信息 <code>VkCommandPoolCreateInfo</code> , 然后尝试创建命令队列，放到 <code>PVulkanContext</code>  的 <code>VkCommandPool</code>  中</p>
+<h1 id="构建交换链-createswapchain"><a class="markdownIt-Anchor" href="#构建交换链-createswapchain">#</a> 构建交换链 createSwapchain</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createSwapchain</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// query all supports of this physical device</span></span><br><span class="line">    SwapChainSupportDetails swapchain_support_details = <span class="built_in">querySwapChainSupport</span>(_physical_device);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// choose the best or fitting format</span></span><br><span class="line">    VkSurfaceFormatKHR chosen_surface_format =</span><br><span class="line">        <span class="built_in">chooseSwapchainSurfaceFormatFromDetails</span>(swapchain_support_details.formats);</span><br><span class="line">    <span class="comment">// choose the best or fitting present mode</span></span><br><span class="line">    VkPresentModeKHR chosen_presentMode = <span class="built_in">chooseSwapchainPresentModeFromDetails</span>(swapchain_support_details.presentModes);</span><br><span class="line">    <span class="comment">// choose the best or fitting extent</span></span><br><span class="line">    VkExtent2D chosen_extent = <span class="built_in">chooseSwapchainExtentFromDetails</span>(swapchain_support_details.capabilities);</span><br><span class="line"></span><br><span class="line">    <span class="type">uint32_t</span> image_count = swapchain_support_details.capabilities.minImageCount + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (swapchain_support_details.capabilities.maxImageCount &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">        image_count &gt; swapchain_support_details.capabilities.maxImageCount)</span><br><span class="line">    &#123;</span><br><span class="line">        image_count = swapchain_support_details.capabilities.maxImageCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    VkSwapchainCreateInfoKHR createInfo &#123;&#125;;</span><br><span class="line">    createInfo.sType   = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;</span><br><span class="line">    createInfo.surface = _surface;</span><br><span class="line"></span><br><span class="line">    createInfo.minImageCount    = image_count;</span><br><span class="line">    createInfo.imageFormat      = chosen_surface_format.format;</span><br><span class="line">    createInfo.imageColorSpace  = chosen_surface_format.colorSpace;</span><br><span class="line">    createInfo.imageExtent      = chosen_extent;</span><br><span class="line">    createInfo.imageArrayLayers = <span class="number">1</span>;</span><br><span class="line">    createInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;</span><br><span class="line"></span><br><span class="line">    <span class="type">uint32_t</span> queueFamilyIndices[] = &#123;_queue_indices.graphicsFamily.<span class="built_in">value</span>(), _queue_indices.presentFamily.<span class="built_in">value</span>()&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_queue_indices.graphicsFamily != _queue_indices.presentFamily)</span><br><span class="line">    &#123;</span><br><span class="line">        createInfo.imageSharingMode      = VK_SHARING_MODE_CONCURRENT;</span><br><span class="line">        createInfo.queueFamilyIndexCount = <span class="number">2</span>;</span><br><span class="line">        createInfo.pQueueFamilyIndices   = queueFamilyIndices;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    createInfo.preTransform   = swapchain_support_details.capabilities.currentTransform;</span><br><span class="line">    createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;</span><br><span class="line">    createInfo.presentMode    = chosen_presentMode;</span><br><span class="line">    createInfo.clipped        = VK_TRUE;</span><br><span class="line"></span><br><span class="line">    createInfo.oldSwapchain = VK_NULL_HANDLE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">vkCreateSwapchainKHR</span>(_device, &amp;createInfo, <span class="literal">nullptr</span>, &amp;_swapchain) != VK_SUCCESS)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;vk create swapchain khr&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vkGetSwapchainImagesKHR</span>(_device, _swapchain, &amp;image_count, <span class="literal">nullptr</span>);</span><br><span class="line">    _swapchain_images.<span class="built_in">resize</span>(image_count);</span><br><span class="line">    <span class="built_in">vkGetSwapchainImagesKHR</span>(_device, _swapchain, &amp;image_count, _swapchain_images.<span class="built_in">data</span>());</span><br><span class="line"></span><br><span class="line">    _swapchain_image_format = chosen_surface_format.format;</span><br><span class="line">    _swapchain_extent       = chosen_extent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>先查找各种满足条件的信息 (从硬件和环境上)</li>
+<li>设置当前交换链最小的图片个数 + 1</li>
+<li>然后通过 <code>VkSwapchainCreateInfoKHR</code>  创建交换链信息</li>
+<li>最后通过 <code>vkCreateSwapchainKHR</code>  函数设置 <code>PVulkanContext</code>  中的 <code>VkSwapChainKHR</code></li>
+<li>配置交换链的基础数据</li>
+</ol>
+<h1 id="构建交换链的视图层-createswapchainimageviews"><a class="markdownIt-Anchor" href="#构建交换链的视图层-createswapchainimageviews">#</a> 构建交换链的视图层 - createSwapchainImageViews</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createSwapchainImageViews</span>()</span><br><span class="line">&#123;</span><br><span class="line">    _swapchain_imageviews.<span class="built_in">resize</span>(_swapchain_images.<span class="built_in">size</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create imageview (one for each this time) for all swapchain images</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; _swapchain_images.<span class="built_in">size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        _swapchain_imageviews[i] = PVulkanUtil::<span class="built_in">createImageView</span>(_device,</span><br><span class="line">                                                                _swapchain_images[i],</span><br><span class="line">                                                                _swapchain_image_format,</span><br><span class="line">                                                                VK_IMAGE_ASPECT_COLOR_BIT,</span><br><span class="line">                                                                VK_IMAGE_VIEW_TYPE_2D,</span><br><span class="line">                                                                <span class="number">1</span>,</span><br><span class="line">                                                                <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>根据交换链的个数，初始化交换链视图数据列表，存在 <code>PVulkanContext</code>  中的 <code>VkImageView</code>  中</p>
+</blockquote>
+<h1 id="构建framebuffer-createframebufferimageandview"><a class="markdownIt-Anchor" href="#构建framebuffer-createframebufferimageandview">#</a> 构建 FrameBuffer - createFramebufferImageAndView</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createFramebufferImageAndView</span>()</span><br><span class="line">&#123;</span><br><span class="line">    PVulkanUtil::<span class="built_in">createImage</span>(_physical_device,</span><br><span class="line">                             _device,</span><br><span class="line">                             _swapchain_extent.width,</span><br><span class="line">                             _swapchain_extent.height,</span><br><span class="line">                             _depth_image_format,</span><br><span class="line">                             VK_IMAGE_TILING_OPTIMAL,</span><br><span class="line">                             VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT  VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT,</span><br><span class="line">                             VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,</span><br><span class="line">                             _depth_image,</span><br><span class="line">                             _depth_image_memory,</span><br><span class="line">                             <span class="number">0</span>,</span><br><span class="line">                             <span class="number">1</span>,</span><br><span class="line">                             <span class="number">1</span>);</span><br><span class="line">    _depth_image_view = PVulkanUtil::<span class="built_in">createImageView</span>(</span><br><span class="line">        _device, _depth_image, _depth_image_format, VK_IMAGE_ASPECT_DEPTH_BIT, VK_IMAGE_VIEW_TYPE_2D, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Framebuffer 代表了一个 render pass 实例中使用的内存附件的集合。这些内存附件的例子包括我们在前面示例中创建的 color image buffer 和 depth buffer。Framebuffer 提供了 render pass 在渲染时所需要的附件。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/04/wp_editor_md_0662e4136c1cf6c42bfe37b9f221381f.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/04/wp_editor_md_0662e4136c1cf6c42bfe37b9f221381f.jpg" alt=""></a> 可以看出，Vulkan 的每个 Render Pass 里并没有实际的资源，实际的资源是放到 FrameBuffer 中的，每个 FrameBuffer 实际上连接到了 Attachments 中，Attachments 中每个 Buffer 连接到了实际的实例 <code>ImageView</code>  所以这里实际上是通过创建 ImageView 来创建 Framebuffer Pilot 中上述代码只提供了一个 <code>_depth_image_view</code>  的 <code>VkImageView</code></p>
+<h1 id="构建vulkan资源分配-createassetallocator"><a class="markdownIt-Anchor" href="#构建vulkan资源分配-createassetallocator">#</a> 构建 Vulkan 资源分配 - createAssetAllocator</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Pilot::PVulkanContext::<span class="built_in">createAssetAllocator</span>()</span><br><span class="line">&#123;</span><br><span class="line">    VmaVulkanFunctions vulkanFunctions    = &#123;&#125;;</span><br><span class="line">    vulkanFunctions.vkGetInstanceProcAddr = &amp;vkGetInstanceProcAddr;</span><br><span class="line">    vulkanFunctions.vkGetDeviceProcAddr   = &amp;vkGetDeviceProcAddr;</span><br><span class="line"></span><br><span class="line">    VmaAllocatorCreateInfo allocatorCreateInfo = &#123;&#125;;</span><br><span class="line">    allocatorCreateInfo.vulkanApiVersion       = m_vulkan_api_version;</span><br><span class="line">    allocatorCreateInfo.physicalDevice         = _physical_device;</span><br><span class="line">    allocatorCreateInfo.device                 = _device;</span><br><span class="line">    allocatorCreateInfo.instance               = _instance;</span><br><span class="line">    allocatorCreateInfo.pVulkanFunctions       = &amp;vulkanFunctions;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vmaCreateAllocator</span>(&amp;allocatorCreateInfo, &amp;_assets_allocator);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>VMA (Tag), 网上搜了下，好像是资源池之类的</p>
+</blockquote>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" title="Vulkan 1. 从Pilot出发-初始化Vulkan">https://mymetalseed.github.io/2022/04/23/vulkan-1-从pilot出发-初始化vulkan/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../22/2022-4-22-%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E6%A2%A6/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="2022.4.22 做了一个梦">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 随笔</span>
+  <h3>2022.4.22 做了一个梦</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Vulkan2. 概念扫盲">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> Vulkan</span>
+  <h3>Vulkan2. 概念扫盲</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAvulkaninstance-createinstance"><span class="toc-number">1.</span> <span class="toc-text"> 构建 VulkanInstance - createInstance</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-vkapplicationinfo"><span class="toc-number">1.1.</span> <span class="toc-text"> 初始化 VkApplicationInfo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-vkinstancecreateinfo"><span class="toc-number">1.2.</span> <span class="toc-text"> 初始化 VkInstanceCreateInfo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-vkdebugutilsmessengercreateinfoext"><span class="toc-number">1.3.</span> <span class="toc-text"> 初始化 VkDebugUtilsMessengerCreateInfoEXT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAinstance-vkinstance"><span class="toc-number">1.4.</span> <span class="toc-text"> 构建 Instance - VkInstance</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96debug"><span class="toc-number">2.</span> <span class="toc-text"> 初始化 Debug</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAglfw%E7%9A%84windows%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text"> 创建 GLFW 的 Windows 接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E4%BD%BF%E7%94%A8%E5%93%AA%E4%B8%AA%E7%89%A9%E7%90%86%E8%AE%BE%E5%A4%87"><span class="toc-number">4.</span> <span class="toc-text"> 确定使用哪个物理设备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E9%80%BB%E8%BE%91%E8%AE%BE%E5%A4%87"><span class="toc-number">5.</span> <span class="toc-text"> 构建逻辑设备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4%E6%B1%A0-createcommandpool"><span class="toc-number">6.</span> <span class="toc-text"> 构建命令池 - createCommandPool</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E4%BA%A4%E6%8D%A2%E9%93%BE-createswapchain"><span class="toc-number">7.</span> <span class="toc-text"> 构建交换链 createSwapchain</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E4%BA%A4%E6%8D%A2%E9%93%BE%E7%9A%84%E8%A7%86%E5%9B%BE%E5%B1%82-createswapchainimageviews"><span class="toc-number">8.</span> <span class="toc-text"> 构建交换链的视图层 - createSwapchainImageViews</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAframebuffer-createframebufferimageandview"><span class="toc-number">9.</span> <span class="toc-text"> 构建 FrameBuffer - createFramebufferImageAndView</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAvulkan%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D-createassetallocator"><span class="toc-number">10.</span> <span class="toc-text"> 构建 Vulkan 资源分配 - createAssetAllocator</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" rel="bookmark" title="Vulkan2. 概念扫盲">Vulkan2. 概念扫盲</a></li><li><a href="../../../../2023/04/13/%E3%80%90games106%E3%80%91-2-vulkan%E4%BB%8B%E7%BB%8D/" rel="bookmark" title="【Games106】 2. Vulkan介绍">【Games106】 2. Vulkan介绍</a></li><li><a href="../../../../2023/04/20/%E3%80%90games106%E3%80%91-3-vulkan%E4%BB%8B%E7%BB%8D-2/" rel="bookmark" title="【Games106】 3. Vulkan介绍_2">【Games106】 3. Vulkan介绍_2</a></li><li><a href="../../../../2023/05/07/%E3%80%90games106%E3%80%91-homework1/" rel="bookmark" title="【Games106】 homework1">【Games106】 homework1</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../22/2022-4-22-%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E6%A2%A6/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../../2023/09/15/%E3%80%90ue%E3%80%91-gas%E6%8A%80%E8%83%BD%E6%A1%86%E6%9E%B6/" title="【UE】 GAS技能框架">【UE】 GAS技能框架</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Oculus/" title="In Oculus">Oculus</a>
+</div>
+
+    <span><a href="../../../../2021/03/08/oculus%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E6%91%98-%EF%BC%88%E9%9A%8F-%E4%B8%80%EF%BC%89/" title="Oculus官方文档摘 （随 一）">Oculus官方文档摘 （随 一）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/08/unity-%E5%85%A8%E5%B1%80%E5%AE%8F%E5%AE%9A%E4%B9%89-%E4%BB%A3%E7%A0%81%E6%96%B9%E6%A1%88/" title="Unity 全局宏定义 - 代码方案">Unity 全局宏定义 - 代码方案</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" title="In 前端杂记">前端杂记</a>
+</div>
+
+    <span><a href="../../../../2021/03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" title="由CSS3学动效">由CSS3学动效</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/08/29/%E6%B0%B4%E5%A2%A8%E9%A3%8E%E6%B8%B2%E6%9F%93%E8%AE%B0%E5%BD%95/" title="水墨风渲染记录">水墨风渲染记录</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/So/" title="In So.">So.</a>
+</div>
+
+    <span><a href="../../../../2021/02/21/%E6%B0%B8%E4%B8%8D%E5%A4%B1%E8%81%94%E7%9A%84%E7%88%B1/" title="永不失联的爱">永不失联的爱</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/07/06/%E3%80%90gpgpu%E3%80%91-computeshader-%E6%95%88%E6%9E%9Cdemo/" title="【GPGPU】 ComputeShader 效果Demo">【GPGPU】 ComputeShader 效果Demo</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPUDriven/" title="In GPUDriven">GPUDriven</a>
+</div>
+
+    <span><a href="../../../../2023/04/09/%E3%80%90gdc%E3%80%91adaptive-virtual-texture-rendering-in-far-cry-4/" title="【GDC】Adaptive Virtual Texture Rendering in Far Cry 4">【GDC】Adaptive Virtual Texture Rendering in Far Cry 4</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c-%E5%85%AD-%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F/" title="C++ (六) 类的大小">C++ (六) 类的大小</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/04/23/vulkan-1-从pilot出发-初始化vulkan/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

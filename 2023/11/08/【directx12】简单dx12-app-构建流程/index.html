@@ -1,0 +1,669 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2023/11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/">
+
+
+
+  <title>
+【DirectX12】简单DX12 App 构建流程 - DirectX - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【DirectX12】简单DX12 App 构建流程
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2023-11-08 00:23:13">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-11-08T00:23:13+08:00">2023-11-08</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/DirectX/" itemprop="item" rel="index" title="In DirectX"><span itemprop="name">DirectX</span></a>
+<meta itemprop="position" content="2" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2023/11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc]</p>
+<h1 id="序"><a class="markdownIt-Anchor" href="#序">#</a> 序</h1>
+<p>最近重新回顾了下 DirectX12 那本书，这本书第六章封装了一个比较简单的渲染结构，想以此来重新复习一下在这些流程中，我们都可以做些什么，以及每个接口和名词的含义是什么。 源代码： <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVkL1NvbERpcmVjdHhfRGVtby90cmVlL21haW4=">https://github.com/mymetalseed/SolDirectx_Demo/tree/main</span> 代码是使用 Cmake 搞得，可以直接 make (但是估计只支持 WindowsXD)</p>
+<h1 id="简单窗口类封装"><a class="markdownIt-Anchor" href="#简单窗口类封装">#</a> 简单窗口类封装</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LittleWindow</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">Initialize</span><span class="params">(<span class="type">const</span> <span class="type">wchar_t</span>* title)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Run</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">Destroy</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    std::wstring title;</span><br><span class="line">    UINT32 width;</span><br><span class="line">    UINT32 height;</span><br><span class="line">    HWND hWnd;</span><br><span class="line">    <span class="function">HWND <span class="title">createWin32Window</span><span class="params">(<span class="type">const</span> <span class="type">wchar_t</span>* title)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LittleGFXWindow</span> : <span class="keyword">public</span> LittleWindow</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">class</span> <span class="title class_">LittleGFXInstance</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">LittleGFXWindow</span>();</span><br><span class="line">    ~<span class="built_in">LittleGFXWindow</span>();</span><br><span class="line">    <span class="function"><span class="type">static</span> LittleGFXWindow* <span class="title">GetWindow</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">Initialize</span><span class="params">(<span class="type">const</span> <span class="type">wchar_t</span>* title, LittleGFXDevice* device, <span class="type">bool</span> enableVsync)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">Destroy</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">Get4xMsaaState</span><span class="params">()</span><span class="type">const</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Set4xMsaaState</span><span class="params">(<span class="type">bool</span> value)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">bool</span> vsyncEnabled = <span class="literal">false</span>;</span><br><span class="line">    <span class="type">uint32_t</span> swapchainFlags;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnResize</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Update</span><span class="params">(<span class="comment">/*可以加入时间*/</span>)</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Draw</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseDown</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseUp</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseMove</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CreateRtvAndDsvDescriptorHeaps</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">InitDirect3D</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CreateCommandObjects</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CreateSwapChain</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">FlushCommandQueue</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">ID3D12Resource* <span class="title">CurrentBackBuffer</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">D3D12_CPU_DESCRIPTOR_HANDLE <span class="title">CurrentBackBufferView</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">    <span class="function">D3D12_CPU_DESCRIPTOR_HANDLE <span class="title">DepthStencilView</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CalculateFrameStats</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">LogAdapters</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">LogAdapterOutputs</span><span class="params">(IDXGIAdapter* adapter)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">LogOutputDisplayModes</span><span class="params">(IDXGIOutput* output, DXGI_FORMAT format)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">static</span> LittleGFXWindow* mWindow;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> m4xMsaaState = <span class="literal">false</span>;  <span class="comment">//是否开启4X MSAA技术</span></span><br><span class="line">    UINT m4xMsaaQuality = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    Microsoft::WRL::ComPtr&lt;IDXGIFactory4&gt; mdxgiFactory;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;IDXGISwapChain&gt; mSwapChain;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12Device&gt; md3dDevice;</span><br><span class="line"></span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12Fence&gt; mFence;</span><br><span class="line">    UINT64 mCurrentFence = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12CommandQueue&gt; mCommandQueue;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12CommandAllocator&gt; mDirectCmdListAlloc;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12GraphicsCommandList&gt; mCommandList;</span><br><span class="line"></span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">int</span> SwapChainBufferCount = <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> mCurrBackBuffer = <span class="number">0</span>;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12Resource&gt; mSwapChainBuffer[SwapChainBufferCount];</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12Resource&gt; mDepthStencilBuffer;</span><br><span class="line"></span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12DescriptorHeap&gt; mRtvHeap;</span><br><span class="line">    Microsoft::WRL::ComPtr&lt;ID3D12DescriptorHeap&gt; mDsvHeap;</span><br><span class="line"></span><br><span class="line">    D3D12_VIEWPORT mScreenViewport;</span><br><span class="line">    D3D12_RECT mScissorRect;</span><br><span class="line"></span><br><span class="line">    UINT mRtvDescriptorSize = <span class="number">0</span>;</span><br><span class="line">    UINT mDsvDescriptorSize = <span class="number">0</span>;</span><br><span class="line">    UINT mCbvSrvUavDescriptorSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    D3D_DRIVER_TYPE md3dDriverType = D3D_DRIVER_TYPE_HARDWARE;</span><br><span class="line">    DXGI_FORMAT mBackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;</span><br><span class="line">    DXGI_FORMAT mDepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;</span><br><span class="line">    <span class="type">int</span> mClientWidth = <span class="number">800</span>;</span><br><span class="line">    <span class="type">int</span> mClientHeight = <span class="number">600</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中基础的 <code>LittleWindow</code>  中提供一个最基础的 <code>Initialize</code>  和 <code>Run</code>  函数<br>
+派生类 <code>LittleGFXWindow</code>  提供了，其中提供了  <code>Update</code>  和 <code>Draw</code>  以及 <code>OnResize</code>  方法<br>
+分别负责<br>
+ <code>逻辑更新</code> ， <code>把命令推入命令列表</code> ， <code>第一帧或者窗口大小变更时重新设置一些数据</code>  以及缓存了一些运行时需要用到的<br>
+ <code>Device</code> 、 <code>CommandQueue</code> 、 <code>CommandAllocator</code> 、 <code>GraphicsCommandList</code> 、 <code>DescriptorHeap</code> 、 <code>SwapChain</code>  等数据</p>
+<hr>
+<h1 id="main函数入口"><a class="markdownIt-Anchor" href="#main函数入口">#</a> Main 函数入口</h1>
+<ol>
+<li>构建一个实例</li>
+<li>通过实例获取显卡设备</li>
+<li>构建 Window 渲染类，通过模板元调用模板的 <code>Initilize</code>  方法</li>
+<li>初始化后调用 <code>Run</code>  进入窗口循环 (逻辑 Update、Draw)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;header/gfx/gfx_object.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;header/Window/LittleRendererWindow.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建并初始化实例</span></span><br><span class="line">    <span class="keyword">auto</span> instance = LittleFactory::<span class="built_in">Create</span>&lt;LittleGFXInstance&gt;(<span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">auto</span> device = LittleFactory::<span class="built_in">Create</span>&lt;LittleGFXDevice&gt;(instance-&gt;<span class="built_in">GetAdapter</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="comment">//创建并初始化窗口类</span></span><br><span class="line">    <span class="keyword">auto</span> window = LittleFactory::<span class="built_in">Create</span>&lt;LittleRendererWindow&gt;(<span class="string">L&quot;LittleMaster&quot;</span>, device, <span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//运行窗口类的循环</span></span><br><span class="line">    window-&gt;<span class="built_in">Run</span>();</span><br><span class="line">    <span class="comment">// 现在窗口已经关闭，我们清理窗口类</span></span><br><span class="line">    LittleFactory::<span class="built_in">Destroy</span>(window);</span><br><span class="line">    <span class="comment">// 清理实例</span></span><br><span class="line">    LittleFactory::<span class="built_in">Destroy</span>(device);</span><br><span class="line">    LittleFactory::<span class="built_in">Destroy</span>(instance);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="通过实例获取设备接口"><a class="markdownIt-Anchor" href="#通过实例获取设备接口">#</a> 通过实例获取设备接口</h2>
+<p>先通过 <code>dxgi(directX的封装与工具库)</code>  构建工厂，并将其缓存在窗口的 <code>pDXGIFactory</code>  中，如果成功的话，查询所有的 <code>硬件适配器</code> 。 <code>queryAllAdapters</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">LittleGFXInstance::Initialize</span><span class="params">(<span class="type">bool</span> enableDebugLayer)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    debugLayerEnabled = enableDebugLayer;</span><br><span class="line">    UINT flags = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (debugLayerEnabled) flags = DXGI_CREATE_FACTORY_DEBUG;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">SUCCEEDED</span>(<span class="built_in">CreateDXGIFactory2</span>(flags, <span class="built_in">IID_PPV_ARGS</span>(&amp;pDXGIFactory))))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">queryAllAdapters</span>();</span><br><span class="line">        <span class="comment">// If the only adapter we found is a software adapter, log error message for QA</span></span><br><span class="line">        <span class="keyword">if</span> (!adapters.<span class="built_in">size</span>() &amp;&amp; foundSoftwareAdapter)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">assert</span>(<span class="number">0</span> &amp;&amp; <span class="string">&quot;The only available GPU has DXGI_ADAPTER_FLAG_SOFTWARE. Early exiting&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">assert</span>(<span class="string">&quot;[D3D12 Fatal]: Create DXGIFactory2 Failed!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>queryAdapter</code>  的实现如下 即，不断找下一个可用的 adapter，并且 <code>在这个阶段可以获取设备的所需信息，打印出来</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleGFXInstance::queryAllAdapters</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    IDXGIAdapter4* adapter = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">// Use DXGI6 interface which lets us specify gpu preference so we dont need to use NVOptimus or AMDPowerExpress</span></span><br><span class="line">    <span class="keyword">for</span> (UINT i = <span class="number">0</span>;</span><br><span class="line">        pDXGIFactory-&gt;<span class="built_in">EnumAdapterByGpuPreference</span>(i,</span><br><span class="line">            DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE,</span><br><span class="line">            <span class="built_in">IID_PPV_ARGS</span>(&amp;adapter)) != DXGI_ERROR_NOT_FOUND;</span><br><span class="line">        i++)</span><br><span class="line">    &#123;</span><br><span class="line">        LittleGFXAdapter newAdapter;</span><br><span class="line">        newAdapter.pDXGIAdapter = adapter;</span><br><span class="line">        newAdapter.instance = <span class="keyword">this</span>;</span><br><span class="line">        DXGI_ADAPTER_DESC3 desc = &#123;&#125;;</span><br><span class="line">        adapter-&gt;<span class="built_in">GetDesc3</span>(&amp;desc);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">LogAdaptersOutputs</span>(adapter);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (desc.Flags &amp; DXGI_ADAPTER_FLAG_SOFTWARE)</span><br><span class="line">        &#123;</span><br><span class="line">            foundSoftwareAdapter = <span class="literal">true</span>;</span><br><span class="line">            <span class="built_in">SAFE_RELEASE</span>(adapter);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            adapters.<span class="built_in">emplace_back</span>(newAdapter);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="通过硬件适配取得设备以及创建commandqueue"><a class="markdownIt-Anchor" href="#通过硬件适配取得设备以及创建commandqueue">#</a> 通过硬件适配取得设备以及创建 CommandQueue</h2>
+<ol>
+<li>通过 <code>D3D12CreateDevice</code>  传入 Adapter 构建 Device</li>
+<li>通过构建的设备构建 <code>依赖于设备的CommandQueue</code></li>
+</ol>
+<p>这里提一嘴，DirectX12 很喜欢用 Desc 作为参数来对将要的事情进行各种设置</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">LittleGFXDevice::Initialize</span><span class="params">(LittleGFXAdapter* in_adapter)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;adapter = in_adapter;</span><br><span class="line">    D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_0;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">SUCCEEDED</span>(<span class="built_in">D3D12CreateDevice</span>(adapter-&gt;pDXGIAdapter, <span class="comment">// default adapter</span></span><br><span class="line">        featureLevel, <span class="built_in">IID_PPV_ARGS</span>(&amp;pD3D12Device))))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">assert</span>(<span class="number">0</span> &amp;&amp; <span class="string">&quot;[D3D12 Fatal]: Create D3D12Device Failed!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (LOG_DEVICE_FUNC_SUPPORT) &#123;</span><br><span class="line">        <span class="built_in">LogDeviceSupport</span>(pD3D12Device);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    D3D12_COMMAND_QUEUE_DESC queueDesc = &#123;&#125;;</span><br><span class="line">    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;</span><br><span class="line">    queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">SUCCEEDED</span>(pD3D12Device-&gt;<span class="built_in">CreateCommandQueue</span>(&amp;queueDesc, <span class="built_in">IID_PPV_ARGS</span>(&amp;pD3D12Queue))))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">assert</span>(<span class="number">0</span> &amp;&amp; <span class="string">&quot;[D3D12 Fatal]: Create D3D12CommandQueue Failed!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="硬件层后软件update层前"><a class="markdownIt-Anchor" href="#硬件层后软件update层前">#</a> 硬件层后，软件 Update 层前</h1>
+<p>在硬件层我们会对设备，命令队列等进行构建，<br>
+这个阶段之后，我们就需要对软件层的渲染进行准备，如准备 SwapChain，各种 Buffer，以及命令队列等。</p>
+<ol>
+<li>第一个 Initilize 先不介绍了，这个是用来搞 Win32 窗口的。</li>
+<li>初始化 Direct3D 相关的结构和数据</li>
+<li>调用 Resize 进行初次设置 (设置数据，实际开始渲染)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">LittleGFXWindow::Initialize</span><span class="params">(<span class="type">const</span> <span class="type">wchar_t</span>* title, LittleGFXDevice* device, <span class="type">bool</span> enableVsync)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> succeed = LittleWindow::<span class="built_in">Initialize</span>(title);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">InitDirect3D</span>()) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;初始化Direct3D失败&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        succeed = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">OnResize</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> succeed;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="从设备中获取各种数据"><a class="markdownIt-Anchor" href="#从设备中获取各种数据">#</a> 从设备中获取各种数据</h2>
+<ol>
+<li>如渲染视图在硬件上的大小</li>
+<li>深度缓存区最大大小</li>
+<li>常量缓冲区最大大小</li>
+<li>Msaa 支持情况 (4x、6x 等)</li>
+<li>创建渲染栅栏 (Fence)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建Fence</span></span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateFence</span>(<span class="number">0</span>, D3D12_FENCE_FLAG_NONE, <span class="built_in">IID_PPV_ARGS</span>(&amp;mFence)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//从Device上获取对应的描述符的大小(硬件)</span></span><br><span class="line"><span class="comment">//渲染目标视图</span></span><br><span class="line">mRtvDescriptorSize = md3dDevice-&gt;<span class="built_in">GetDescriptorHandleIncrementSize</span>(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);</span><br><span class="line"><span class="comment">//深度缓冲区视图</span></span><br><span class="line">mDsvDescriptorSize = md3dDevice-&gt;<span class="built_in">GetDescriptorHandleIncrementSize</span>(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);</span><br><span class="line"><span class="comment">//常量缓冲区视图,着色器资源视图和无序访问视图组合的描述符堆</span></span><br><span class="line">mCbvSrvUavDescriptorSize = md3dDevice-&gt;<span class="built_in">GetDescriptorHandleIncrementSize</span>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Check 4x MSAA quality support for our back buffer format.</span></span><br><span class="line"><span class="comment">//All Direct3D 11 capable devices support 4X MSAA for all render</span></span><br><span class="line"><span class="comment">//target formats,so we only need to check quality support.</span></span><br><span class="line">D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;</span><br><span class="line">msQualityLevels.Format = mBackBufferFormat;</span><br><span class="line">msQualityLevels.SampleCount = <span class="number">4</span>;</span><br><span class="line">msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;</span><br><span class="line">msQualityLevels.NumQualityLevels = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//检查后会将支持的Msaa等级赋值给msQualityLevels</span></span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CheckFeatureSupport</span>(</span><br><span class="line">    D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,</span><br><span class="line">    &amp;msQualityLevels,</span><br><span class="line">    <span class="built_in">sizeof</span>(msQualityLevels)</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line">m4xMsaaQuality = msQualityLevels.NumQualityLevels;</span><br><span class="line"><span class="built_in">assert</span>(m4xMsaaQuality &gt; <span class="number">0</span> &amp;&amp; <span class="string">&quot;unexpected MSAA quality level.&quot;</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>接下来的三个流程就是开始构建各种基础结构了</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CreateCommandObjects</span>();</span><br><span class="line"><span class="built_in">CreateSwapChain</span>();</span><br><span class="line"><span class="built_in">CreateRtvAndDsvDescriptorHeaps</span>();</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="创建命令列表"><a class="markdownIt-Anchor" href="#创建命令列表">#</a> 创建命令列表</h2>
+<p>在 DirectX12 中，渲染命令会先缓存在命令列表中，然后在合适的时间推入渲染队列中<br>
+其中命令列表的构建有以下几个步骤<br>
+ 1. 从渲染队列中创建命令分配器 <code>CommandAllocator</code> <br>
+2. 从 <code>CommandAllocator</code>  中构建 <code>CommandList</code> <br>
+3. 初次未使用先调用 <code>Close</code>  进行关闭</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleGFXWindow::CreateCommandObjects</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//命令队列描述符</span></span><br><span class="line">    D3D12_COMMAND_QUEUE_DESC queueDesc = &#123;&#125;;</span><br><span class="line">    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;</span><br><span class="line">    queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;</span><br><span class="line">    <span class="comment">//在Device上构建CommandQueue</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateCommandQueue</span>(&amp;queueDesc, <span class="built_in">IID_PPV_ARGS</span>(&amp;mCommandQueue)));</span><br><span class="line">    <span class="comment">//在Device上构建CommandAllocator</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateCommandAllocator</span>(</span><br><span class="line">        D3D12_COMMAND_LIST_TYPE_DIRECT,</span><br><span class="line">        <span class="built_in">IID_PPV_ARGS</span>(mDirectCmdListAlloc.<span class="built_in">GetAddressOf</span>())</span><br><span class="line">    ));</span><br><span class="line">    <span class="comment">//在设备上构建命令列表，并把命令分配器交给他</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateCommandList</span>(</span><br><span class="line">        <span class="number">0</span>,</span><br><span class="line">        D3D12_COMMAND_LIST_TYPE_DIRECT,</span><br><span class="line">        mDirectCmdListAlloc.<span class="built_in">Get</span>(),<span class="comment">//Associated command allocator</span></span><br><span class="line">        <span class="literal">nullptr</span>,                  <span class="comment">//初始化PipelineStateObject</span></span><br><span class="line">        <span class="built_in">IID_PPV_ARGS</span>(mCommandList.<span class="built_in">GetAddressOf</span>())</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Start off in a closed state. This is because the first time we refer to the </span></span><br><span class="line">    <span class="comment">//command list we will Reset it, and it needs to be closed before calling Reset.</span></span><br><span class="line">    <span class="comment">//初次构建一个命令列表后应该先关闭它</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">Close</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="创建swapchain"><a class="markdownIt-Anchor" href="#创建swapchain">#</a> 创建 SwapChain</h2>
+<ol>
+<li>先释放之前的 SwapChain</li>
+<li>构造 SwapChain 的描述</li>
+<li>调用 <code>CreateSwapChain</code>  创建 SwapChain 同时将其绑定到对应的 <code>CommandQueue</code>  上作为最后的 FrameBuffer</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleGFXWindow::CreateSwapChain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Release the previous swapchain we will be recreating</span></span><br><span class="line">    mSwapChain.<span class="built_in">Reset</span>();</span><br><span class="line"></span><br><span class="line">    DXGI_SWAP_CHAIN_DESC sd;</span><br><span class="line">    sd.BufferDesc.Width = mClientWidth;</span><br><span class="line">    sd.BufferDesc.Height = mClientHeight;</span><br><span class="line">    sd.BufferDesc.RefreshRate.Numerator = <span class="number">60</span>;</span><br><span class="line">    sd.BufferDesc.RefreshRate.Denominator = <span class="number">1</span>;</span><br><span class="line">    sd.BufferDesc.Format = mBackBufferFormat;</span><br><span class="line">    sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;</span><br><span class="line">    sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;</span><br><span class="line">    sd.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">    sd.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;</span><br><span class="line">    sd.BufferCount = SwapChainBufferCount;</span><br><span class="line">    sd.OutputWindow = hWnd;</span><br><span class="line">    sd.Windowed = <span class="literal">true</span>;</span><br><span class="line">    sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;</span><br><span class="line">    sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Note: Swap chain uses queue to perform flush.</span></span><br><span class="line">    <span class="comment">//直接设置当前的swap chian desc给CommandQueue</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mdxgiFactory-&gt;<span class="built_in">CreateSwapChain</span>(</span><br><span class="line">        mCommandQueue.<span class="built_in">Get</span>(),</span><br><span class="line">        &amp;sd,</span><br><span class="line">        mSwapChain.<span class="built_in">GetAddressOf</span>()</span><br><span class="line">    ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="创建描述符堆"><a class="markdownIt-Anchor" href="#创建描述符堆">#</a> 创建描述符堆</h2>
+<p>描述符堆实际上是从 <code>Device</code>  上创建的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleGFXWindow::CreateRtvAndDsvDescriptorHeaps</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;</span><br><span class="line">    rtvHeapDesc.NumDescriptors = SwapChainBufferCount;</span><br><span class="line">    rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;</span><br><span class="line">    rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;</span><br><span class="line">    rtvHeapDesc.NodeMask = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateDescriptorHeap</span>(</span><br><span class="line">        &amp;rtvHeapDesc, <span class="built_in">IID_PPV_ARGS</span>(mRtvHeap.<span class="built_in">GetAddressOf</span>())</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;</span><br><span class="line">    dsvHeapDesc.NumDescriptors = <span class="number">1</span>;</span><br><span class="line">    dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;</span><br><span class="line">    dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;</span><br><span class="line">    dsvHeapDesc.NodeMask = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateDescriptorHeap</span>(</span><br><span class="line">        &amp;dsvHeapDesc, <span class="built_in">IID_PPV_ARGS</span>(mDsvHeap.<span class="built_in">GetAddressOf</span>())</span><br><span class="line">    ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="调用onresize对命令列表进行各种设置"><a class="markdownIt-Anchor" href="#调用onresize对命令列表进行各种设置">#</a> 调用 OnResize 对命令列表进行各种设置</h2>
+<ol>
+<li>设置与改变前先刷新一下命令列表</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//改变前刷新一下命令队列</span></span><br><span class="line"><span class="built_in">FlushCommandQueue</span>();</span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Reset</span>(mDirectCmdListAlloc.<span class="built_in">Get</span>(), <span class="literal">nullptr</span>));</span><br></pre></td></tr></table></figure>
+<p>其中刷新命令队列实际上就是等待上一波推入队列的命令执行完毕 (到达栅栏 <code>Fence</code>  指定的点处)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleGFXWindow::FlushCommandQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Advance the fence value to mark comamnds up to this fence point.</span></span><br><span class="line">    mCurrentFence++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Add an instruction to the command queue to set a new fence point.</span></span><br><span class="line">    <span class="comment">//Because we are on the GPU timeline,the new fence point won&#x27;t be set</span></span><br><span class="line">    <span class="comment">//until the GPU fnishes processing all the commands prior to this Signal()</span></span><br><span class="line">    <span class="comment">//简单来说，栅栏</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandQueue-&gt;<span class="built_in">Signal</span>(mFence.<span class="built_in">Get</span>(), mCurrentFence));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Wait until the GPU has completed commands up to this fence point.</span></span><br><span class="line">    <span class="comment">//等待GPU到达当前的栅栏点</span></span><br><span class="line">    <span class="keyword">if</span> (mFence-&gt;<span class="built_in">GetCompletedValue</span>() &lt; mCurrentFence) &#123;</span><br><span class="line">        HANDLE eventHandle = <span class="built_in">CreateEventEx</span>(<span class="literal">nullptr</span>, <span class="literal">false</span>, <span class="literal">false</span>, EVENT_ALL_ACCESS);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Fire event when GPU hits current fence.</span></span><br><span class="line">        <span class="built_in">ThrowIfFailed</span>(mFence-&gt;<span class="built_in">SetEventOnCompletion</span>(mCurrentFence, eventHandle));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//Wait until the GPU hits current fence event is fired</span></span><br><span class="line">        <span class="comment">//实际的等待</span></span><br><span class="line">        <span class="built_in">WaitForSingleObject</span>(eventHandle, INFINITE);</span><br><span class="line">        <span class="built_in">CloseHandle</span>(eventHandle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>同时 Reset 所有依赖于屏幕视口大小的 Buffer (如 SwapChain，DepthBuffer)</li>
+<li>调用 <code>SwapChain</code>  的 <code>ResizeBuffers</code>  来初始化 SwapChain</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Release the previous resources we will be recreating.</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; SwapChainBufferCount; ++i) &#123;</span><br><span class="line">    mSwapChainBuffer[i].<span class="built_in">Reset</span>();</span><br><span class="line">&#125;</span><br><span class="line">mDepthStencilBuffer.<span class="built_in">Reset</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//Resize the swap chain.</span></span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(mSwapChain-&gt;<span class="built_in">ResizeBuffers</span>(</span><br><span class="line">    SwapChainBufferCount,</span><br><span class="line">    mClientWidth,mClientHeight,</span><br><span class="line">    mBackBufferFormat,</span><br><span class="line">    DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">mCurrBackBuffer = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="设置swapchain"><a class="markdownIt-Anchor" href="#设置swapchain">#</a> 设置 SwapChain</h3>
+<ol>
+<li>先设置 RenderTarget 以及将其和描述符关联起来</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DXD12那本书封装的一层DXD12_HANDLE</span></span><br><span class="line"><span class="function">CD3DX12_CPU_DESCRIPTOR_HANDLE <span class="title">rtvHeapHandle</span><span class="params">(mRtvHeap-&gt;GetCPUDescriptorHandleForHeapStart())</span></span>;</span><br><span class="line"><span class="keyword">for</span> (UINT i = <span class="number">0</span>; i &lt; SwapChainBufferCount; ++i) &#123;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mSwapChain-&gt;<span class="built_in">GetBuffer</span>(i, <span class="built_in">IID_PPV_ARGS</span>(&amp;mSwapChainBuffer[i])));</span><br><span class="line">    md3dDevice-&gt;<span class="built_in">CreateRenderTargetView</span>(mSwapChainBuffer[i].<span class="built_in">Get</span>(), <span class="literal">nullptr</span>, rtvHeapHandle);</span><br><span class="line">    rtvHeapHandle.<span class="built_in">Offset</span>(<span class="number">1</span>,mRtvDescriptorSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>声明与创建一个 Resource，用作深度缓冲区和 StencilBuffer</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Create the depth/stencil buffer and view </span></span><br><span class="line">D3D12_RESOURCE_DESC depthStencilDesc;</span><br><span class="line">depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;</span><br><span class="line">depthStencilDesc.Alignment = <span class="number">0</span>;</span><br><span class="line">depthStencilDesc.Width = mClientWidth;</span><br><span class="line">depthStencilDesc.Height = mClientHeight;</span><br><span class="line">depthStencilDesc.DepthOrArraySize = <span class="number">1</span>;</span><br><span class="line">depthStencilDesc.MipLevels = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//Coorrection 11/12/2016: SSAO chapter requires an SRV to the depth buffer to read from</span></span><br><span class="line"><span class="comment">//the depth buffer. Therefore, because we need to create two views to the same resource:</span></span><br><span class="line"><span class="comment">//    1. SRV format: DXGI_FORMAT_R24_UNORM_X8_TYPELESS</span></span><br><span class="line"><span class="comment">//    2. DSV Format: DXGI_FORMAT_D24_UNORM_S8_UINT</span></span><br><span class="line"><span class="comment">//we need to create the depth buffer resource with a typeless format.</span></span><br><span class="line">depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;</span><br><span class="line"></span><br><span class="line">depthStencilDesc.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">depthStencilDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;</span><br><span class="line">depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;</span><br><span class="line"></span><br><span class="line">D3D12_CLEAR_VALUE optClear;</span><br><span class="line">optClear.Format = mDepthStencilFormat;</span><br><span class="line">optClear.DepthStencil.Depth = <span class="number">1.0f</span>;</span><br><span class="line">optClear.DepthStencil.Stencil = <span class="number">0</span>;</span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateCommittedResource</span>(</span><br><span class="line">    &amp;<span class="built_in">CD3DX12_HEAP_PROPERTIES</span>(D3D12_HEAP_TYPE_DEFAULT),</span><br><span class="line">    D3D12_HEAP_FLAG_NONE,</span><br><span class="line">    &amp;depthStencilDesc,</span><br><span class="line">    D3D12_RESOURCE_STATE_COMMON,</span><br><span class="line">    &amp;optClear,</span><br><span class="line">    <span class="built_in">IID_PPV_ARGS</span>(mDepthStencilBuffer.<span class="built_in">GetAddressOf</span>())</span><br><span class="line">));</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>将上面创建完成的资源赋值给 Device 用作深度与 StencilBuffer, 并且推入命令列表</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//Create descriptor to mip level 0 of entire resource usin the format of the resource.</span></span><br><span class="line">  D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;</span><br><span class="line">  dsvDesc.Flags = D3D12_DSV_FLAG_NONE;</span><br><span class="line">  dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;</span><br><span class="line">  dsvDesc.Format = mDepthStencilFormat;</span><br><span class="line">  dsvDesc.Texture2D.MipSlice = <span class="number">0</span>;</span><br><span class="line">  md3dDevice-&gt;<span class="built_in">CreateDepthStencilView</span>(mDepthStencilBuffer.<span class="built_in">Get</span>(), &amp;dsvDesc, <span class="built_in">DepthStencilView</span>());</span><br><span class="line"><span class="comment">// Transition the resource form its initial state to be used as a depth buffer.</span></span><br><span class="line">  mCommandList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(mDepthStencilBuffer.<span class="built_in">Get</span>(),</span><br><span class="line">      D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE</span><br><span class="line">  ));</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>将上述命令推入命令队列并执行 (初次初始化)</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Execute the resize commands.</span></span><br><span class="line"><span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Close</span>());</span><br><span class="line">ID3D12CommandList* cmdsLists[] = &#123; mCommandList.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">mCommandQueue-&gt;<span class="built_in">ExecuteCommandLists</span>(_countof(cmdsLists), cmdsLists);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Wait until resize is complete.</span></span><br><span class="line"><span class="built_in">FlushCommandQueue</span>();</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="渲染管线设置"><a class="markdownIt-Anchor" href="#渲染管线设置">#</a> 渲染管线设置</h2>
+<ol>
+<li>构建描述符堆</li>
+<li>构建 ConstantBuffer</li>
+<li>构建根签名 (用于设置 Shader 参数)</li>
+<li>构建与编译 Shader</li>
+<li>构建 Mesh</li>
+<li>构建 PSO, 渲染管线对象</li>
+</ol>
+<p>其中 <code>LittleGFXWindow::Initialize</code>  是本节之上的初始化流程</p>
+<blockquote>
+<p>同样，在命令列表开始记录 -&gt; 执行间</p>
+<blockquote>
+<ol>
+<li>Reset</li>
+<li>构建命令列表</li>
+<li>执行命令列表</li>
+<li>刷新命令队列</li>
+</ol>
+</blockquote>
+</blockquote>
+<p>太多了… 不想记了，这里主要说几个吧</p>
+<ol>
+<li>RootSignature<br>
+ 注释里有这么一段，即 RootSignature 可以理解为用来设置 Shader 的参数，如常量缓冲区，贴图，采样器等</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//Shader programs typically require resources as input(constant buffers,</span><br><span class="line">//textures，samplers). The root signature defines the resources the shader</span><br><span class="line">//prorams expect. If we think of the shader programs as a function,and the input resources</span><br><span class="line">//as function parameters，then the root signature can be thought of as defining the </span><br><span class="line">//function signature.</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>构建顶点片元数据时，需要创建对应的缓冲区，是 <code>ID3DResource</code>  类型</p>
+</li>
+<li>
+<p>构建当前渲染阶段需要用到的 PSO 对象 (如设置 shader，根签名，渲染方式 (点、线、三角形等)，混合方式、RenderTarget 个数等)，PSO 是绑定到 Device 上的</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleRendererWindow::BuildPSO</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;</span><br><span class="line">    <span class="built_in">ZeroMemory</span>(&amp;psoDesc, <span class="built_in">sizeof</span>(D3D12_GRAPHICS_PIPELINE_STATE_DESC));</span><br><span class="line"></span><br><span class="line">    psoDesc.InputLayout = &#123; mInputLayout.<span class="built_in">data</span>(),(UINT)mInputLayout.<span class="built_in">size</span>() &#125;;</span><br><span class="line">    <span class="comment">//设置rootSignature</span></span><br><span class="line">    psoDesc.pRootSignature = mRootSignature.<span class="built_in">Get</span>();</span><br><span class="line">    psoDesc.VS = &#123;</span><br><span class="line">        <span class="built_in">reinterpret_cast</span>&lt;BYTE*&gt;(mvsByteCode-&gt;<span class="built_in">GetBufferPointer</span>()),</span><br><span class="line">        mvsByteCode-&gt;<span class="built_in">GetBufferSize</span>()</span><br><span class="line">    &#125;;</span><br><span class="line">    psoDesc.PS = &#123;</span><br><span class="line">        <span class="built_in">reinterpret_cast</span>&lt;BYTE*&gt;(mpsByteCode-&gt;<span class="built_in">GetBufferPointer</span>()),</span><br><span class="line">        mpsByteCode-&gt;<span class="built_in">GetBufferSize</span>()</span><br><span class="line">    &#125;;</span><br><span class="line">    psoDesc.RasterizerState = <span class="built_in">CD3DX12_RASTERIZER_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.BlendState = <span class="built_in">CD3DX12_BLEND_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.DepthStencilState = <span class="built_in">CD3DX12_DEPTH_STENCIL_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.SampleMask = UINT_MAX;</span><br><span class="line">    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;</span><br><span class="line">    psoDesc.NumRenderTargets = <span class="number">1</span>;</span><br><span class="line">    psoDesc.RTVFormats[<span class="number">0</span>] = mBackBufferFormat;</span><br><span class="line">    psoDesc.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">    psoDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">    psoDesc.DSVFormat = mDepthStencilFormat;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateGraphicsPipelineState</span>(&amp;psoDesc, <span class="built_in">IID_PPV_ARGS</span>(&amp;mPSO)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>总代码如下</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">LittleRendererWindow::Initialize</span><span class="params">(<span class="type">const</span> <span class="type">wchar_t</span>* title, LittleGFXDevice* device, <span class="type">bool</span> enableVsync)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!LittleGFXWindow::<span class="built_in">Initialize</span>(title, device, enableVsync)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Reset the command list to prep for initialization commands.</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Reset</span>(mDirectCmdListAlloc.<span class="built_in">Get</span>(), <span class="literal">nullptr</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">BuildDescriptorHeaps</span>();</span><br><span class="line">    <span class="built_in">BuildConstantBuffers</span>();</span><br><span class="line">    <span class="built_in">BuildRootSignature</span>();</span><br><span class="line">    <span class="built_in">BuildShadersAndInputLayout</span>();</span><br><span class="line">    <span class="built_in">BuildBoxGeometry</span>();</span><br><span class="line">    <span class="built_in">BuildPSO</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Execute the initialization commands.</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Close</span>());</span><br><span class="line">    ID3D12CommandList* cmdLists[] = &#123; mCommandList.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">    mCommandQueue-&gt;<span class="built_in">ExecuteCommandLists</span>(_countof(cmdLists), cmdLists);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Wait until initialization is complete.</span></span><br><span class="line">    <span class="built_in">FlushCommandQueue</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="当前渲染流程结束后开始渲染帧-run"><a class="markdownIt-Anchor" href="#当前渲染流程结束后开始渲染帧-run">#</a> 当前渲染流程结束后，开始渲染帧 -&gt; Run</h2>
+<p>其实 Run 里面做的事情也很简单<br>
+就是接收消息，逻辑更新，渲染</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleRendererWindow::Run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    MSG msg = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">while</span> (msg.message != WM_QUIT) &#123;</span><br><span class="line">        <span class="comment">//处理系统消息</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">PeekMessage</span>(&amp;msg, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, PM_REMOVE)) &#123;</span><br><span class="line">            <span class="built_in">TranslateMessage</span>(&amp;msg);</span><br><span class="line">            <span class="built_in">DispatchMessage</span>(&amp;msg);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//在空闲时进行我们自己的逻辑</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//暂时什么都不做</span></span><br><span class="line">            <span class="comment">//Sleep 1~2ms,避免被while独占</span></span><br><span class="line">            <span class="built_in">Update</span>();</span><br><span class="line">            <span class="built_in">Draw</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果收到了WM_QUIT消息,直接退出函数</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="每帧渲染-draw"><a class="markdownIt-Anchor" href="#每帧渲染-draw">#</a> 每帧渲染 -&gt; Draw</h2>
+<p>Draw 是实际的渲染，上述阶段均是设置渲染前的各个部件，如 <code>几何资源</code> 、 <code>渲染状态</code> 、 <code>深度缓冲区</code> 等。 在 Draw 阶段，同样需要进行命令重置，不过 <code>实际渲染的命令列表需要指定渲染状态对象</code> ，如下，重置 CommandList 时，将 PSO 传入了重置函数 同样，由于是实际的渲染，所以最后会进行 SwapChain 的交换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">LittleRendererWindow::Draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mDirectCmdListAlloc-&gt;<span class="built_in">Reset</span>());</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Reset</span>(mDirectCmdListAlloc.<span class="built_in">Get</span>(), mPSO.<span class="built_in">Get</span>()));</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Done recording commands.</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Close</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Add the command list to the queue for execution</span></span><br><span class="line">    ID3D12CommandList* cmdsLists[] = &#123; mCommandList.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">    mCommandQueue-&gt;<span class="built_in">ExecuteCommandLists</span>(_countof(cmdsLists), cmdsLists);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//swap the back and front buffers.</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mSwapChain-&gt;<span class="built_in">Present</span>(<span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    mCurrBackBuffer = (mCurrBackBuffer + <span class="number">1</span>) % SwapChainBufferCount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//Wait until frame commands are complete. This waiting is infficient</span></span><br><span class="line">    <span class="comment">//and is done for simplicity. Later we will show how to organize our rendering code</span></span><br><span class="line">    <span class="comment">//so we do not have to wait per frame.</span></span><br><span class="line">    <span class="built_in">FlushCommandQueue</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="实际插入的命令"><a class="markdownIt-Anchor" href="#实际插入的命令">#</a> 实际插入的命令</h3>
+<p>如下，就不逐个描述了，但是需要注意的是， <code>命令列表阶段也是可以推入修改渲染状态的命令的</code> ，・并不是一开始设置 PSO 才会更改渲染状态・对应哪些命令会改变渲染状态，见下面连接： <span class="exturl" data-url="aHR0cHM6Ly9sZWFybi5taWNyb3NvZnQuY29tL3poLWNuL3dpbmRvd3Mvd2luMzIvZGlyZWN0M2QxMi9tYW5hZ2luZy1ncmFwaGljcy1waXBlbGluZS1zdGF0ZS1pbi1kaXJlY3QzZC0xMj9yZWRpcmVjdGVkZnJvbT1NU0RO">在 Direct3D 12 中管理图形管道状态</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">mCommandList-&gt;<span class="built_in">RSSetViewports</span>(<span class="number">1</span>, &amp;mScreenViewport);</span><br><span class="line">mCommandList-&gt;<span class="built_in">RSSetScissorRects</span>(<span class="number">1</span>, &amp;mScissorRect);</span><br><span class="line"></span><br><span class="line">mCommandList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(</span><br><span class="line">    <span class="built_in">CurrentBackBuffer</span>(),</span><br><span class="line">    D3D12_RESOURCE_STATE_PRESENT,</span><br><span class="line">    D3D12_RESOURCE_STATE_RENDER_TARGET</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line"><span class="comment">//Clear the back buffer and depth buffer</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">ClearRenderTargetView</span>(<span class="built_in">CurrentBackBufferView</span>(), Colors::LightSteelBlue, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line">mCommandList-&gt;<span class="built_in">ClearDepthStencilView</span>(<span class="built_in">DepthStencilView</span>(), D3D12_CLEAR_FLAG_DEPTH  D3D12_CLEAR_FLAG_STENCIL, <span class="number">1.0f</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Specify the buffers we are going to render to</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">OMSetRenderTargets</span>(<span class="number">1</span>, &amp;<span class="built_in">CurrentBackBufferView</span>(), <span class="literal">true</span>, &amp;<span class="built_in">DepthStencilView</span>());</span><br><span class="line"></span><br><span class="line">ID3D12DescriptorHeap* descriptorHeaps[] = &#123; mCbvHeap.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">mCommandList-&gt;<span class="built_in">SetDescriptorHeaps</span>(_countof(descriptorHeaps), descriptorHeaps);</span><br><span class="line"></span><br><span class="line">mCommandList-&gt;<span class="built_in">SetGraphicsRootSignature</span>(mRootSignature.<span class="built_in">Get</span>());</span><br><span class="line"></span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetVertexBuffers</span>(<span class="number">0</span>, <span class="number">1</span>, &amp;mBoxGeo-&gt;<span class="built_in">VertexBufferView</span>());</span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetIndexBuffer</span>(&amp;mBoxGeo-&gt;<span class="built_in">IndexBufferView</span>());</span><br><span class="line">mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"></span><br><span class="line">mCommandList-&gt;<span class="built_in">SetGraphicsRootDescriptorTable</span>(<span class="number">0</span>, mCbvHeap-&gt;<span class="built_in">GetGPUDescriptorHandleForHeapStart</span>());</span><br><span class="line"></span><br><span class="line">mCommandList-&gt;<span class="built_in">DrawIndexedInstanced</span>(</span><br><span class="line">    mBoxGeo-&gt;DrawArgs[<span class="string">&quot;box&quot;</span>].IndexCount,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Indicate a state transition on the resource usage</span></span><br><span class="line">mCommandList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(<span class="built_in">CurrentBackBuffer</span>(),</span><br><span class="line">    D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2023/11/08/%E3%80%90directx12%E3%80%91%E7%AE%80%E5%8D%95dx12-app-%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" title="【DirectX12】简单DX12 App 构建流程">https://mymetalseed.github.io/2023/11/08/【directx12】简单dx12-app-构建流程/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【ToLua】 3. Lua源码 - Lua中的虚拟机">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【ToLua】 3. Lua源码 - Lua中的虚拟机</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【URP源码阅读】 Setup阶段">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> C++</span>
+  <h3>【URP源码阅读】 Setup阶段</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text"> 序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%AA%97%E5%8F%A3%E7%B1%BB%E5%B0%81%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text"> 简单窗口类封装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%E5%85%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text"> Main 函数入口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%AE%9E%E4%BE%8B%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.1.</span> <span class="toc-text"> 通过实例获取设备接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%A1%AC%E4%BB%B6%E9%80%82%E9%85%8D%E5%8F%96%E5%BE%97%E8%AE%BE%E5%A4%87%E4%BB%A5%E5%8F%8A%E5%88%9B%E5%BB%BAcommandqueue"><span class="toc-number">3.2.</span> <span class="toc-text"> 通过硬件适配取得设备以及创建 CommandQueue</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%B1%82%E5%90%8E%E8%BD%AF%E4%BB%B6update%E5%B1%82%E5%89%8D"><span class="toc-number">4.</span> <span class="toc-text"> 硬件层后，软件 Update 层前</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E8%AE%BE%E5%A4%87%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8D%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text"> 从设备中获取各种数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8"><span class="toc-number">4.2.</span> <span class="toc-text"> 创建命令列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAswapchain"><span class="toc-number">4.3.</span> <span class="toc-text"> 创建 SwapChain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8F%8F%E8%BF%B0%E7%AC%A6%E5%A0%86"><span class="toc-number">4.4.</span> <span class="toc-text"> 创建描述符堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8onresize%E5%AF%B9%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E8%BF%9B%E8%A1%8C%E5%90%84%E7%A7%8D%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.5.</span> <span class="toc-text"> 调用 OnResize 对命令列表进行各种设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEswapchain"><span class="toc-number">4.5.1.</span> <span class="toc-text"> 设置 SwapChain</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.6.</span> <span class="toc-text"> 渲染管线设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B%E7%BB%93%E6%9D%9F%E5%90%8E%E5%BC%80%E5%A7%8B%E6%B8%B2%E6%9F%93%E5%B8%A7-run"><span class="toc-number">4.7.</span> <span class="toc-text"> 当前渲染流程结束后，开始渲染帧 -&gt; Run</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%8F%E5%B8%A7%E6%B8%B2%E6%9F%93-draw"><span class="toc-number">4.8.</span> <span class="toc-text"> 每帧渲染 -&gt; Draw</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%8F%92%E5%85%A5%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">4.8.1.</span> <span class="toc-text"> 实际插入的命令</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2022/05/08/directx12-4-%E4%BD%95%E8%B0%93%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8%E3%80%81%E5%91%BD%E4%BB%A4%E9%80%82%E9%85%8D%E5%99%A8%E4%B8%8E%E5%91%BD%E4%BB%A4%E9%98%9F%E5%88%97/" rel="bookmark" title="DirectX12 4. 何谓命令列表、命令适配器与命令队列?">DirectX12 4. 何谓命令列表、命令适配器与命令队列?</a></li><li><a href="../../../../2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" rel="bookmark" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></li><li><a href="../../../../2022/05/15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li><a href="../../../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../../2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="bookmark" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></li><li><a href="../../../../2022/06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../../2022/06/26/directx12-9-%E5%85%89%E7%85%A7/" rel="bookmark" title="DirectX12 9. 光照">DirectX12 9. 光照</a></li><li><a href="../../../../2022/07/24/directx-10-%E6%B7%B7%E5%90%88/" rel="bookmark" title="DirectX 11 混合">DirectX 11 混合</a></li><li><a href="../../../../2022/07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" rel="bookmark" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></li><li><a href="../../../../2022/07/24/directx12-11-%E6%A8%A1%E6%9D%BF/" rel="bookmark" title="DirectX12 12 模板">DirectX12 12 模板</a></li><li><a href="../../../../2022/07/25/directx12-13-%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="DirectX12 13 几何着色器">DirectX12 13 几何着色器</a></li><li><a href="../../../../2022/07/25/directx12-14-%E8%AE%A1%E7%AE%97%E7%9D%80%E8%89%B2%E5%99%A8/" rel="bookmark" title="Directx12 14 计算着色器">Directx12 14 计算着色器</a></li><li><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" rel="bookmark" title="DirectX12 图像模糊">DirectX12 图像模糊</a></li><li><a href="../../../../2022/08/13/directx12-15-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" rel="bookmark" title="DirectX12 15 贝塞尔曲线">DirectX12 15 贝塞尔曲线</a></li><li><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" rel="bookmark" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></li><li><a href="../../../../2022/12/25/%E3%80%90ta101%E3%80%91-computeshader-gpu-instance/" rel="bookmark" title="【TA101】 ComputeShader & Gpu Instance">【TA101】 ComputeShader & Gpu Instance</a></li><li class="active"><a href="" rel="bookmark" title="【DirectX12】简单DX12 App 构建流程">【DirectX12】简单DX12 App 构建流程</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../10/18/%E3%80%90tolua%E3%80%91-3-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../09/09/%E3%80%90games104%E3%80%91-%E5%8A%A8%E7%94%BB%E7%B3%BB%E7%BB%9F/" title="【Games104】 动画系统">【Games104】 动画系统</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/07/31/directx12-%E5%9B%BE%E5%83%8F%E6%A8%A1%E7%B3%8A/" title="DirectX12 图像模糊">DirectX12 图像模糊</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/03/11/unity-%E7%BC%96%E8%BE%91%E5%99%A8%E5%BC%80%E5%8F%91-selection/" title="Unity 编辑器开发 - Selection">Unity 编辑器开发 - Selection</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/25/c%EF%BC%88%E4%B9%9D%EF%BC%89%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC/" title="C++（九）左值和右值">C++（九）左值和右值</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/05/12/directx12-5-%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" title="DirectX12 5. 渲染流水线">DirectX12 5. 渲染流水线</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="../../../../2024/09/01/%E6%9D%8E%E5%AE%8F%E6%AF%85-%E7%94%9F%E6%88%90%E5%BC%8FAI-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="李宏毅-生成式AI-机器学习基本原理">李宏毅-生成式AI-机器学习基本原理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../../2022/04/16/games104-5-%E6%B8%B2%E6%9F%93%E4%B8%AD%E5%85%89%E5%92%8C%E6%9D%90%E8%B4%A8%E7%9A%84%E6%95%B0%E5%AD%A6%E9%AD%94%E6%B3%95/" title="Games104 5 - 渲染中光和材质的数学魔法">Games104 5 - 渲染中光和材质的数学魔法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/02/22/c-with-unity-%E6%93%8D%E4%BD%9Cexcel-epplus/" title="C# With Unity 操作Excel - EPPlus">C# With Unity 操作Excel - EPPlus</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/11/08/【directx12】简单dx12-app-构建流程/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

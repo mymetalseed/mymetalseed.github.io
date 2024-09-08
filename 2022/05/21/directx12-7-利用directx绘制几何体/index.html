@@ -1,0 +1,570 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/">
+
+
+
+  <title>
+DirectX12 7.利用DirectX绘制几何体 - 渲染引擎开发 - DirectX - C++ - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">DirectX12 7.利用DirectX绘制几何体
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-05-21 14:30:09">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-05-21T14:30:09+08:00">2022-05-21</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/DirectX/" itemprop="item" rel="index" title="In DirectX"><span itemprop="name">DirectX</span></a>
+<meta itemprop="position" content="3" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" itemprop="item" rel="index" title="In 渲染引擎开发"><span itemprop="name">渲染引擎开发</span></a>
+<meta itemprop="position" content="4" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="输入布局"><a class="markdownIt-Anchor" href="#输入布局">#</a> 输入布局</h1>
+<h1 id="顶点缓冲区"><a class="markdownIt-Anchor" href="#顶点缓冲区">#</a> 顶点缓冲区</h1>
+<p>GPU 会从 <code>缓冲区</code> 中读取数据并进行处理，如之前提到的 <code>回读堆、默认堆</code> 等。 创建顶点缓冲区和应用流程<br>
+ 1.  <code>D3D12_RESOURCE_DESC</code>  结构体描述缓冲区资源。<br>
+2.  <code>ID3D12Device::CreateCommittedResource</code>  创建 <code>ID3D12Resource</code>  对象。<br>
+3. 绑定到顶点缓冲区视图 (可以通过 ID3D12Resource 获得堆中地址)<br>
+ 4. 将视图绑定到渲染流水线上的一个插槽中 (input slot, 通过 ID3D12GraphicsCmmandList::IASVertexBuffers, 每个插槽可以绑定多个连续的缓冲区)<br>
+ 5. 通过 <code>ID3D12GraphicsCmmandList::DrawInstanced</code>  方法绘制顶点 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_a6fb219d0ccaa15e22529ac9eddcf476.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_a6fb219d0ccaa15e22529ac9eddcf476.jpg" alt=""></a> 通常场景中静态几何体都会使用默认堆进行存储来优化性能。<br>
+但是 CPU 无法访问默认堆，所以 D3D 提供了一个 <code>上传缓冲区</code> 资源。CPU 阶段需要将数据传递到 <code>上传缓冲区</code> 中，上传缓冲区负责将数据从 CPU 传递到 GPU 中。 D3D 那本书中提供了一个创建资源的封装</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Microsoft::<span class="function">WRL::ComPtr&lt;ID3D12Resource&gt; <span class="title">d3dUtil::CreateDefaultBuffer</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    ID3D12Device* device,</span></span></span><br><span class="line"><span class="params"><span class="function">    ID3D12GraphicsCommandList* cmdList,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> <span class="type">void</span>* initData,</span></span></span><br><span class="line"><span class="params"><span class="function">    UINT64 byteSize,</span></span></span><br><span class="line"><span class="params"><span class="function">    Microsoft::WRL::ComPtr&lt;ID3D12Resource&gt;&amp; uploadBuffer)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ComPtr&lt;ID3D12Resource&gt; defaultBuffer;</span><br><span class="line">    CD3DX12_HEAP_PROPERTIES pro = <span class="built_in">CD3DX12_HEAP_PROPERTIES</span>(D3D12_HEAP_TYPE_DEFAULT);</span><br><span class="line">    CD3DX12_RESOURCE_DESC cd = CD3DX12_RESOURCE_DESC::<span class="built_in">Buffer</span>(byteSize);</span><br><span class="line">    <span class="comment">// 创建实际的资源缓冲</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(device-&gt;<span class="built_in">CreateCommittedResource</span>(</span><br><span class="line">        &amp;pro,</span><br><span class="line">        D3D12_HEAP_FLAG_NONE,</span><br><span class="line">        &amp;cd,</span><br><span class="line">        D3D12_RESOURCE_STATE_COMMON,</span><br><span class="line">        <span class="literal">nullptr</span>,</span><br><span class="line">        <span class="built_in">IID_PPV_ARGS</span>(defaultBuffer.<span class="built_in">GetAddressOf</span>())));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为了将CPU端内存中的数据复制到默认缓冲区,需要创建一个上传堆</span></span><br><span class="line">    <span class="comment">//上传堆</span></span><br><span class="line">    CD3DX12_HEAP_PROPERTIES cp = <span class="built_in">CD3DX12_HEAP_PROPERTIES</span>(D3D12_HEAP_TYPE_UPLOAD);</span><br><span class="line">    CD3DX12_RESOURCE_DESC cdd = CD3DX12_RESOURCE_DESC::<span class="built_in">Buffer</span>(byteSize);</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(device-&gt;<span class="built_in">CreateCommittedResource</span>(</span><br><span class="line">        &amp;cp,</span><br><span class="line">        D3D12_HEAP_FLAG_NONE,</span><br><span class="line">        &amp;cdd,</span><br><span class="line">        D3D12_RESOURCE_STATE_GENERIC_READ,</span><br><span class="line">        <span class="literal">nullptr</span>,</span><br><span class="line">        <span class="built_in">IID_PPV_ARGS</span>(uploadBuffer.<span class="built_in">GetAddressOf</span>())));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 填充我们希望复制到默认缓冲区中的数据</span></span><br><span class="line">    D3D12_SUBRESOURCE_DATA subResourceData = &#123;&#125;;</span><br><span class="line">    subResourceData.pData = initData;</span><br><span class="line">    subResourceData.RowPitch = byteSize;</span><br><span class="line">    subResourceData.SlicePitch = subResourceData.RowPitch;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将数据复制到默认缓冲区资源的流程.</span></span><br><span class="line">    <span class="comment">// UpdateSubresources辅助函数会将数据从CPU复制到上传堆中,</span></span><br><span class="line">    <span class="comment">// 接着调用ID3D12CommandList::CopySubresourceRegion,将数据从上传堆传递至缓冲区</span></span><br><span class="line">    CD3DX12_RESOURCE_BARRIER cb = CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(defaultBuffer.<span class="built_in">Get</span>(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);</span><br><span class="line">    cmdList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;cb);</span><br><span class="line">    <span class="comment">//实际上传函数UpdateSubresources</span></span><br><span class="line">    <span class="built_in">UpdateSubresources</span>&lt;<span class="number">1</span>&gt;(cmdList, defaultBuffer.<span class="built_in">Get</span>(), uploadBuffer.<span class="built_in">Get</span>(), <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, &amp;subResourceData);</span><br><span class="line">    CD3DX12_RESOURCE_BARRIER cddd = CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(defaultBuffer.<span class="built_in">Get</span>(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);</span><br><span class="line">    cmdList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;cddd);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note: uploadBuffer 在调用后必须一直存在,不能立即销毁,因为复制命令是异步的</span></span><br><span class="line">    <span class="comment">// 当收到复制成功后的消息方可销毁</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> defaultBuffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="索引缓冲区"><a class="markdownIt-Anchor" href="#索引缓冲区">#</a> 索引缓冲区</h1>
+<p>…</p>
+<h1 id="顶点着色器"><a class="markdownIt-Anchor" href="#顶点着色器">#</a> 顶点着色器</h1>
+<p>d3d 中，使用的着色器语言是 <code>HLSL</code> , 其语法和 C++ 比较类似.</p>
+<h2 id="数据匹配原则"><a class="markdownIt-Anchor" href="#数据匹配原则">#</a> 数据匹配原则</h2>
+<p>顶点着色器的数据是需要从 CPU 传递到 GPU 的，而顶点着色器所需要的参数与 CPU 阶段组合的对象虽然不需要有完全一致的布局，<strong> 但是 cpu 传递的数据必须有 GPU 所需要的那部分</strong>，如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Vertex</span>&#123;</span><br><span class="line">    XMFLOAT3 Pos;</span><br><span class="line">    XMFLOAT4 Color;</span><br><span class="line">    XMFLOAT3 Normal;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">D3D12_INPUT_ELEMENT_DESC desc[] = &#123;</span><br><span class="line">        &#123;<span class="string">&quot;POSITION&quot;</span>,<span class="number">0</span>,DXGI_FORMAT_R32G32B32_FLOAT,<span class="number">0</span>,<span class="number">0</span>,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,<span class="number">0</span>&#125;,  </span><br><span class="line">&#123;<span class="string">&quot;COLOR&quot;</span>,<span class="number">0</span>,DXGI_FORMAT_R32G32B32_FLOAT,<span class="number">0</span>,<span class="number">12</span>,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,<span class="number">0</span>&#125;,</span><br><span class="line">&#123;<span class="string">&quot;NORMAL&quot;</span>,<span class="number">0</span>,DXGI_FORMAT_R32G32B32_FLOAT,<span class="number">0</span>,<span class="number">28</span>,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,<span class="number">0</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对应的顶点着色器的输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct VertexIn&#123;</span><br><span class="line">    float3 PosL : POSITION;</span><br><span class="line">    float4 Color : COLOR;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<p>可以看出，实际上顶点着色器的这个输入比 <code>CPU结构体</code> 少一个参数， <code>但是,顶点着色器的参数不能比CPU多一些布局</code></p>
+<h1 id="像素着色器"><a class="markdownIt-Anchor" href="#像素着色器">#</a> 像素着色器</h1>
+<p>在像素着色器中，需要重点区分开的两个概念就是 <code>像素片段</code> 与 <code>像素</code>  像素才是最终在屏幕上绘制的元素</p>
+<h2 id="early-z技术"><a class="markdownIt-Anchor" href="#early-z技术">#</a> Early-Z 技术</h2>
+<p>可以使用 Early-Z 技术来减少计算的数量，Early-Z 技术是在像素着色器之前就进行剔除操作 (各种测试). 像素着色器内的输入实际上是经过重心坐标插值后的结果</p>
+<h1 id="常量缓冲区-cbuffer"><a class="markdownIt-Anchor" href="#常量缓冲区-cbuffer">#</a> 常量缓冲区 - cBuffer</h1>
+<p>常量缓冲区是一种 GPU 资源，常量缓冲区的数据存储在上传堆中，且常量缓冲区每帧都会从 CPU 更新一次，常量缓冲区大小必须是 256B 的整倍数.</p>
+<blockquote>
+<p>从 C++ 层创建常量缓冲区代码:</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_82b5ebbae8764cd96ed623a3a3264675.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_82b5ebbae8764cd96ed623a3a3264675.jpg" alt=""></a></p>
+<h2 id="更新常量缓冲区"><a class="markdownIt-Anchor" href="#更新常量缓冲区">#</a> 更新常量缓冲区</h2>
+<p>我们可以创建常量缓冲区，但如何更新常量缓冲区的值呢？可以用上传堆的 Map 方法来做到这一点. <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_50f6b11751b944c437e9c96247eb27f5.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_50f6b11751b944c437e9c96247eb27f5.jpg" alt=""></a> 使用双重指针让上传堆的数据指针直接指向 CPU 内存 常量缓冲区更新完成后，在对数据进行释放内存操作前，需要进行 UNMAP 操作 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_06b80a3d459a02ec0cfa878afbb2a217.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_06b80a3d459a02ec0cfa878afbb2a217.jpg" alt=""></a> 第一个参数都是 <code>子资源索引</code></p>
+<h2 id="常量缓冲区与流水线"><a class="markdownIt-Anchor" href="#常量缓冲区与流水线">#</a> 常量缓冲区与流水线</h2>
+<p>常量缓冲区也需要使用常量缓冲区描述符绑定到渲染流水线上 常量缓冲区的描述符是 <code>D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV</code> <br>
+ (描述符存放在描述符堆中) 为了建立这样的描述符，同样需要建立一个描述变量 <code>D3D12_DESCRIPTOR_HEAP_DESC</code> , 然后设置 <code>Type</code>  字段为上述描述符即可 创建时就使用 <code>device-&gt;CreateDescriptorHear(堆引用,IID_PPV_ARGS(描述符))</code></p>
+<blockquote>
+<p>实际的常量缓冲区创建是在描述符创建完毕后创建的</p>
+</blockquote>
+<p>通过根签名将流水线上实际使用的资源输入绑定到流水线上</p>
+<blockquote>
+<p>DXD12 中说，实际上可以将着色器程序看作是一个函数，而根签名就是函数签名，通过函数签名来指定参数</p>
+</blockquote>
+<p>以及实际的资源都存放在 GPU 堆中的 <code>寄存器</code> 中， <code>至于这个寄存器是真的寄存器还是虚拟的寄存器,暂时不太清楚</code></p>
+<h1 id="着色器编译"><a class="markdownIt-Anchor" href="#着色器编译">#</a> 着色器编译</h1>
+<p>可以使用 fxc 工具离线编译着色器，也可以运行时编译 FXC 会在编译前整理着色器代码， <code>如去掉分支等</code></p>
+<h1 id="光栅器状态"><a class="markdownIt-Anchor" href="#光栅器状态">#</a> 光栅器状态</h1>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c1387ec6e4b926d76557dd5681b4c61a.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c1387ec6e4b926d76557dd5681b4c61a.jpg" alt=""></a> 如：是否开启背面剔除、是否以逆时针绕序为正方向</p>
+<h1 id="流水线状态对象"><a class="markdownIt-Anchor" href="#流水线状态对象">#</a> 流水线状态对象</h1>
+<p><code>PSO(Pipeline State Object)</code>  <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_f2ab9f8b795fc7d59f1bfa86b1d4b551.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_f2ab9f8b795fc7d59f1bfa86b1d4b551.jpg" alt=""></a> 通过这个描述可以看出，实际上流水线状态对象上需要绑定 <code>顶点着色器、片元着色器</code> 等 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c94690ec0d900614e7308dfd80c6afe2.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_c94690ec0d900614e7308dfd80c6afe2.jpg" alt=""></a> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_96fb26a1204bad6e9105755364a356cf.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/05/wp_editor_md_96fb26a1204bad6e9105755364a356cf.jpg" alt=""></a> D3D 实际上就是一个状态机，可以通过更改 PSO 来更改当前渲染流水线的渲染方式 (渲染状态)</p>
+<h1 id="chapter6代码"><a class="markdownIt-Anchor" href="#chapter6代码">#</a> Chapter6 代码</h1>
+<blockquote>
+<p>说实话这一章信息量有点大，可能需要消化消化</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//***************************************************************************************</span></span><br><span class="line"><span class="comment">// BoxApp.cpp by Frank Luna (C) 2015 All Rights Reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Shows how to draw a box in Direct3D 12.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Controls:</span></span><br><span class="line"><span class="comment">//   Hold the left mouse button down and move the mouse to rotate.</span></span><br><span class="line"><span class="comment">//   Hold the right mouse button down and move the mouse to zoom in and out.</span></span><br><span class="line"><span class="comment">//***************************************************************************************</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../Common/d3dApp.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../Common/MathHelper.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../Common/UploadBuffer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;DirectXColors.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> Microsoft::WRL::ComPtr;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DirectX::PackedVector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Vertex</span> &#123;</span><br><span class="line">    XMFLOAT3 Pos;</span><br><span class="line">    XMFLOAT4 Color;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ObjectConstants</span> &#123;<span class="comment">//常量缓冲区</span></span><br><span class="line">    XMFLOAT4X4 WorldViewProj = MathHelper::<span class="built_in">Identity4x4</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BoxApp</span> : <span class="keyword">public</span> D3DApp &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">BoxApp</span>(HINSTANCE hInstance);</span><br><span class="line">    <span class="built_in">BoxApp</span>(<span class="type">const</span> BoxApp&amp; rhs) = <span class="keyword">delete</span>;<span class="comment">//禁止拷贝构造</span></span><br><span class="line">    ~<span class="built_in">BoxApp</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">bool</span> <span class="title">Initialize</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnResize</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Update</span><span class="params">(<span class="type">const</span> GameTimer&amp; gt)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Draw</span><span class="params">(<span class="type">const</span> GameTimer&amp; gt)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseDown</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseUp</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">OnMouseMove</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildDescriptorHeaps</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildConstantBuffers</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildRootSignature</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildShadersAndInputLayout</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildBoxGeometry</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">BuildPSO</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    ComPtr&lt;ID3D12RootSignature&gt; mRootSignature = <span class="literal">nullptr</span>;</span><br><span class="line">    ComPtr&lt;ID3D12DescriptorHeap&gt; mCbvHeap = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//常量缓冲区(上传堆)</span></span><br><span class="line">    std::unique_ptr&lt;UploadBuffer&lt;ObjectConstants&gt;&gt; mObjectCB = <span class="literal">nullptr</span>;</span><br><span class="line">    std::unique_ptr&lt;MeshGeometry&gt; mBoxGeo = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; mvsByteCode = <span class="literal">nullptr</span>;</span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; mpsByteCode = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    std::vector&lt;D3D12_INPUT_ELEMENT_DESC&gt; mInputLayout;</span><br><span class="line"></span><br><span class="line">    ComPtr&lt;ID3D12PipelineState&gt; mPSO = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    XMFLOAT4X4 mWorld = MathHelper::<span class="built_in">Identity4x4</span>();</span><br><span class="line">    XMFLOAT4X4 mView = MathHelper::<span class="built_in">Identity4x4</span>();</span><br><span class="line">    XMFLOAT4X4 mProj = MathHelper::<span class="built_in">Identity4x4</span>();</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> mTheta = <span class="number">1.5f</span> * XM_PI;</span><br><span class="line">    <span class="type">float</span> mPhi = XM_PIDIV4;</span><br><span class="line">    <span class="type">float</span> mRadius = <span class="number">5.0f</span>;</span><br><span class="line"></span><br><span class="line">    POINT mLastMousePos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">BoxApp::<span class="built_in">BoxApp</span>(HINSTANCE hInstance) : <span class="built_in">D3DApp</span>(hInstance) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BoxApp::~<span class="built_in">BoxApp</span>() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">BoxApp::Initialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!D3DApp::<span class="built_in">Initialize</span>()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重置命令列表为执行初始化命令做好准备</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Reset</span>(mDirectCmdListAlloc.<span class="built_in">Get</span>(), <span class="literal">nullptr</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">BuildDescriptorHeaps</span>();</span><br><span class="line">    <span class="built_in">BuildConstantBuffers</span>();</span><br><span class="line">    <span class="built_in">BuildRootSignature</span>();</span><br><span class="line">    <span class="built_in">BuildShadersAndInputLayout</span>();</span><br><span class="line">    <span class="built_in">BuildBoxGeometry</span>();</span><br><span class="line">    <span class="built_in">BuildPSO</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Close</span>());<span class="comment">//切换到关闭态,停止记录</span></span><br><span class="line">    ID3D12CommandList* cmdLists[] = &#123; mCommandList.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">    mCommandQueue-&gt;<span class="built_in">ExecuteCommandLists</span>(_countof(cmdLists), cmdLists);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//等待初始化完成</span></span><br><span class="line">    <span class="built_in">FlushCommandQueue</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::OnResize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    D3DApp::<span class="built_in">OnResize</span>();</span><br><span class="line">    <span class="comment">//若用户调整了屏幕尺寸,则更新纵横比并重新计算投影矩阵</span></span><br><span class="line">    XMMATRIX P = <span class="built_in">XMMatrixPerspectiveFovLH</span>(<span class="number">0.25f</span> * MathHelper::Pi, <span class="built_in">AspectRatio</span>(), <span class="number">1.0f</span>, <span class="number">1000.0f</span>);</span><br><span class="line">    <span class="built_in">XMStoreFloat4x4</span>(&amp;mProj, P);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::Update</span><span class="params">(<span class="type">const</span> GameTimer&amp; gt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将球坐标转换为笛卡尔坐标(相机坐标?)</span></span><br><span class="line">    <span class="type">float</span> x = mRadius * <span class="built_in">sinf</span>(mPhi) * <span class="built_in">cosf</span>(mTheta);</span><br><span class="line">    <span class="type">float</span> z = mRadius * <span class="built_in">sinf</span>(mPhi) * <span class="built_in">sinf</span>(mTheta);</span><br><span class="line">    <span class="type">float</span> y = mRadius * <span class="built_in">cosf</span>(mPhi);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构建观察矩阵(Look-At)</span></span><br><span class="line">    XMVECTOR pos = <span class="built_in">XMVectorSet</span>(x, y, z, <span class="number">1.0f</span>);</span><br><span class="line">    XMVECTOR target = <span class="built_in">XMVectorZero</span>();</span><br><span class="line">    XMVECTOR up = <span class="built_in">XMVectorSet</span>(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line"></span><br><span class="line">    XMMATRIX view = <span class="built_in">XMMatrixLookAtLH</span>(pos, target, up);</span><br><span class="line">    <span class="built_in">XMStoreFloat4x4</span>(&amp;mView, view);</span><br><span class="line"></span><br><span class="line">    XMMATRIX world = <span class="built_in">XMLoadFloat4x4</span>(&amp;mWorld);</span><br><span class="line">    XMMATRIX proj = <span class="built_in">XMLoadFloat4x4</span>(&amp;mProj);</span><br><span class="line">    XMMATRIX wvp = world * view * proj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将最新的wvp矩阵更新到常量缓冲区中</span></span><br><span class="line">    ObjectConstants objConstants;</span><br><span class="line">    <span class="built_in">XMStoreFloat4x4</span>(&amp;objConstants.WorldViewProj, <span class="built_in">XMMatrixTranspose</span>(wvp));</span><br><span class="line">    mObjectCB-&gt;<span class="built_in">CopyData</span>(<span class="number">0</span>, objConstants);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::Draw</span><span class="params">(<span class="type">const</span> GameTimer&amp; gt)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//复用记录命令所用的内存</span></span><br><span class="line">    <span class="comment">//只有当GPU中的命令列表执行完毕后,才可以对其进行充值</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mDirectCmdListAlloc-&gt;<span class="built_in">Reset</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通过函数ExecuteCommandList将命令列表加入命令队列后,便可对它进行重置</span></span><br><span class="line">    <span class="comment">//复用命令列表即复用其相应的内存</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Reset</span>(mDirectCmdListAlloc.<span class="built_in">Get</span>(),mPSO.<span class="built_in">Get</span>()));</span><br><span class="line">    mCommandList-&gt;<span class="built_in">RSSetViewports</span>(<span class="number">1</span>, &amp;mScreenViewport);</span><br><span class="line">    mCommandList-&gt;<span class="built_in">RSSetScissorRects</span>(<span class="number">1</span>, &amp;mScissorRect);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//按照资源的用途指示其状态的转变,此处将资源从呈现态转换为渲染目标态</span></span><br><span class="line">    <span class="comment">//转换的是交换链的资源</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>, &amp;CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(</span><br><span class="line">        <span class="built_in">CurrentBackBuffer</span>(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET</span><br><span class="line">    ));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//清除后缓冲区和深度缓冲区</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">ClearRenderTargetView</span>(<span class="built_in">CurrentBackBufferView</span>(), Colors::LightSteelBlue, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line">    mCommandList-&gt;<span class="built_in">ClearDepthStencilView</span>(<span class="built_in">DepthStencilView</span>(),</span><br><span class="line">        D3D12_CLEAR_FLAG_DEPTH  D3D12_CLEAR_FLAG_STENCIL,</span><br><span class="line">        <span class="number">1.0f</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//指定将要渲染的目标缓冲区</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">OMSetRenderTargets</span>(<span class="number">1</span>, &amp;<span class="built_in">CurrentBackBufferView</span>(), <span class="literal">true</span>, &amp;<span class="built_in">DepthStencilView</span>());</span><br><span class="line"></span><br><span class="line">    ID3D12DescriptorHeap* descriptorHeaps[] = &#123; mCbvHeap.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">    mCommandList-&gt;<span class="built_in">SetDescriptorHeaps</span>(_countof(descriptorHeaps), descriptorHeaps);</span><br><span class="line">    mCommandList-&gt;<span class="built_in">SetGraphicsRootSignature</span>(mRootSignature.<span class="built_in">Get</span>());</span><br><span class="line"></span><br><span class="line">    mCommandList-&gt;<span class="built_in">IASetVertexBuffers</span>(<span class="number">0</span>, <span class="number">1</span>, &amp;mBoxGeo-&gt;<span class="built_in">VertexBufferView</span>());</span><br><span class="line">    mCommandList-&gt;<span class="built_in">IASetIndexBuffer</span>(&amp;mBoxGeo-&gt;<span class="built_in">IndexBufferView</span>());</span><br><span class="line">    mCommandList-&gt;<span class="built_in">IASetPrimitiveTopology</span>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);</span><br><span class="line"></span><br><span class="line">    mCommandList-&gt;<span class="built_in">SetGraphicsRootDescriptorTable</span>(</span><br><span class="line">        <span class="number">0</span>, mCbvHeap-&gt;<span class="built_in">GetGPUDescriptorHandleForHeapStart</span>()</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">//绘制命令</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">DrawIndexedInstanced</span>(mBoxGeo-&gt;DrawArgs[<span class="string">&quot;box&quot;</span>].IndexCount, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//按照资源的用途指示其状态的转变,此处将资源从渲染目标状态转换为呈现态</span></span><br><span class="line">    mCommandList-&gt;<span class="built_in">ResourceBarrier</span>(<span class="number">1</span>,</span><br><span class="line">        &amp;CD3DX12_RESOURCE_BARRIER::<span class="built_in">Transition</span>(<span class="built_in">CurrentBackBuffer</span>(),</span><br><span class="line">            D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mCommandList-&gt;<span class="built_in">Close</span>());<span class="comment">//切换到关闭态,停止记录</span></span><br><span class="line">    ID3D12CommandList* cmdLists[] = &#123; mCommandList.<span class="built_in">Get</span>() &#125;;</span><br><span class="line">    mCommandQueue-&gt;<span class="built_in">ExecuteCommandLists</span>(_countof(cmdLists), cmdLists);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//交换前后台缓冲区</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(mSwapChain-&gt;<span class="built_in">Present</span>(<span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    mCurrBackBuffer = (mCurrBackBuffer + <span class="number">1</span>) % SwapChainBufferCount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//等待后续绘制的一系列命令执行完毕,</span></span><br><span class="line">    <span class="built_in">FlushCommandQueue</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::OnMouseDown</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    mLastMousePos.x = x;</span><br><span class="line">    mLastMousePos.y = y;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">SetCapture</span>(mhMainWnd);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::OnMouseUp</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">ReleaseCapture</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::OnMouseMove</span><span class="params">(WPARAM btnState, <span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//按下才可以</span></span><br><span class="line">    <span class="keyword">if</span> ((btnState &amp; MK_LBUTTON) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//根据鼠标的移动距离计算旋转角度，并令每个像素都按此角度的1/4旋转</span></span><br><span class="line">        <span class="type">float</span> dx = <span class="built_in">XMConvertToRadians</span>(<span class="number">0.25f</span> * <span class="built_in">static_cast</span>&lt;<span class="type">float</span>&gt;(x - mLastMousePos.x));</span><br><span class="line">        <span class="type">float</span> dy = <span class="built_in">XMConvertToRadians</span>(<span class="number">0.25f</span> * <span class="built_in">static_cast</span>&lt;<span class="type">float</span>&gt;(y - mLastMousePos.y));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//根据鼠标的输入来更新摄像机绕立方体旋转的角度</span></span><br><span class="line">        mTheta += dx;</span><br><span class="line">        mPhi += dy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//限制角度mPhi的范围</span></span><br><span class="line">        mPhi = MathHelper::<span class="built_in">Clamp</span>(mPhi, <span class="number">0.1f</span>, MathHelper::Pi - <span class="number">0.01f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((btnState &amp; MK_RBUTTON) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//使场景中的每个像素按鼠标移动距离的0.005倍进行缩放</span></span><br><span class="line">        <span class="type">float</span> dx = <span class="number">0.005f</span> * <span class="built_in">static_cast</span>&lt;<span class="type">float</span>&gt;(x - mLastMousePos.x);</span><br><span class="line">        <span class="type">float</span> dy = <span class="number">0.005f</span> * <span class="built_in">static_cast</span>&lt;<span class="type">float</span>&gt;(y - mLastMousePos.y);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//根据鼠标输的输入更新摄像机的可视范围半径</span></span><br><span class="line">        mRadius += dx - dy;</span><br><span class="line"></span><br><span class="line">        mLastMousePos.x = x;</span><br><span class="line">        mLastMousePos.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 构建描述符堆</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildDescriptorHeaps</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;</span><br><span class="line">    cbvHeapDesc.NumDescriptors = <span class="number">1</span>;</span><br><span class="line">    cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;</span><br><span class="line">    cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;</span><br><span class="line">    cbvHeapDesc.NodeMask = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateDescriptorHeap</span>(&amp;cbvHeapDesc, <span class="built_in">IID_PPV_ARGS</span>(&amp;mCbvHeap)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 构建常量堆</span></span><br><span class="line"><span class="comment">/// Box实例中Shader只有一个</span></span><br><span class="line"><span class="comment">/// float4x4 gWorldViewProj</span></span><br><span class="line"><span class="comment">/// ObjectConstants里一样的内存布局</span></span><br><span class="line"><span class="comment">/// XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildConstantBuffers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mObjectCB = std::make_unique&lt;UploadBuffer&lt;ObjectConstants&gt;&gt;(md3dDevice.<span class="built_in">Get</span>(), <span class="number">1</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">    UINT objCBByteSize = d3dUtil::<span class="built_in">CalcConstantBufferByteSize</span>(<span class="built_in">sizeof</span>(ObjectConstants));</span><br><span class="line"></span><br><span class="line">    D3D12_GPU_VIRTUAL_ADDRESS cbAddress = mObjectCB-&gt;<span class="built_in">Resource</span>()-&gt;<span class="built_in">GetGPUVirtualAddress</span>();</span><br><span class="line">    <span class="comment">//偏移到常量缓冲区第i个物体所对应的常量数据</span></span><br><span class="line">    <span class="comment">//这里取i=0</span></span><br><span class="line">    <span class="type">int</span> boxCBufIndex = <span class="number">0</span>;</span><br><span class="line">    cbAddress += boxCBufIndex * objCBByteSize;</span><br><span class="line"></span><br><span class="line">    D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;</span><br><span class="line">    cbvDesc.BufferLocation = cbAddress;</span><br><span class="line">    cbvDesc.SizeInBytes = d3dUtil::<span class="built_in">CalcConstantBufferByteSize</span>(<span class="built_in">sizeof</span>(ObjectConstants));</span><br><span class="line"></span><br><span class="line">    md3dDevice-&gt;<span class="built_in">CreateConstantBufferView</span>(&amp;cbvDesc,mCbvHeap-&gt;<span class="built_in">GetCPUDescriptorHandleForHeapStart</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildRootSignature</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//着色器一般需要资源输入(如常量缓冲区,纹理,采样等)</span></span><br><span class="line">    <span class="comment">//根签名则定义了着色器程序所需的具体资源</span></span><br><span class="line">    <span class="comment">//如果把着色器程序看作是一个函数,那么根签名就等价于函数签名</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//跟参数可以是描述符,根据描述符或根常量</span></span><br><span class="line">    CD3DX12_ROOT_PARAMETER slotRootParameter[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建由单个CBV组成的描述附表</span></span><br><span class="line">    CD3DX12_DESCRIPTOR_RANGE cbvTable;</span><br><span class="line">    cbvTable.<span class="built_in">Init</span>(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    slotRootParameter[<span class="number">0</span>].<span class="built_in">InitAsDescriptorTable</span>(<span class="number">1</span>, &amp;cbvTable);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//根签名就是一个跟参数构成的段</span></span><br><span class="line">    <span class="function">CD3DX12_ROOT_SIGNATURE_DESC <span class="title">rootSigDesc</span><span class="params">(<span class="number">1</span>, slotRootParameter, <span class="number">0</span>, <span class="literal">nullptr</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用单个寄存器槽来创建一个根签名,该槽位指向一个仅包含单个常量缓冲区的描述符区域</span></span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; serializedRootSig = <span class="literal">nullptr</span>;</span><br><span class="line">    ComPtr&lt;ID3DBlob&gt; errorBlob = <span class="literal">nullptr</span>;</span><br><span class="line">    HRESULT hr = <span class="built_in">D3D12SerializeRootSignature</span>(&amp;rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,</span><br><span class="line">        serializedRootSig.<span class="built_in">GetAddressOf</span>(),errorBlob.<span class="built_in">GetAddressOf</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (errorBlob != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        ::<span class="built_in">OutputDebugStringA</span>((<span class="type">char</span>*)errorBlob-&gt;<span class="built_in">GetBufferPointer</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(hr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateRootSignature</span>(</span><br><span class="line">        <span class="number">0</span>,</span><br><span class="line">        serializedRootSig-&gt;<span class="built_in">GetBufferPointer</span>(),</span><br><span class="line">        serializedRootSig-&gt;<span class="built_in">GetBufferSize</span>(),</span><br><span class="line">        <span class="built_in">IID_PPV_ARGS</span>(&amp;mRootSignature)</span><br><span class="line">    ));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildShadersAndInputLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    HRESULT hr = S_OK;</span><br><span class="line"></span><br><span class="line">    mvsByteCode = d3dUtil::<span class="built_in">CompileShader</span>(<span class="string">L&quot;Shaders\\color.hlsl&quot;</span>, <span class="literal">nullptr</span>,<span class="string">&quot;VS&quot;</span>,<span class="string">&quot;vs_5_0&quot;</span>);</span><br><span class="line">    mpsByteCode = d3dUtil::<span class="built_in">CompileShader</span>(<span class="string">L&quot;Shaders\\color.hlsl&quot;</span>, <span class="literal">nullptr</span>,<span class="string">&quot;PS&quot;</span>,<span class="string">&quot;ps_5_0&quot;</span>);</span><br><span class="line"></span><br><span class="line">    mInputLayout = &#123;</span><br><span class="line">        &#123;<span class="string">&quot;POSITION&quot;</span>,<span class="number">0</span>,DXGI_FORMAT_R32G32B32A32_FLOAT,<span class="number">0</span>,<span class="number">0</span>,</span><br><span class="line">            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,<span class="number">0</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;<span class="string">&quot;COLOR&quot;</span>,<span class="number">0</span>,DXGI_FORMAT_R32G32B32A32_FLOAT,<span class="number">0</span>,<span class="number">12</span>,</span><br><span class="line">            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,<span class="number">0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildBoxGeometry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::array&lt;Vertex, 8&gt; vertices =</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(<span class="number">-1.0f</span>, <span class="number">-1.0f</span>, <span class="number">-1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::White) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(<span class="number">-1.0f</span>, +<span class="number">1.0f</span>, <span class="number">-1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Black) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(+<span class="number">1.0f</span>, +<span class="number">1.0f</span>, <span class="number">-1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Red) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(+<span class="number">1.0f</span>, <span class="number">-1.0f</span>, <span class="number">-1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Green) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(<span class="number">-1.0f</span>, <span class="number">-1.0f</span>, +<span class="number">1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Blue) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(<span class="number">-1.0f</span>, +<span class="number">1.0f</span>, +<span class="number">1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Yellow) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(+<span class="number">1.0f</span>, +<span class="number">1.0f</span>, +<span class="number">1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Cyan) &#125;),</span><br><span class="line">        <span class="built_in">Vertex</span>(&#123; <span class="built_in">XMFLOAT3</span>(+<span class="number">1.0f</span>, <span class="number">-1.0f</span>, +<span class="number">1.0f</span>), <span class="built_in">XMFLOAT4</span>(Colors::Magenta) &#125;)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    std::array&lt;std::<span class="type">uint16_t</span>, 36&gt; indices =</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// front face</span></span><br><span class="line">        <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>,</span><br><span class="line">        <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// back face</span></span><br><span class="line">        <span class="number">4</span>, <span class="number">6</span>, <span class="number">5</span>,</span><br><span class="line">        <span class="number">4</span>, <span class="number">7</span>, <span class="number">6</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// left face</span></span><br><span class="line">        <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>,</span><br><span class="line">        <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// right face</span></span><br><span class="line">        <span class="number">3</span>, <span class="number">2</span>, <span class="number">6</span>,</span><br><span class="line">        <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// top face</span></span><br><span class="line">        <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>,</span><br><span class="line">        <span class="number">1</span>, <span class="number">6</span>, <span class="number">2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// bottom face</span></span><br><span class="line">        <span class="number">4</span>, <span class="number">0</span>, <span class="number">3</span>,</span><br><span class="line">        <span class="number">4</span>, <span class="number">3</span>, <span class="number">7</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">const</span> UINT vbByteSize = (UINT)vertices.<span class="built_in">size</span>() * <span class="built_in">sizeof</span>(Vertex);</span><br><span class="line">    <span class="type">const</span> UINT ibByteSize = (UINT)indices.<span class="built_in">size</span>() * <span class="built_in">sizeof</span>(std::<span class="type">uint16_t</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构建一个Mesh的几何体</span></span><br><span class="line">    mBoxGeo = std::<span class="built_in">make_unique</span>&lt;MeshGeometry&gt;();</span><br><span class="line">    mBoxGeo-&gt;Name = <span class="string">&quot;boxGeo&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填充顶点数据</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(<span class="built_in">D3DCreateBlob</span>(vbByteSize, &amp;mBoxGeo-&gt;VertexBufferCPU));</span><br><span class="line">    <span class="built_in">CopyMemory</span>(mBoxGeo-&gt;VertexBufferCPU-&gt;<span class="built_in">GetBufferPointer</span>(), vertices.<span class="built_in">data</span>(), vbByteSize);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填充索引数据</span></span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(<span class="built_in">D3DCreateBlob</span>(ibByteSize, &amp;mBoxGeo-&gt;IndexBufferCPU));</span><br><span class="line">    <span class="built_in">CopyMemory</span>(mBoxGeo-&gt;IndexBufferCPU-&gt;<span class="built_in">GetBufferPointer</span>(), indices.<span class="built_in">data</span>(), ibByteSize);</span><br><span class="line"></span><br><span class="line">    mBoxGeo-&gt;VertexBufferGPU = d3dUtil::<span class="built_in">CreateDefaultBuffer</span>(md3dDevice.<span class="built_in">Get</span>(),</span><br><span class="line">        mCommandList.<span class="built_in">Get</span>(), vertices.<span class="built_in">data</span>(), vbByteSize, mBoxGeo-&gt;VertexBufferUploader);</span><br><span class="line"></span><br><span class="line">    mBoxGeo-&gt;IndexBufferGPU = d3dUtil::<span class="built_in">CreateDefaultBuffer</span>(md3dDevice.<span class="built_in">Get</span>(),</span><br><span class="line">        mCommandList.<span class="built_in">Get</span>(), indices.<span class="built_in">data</span>(), ibByteSize, mBoxGeo-&gt;IndexBufferUploader);</span><br><span class="line"></span><br><span class="line">    mBoxGeo-&gt;VertexByteStride = <span class="built_in">sizeof</span>(Vertex);</span><br><span class="line">    mBoxGeo-&gt;VertexBufferByteSize = vbByteSize;</span><br><span class="line">    mBoxGeo-&gt;IndexFormat = DXGI_FORMAT_R16_UINT;</span><br><span class="line">    mBoxGeo-&gt;IndexBufferByteSize = ibByteSize;</span><br><span class="line"></span><br><span class="line">    SubmeshGeometry submesh;</span><br><span class="line">    submesh.IndexCount = (UINT)indices.<span class="built_in">size</span>();</span><br><span class="line">    submesh.StartIndexLocation = <span class="number">0</span>;</span><br><span class="line">    submesh.BaseVertexLocation = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    mBoxGeo-&gt;DrawArgs[<span class="string">&quot;box&quot;</span>] = submesh;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 构建PSO - Pipeline State Object</span></span><br><span class="line"><span class="comment">/// 流水线状态机</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BoxApp::BuildPSO</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;</span><br><span class="line">    <span class="built_in">ZeroMemory</span>(&amp;psoDesc, <span class="built_in">sizeof</span>(D3D12_GRAPHICS_PIPELINE_STATE_DESC));</span><br><span class="line">    psoDesc.InputLayout = &#123; mInputLayout.<span class="built_in">data</span>(), (UINT)mInputLayout.<span class="built_in">size</span>() &#125;;</span><br><span class="line">    psoDesc.pRootSignature = mRootSignature.<span class="built_in">Get</span>();</span><br><span class="line">    psoDesc.VS =<span class="comment">//顶点着色器</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">reinterpret_cast</span>&lt;BYTE*&gt;(mvsByteCode-&gt;<span class="built_in">GetBufferPointer</span>()),</span><br><span class="line">        mvsByteCode-&gt;<span class="built_in">GetBufferSize</span>()</span><br><span class="line">    &#125;;</span><br><span class="line">    psoDesc.PS =<span class="comment">//片元着色器</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">reinterpret_cast</span>&lt;BYTE*&gt;(mpsByteCode-&gt;<span class="built_in">GetBufferPointer</span>()),</span><br><span class="line">        mpsByteCode-&gt;<span class="built_in">GetBufferSize</span>()</span><br><span class="line">    &#125;;</span><br><span class="line">    psoDesc.RasterizerState = <span class="built_in">CD3DX12_RASTERIZER_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.BlendState = <span class="built_in">CD3DX12_BLEND_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.DepthStencilState = <span class="built_in">CD3DX12_DEPTH_STENCIL_DESC</span>(D3D12_DEFAULT);</span><br><span class="line">    psoDesc.SampleMask = UINT_MAX;</span><br><span class="line">    psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;</span><br><span class="line">    psoDesc.NumRenderTargets = <span class="number">1</span>;</span><br><span class="line">    psoDesc.RTVFormats[<span class="number">0</span>] = mBackBufferFormat;</span><br><span class="line">    psoDesc.SampleDesc.Count = m4xMsaaState ? <span class="number">4</span> : <span class="number">1</span>;</span><br><span class="line">    psoDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - <span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">    psoDesc.DSVFormat = mDepthStencilFormat;</span><br><span class="line">    <span class="built_in">ThrowIfFailed</span>(md3dDevice-&gt;<span class="built_in">CreateGraphicsPipelineState</span>(&amp;psoDesc, <span class="built_in">IID_PPV_ARGS</span>(&amp;mPSO)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, <span class="type">int</span> showCmd)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//为调试版本开启运行时内存检测，方便监督内存泄漏的情况</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(DEBUG)  defined(_DEBUG)</span></span><br><span class="line">    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF  _CRTDBG_LEAK_CHECK_DF);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="function">BoxApp <span class="title">theApp</span><span class="params">(hInstance)</span></span>;</span><br><span class="line">        <span class="keyword">if</span> (!theApp.<span class="built_in">Initialize</span>())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> theApp.<span class="built_in">Run</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span> (DxException e) &#123;</span><br><span class="line">        <span class="built_in">MessageBox</span>(<span class="literal">nullptr</span>, e.<span class="built_in">ToString</span>().<span class="built_in">c_str</span>(), <span class="string">L&quot;HR Failed&quot;</span>, MB_OK);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" title="DirectX12 7.利用DirectX绘制几何体">https://mymetalseed.github.io/2022/05/21/directx12-7-利用directx绘制几何体/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 6. 坐标变换相关">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 渲染引擎开发</span>
+  <h3>DirectX12 6. 坐标变换相关</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="DirectX12 番外: 名词摘记">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> DirectX</span>
+  <h3>DirectX12 番外: 名词摘记</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%B8%83%E5%B1%80"><span class="toc-number">1.</span> <span class="toc-text"> 输入布局</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">2.</span> <span class="toc-text"> 顶点缓冲区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">3.</span> <span class="toc-text"> 索引缓冲区</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text"> 顶点着色器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99"><span class="toc-number">4.1.</span> <span class="toc-text"> 数据匹配原则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0%E7%9D%80%E8%89%B2%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text"> 像素着色器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#early-z%E6%8A%80%E6%9C%AF"><span class="toc-number">5.1.</span> <span class="toc-text"> Early-Z 技术</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E7%BC%93%E5%86%B2%E5%8C%BA-cbuffer"><span class="toc-number">6.</span> <span class="toc-text"> 常量缓冲区 - cBuffer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E5%B8%B8%E9%87%8F%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">6.1.</span> <span class="toc-text"> 更新常量缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E7%BC%93%E5%86%B2%E5%8C%BA%E4%B8%8E%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">6.2.</span> <span class="toc-text"> 常量缓冲区与流水线</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9D%80%E8%89%B2%E5%99%A8%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text"> 着色器编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%89%E6%A0%85%E5%99%A8%E7%8A%B6%E6%80%81"><span class="toc-number">8.</span> <span class="toc-text"> 光栅器状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%8A%B6%E6%80%81%E5%AF%B9%E8%B1%A1"><span class="toc-number">9.</span> <span class="toc-text"> 流水线状态对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chapter6%E4%BB%A3%E7%A0%81"><span class="toc-number">10.</span> <span class="toc-text"> Chapter6 代码</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/04/21/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E-%E5%85%89%E6%B5%81%E9%87%8Fflux/" rel="bookmark" title="渲染引擎 - 光流量Flux">渲染引擎 - 光流量Flux</a></li><li><a href="../../../../2021/07/25/%E5%B1%80%E9%83%A8%E7%A9%BA%E9%97%B4%E5%88%B0%E4%B8%96%E7%95%8C%E7%A9%BA%E9%97%B4%E7%9A%84%E5%B5%8C%E5%A5%97%E5%8F%98%E6%8D%A2/" rel="bookmark" title="局部空间到世界空间的嵌套变换 & 相机空间">局部空间到世界空间的嵌套变换 & 相机空间</a></li><li><a href="../../../04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" rel="bookmark" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></li><li><a href="../../../04/16/games104-5-%E6%B8%B2%E6%9F%93%E4%B8%AD%E5%85%89%E5%92%8C%E6%9D%90%E8%B4%A8%E7%9A%84%E6%95%B0%E5%AD%A6%E9%AD%94%E6%B3%95/" rel="bookmark" title="Games104 5 - 渲染中光和材质的数学魔法">Games104 5 - 渲染中光和材质的数学魔法</a></li><li><a href="../../../04/23/vulkan-1-%E4%BB%8Epilot%E5%87%BA%E5%8F%91-%E5%88%9D%E5%A7%8B%E5%8C%96vulkan/" rel="bookmark" title="Vulkan 1. 从Pilot出发-初始化Vulkan">Vulkan 1. 从Pilot出发-初始化Vulkan</a></li><li><a href="../../../04/23/vulkan2-%E5%80%9F%E5%8A%A9directx12-%E6%A6%82%E5%BF%B5%E6%89%AB%E7%9B%B2/" rel="bookmark" title="Vulkan2. 概念扫盲">Vulkan2. 概念扫盲</a></li><li><a href="../../../04/23/games104-2-2-pilot-ibl-%E5%9F%BA%E4%BA%8E%E5%9B%BE%E5%83%8F%E7%9A%84%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="Games104 (2-2) Pilot IBL-基于图像的全局光照初始化">Games104 (2-2) Pilot IBL-基于图像的全局光照初始化</a></li><li><a href="../../01/games104-h1-lut-color-gradiant/" rel="bookmark" title="Games104 H1 - LUT - Color Gradiant">Games104 H1 - LUT - Color Gradiant</a></li><li><a href="../../02/%E3%80%8A%E5%A4%A7%E8%B1%A1%E6%97%A0%E5%BD%A2%E3%80%8B-11-%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E7%B3%BB%E7%BB%9F/" rel="bookmark" title="《大象无形》 11- 虚幻引擎的渲染系统">《大象无形》 11- 虚幻引擎的渲染系统</a></li><li><a href="../../03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" rel="bookmark" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></li><li><a href="../../03/directx-12-2-cpu%E4%B8%8Egpu%E4%BA%A4%E4%BA%92/" rel="bookmark" title="DirectX 12 - 2. CPU与GPU交互">DirectX 12 - 2. CPU与GPU交互</a></li><li><a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="bookmark" title="DirectX12 6. 坐标变换相关">DirectX12 6. 坐标变换相关</a></li><li class="active"><a href="" rel="bookmark" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></li><li><a href="../../../06/18/directx12-8-%E5%9B%9E%E9%A1%BE%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%BE%AA%E7%8E%AF%E6%B8%B2%E6%9F%93%E8%AE%A9cpu%E6%8F%90%E5%89%8Dgpu/" rel="bookmark" title="DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU">DirectX12 8 - 回顾第七章，使用循环渲染让CPU提前GPU</a></li><li><a href="../../../12/19/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A1-%E5%87%A0%E4%BD%95/" rel="bookmark" title="【PBRT V3】 part ② 几何">【PBRT V3】 part ② 几何</a></li><li><a href="../../../12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" rel="bookmark" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></li><li><a href="../../../12/23/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-2-bvh/" rel="bookmark" title="【PBRT V3】 part ④.2 BVH">【PBRT V3】 part ④.2 BVH</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/04/09/%E3%80%90games202%E3%80%91-real-time-shadows/" rel="bookmark" title="【Games202】 Real-Time Shadows">【Games202】 Real-Time Shadows</a></li><li><a href="../../../../2023/09/19/%E3%80%90gdc%E3%80%91-%E5%86%8D%E6%8E%A2virtual-texture/" rel="bookmark" title="【GDC】 再探Virtual Texture">【GDC】 再探Virtual Texture</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../15/directx12-6-%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E7%9B%B8%E5%85%B3/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/07/07/grap-%E7%AC%94%E8%AE%B0/" title="Grap 笔记">Grap 笔记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/09/12/b-b-tree/" title="B &amp; B+ Tree">B & B+ Tree</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+</div>
+
+    <span><a href="../../../04/16/games104-pilot2-rhi-%E6%B8%B2%E6%9F%93%E6%A1%86%E6%9E%B6/" title="Games104 Pilot(2) RHI - 渲染框架">Games104 Pilot(2) RHI - 渲染框架</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/04/17/%E5%9B%BE%E7%89%87%E7%89%B9%E6%95%88%E5%90%8E%E5%A4%84%E7%90%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="图片特效(后处理) - 《ShaderLab新手宝典》">图片特效(后处理) - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/17/openxr3/" title="OpenXR (三)">OpenXR (三)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/08/29/%E6%B0%B4%E5%A2%A8%E9%A3%8E%E6%B8%B2%E6%9F%93%E8%AE%B0%E5%BD%95/" title="水墨风渲染记录">水墨风渲染记录</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Math/" title="In Math">Math</a>
+</div>
+
+    <span><a href="../../../../2021/05/09/%E7%82%B9%E7%A7%AF%E6%A6%82%E5%BF%B5%E5%B7%A9%E5%9B%BA/" title="点积概念巩固">点积概念巩固</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/04/18/%E9%81%AE%E6%8C%A1%E5%8D%8A%E9%80%8F%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》">遮挡半透(菲涅尔)效果 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/04/18/%E6%8F%8F%E8%BE%B9-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="描边 - 《ShaderLab新手宝典》">描边 - 《ShaderLab新手宝典》</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/05/21/directx12-7-利用directx绘制几何体/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

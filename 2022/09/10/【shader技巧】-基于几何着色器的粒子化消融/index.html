@@ -1,0 +1,558 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/">
+
+
+
+  <title>
+【Shader技巧】 基于几何着色器的粒子化消融 - C# - Unity - 计算机图形学 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【Shader技巧】 基于几何着色器的粒子化消融
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-09-10 20:37:31">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-09-10T20:37:31+08:00">2022-09-10</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="item" rel="index" title="In 计算机图形学"><span itemprop="name">计算机图形学</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/Unity/" itemprop="item" rel="index" title="In Unity"><span itemprop="name">Unity</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C#"><span itemprop="name">C#</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] 简单来说，几何着色器可以控制三角形片元的细分或者增加之类的</p>
+<h1 id="引用"><a class="markdownIt-Anchor" href="#引用">#</a> 引用</h1>
+<p><span class="exturl" data-url="aHR0cHM6Ly93ZWIuZW5nci5vcmVnb25zdGF0ZS5lZHUvfm1qYi9jczUxOS9IYW5kb3V0cy9nZW9tZXRyeV9zaGFkZXJzLjFwcC5wZGY=">Oregon State University 关于曲面细分的课件 - GLSL Geometry Shader–Mike Bailey–</span></p>
+<h1 id="基于几何着色器的粒子化消融"><a class="markdownIt-Anchor" href="#基于几何着色器的粒子化消融">#</a> 基于几何着色器的粒子化消融</h1>
+<blockquote>
+<p>方法:</p>
+</blockquote>
+<p>将一个三角形划分为无数个小的三角形，其中几何着色器可以选择输出的是点还是三角形</p>
+<h2 id="细分算法"><a class="markdownIt-Anchor" href="#细分算法">#</a> 细分算法</h2>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/09/wp_editor_md_f51403f473cd04475498077a2a1d0a68.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/09/wp_editor_md_f51403f473cd04475498077a2a1d0a68.jpg" alt=""></a></p>
+<ol>
+<li>以 V0 为原点</li>
+<li>以 V0V1 为方向，V0V2 为方向将 V0V1 和 V0V2 等分划分成 numLayrs 个.</li>
+<li>每次细分的以最小的三角形为基准</li>
+</ol>
+<h2 id="简单粒子化代码"><a class="markdownIt-Anchor" href="#简单粒子化代码">#</a> 简单粒子化代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unlit/ParticelsShader&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Level(<span class="string">&quot;Level&quot;</span>,<span class="type">int</span>) = <span class="number">0</span></span><br><span class="line">        _DispDir(<span class="string">&quot;Displacement Direction&quot;</span>,Vector) = (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">        _uVelScale(<span class="string">&quot;VelScale&quot;</span>,<span class="type">float</span>) = <span class="number">2</span></span><br><span class="line">        _Speed(<span class="string">&quot;Speed&quot;</span>,<span class="built_in">Range</span>(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span></span><br><span class="line">        _ShaderStartTime(<span class="string">&quot;Shader Start Time&quot;</span>,<span class="type">float</span>) = <span class="number">0</span></span><br><span class="line">        _FinalColor(<span class="string">&quot;Final Color&quot;</span>,color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _MainTex (<span class="string">&quot;Texture&quot;</span>, <span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123; <span class="string">&quot;RenderType&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;Queue&quot;</span> = <span class="string">&quot;Transparent&quot;</span>&#125;</span><br><span class="line">        LOD <span class="number">100</span></span><br><span class="line"></span><br><span class="line">        Pass</span><br><span class="line">        &#123;</span><br><span class="line">            Blend SrcAlpha OneMinusSrcAlpha <span class="comment">// use alpha blending</span></span><br><span class="line">            cull off</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> geometry geom</span></span><br><span class="line"></span><br><span class="line">            <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UnityCG.cginc&quot;</span></span></span><br><span class="line">            <span class="comment">//CPU输入变量</span></span><br><span class="line">            <span class="comment">////细分相关变量</span></span><br><span class="line">            uniform <span class="type">int</span> _Level;</span><br><span class="line">            uniform float3 _DispDir;</span><br><span class="line">            uniform <span class="type">float</span> _uVelScale;</span><br><span class="line">            <span class="comment">////粒子化特效相关变量</span></span><br><span class="line">            uniform <span class="type">float</span> _Speed;           <span class="comment">//粒子位移速度</span></span><br><span class="line">            uniform <span class="type">float</span> _ShaderStartTime; <span class="comment">//粒子化起始时间</span></span><br><span class="line">            uniform fixed4 _FinalColor;     <span class="comment">//粒子颜色</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//内部变量</span></span><br><span class="line">            float3 V0,V1,V2;</span><br><span class="line">            float3 CG;</span><br><span class="line">            <span class="type">float</span> unityTime;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">appdata</span></span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float2 uv1 : TEXCOORD0;</span><br><span class="line">                float2 uv2 : TEXCOORD1;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">g2f</span>&#123;</span><br><span class="line">                float4 vertex : SV_POSITION;</span><br><span class="line">                fixed4 color: COLOR;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">v2g</span></span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : SV_POSITION;</span><br><span class="line">                fixed4 color : COLOR;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float2 uv : TEXCOORD1;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            sampler2D _MainTex;</span><br><span class="line">            float4 _MainTex_ST;</span><br><span class="line"></span><br><span class="line">            <span class="function">v2g <span class="title">vert</span> <span class="params">(appdata v)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                v2g o;</span><br><span class="line">                o.vertex = v.vertex;</span><br><span class="line">                o.normal = <span class="built_in">UnityObjectToWorldNormal</span>(v.normal);</span><br><span class="line">                o.uv = <span class="built_in">TRANSFORM_TEX</span>(v.uv2, _MainTex);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">           [<span class="built_in">maxvertexcount</span>(<span class="number">120</span>)]<span class="comment">//v2g input[3]</span></span><br><span class="line">           <span class="function"><span class="type">void</span> <span class="title">geom</span><span class="params">(inout PointStream&lt;g2f&gt; OutputStream,triangle v2g input[<span class="number">3</span>])</span></span></span><br><span class="line"><span class="function">           </span>&#123;</span><br><span class="line">                <span class="type">float</span> time_SinceBirth = (unityTime - _ShaderStartTime) * <span class="number">0.1f</span>;</span><br><span class="line">                g2f o = (g2f)o;</span><br><span class="line">                V1 = (input[<span class="number">1</span>].vertex - input[<span class="number">0</span>].vertex).xyz;</span><br><span class="line">                V2 = (input[<span class="number">2</span>].vertex - input[<span class="number">0</span>].vertex).xyz;</span><br><span class="line">                V0 = input[<span class="number">0</span>].vertex.xyz;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//片心</span></span><br><span class="line">                CG=(input[<span class="number">0</span>].vertex.xyz + input[<span class="number">1</span>].vertex.xyz+ input[<span class="number">2</span>].vertex.xyz)/<span class="number">3.0f</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//细分</span></span><br><span class="line">                <span class="type">int</span> numLayers = <span class="number">1</span>&lt;&lt;_Level;</span><br><span class="line">                <span class="comment">//细分层数</span></span><br><span class="line">                <span class="type">float</span> dt = <span class="number">1.0f</span> / <span class="built_in">float</span>(numLayers);</span><br><span class="line">                <span class="type">float</span> t = <span class="number">1.0f</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> it=<span class="number">0</span>;it&lt;numLayers;it++)&#123;</span><br><span class="line">                    <span class="comment">//距离V0点的偏移</span></span><br><span class="line">                    <span class="type">float</span> smax = <span class="number">1.0f</span> - t;</span><br><span class="line">                    <span class="comment">//每层生成的三角形数量</span></span><br><span class="line">                    <span class="type">int</span> nums = it + <span class="number">1</span>;</span><br><span class="line">                    <span class="comment">//三角形边长</span></span><br><span class="line">                    <span class="type">float</span> ds = <span class="built_in">clamp</span>(smax / <span class="built_in">float</span>(nums - <span class="number">1</span>),<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">                    <span class="type">float</span> s = <span class="number">0</span>;</span><br><span class="line">                    <span class="comment">//计算每层的第i个三角形的数据</span></span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> is = <span class="number">0</span>;is&lt;nums;is++)&#123;</span><br><span class="line">                        float3 v = V0 + s*(V1) + t*V2;</span><br><span class="line">                        float3 vel = _uVelScale * (v-CG);</span><br><span class="line">                        <span class="comment">//计算顶点根据时间计算的最终位置</span></span><br><span class="line">                        v = CG + vel*(_Speed*time_SinceBirth+<span class="number">1.0f</span>) + <span class="number">0.5f</span>*_DispDir.xyz*<span class="built_in">sin</span>(it*is)*(_Speed*time_SinceBirth)*(_Speed*time_SinceBirth);</span><br><span class="line">                        <span class="comment">//生成的转到裁剪空间的三角形</span></span><br><span class="line">                        o.vertex = <span class="built_in">UnityObjectToClipPos</span>(<span class="built_in">float4</span>( v, <span class="number">1.0f</span> ));</span><br><span class="line">                        o.color=_FinalColor;</span><br><span class="line">                        <span class="comment">//o.color.w=1.0f-smoothstep(0,1.0f,time_SinceBirth);</span></span><br><span class="line">                        <span class="comment">//将生成的数据加入到流中</span></span><br><span class="line">                        OutputStream.<span class="built_in">Append</span>(o);</span><br><span class="line"></span><br><span class="line">                        <span class="comment">//s加上偏移,计算下一个</span></span><br><span class="line">                        s += ds;</span><br><span class="line">                    &#125;</span><br><span class="line">                    t -= dt;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//t从1到0,s 从0到1</span></span><br><span class="line">                &#125; </span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function">fixed4 <span class="title">frag</span> <span class="params">(g2f i)</span> : SV_Target</span></span><br><span class="line"><span class="function">            &#123;</span></span><br><span class="line">                <span class="keyword">return</span> i.color;</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但是上述算法有一个问题，他所谓的细分输出的是 <code>细分后每个三角形内的点</code> ，但是如果想要得到细分后的每个三角形，・还是需要更多的算法支持・</p>
+<h2 id="基于三角形面的粒子化扩散"><a class="markdownIt-Anchor" href="#基于三角形面的粒子化扩散">#</a> 基于三角形面的粒子化扩散</h2>
+<p>由于第一种方法最终输出的是点，而非三角形，所以如果想要模拟逐渐离子化的效果的话，必然需要添加另一个用于粒子化的模型。<br>
+所以这里也可以使用第二种方法进行粒子化扩散 (暂不考虑三角形细分)。<br>
+即将三角形从原模型中拆出来，是每个三角形的顶点只属于这个三角形，这样只需要对每个三角形沿法线方向进行位移就可以了，而使用几何着色器输出三角形流就可以实现这个效果</p>
+<ul>
+<li>
+<ol>
+<li>使用几何着色器将三角形冲构成每个三角形单独的三个顶点</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>对这些三角形进行自定义的位移</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>根据距离初始的中心点的距离，设置顶输出的颜色的 Alpha 值 (隐藏)</li>
+</ol>
+</li>
+</ul>
+<p>再添加一写其他的效果 (如按照高度的消融 Shader)</p>
+<blockquote>
+<p>代码如下</p>
+</blockquote>
+<p>下述效果的视频展示: <span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMXF0NHkxTDdoYz9zcG1faWRfZnJvbT0zMzMuOTk5LjAuMA==">https://www.bilibili.com/video/BV1qt4y1L7hc?spm_id_from=333.999.0.0</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">&quot;Unlit/ParticelsShader&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _Level(<span class="string">&quot;Level&quot;</span>,<span class="type">int</span>) = <span class="number">0</span></span><br><span class="line">        _DispDir(<span class="string">&quot;Displacement Direction&quot;</span>,Vector) = (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">        _uVelScale(<span class="string">&quot;VelScale&quot;</span>,<span class="type">float</span>) = <span class="number">2</span></span><br><span class="line">        _Speed(<span class="string">&quot;Speed&quot;</span>,<span class="built_in">Range</span>(<span class="number">0</span>,<span class="number">1</span>)) = <span class="number">1</span></span><br><span class="line">        _ShaderStartTime(<span class="string">&quot;Shader Start Time&quot;</span>,<span class="type">float</span>) = <span class="number">0</span></span><br><span class="line">        _FinalColor(<span class="string">&quot;Final Color&quot;</span>,color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _MainTex (<span class="string">&quot;Texture&quot;</span>, <span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">        _BurnWidth (<span class="string">&quot;_BurnWidth&quot;</span>,Float) = <span class="number">1</span></span><br><span class="line">        [HDR] _BorderColor (<span class="string">&quot;_BorderColor&quot;</span>,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">        _Noise (<span class="string">&quot;Noise&quot;</span>,<span class="number">2</span>D) = <span class="string">&quot;white&quot;</span> &#123;&#125;</span><br><span class="line">        _BuringValue (<span class="string">&quot;_BuringValue&quot;</span>,Float) = <span class="number">1</span></span><br><span class="line">        [HDR]_FrenelsColor(<span class="string">&quot;FrenelsColor&quot;</span>,Color) = (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">        _FrenelsPower(<span class="string">&quot;FrenelsPower&quot;</span>,<span class="built_in">Range</span>(<span class="number">0.1</span>,<span class="number">10</span>)) =<span class="number">1</span> </span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123; <span class="string">&quot;RenderType&quot;</span>=<span class="string">&quot;Transparent&quot;</span> <span class="string">&quot;Queue&quot;</span> = <span class="string">&quot;Transparent&quot;</span>&#125;</span><br><span class="line">        LOD <span class="number">100</span></span><br><span class="line">        Cull Off</span><br><span class="line">        Pass</span><br><span class="line">        &#123;</span><br><span class="line">            Blend SrcAlpha OneMinusSrcAlpha <span class="comment">// use alpha blending</span></span><br><span class="line">            cull off</span><br><span class="line"></span><br><span class="line">            CGPROGRAM</span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> vertex vert</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> fragment frag</span></span><br><span class="line">            <span class="meta">#<span class="keyword">pragma</span> geometry geom</span></span><br><span class="line"></span><br><span class="line">            <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;UnityCG.cginc&quot;</span></span></span><br><span class="line">            <span class="comment">//CPU输入变量</span></span><br><span class="line">            <span class="comment">////细分相关变量</span></span><br><span class="line">            uniform <span class="type">int</span> _Level;</span><br><span class="line">            uniform float3 _DispDir;</span><br><span class="line">            uniform <span class="type">float</span> _uVelScale;</span><br><span class="line">            <span class="comment">////粒子化特效相关变量</span></span><br><span class="line">            uniform <span class="type">float</span> _Speed;           <span class="comment">//粒子位移速度</span></span><br><span class="line">            uniform <span class="type">float</span> _ShaderStartTime; <span class="comment">//粒子化起始时间</span></span><br><span class="line">            uniform fixed4 _FinalColor;     <span class="comment">//粒子颜色</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//内部变量</span></span><br><span class="line">            float3 V0,V1,V2;</span><br><span class="line">            float3 CG;</span><br><span class="line">            <span class="type">float</span> unityTime;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">appdata</span></span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">                float2 uv1 : TEXCOORD0;</span><br><span class="line">                float2 uv2 : TEXCOORD1;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">g2f</span>&#123;</span><br><span class="line">                float4 vertex : SV_POSITION;</span><br><span class="line">                fixed4 color: COLOR;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">v2g</span></span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : SV_POSITION;</span><br><span class="line">                fixed4 color : COLOR;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                float2 uv : TEXCOORD1;</span><br><span class="line">                float4 worldPostion : TEXCOORD2;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">struct</span> <span class="title class_">geometryOutput</span></span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">                float2 uv : TEXCOORD0;</span><br><span class="line">                float3 normal : NORMAL;</span><br><span class="line">                fixed4 color : COLOR;</span><br><span class="line">                float3 localPos : TEXCOORD1;</span><br><span class="line">                float4 worldPostion : TEXCOORD2;</span><br><span class="line">            &#125;; </span><br><span class="line"></span><br><span class="line">            sampler2D _MainTex;</span><br><span class="line">            float4 _MainTex_ST;</span><br><span class="line">            sampler2D _Noise;</span><br><span class="line">            float4 _Noise_ST;</span><br><span class="line">            <span class="type">float</span> _BurnWidth;</span><br><span class="line">            float4 _BorderColor;</span><br><span class="line">            <span class="type">float</span> _BuringValue;</span><br><span class="line">            float4 _FrenelsColor;</span><br><span class="line">            <span class="type">float</span> _FrenelsPower;</span><br><span class="line"></span><br><span class="line">            <span class="function">v2g <span class="title">vert</span> <span class="params">(appdata v)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                v2g o;</span><br><span class="line">                o.vertex = v.vertex;</span><br><span class="line">                o.normal = <span class="built_in">UnityObjectToWorldNormal</span>(v.normal);</span><br><span class="line">                o.uv = <span class="built_in">TRANSFORM_TEX</span>(v.uv2, _MainTex);</span><br><span class="line">                o.worldPostion = <span class="built_in">mul</span>(unity_ObjectToWorld, v.vertex);</span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function">float3 <span class="title">randto3D</span><span class="params">(float3 seed)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                float3 f = <span class="built_in">sin</span>(<span class="built_in">float3</span>(<span class="built_in">dot</span>(seed, <span class="built_in">float3</span>(<span class="number">127.1</span>, <span class="number">337.1</span>, <span class="number">256.2</span>)), <span class="built_in">dot</span>(seed, <span class="built_in">float3</span>(<span class="number">129.8</span>, <span class="number">782.3</span>, <span class="number">535.3</span>))</span><br><span class="line">                , <span class="built_in">dot</span>(seed, <span class="built_in">float3</span>(<span class="number">269.5</span>, <span class="number">183.3</span>, <span class="number">337.1</span>))));</span><br><span class="line">                f = <span class="number">-1</span> + <span class="number">2</span> * <span class="built_in">frac</span>(f * <span class="number">43785.5453123</span>);</span><br><span class="line">                <span class="keyword">return</span> f;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="type">float</span> <span class="title">rand</span><span class="params">(float3 seed)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                <span class="type">float</span> f = <span class="built_in">sin</span>(<span class="built_in">dot</span>(seed, <span class="built_in">float3</span>(<span class="number">127.1</span>, <span class="number">337.1</span>, <span class="number">256.2</span>)));</span><br><span class="line">                f = <span class="number">-1</span> + <span class="number">2</span> * <span class="built_in">frac</span>(f * <span class="number">43785.5453123</span>);</span><br><span class="line">                <span class="keyword">return</span> f;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">           [<span class="built_in">maxvertexcount</span>(<span class="number">3</span>)]<span class="comment">//v2g input[3]</span></span><br><span class="line">           <span class="function"><span class="type">void</span> <span class="title">geom</span><span class="params">(triangle v2g IN[<span class="number">3</span>],inout TriangleStream&lt;geometryOutput&gt; OutputStream)</span></span></span><br><span class="line"><span class="function">           </span>&#123;</span><br><span class="line">                <span class="comment">//找到中心点</span></span><br><span class="line">                float3 center = (IN[<span class="number">0</span>].vertex + IN[<span class="number">1</span>].vertex + IN[<span class="number">2</span>].vertex) / <span class="number">3</span>;</span><br><span class="line">                <span class="comment">//找到局部坐标的高度</span></span><br><span class="line">                <span class="type">float</span> offset = center.z * <span class="number">5</span>;</span><br><span class="line">                <span class="comment">//插值</span></span><br><span class="line">                <span class="type">float</span> ss_offset = <span class="built_in">lerp</span>(<span class="number">0</span>, <span class="number">1</span>, offset);</span><br><span class="line">                <span class="comment">//获得法线</span></span><br><span class="line">                float3 n0 = IN[<span class="number">0</span>].normal;</span><br><span class="line">                float3 n1 = IN[<span class="number">1</span>].normal;</span><br><span class="line">                float3 n2 = IN[<span class="number">2</span>].normal;</span><br><span class="line">                <span class="comment">//根据高度计算消隐比率</span></span><br><span class="line">                <span class="type">float</span> disLv = <span class="built_in">clamp</span>((<span class="built_in">abs</span>(<span class="built_in">sin</span>(<span class="number">0.1</span>*_Time.y)+<span class="number">0.1</span>) - ss_offset),<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">                <span class="comment">//计算三角形位移距离</span></span><br><span class="line">                float3 translation = (n0 + n1 + n2) / <span class="number">3</span> * disLv *_uVelScale;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span>(uint i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">                    geometryOutput o;</span><br><span class="line">                    <span class="built_in">UNITY_INITIALIZE_OUTPUT</span>(geometryOutput,o);</span><br><span class="line">                    v2g vet = IN[i];</span><br><span class="line">                    <span class="comment">//计算每个点的距离</span></span><br><span class="line">                    float3 v = vet.vertex  + translation;</span><br><span class="line">                    o.pos = <span class="built_in">UnityObjectToClipPos</span>(v);</span><br><span class="line">                    o.uv = vet.uv;</span><br><span class="line">                    o.localPos = v;</span><br><span class="line">                    o.color.a = <span class="built_in">clamp</span>(<span class="number">1</span> - <span class="built_in">distance</span>(v,center)*<span class="number">20</span>,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">                    o.worldPostion = vet.worldPostion;</span><br><span class="line">                    o.normal = vet.normal;</span><br><span class="line">                    OutputStream.<span class="built_in">Append</span>(o);</span><br><span class="line">                &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function">fixed4 <span class="title">frag</span> <span class="params">(geometryOutput i)</span> : SV_Target</span></span><br><span class="line"><span class="function">            &#123;</span></span><br><span class="line">                fixed4 col = <span class="built_in">tex2D</span>(_MainTex, i.uv);</span><br><span class="line">                <span class="type">float</span> height = i.localPos.z + <span class="number">0.01</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//采样噪音</span></span><br><span class="line">                <span class="type">float</span> noise = <span class="built_in">tex2D</span>(_Noise,i.uv).r;</span><br><span class="line">                noise += <span class="number">0.3</span>;</span><br><span class="line"></span><br><span class="line">                _BuringValue = <span class="built_in">abs</span>(<span class="built_in">sin</span>(<span class="number">0.1</span>*_Time.y));</span><br><span class="line"></span><br><span class="line">                <span class="type">float</span> burn = _BuringValue * noise/<span class="number">3</span>;</span><br><span class="line">                <span class="type">float</span> width = burn + _BurnWidth/<span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">clip</span>(height - burn);</span><br><span class="line">                <span class="type">float</span> colLv = <span class="built_in">step</span>(height,burn) + <span class="built_in">step</span>(height,width);</span><br><span class="line"></span><br><span class="line">                col = <span class="built_in">lerp</span>(col,col*_BorderColor,colLv);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//菲涅尔</span></span><br><span class="line">                float3 viewDirection = <span class="built_in">normalize</span>(_WorldSpaceCameraPos.xyz - i.worldPostion.xyz);</span><br><span class="line">                float3 emissive = (_FrenelsColor.rgb*<span class="built_in">pow</span>(<span class="number">1.0</span>-<span class="built_in">max</span>(<span class="number">0</span>,<span class="built_in">dot</span>(i.normal, viewDirection)),_FrenelsPower))+col.rgb;</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">fixed4</span>(emissive,i.color.w);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" title="【Shader技巧】 基于几何着色器的粒子化消融">https://mymetalseed.github.io/2022/09/10/【shader技巧】-基于几何着色器的粒子化消融/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【算法原理】 - 单调队列">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 单调队列</span>
+  <h3>【算法原理】 - 单调队列</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../../10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【TA101】1. 各种Map">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> C#</span>
+  <h3>【TA101】1. 各种Map</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text"> 引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D"><span class="toc-number">2.</span> <span class="toc-text"> 基于几何着色器的粒子化消融</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%86%E5%88%86%E7%AE%97%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text"> 细分算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%B2%92%E5%AD%90%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text"> 简单粒子化代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E4%B8%89%E8%A7%92%E5%BD%A2%E9%9D%A2%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%89%A9%E6%95%A3"><span class="toc-number">2.3.</span> <span class="toc-text"> 基于三角形面的粒子化扩散</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../../../2021/02/28/c-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="bookmark" title="C# 反射机制">C# 反射机制</a></li><li><a href="../../../../2021/05/08/how-to-create-your-own-attribute-%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AF%AD%E6%B3%95%E7%B3%96/" rel="bookmark" title="How to create your own attribute - (装饰器语法糖)">How to create your own attribute - (装饰器语法糖)</a></li><li><a href="../../../../2021/06/21/%EF%BC%88%E8%BD%AC-%E7%83%9F%E9%9B%A8%EF%BC%89-c%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/" rel="bookmark" title="（转 - 烟雨） C#反射为什么这么慢">（转 - 烟雨） C#反射为什么这么慢</a></li><li><a href="../../../../2021/07/11/scriptableobject-%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98%E8%AE%B0/" rel="bookmark" title="ScriptableObject 序列化问题记">ScriptableObject 序列化问题记</a></li><li><a href="../../../../2021/12/20/c-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E6%9C%BA/" rel="bookmark" title="C# 异步模型(状态机)">C# 异步模型(状态机)</a></li><li><a href="../../../08/14/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-1-%E6%B8%B2%E6%9F%93%E5%B8%A7%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B8%A7%E5%88%86%E7%A6%BB/" rel="bookmark" title="【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离">【技能编辑器研究】 -  1. 渲染帧与逻辑帧分离</a></li><li><a href="../../../08/15/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-2-%E5%9F%BA%E4%BA%8E%E5%B8%A7%E7%9A%84%E5%8A%A8%E7%94%BB%E7%BC%96%E8%BE%91%E5%99%A8/" rel="bookmark" title="【技能编辑器研究】 – 2. 基于帧的动画编辑器">【技能编辑器研究】 – 2. 基于帧的动画编辑器</a></li><li class="active"><a href="" rel="bookmark" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></li><li><a href="../../../10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="bookmark" title="【TA101】1. 各种Map">【TA101】1. 各种Map</a></li><li><a href="../../../../2023/01/08/%E3%80%90%E6%9E%B6%E6%9E%84-ecs%E4%B8%93%E9%A2%98%E3%80%91svelto-ecs/" rel="bookmark" title="【架构 - ECS专题】Svelto Ecs">【架构 - ECS专题】Svelto Ecs</a></li><li><a href="../../../../2023/02/05/%E3%80%90gpudriven%E3%80%91-gpudriven%E5%9C%B0%E5%BD%A2/" rel="bookmark" title="【GPUDriven】 GPUDriven地形">【GPUDriven】 GPUDriven地形</a></li><li><a href="../../../../2023/02/26/%E3%80%90gpudriven%E3%80%91-%E4%BD%BF%E7%94%A8texture%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE/" rel="bookmark" title="【GPUDriven】 使用Texture传递数据">【GPUDriven】 使用Texture传递数据</a></li><li><a href="../../../../2023/06/23/%E3%80%90gameplay-ai-goap%E3%80%91-goal-oriented-action-planning-%E5%9F%BA%E4%BA%8E%E7%9B%AE%E6%A0%87%E7%9A%84%E8%A1%8C%E4%B8%BA%E8%A7%84%E5%88%92/" rel="bookmark" title="【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划">【Gameplay - AI - GOAP】 Goal Oriented Action Planning 基于目标的行为规划</a></li><li><a href="../../../../2023/08/26/%E3%80%90ue-hpc%E3%80%91-%E7%A8%80%E7%96%8F%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-morton-code/" rel="bookmark" title="【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树">【UE/HPC】 稀疏数据结构 - 基于Morton Code的Sparser 八叉树</a></li><li><a href="../../../../2023/11/18/%E3%80%90urp%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E3%80%91-setup%E9%98%B6%E6%AE%B5/" rel="bookmark" title="【URP源码阅读】 Setup阶段">【URP源码阅读】 Setup阶段</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../../10/06/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%B9%B2%E8%B4%A7%E3%80%911-%E5%90%84%E7%A7%8Dmap/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/08/04/%E5%86%8D%E5%A4%9A%E7%BB%99%E8%87%AA%E5%B7%B1%E4%B8%80%E4%BA%9B%E5%89%8D%E8%BF%9B%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%90%A7/" title="再多给自己一些前进的动力吧">再多给自己一些前进的动力吧</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/09/01/unity-urp%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E8%B5%84%E6%96%99%E6%95%B4%E5%90%88/" title="Unity URP渲染管线资料整合">Unity URP渲染管线资料整合</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="In 渲染引擎开发">渲染引擎开发</a>
+</div>
+
+    <span><a href="../../../12/22/%E3%80%90pbrt-v3%E3%80%91-part-%E2%91%A3-%E5%9B%BE%E5%85%83%E5%92%8C%E7%9B%B8%E4%BA%A4%E5%8A%A0%E9%80%9F/" title="【PBRT V3】 part ④ 图元和相交加速">【PBRT V3】 part ④ 图元和相交加速</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../../2021/06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8/" title="In 关卡编辑器">关卡编辑器</a>
+</div>
+
+    <span><a href="../../../../2023/07/18/%E3%80%90gameplay%E3%80%91-%E5%85%B3%E5%8D%A1%E7%BC%96%E8%BE%91%E5%99%A8%E7%95%85%E6%83%B3/" title="【GamePlay】 关卡编辑器畅想">【GamePlay】 关卡编辑器畅想</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/cjj/" title="C++随记">C++随记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Gameplay/" title="In Gameplay">Gameplay</a>
+</div>
+
+    <span><a href="../../../../2023/07/03/%E3%80%90%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8%E7%A0%94%E7%A9%B6%E3%80%91-3-%E5%88%86%E7%A6%BB%E5%BC%8F%E7%AA%97%E5%8F%A3%E6%9E%B6%E6%9E%84%E4%B8%8E%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91/" title="【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体">【技能编辑器研究】 3 - 分离式窗口架构与技能编辑器本体</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../../2021/01/12/shaderlab/" title="ShaderLab语法">ShaderLab语法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/09/17/c%E4%BA%94-%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" title="C++(五) 内存对齐以及类型相关">C++(五) 内存对齐以及类型相关</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/09/10/【shader技巧】-基于几何着色器的粒子化消融/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

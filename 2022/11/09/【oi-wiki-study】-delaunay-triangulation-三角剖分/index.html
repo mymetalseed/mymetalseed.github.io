@@ -1,0 +1,578 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+
+<link rel="canonical" href="https://mymetalseed.github.io/2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/">
+
+
+
+  <title>
+【oi wiki study】 Delaunay Triangulation - 三角剖分 - 计算几何 - 算法 - C++ |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">【oi wiki study】 Delaunay Triangulation - 三角剖分
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2022-11-09 00:29:09">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2022-11-09T00:29:09+08:00">2022-11-09</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/C/" itemprop="item" rel="index" title="In C++"><span itemprop="name">C++</span></a>
+<meta itemprop="position" content="1" /></span>
+<i class="ic i-angle-right"></i>
+<span  itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E7%AE%97%E6%B3%95/" itemprop="item" rel="index" title="In 算法"><span itemprop="name">算法</span></a>
+<meta itemprop="position" content="2" /></span>
+<i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="item" rel="index" title="In 计算几何"><span itemprop="name">计算几何</span></a>
+<meta itemprop="position" content="3" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>[toc] 三角剖分有很多种，在刷题中常见的三角剖分一般是 <code>Delaunay三角剖分</code> <br>
+这个三角剖分有很多很好的性质</p>
+<h1 id="delaunay三角剖分"><a class="markdownIt-Anchor" href="#delaunay三角剖分">#</a> Delaunay 三角剖分</h1>
+<blockquote>
+<p>什么事三角剖分，即对任意多边形进行三角形化 且三角形化后的外边缘是这些三角形集合的凸包</p>
+</blockquote>
+<h2 id="定义"><a class="markdownIt-Anchor" href="#定义">#</a> 定义</h2>
+<ul>
+<li>唯一性
+<ul>
+<li>DT 三角剖分是唯一的，且<strong>任意四点不共圆</strong>以及外接圆内不会有其他任何一个剖分中的点。</li>
+</ul>
+</li>
+<li>最大化最小角
+<ul>
+<li><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_31bb48b374f7c5961ee29e31c867b0d5.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_31bb48b374f7c5961ee29e31c867b0d5.jpg" alt=""></a> 比如上图，在算法中会选择右边作为最终的三角剖分，以保证最小角是最大的 (<strong>交换对角线不会导致最小角变大</strong>)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="性质"><a class="markdownIt-Anchor" href="#性质">#</a> 性质</h2>
+<ul>
+<li>最接近 ： 以最接近的三点形成三角形，且个线段均不相交</li>
+<li>唯一性 ： 不论从区域何处开始构建，最终都会得到一个结果</li>
+<li>最优性 ： 最大化最小角</li>
+<li>最规则 ： 如果将剖分结果内的三角形进行排布，最后得到的排列中 DT 剖分的最大</li>
+<li>区域性 ： 新增 / 删除 / 移动某一个顶点只会影响周围的点。</li>
+<li>具有凸多边形的外壳 ： 三角形外界会形成一个凸多边形</li>
+</ul>
+<h2 id="算法"><a class="markdownIt-Anchor" href="#算法">#</a> 算法</h2>
+<p>OI Wiki 上说的是 O (nlgn) 的算法</p>
+<blockquote>
+<p>算法概念</p>
+<blockquote>
+<p><strong>LL-edge</strong> : 左侧子点集的边 <strong>RR-edge</strong> : 右侧子点集的边 <strong>LR-edge</strong> : 连接左右剖分产生的新的边 <strong>在剖分过程中，可能会删除 LL-edge 或 RR-edge</strong>, 在合并时<strong>不会增加 LL-edge</strong></p>
+</blockquote>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_608f06b1abbd079c6435e6a46043b1b0.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_608f06b1abbd079c6435e6a46043b1b0.jpg" alt=""></a></p>
+<ol>
+<li>
+<p>先对点集按照 x 坐标进行<strong>升序</strong>排序</p>
+</li>
+<li>
+<p>不断分治，不断将点集划分为两个部分，直到其中一个部分点集不超过 3，这个点集就可以立即剖分为一个三角形或线段 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1caa13c26f63598eb140f8e8a446436c.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1caa13c26f63598eb140f8e8a446436c.jpg" alt=""></a></p>
+</li>
+<li>
+<p>左右两个剖分可以合并成一个剖分 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1ea335574a83125ab4e7773c5c46a583.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1ea335574a83125ab4e7773c5c46a583.jpg" alt=""></a></p>
+</li>
+<li>
+<p>合并左右两个剖分 ：</p>
+<ul>
+<li>5.1 插入 base LR-edge, 这个是<strong>最底部</strong>不与<strong>任何</strong> LL-edge 以及 RR-edge 相交的 LR-edge <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_57aa986b9c2b2e93a0d76c599a8bc63d.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_57aa986b9c2b2e93a0d76c599a8bc63d.jpg" alt=""></a></li>
+<li>5.2 确定下一条 LR-edge, 下一条 LR-edge 可能端点在<strong>与 LR-edge 右端点相连的右侧剖分的 RR-edge 上 (6,7,9 点)</strong> <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_78557b79df6ace2c1f970cc3d23a2f0c.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_78557b79df6ace2c1f970cc3d23a2f0c.jpg" alt=""></a></li>
+<li>5.3 找到了新的 LR 边后，判断是否有线相交了，有的话，删除</li>
+</ul>
+</li>
+</ol>
+<h2 id="检测可能的端点的标准"><a class="markdownIt-Anchor" href="#检测可能的端点的标准">#</a> 检测可能的端点的标准</h2>
+<ol>
+<li>对应点对于 RR-edge 和 base_LR-edge 的夹角小于 180 度</li>
+<li>base LR-edge 两端点和这个可能点三点构成的圆不包含其他任何<strong>可能点</strong><br>
+<a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1b45d0460a1bc23c17ccda12c0147edd.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_1b45d0460a1bc23c17ccda12c0147edd.jpg" alt=""></a></li>
+</ol>
+<p><strong>如上图所示，6 号点的外接圆 (绿色) 包含了 9 号点，所以抛弃，选择 7 号点</strong> 重复以上步骤，最终就可以得到三角剖分 <a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_b5d106891f9a5866e38c0096b9773201.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2022/11/wp_editor_md_b5d106891f9a5866e38c0096b9773201.jpg" alt=""></a></p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码">#</a> 代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">double</span> EPS = <span class="number">1e-8</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXV = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    <span class="type">double</span> x, y;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Point</span>(<span class="type">double</span> a = <span class="number">0</span>, <span class="type">double</span> b = <span class="number">0</span>, <span class="type">int</span> c = <span class="number">-1</span>) : <span class="built_in">x</span>(a), <span class="built_in">y</span>(b), <span class="built_in">id</span>(c) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Point&amp; a) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x &lt; a.<span class="built_in">x</span>  (<span class="built_in">fabs</span>(x - a.x) &lt; EPS &amp;&amp; y &lt; a.y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>==(<span class="type">const</span> Point&amp; a) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">fabs</span>(x-a.x) &lt; EPS &amp;&amp; <span class="built_in">fabs</span>(y - a.y) &lt; EPS;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">dist2</span><span class="params">(<span class="type">const</span> Point&amp; b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point3D</span> &#123;</span><br><span class="line">    <span class="type">double</span> x, y, z;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Point3D</span>(<span class="type">double</span> a = <span class="number">0</span>, <span class="type">double</span> b = <span class="number">0</span>, <span class="type">double</span> c = <span class="number">0</span>) : <span class="built_in">x</span>(a), <span class="built_in">y</span>(b), <span class="built_in">z</span>(c) &#123;&#125;</span><br><span class="line">    <span class="comment">//z = 点到原点距离(?)</span></span><br><span class="line">    <span class="built_in">Point3D</span>(<span class="type">const</span> Point&amp; p) &#123; x = p.x, y = p.y, z = p.x * p.x + p.y * p.y; &#125;</span><br><span class="line"></span><br><span class="line">    Point3D <span class="keyword">operator</span>-(<span class="type">const</span> Point3D&amp; a) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Point3D</span>(x - a.x, y - a.y, z - a.z);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">double</span> <span class="title">dot</span><span class="params">(<span class="type">const</span> Point3D&amp; a)</span> </span>&#123; <span class="keyword">return</span> x * a.x + y * a.y + z * a.z; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span> &#123;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    std::list&lt;Edge&gt;::iterator c;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Edge</span>(<span class="type">int</span> id = <span class="number">0</span>) &#123; <span class="keyword">this</span>-&gt;id = id; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//判断v是0还是大于0还是小于0</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">cmp</span><span class="params">(<span class="type">double</span> v)</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">fabs</span>(v) &gt; EPS ? (v &gt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">-1</span>) : <span class="number">0</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//三点叉积</span></span><br><span class="line"><span class="comment">//oa叉积ob</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">cross</span><span class="params">(<span class="type">const</span> Point&amp; o, <span class="type">const</span> Point&amp; a, <span class="type">const</span> Point&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Point3D <span class="title">cross</span><span class="params">(<span class="type">const</span> Point3D&amp; a, <span class="type">const</span> Point3D&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Point3D</span>(a.y * b.z - a.z * b.y, -a.x * b.z + a.z * b.x,</span><br><span class="line">        a.x * b.y - a.y * b.x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">inCircle</span><span class="params">(<span class="type">const</span> Point&amp; a, Point b, Point c, <span class="type">const</span> Point&amp; p)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//先保证叉积向上</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">cross</span>(a, b, c) &lt; <span class="number">0</span>) std::<span class="built_in">swap</span>(b, c);</span><br><span class="line">    <span class="function">Point3D <span class="title">a3</span><span class="params">(a)</span>, <span class="title">b3</span><span class="params">(b)</span>, <span class="title">c3</span><span class="params">(c)</span>, <span class="title">p3</span><span class="params">(p)</span></span>;</span><br><span class="line">    b3 = b3 - a3, c3 = c3 - a3, p3 = p3 - a3;</span><br><span class="line">    Point3D f = <span class="built_in">cross</span>(b3, c3);</span><br><span class="line">    <span class="comment">//检查是否同向,in: &lt; 0,out &gt; 0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">cmp</span>(p3.<span class="built_in">dot</span>(f));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//相交检测</span></span><br><span class="line"><span class="comment">//基于如下定理: </span></span><br><span class="line"><span class="comment">//如果AB叉积AC与AB叉积AD的符号相反,证明CD必然在AB两侧</span></span><br><span class="line"><span class="comment">//同理,如果CD叉积CA与CD叉积CB的符号相反,证明AB必然在CD两侧</span></span><br><span class="line"><span class="comment">//如果都在两侧,则证明这两条线断AB,CD必定相交(不需要跨立)</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">intersection</span><span class="params">(<span class="type">const</span> Point&amp; a, <span class="type">const</span> Point&amp; b, <span class="type">const</span> Point&amp; c,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> Point&amp; d)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">cmp</span>(<span class="built_in">cross</span>(a, c, b)) * <span class="built_in">cmp</span>(<span class="built_in">cross</span>(a, b, d)) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">        <span class="built_in">cmp</span>(<span class="built_in">cross</span>(c, a, d)) * <span class="built_in">cmp</span>(<span class="built_in">cross</span>(c, d, b)) &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Delaunay</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    std::list&lt;Edge&gt; head[MAXV];</span><br><span class="line">    Point p[MAXV];</span><br><span class="line">    <span class="type">int</span> n, rename[MAXV];</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n, Point p[])</span> </span>&#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(<span class="keyword">this</span>-&gt;p, p, <span class="built_in">sizeof</span>(Point) * n);</span><br><span class="line">        std::<span class="built_in">sort</span>(<span class="keyword">this</span>-&gt;p, <span class="keyword">this</span>-&gt;p + n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) rename[p[i].id] = i;</span><br><span class="line">        <span class="keyword">this</span>-&gt;n = n;</span><br><span class="line">        <span class="built_in">divide</span>(<span class="number">0</span>, n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addEdge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span> </span>&#123;</span><br><span class="line">        head[u].<span class="built_in">push_front</span>(<span class="built_in">Edge</span>(v));</span><br><span class="line">        head[v].<span class="built_in">push_front</span>(<span class="built_in">Edge</span>(u));</span><br><span class="line">        head[u].<span class="built_in">begin</span>()-&gt;c = head[v].<span class="built_in">begin</span>();</span><br><span class="line">        head[v].<span class="built_in">begin</span>()-&gt;c = head[u].<span class="built_in">begin</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">divide</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果点集少于等于三个,则进行第一次三角剖分</span></span><br><span class="line">        <span class="keyword">if</span> (r - l &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = l; i &lt;= r; ++i) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt;= r; ++j) &#123;</span><br><span class="line">                    <span class="built_in">addEdge</span>(i, j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">        <span class="built_in">divide</span>(l, mid);</span><br><span class="line">        <span class="built_in">divide</span>(mid + <span class="number">1</span>, r);</span><br><span class="line"></span><br><span class="line">        std::list&lt;Edge&gt;::iterator it;</span><br><span class="line">        <span class="type">int</span> nowl = l, nowr = r;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> update = <span class="number">1</span>; update;) &#123;</span><br><span class="line">            <span class="comment">// find left and right convex, lower common tangent</span></span><br><span class="line">            <span class="comment">//找到最低的LR</span></span><br><span class="line">            update = <span class="number">0</span>;</span><br><span class="line">            Point ptL = p[nowl], ptR = p[nowr];</span><br><span class="line">            <span class="keyword">for</span> (it = head[nowl].<span class="built_in">begin</span>(); it != head[nowl].<span class="built_in">end</span>(); ++it) &#123;</span><br><span class="line">                Point t = p[it-&gt;id];</span><br><span class="line">                <span class="comment">//ptr_ptl,ptr_t判定是否t在ptr_ptl下方,是的话,或者共线,则以t为left往下找</span></span><br><span class="line">                <span class="type">double</span> v = <span class="built_in">cross</span>(ptR, ptL, t);</span><br><span class="line">                <span class="comment">//判定两直线是否相交(也不像跨立实验啊?判断点在直线的某侧?</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">cmp</span>(v) &gt; <span class="number">0</span>  (<span class="built_in">cmp</span>(v) == <span class="number">0</span> &amp;&amp; ptR.<span class="built_in">dist2</span>(t) &lt; ptR.<span class="built_in">dist2</span>(ptL))) &#123;</span><br><span class="line">                    nowl = it-&gt;id, update = <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (update) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="comment">//找到了最低的left,找最低的r</span></span><br><span class="line">            <span class="keyword">for</span> (it = head[nowr].<span class="built_in">begin</span>(); it != head[nowr].<span class="built_in">end</span>(); ++it) &#123;</span><br><span class="line">                Point t = p[it-&gt;id];</span><br><span class="line">                <span class="type">double</span> v = <span class="built_in">cross</span>(ptL, ptR, t);</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">cmp</span>(v) &lt; <span class="number">0</span>  (<span class="built_in">cmp</span>(v) == <span class="number">0</span> &amp;&amp; ptL.<span class="built_in">dist2</span>(t) &lt; ptL.<span class="built_in">dist2</span>(ptR))) &#123;</span><br><span class="line">                    nowr = it-&gt;id, update = <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//找到了最低的LR 加LR边</span></span><br><span class="line">        <span class="built_in">addEdge</span>(nowl, nowr);  <span class="comment">// add tangent</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//逐个点判断是否能和LR组成一个圈,且圈内没有其他点</span></span><br><span class="line">        <span class="comment">//需要判定的点是LR边上的几个点</span></span><br><span class="line">        <span class="comment">//找到了新的LR边后,判断是否有线相交了,有的话,删除</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> update = <span class="number">1</span>; <span class="literal">true</span>;) &#123;</span><br><span class="line">            update = <span class="number">0</span>;</span><br><span class="line">            Point ptL = p[nowl], ptR = p[nowr];</span><br><span class="line">            <span class="type">int</span> ch = <span class="number">-1</span>, side = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (it = head[nowl].<span class="built_in">begin</span>(); it != head[nowl].<span class="built_in">end</span>(); it++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">cmp</span>(<span class="built_in">cross</span>(ptL, ptR, p[it-&gt;id])) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    (ch == <span class="number">-1</span>  <span class="built_in">inCircle</span>(ptL, ptR, p[ch], p[it-&gt;id]) &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">                    ch = it-&gt;id, side = <span class="number">-1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (it = head[nowr].<span class="built_in">begin</span>(); it != head[nowr].<span class="built_in">end</span>(); it++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">cmp</span>(<span class="built_in">cross</span>(ptR, p[it-&gt;id], ptL)) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">                    (ch == <span class="number">-1</span>  <span class="built_in">inCircle</span>(ptL, ptR, p[ch], p[it-&gt;id]) &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">                    ch = it-&gt;id, side = <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ch == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span> (side == <span class="number">-1</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (it = head[nowl].<span class="built_in">begin</span>(); it != head[nowl].<span class="built_in">end</span>();) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="built_in">intersection</span>(ptL, p[it-&gt;id], ptR, p[ch])) &#123;</span><br><span class="line">                        head[it-&gt;id].<span class="built_in">erase</span>(it-&gt;c);</span><br><span class="line">                        head[nowl].<span class="built_in">erase</span>(it++);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        it++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                nowl = ch;</span><br><span class="line">                <span class="built_in">addEdge</span>(nowl, nowr);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (it = head[nowr].<span class="built_in">begin</span>(); it != head[nowr].<span class="built_in">end</span>();) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="built_in">intersection</span>(ptR, p[it-&gt;id], ptL, p[ch])) &#123;</span><br><span class="line">                        head[it-&gt;id].<span class="built_in">erase</span>(it-&gt;c);</span><br><span class="line">                        head[nowr].<span class="built_in">erase</span>(it++);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        it++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                nowr = ch;</span><br><span class="line">                <span class="built_in">addEdge</span>(nowl, nowr);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::vector&lt;std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; &gt; <span class="built_in">getEdge</span>() &#123;</span><br><span class="line">        std::vector&lt;std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; &gt; ret;</span><br><span class="line">        ret.<span class="built_in">reserve</span>(n);</span><br><span class="line">        std::list&lt;Edge&gt;::iterator it;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (it = head[i].<span class="built_in">begin</span>(); it != head[i].<span class="built_in">end</span>(); it++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (it-&gt;id &lt; i) <span class="keyword">continue</span>;</span><br><span class="line">                ret.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(p[i].id, p[it-&gt;id].id));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//三角剖分</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="后记"><a class="markdownIt-Anchor" href="#后记">#</a> 后记</h2>
+<p>由上面我们可以看出，实际上 DT 三角剖分算法是针对有点时的剖分算法，但是在实际情况中我们只有一个完整的多边形，但是在图形渲染流水线中有曲面细分这个流程，这个时候怎么进行三角剖分呢</p>
+<ol>
+<li>可以在外部添加一个 AABB 包围盒</li>
+<li>对多边形边进行等分 (即辅助点)</li>
+<li>以多边形为内部点，AABB 为凸包，进行一次 DT 三角剖分</li>
+<li>删除外部的 AABB 和对应的边，得到一个没有内部点的 DT 三角剖分</li>
+<li>想办法合理的添加内部点 (如内部三角形的重心等)</li>
+</ol>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2022/11/09/%E3%80%90oi-wiki-study%E3%80%91-delaunay-triangulation-%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86/" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">https://mymetalseed.github.io/2022/11/09/【oi-wiki-study】-delaunay-triangulation-三角剖分/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../../10/25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【OI Wiki Study】 – 计算几何">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 算法</span>
+  <h3>【OI Wiki Study】 – 计算几何</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="【OI Wiki Study】-  凸包">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> 计算几何</span>
+  <h3>【OI Wiki Study】-  凸包</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#delaunay%E4%B8%89%E8%A7%92%E5%89%96%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text"> Delaunay 三角剖分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%B4%A8"><span class="toc-number">1.2.</span> <span class="toc-text"> 性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%8F%AF%E8%83%BD%E7%9A%84%E7%AB%AF%E7%82%B9%E7%9A%84%E6%A0%87%E5%87%86"><span class="toc-number">1.4.</span> <span class="toc-text"> 检测可能的端点的标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text"> 代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">1.6.</span> <span class="toc-text"> 后记</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="" rel="bookmark" title="【oi wiki study】 Delaunay Triangulation - 三角剖分">【oi wiki study】 Delaunay Triangulation - 三角剖分</a></li><li><a href="../../11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="bookmark" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></li><li><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" rel="bookmark" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></li><li><a href="../../../../2023/07/30/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-art-gallery-theorem/" rel="bookmark" title="【计算几何】 Art Gallery theorem">【计算几何】 Art Gallery theorem</a></li><li><a href="../../../../2023/08/04/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-%E5%89%96%E5%88%86%E7%AE%97%E6%B3%95/" rel="bookmark" title="【计算几何】 剖分算法">【计算几何】 剖分算法</a></li><li><a href="../../../../2023/08/06/%E3%80%90%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E3%80%91-mesh%E7%9A%84%E5%9B%BE%E5%8C%96%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84-dceldouble-connect-edge-list/" rel="bookmark" title="【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)">【计算几何】 Mesh的图化存储结构 - DCEL(Double Connect Edge List)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../../10/25/%E3%80%90oi-wiki-study%E3%80%91-%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GLSL/" title="In GLSL">GLSL</a>
+</div>
+
+    <span><a href="../../../../2021/03/27/games202-glsl/" title="Games202 - GLSL">Games202 - GLSL</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../../2021/05/15/%E6%8A%80%E8%83%BD%E7%BC%96%E8%BE%91%E5%99%A8-%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" title="技能编辑器 - 数据驱动">技能编辑器 - 数据驱动</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/LeetCode/" title="In LeetCode">LeetCode</a>
+</div>
+
+    <span><a href="../../../../2021/03/04/leetcode%E9%A2%98%E8%A7%A3%E9%9B%86-%E4%B8%AD%E7%AD%89/" title="LeetCode题解集 - 中等">LeetCode题解集 - 中等</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../../2021/10/01/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86-leetcode-223/" title="【算法】容斥原理 leetcode 223  [推演概率论]">【算法】容斥原理 leetcode 223  [推演概率论]</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/cjj/" title="C++随记">C++随记</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/GPGPU/" title="In GPGPU">GPGPU</a>
+</div>
+
+    <span><a href="../../../../2023/03/25/%E3%80%90gpgpu%E3%80%91-1-%E5%89%8D-gpu%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84/" title="【GPGPU】 1. 前_GPU硬件架构">【GPGPU】 1. 前_GPU硬件架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="In 单调队列">单调队列</a>
+</div>
+
+    <span><a href="../../../08/27/%E3%80%90%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E3%80%91-%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/" title="【算法原理】 - 单调队列">【算法原理】 - 单调队列</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/GPUDriven/" title="In GPUDriven">GPUDriven</a>
+</div>
+
+    <span><a href="../../../../2023/04/09/%E3%80%90gdc%E3%80%91adaptive-virtual-texture-rendering-in-far-cry-4/" title="【GDC】Adaptive Virtual Texture Rendering in Far Cry 4">【GDC】Adaptive Virtual Texture Rendering in Far Cry 4</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../../2021/01/15/unity-callback-android-function/" title="Unity调用Android方法">Unity调用Android方法</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/RayTracing/" title="In RayTracing">RayTracing</a>
+</div>
+
+    <span><a href="../../../../2023/02/19/%E3%80%90ray-tracing%E3%80%91-rays-and-spheres/" title="【Ray Tracing】 Rays And Spheres">【Ray Tracing】 Rays And Spheres</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2022/11/09/【oi-wiki-study】-delaunay-triangulation-三角剖分/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

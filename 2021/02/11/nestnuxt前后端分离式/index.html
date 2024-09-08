@@ -1,0 +1,594 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="../../../../images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Solvarg" href="https://mymetalseed.github.io/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Solvarg" href="https://mymetalseed.github.io/atom.xml" />
+<link rel="alternate" type="application/json" title="Solvarg" href="https://mymetalseed.github.io/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="../../../../css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="前端杂记" />
+
+
+<link rel="canonical" href="https://mymetalseed.github.io/2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/">
+
+
+
+  <title>
+Nest+Nuxt前后端分离式 - 前端杂记 |
+Solvarg = Solvarg</title>
+<meta name="generator" content="Hexo 7.1.1"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Nest+Nuxt前后端分离式
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2021-02-11 09:25:53">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-02-11T09:25:53+08:00">2021-02-11</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Solvarg</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="../../../../index.html">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="../../../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" itemprop="item" rel="index" title="In 前端杂记"><span itemprop="name">前端杂记</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="jp">
+  <link itemprop="mainEntityOfPage" href="https://mymetalseed.github.io/2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="../../../../images/avatar.jpg">
+    <meta itemprop="name" content="Solvarg">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Solvarg">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h1 id="补充"><a class="markdownIt-Anchor" href="#补充">#</a> 补充</h1>
+<blockquote>
+<p>参考全栈之巅和大山老师的课</p>
+</blockquote>
+<p>大山老师侧重于 MVC, 且 mongoose 是未封装的与 mongodb 交互的库 全栈之巅使用的是 subsystem 开发模式，且使用完全的前后端分离，分成三端，后端 - 后端前端 - 前端<br>
+ typegoose 是已经封装完毕的库… 总而言之 大山老师写的那套类似于 springMvc, 而全栈之巅写的那套类似于 SpringBoot 本文计划结合两者，只开发最基本的 RBAC 模块 并且将大山的那套 RBAC 的思路迁移到全栈之巅这套课程讲的方案中来 因为 RBAC 是大部分网站都必须要有的，所以为了节约开发成本，有一套写好的基项目是比较好的 (</p>
+<h2 id="参考列表"><a class="markdownIt-Anchor" href="#参考列表">#</a> 参考列表</h2>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMThFNDExMjdOND9wPTM=">https://www.bilibili.com/video/BV18E41127N4?p=3</span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9uZXN0anMuYm9vdGNzcy5jb20vdGVjaG5pcXVlcy9jb25maWd1cmF0aW9u">https://nestjs.bootcss.com/techniques/configuration</span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuNWF4eHcuY29tL3dpa2kvY29udGVudC81YjByOGk=">https://www.5axxw.com/wiki/content/5b0r8i</span></li>
+</ul>
+<h1 id="后端"><a class="markdownIt-Anchor" href="#后端">#</a> 后端</h1>
+<p>基本前期的不记录了<br>
+在以前的博客里:<br>
+<span class="exturl" data-url="aHR0cDovL3d3dy5iZS1zdW5zaGluZS5jbi9wdWJsaWMvd2ViL25lc3Rqcy5odG1sIyVFNSVBRSU4OSVFOCVBMyU4NSVFNCVCOCU4RSVFNiU5QyU4MCVFNyVBRSU4MCVFNSU4RCU5NSVFNyU5QSU4NCVFOCU4NCU5QSVFNiU4OSU4QiVFNiU5RSVCNg==">http://www.be-sunshine.cn/public/web/nestjs.html#%E5%AE%89%E8%A3%85%E4%B8%8E%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E8%84%9A%E6%89%8B%E6%9E%B6</span> 基于 Nestjs 搭建 RBAC<br>
+ 子项目模式:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nest g app admin</span><br><span class="line"></span><br><span class="line"># 启动方式</span><br><span class="line"></span><br><span class="line">nest start app-name</span><br></pre></td></tr></table></figure>
+<h2 id="配置自动载入的环境变量异步"><a class="markdownIt-Anchor" href="#配置自动载入的环境变量异步">#</a> 配置自动载入的环境变量 (异步)</h2>
+<blockquote>
+<p>如果将环境变量自动载入的话，所有需要环境变量注入的模块必须使用异步方式 引用  <code>@nestjs/config</code>  模块</p>
+<blockquote>
+<p>默认放在 <code>.env</code>  文件中</p>
+</blockquote>
+</blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9uZXN0anMuYm9vdGNzcy5jb20vdGVjaG5pcXVlcy9jb25maWd1cmF0aW9u">https://nestjs.bootcss.com/techniques/configuration</span></p>
+<h2 id="配置typegoose"><a class="markdownIt-Anchor" href="#配置typegoose">#</a> 配置 Typegoose</h2>
+<blockquote>
+<p>新建 DB 模块</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest g lib db</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>安装依赖模块</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cnpm i --save @types/mongoose @typegoose/typegoose @nestjs/platform-express mongoose  nestjs-mongoose-crud nestjs-typegoose </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://146.56.209.11:90/wp-content/uploads/2021/02/wp_editor_md_7bae98aaf773c88d93a95a394a41fc15.jpg"><img data-src="http://146.56.209.11:90/wp-content/uploads/2021/02/wp_editor_md_7bae98aaf773c88d93a95a394a41fc15.jpg" alt=""></a></p>
+<h2 id="配置jwt"><a class="markdownIt-Anchor" href="#配置jwt">#</a> 配置 JWT</h2>
+<blockquote>
+<p>JWT 是用于前后端分离时获取 token 的方案</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cnpm i --save @nestjs/jwt @nestjs/passport @nestjs/platform-express  @nestjs/swagger @types/express @types/passport @types/passport-jwt @types/passport-local</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建 lib/common</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Global, Module &#125; from &#x27;@nestjs/common&#x27;;</span><br><span class="line">import &#123; CommonService &#125; from &#x27;./common.service&#x27;;</span><br><span class="line">import &#123; ConfigModule &#125; from &#x27;@nestjs/config&#x27;;</span><br><span class="line">import &#123; DbModule &#125; from &#x27;@libs/db&#x27;;</span><br><span class="line">import &#123; JwtModule &#125; from &#x27;@nestjs/jwt&#x27;;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">注册jwt(用于获取token,前后端分离一般用这个)</span><br><span class="line">*/</span><br><span class="line">@Global()</span><br><span class="line">@Module(&#123;</span><br><span class="line">  imports:[</span><br><span class="line">    ConfigModule.forRoot(&#123;</span><br><span class="line">      isGlobal:true</span><br><span class="line">    &#125;),</span><br><span class="line">    JwtModule.registerAsync(&#123;</span><br><span class="line">      useFactory()&#123;</span><br><span class="line">        return &#123;</span><br><span class="line">          secret: process.env.SECRET</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    DbModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [CommonService],</span><br><span class="line">  exports: [CommonService,JwtModule],</span><br><span class="line">&#125;)</span><br><span class="line">export class CommonModule &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其中 JwtModule 就是对应的 Jwt 模块 <span class="exturl" data-url="aHR0cHM6Ly93d3cuaXR5aW5nLmNvbS9uZXN0anMvYXJ0aWNsZS1pbmRleC1pZC0xMTcuaHRtbA==">https://www.itying.com/nestjs/article-index-id-117.html</span></p>
+<h2 id="子项目模式下创建控制器"><a class="markdownIt-Anchor" href="#子项目模式下创建控制器">#</a> 子项目模式下创建控制器</h2>
+<ul>
+<li>先创建一个模块</li>
+<li>再创建一个控制器</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nest g mo -p admin users</span><br><span class="line"></span><br><span class="line">nest g co -p admin users</span><br></pre></td></tr></table></figure>
+<h1 id="vue-elementui-管理前端搭建"><a class="markdownIt-Anchor" href="#vue-elementui-管理前端搭建">#</a> Vue-ElementUI 管理前端搭建</h1>
+<h2 id="依赖模块"><a class="markdownIt-Anchor" href="#依赖模块">#</a> 依赖模块</h2>
+<blockquote>
+<p>@smallwei/avue</p>
+</blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9hdnVlanMuY29tLw==">https://avuejs.com/</span><br>
+ 目标是为了将页面数据化，只接受 options 来填充页面.<br>
+ 基本所有信息都填充在:  <code>avue-input-table</code>  标签内。通过 <code>配置</code> 来动态生成 form 表单和 table <span class="exturl" data-url="aHR0cHM6Ly93d3cuYm9va3N0YWNrLmNuL3JlYWQvYXZ1ZS0yLngvZTNkNmM2OTM2OWZkNTYyNS5tZA==">https://www.bookstack.cn/read/avue-2.x/e3d6c69369fd5625.md</span></p>
+<blockquote>
+<p>@types/axios axios</p>
+</blockquote>
+<p><span class="exturl" data-url="aHR0cDovL3d3dy5heGlvcy1qcy5jb20vemgtY24vZG9jcy8=">http://www.axios-js.com/zh-cn/docs/</span><br>
+ 经常使用的请求库</p>
+<blockquote>
+<p>vue-ele-form</p>
+</blockquote>
+<p>专门用于数据化生成表单的插件，比 AVue 功能要少，不过不像 AVUE 那样高度封装</p>
+<blockquote>
+<p>添加插件引用时可以直接在 Main.ts 中添加，也可以选择新建一个 plugins / 插件.ts (js) 然后 import 这个脚本来引用…</p>
+</blockquote>
+<h2 id="生成vue"><a class="markdownIt-Anchor" href="#生成vue">#</a> 生成 Vue</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vue create admin</span><br><span class="line">cd admin</span><br><span class="line">vue add element</span><br><span class="line">vue add router</span><br></pre></td></tr></table></figure>
+<p>转 typescript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add typescript</span><br></pre></td></tr></table></figure>
+<h2 id="新建主页面"><a class="markdownIt-Anchor" href="#新建主页面">#</a> 新建主页面</h2>
+<p>先在 vscode 上安装 element-ui snippets 插件 然后 elcon 就可以直接生成一个 elementui 的 Container<br>
+elmen 可以生成一个 elemnetUI 的 menu 新建 Main.vue (这里主要存放主页面模板类，方便后续对管理端的增减)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-container :direction=&quot;vertical&quot;&gt;</span><br><span class="line">    &lt;el-header height=&quot;&quot;&gt;</span><br><span class="line">      RBAC-后台管理界面</span><br><span class="line">    &lt;/el-header&gt;</span><br><span class="line">    &lt;el-container :direction=&quot;horizontal&quot;&gt;</span><br><span class="line">      &lt;el-aside width=&quot;200px&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;el-menu mode=&quot;vertical&quot; style=&quot;height:100vh;&quot; default-active=&quot;$route.path&quot; router&gt;</span><br><span class="line">          &lt;el-submenu v-for=&quot;(item, index) in menu.items&quot;</span><br><span class="line">            :index=&quot;index + 1&quot;</span><br><span class="line">            :key=&quot;`menu-item-$&#123;index&#125;`&quot;&gt;</span><br><span class="line">            &lt;template slot=&quot;title&quot;&gt;&#123;&#123;item.title&#125;&#125;&lt;/template&gt;</span><br><span class="line">            &lt;el-menu-item v-for=&quot;(subItem, subIndex) in item.items&quot;</span><br><span class="line">              :index=&quot;subItem.path&quot;</span><br><span class="line">              :key=&quot;`menu-item-$&#123;index&#125;-$&#123;subIndex&#125;`&quot;&gt;</span><br><span class="line">                &#123;&#123;subItem.title&#125;&#125;</span><br><span class="line">            &lt;/el-menu-item&gt;</span><br><span class="line">          &lt;/el-submenu&gt;</span><br><span class="line">        &lt;/el-menu&gt;</span><br><span class="line"></span><br><span class="line">      &lt;/el-aside&gt;</span><br><span class="line">      &lt;el-container :direction=&quot;vertical&quot;&gt;</span><br><span class="line">        &lt;el-main height=&quot;&quot;&gt;</span><br><span class="line">          &lt;router-view&gt;</span><br><span class="line">          &lt;/router-view&gt;</span><br><span class="line">        &lt;/el-main&gt;</span><br><span class="line">        &lt;el-footer height=&quot;&quot;&gt;</span><br><span class="line">          &lt;!-- Footer content --&gt;</span><br><span class="line">        &lt;/el-footer&gt;</span><br><span class="line">      &lt;/el-container&gt;</span><br><span class="line">    &lt;/el-container&gt;</span><br><span class="line">  &lt;/el-container&gt;</span><br><span class="line"></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&#x27;ts&#x27;&gt;</span><br><span class="line">import &#123; Component,Vue &#125; from &#x27;vue-property-decorator&#x27;;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">export default class Mian extends Vue &#123;</span><br><span class="line">  menu = &#123;</span><br><span class="line">    items:[</span><br><span class="line">      &#123;</span><br><span class="line">        title:&#x27;内容管理&#x27;,</span><br><span class="line">        items:[</span><br><span class="line">          &#123;title:&#x27;课程管理&#x27;,path:&#x27;/courses/list&#x27;&#125;,</span><br><span class="line">          &#123;title:&#x27;课时管理&#x27;,path:&#x27;/courses/list&#x27;&#125;,</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        title:&#x27;运营管理&#x27;,</span><br><span class="line">        items:[</span><br><span class="line">          &#123;title:&#x27;用户管理&#x27;,path:&#x27;/courses/list&#x27;&#125;,</span><br><span class="line">          &#123;title:&#x27;角色管理&#x27;,path:&#x27;/courses/list&#x27;&#125;,</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      <div class="tags">
+          <a href="../../../../tags/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" rel="tag"><i class="ic i-tag"></i> 前端杂记</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2024-09-08 22:37:31" itemprop="dateModified" datetime="2024-09-08T22:37:31+08:00">2024-09-08</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="../../../../images/wechatpay.png" alt="Solvarg WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/alipay.png" alt="Solvarg Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="../../../../images/paypal.png" alt="Solvarg PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>Solvarg <i class="ic i-at"><em>@</em></i>Solvarg
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="https://mymetalseed.github.io/2021/02/11/nestnuxt%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%8F/" title="Nest+Nuxt前后端分离式">https://mymetalseed.github.io/2021/02/11/nestnuxt前后端分离式/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="../../09/nuxt-js%E6%9D%82%E8%AE%B0/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Nuxt.js杂记">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> 前端杂记</span>
+  <h3>Nuxt.js杂记</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="../../17/shaderlab%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%815-3-%E5%86%85%E7%BD%AE%E6%96%87%E4%BB%B6/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="ShaderLab入门精要5.3 - 内置文件">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> uncategorized</span>
+  <h3>ShaderLab入门精要5.3 - 内置文件</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">1.</span> <span class="toc-text"> 补充</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E5%88%97%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 参考列表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text"> 后端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E8%87%AA%E5%8A%A8%E8%BD%BD%E5%85%A5%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%BC%82%E6%AD%A5"><span class="toc-number">2.1.</span> <span class="toc-text"> 配置自动载入的环境变量 (异步)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEtypegoose"><span class="toc-number">2.2.</span> <span class="toc-text"> 配置 Typegoose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEjwt"><span class="toc-number">2.3.</span> <span class="toc-text"> 配置 JWT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%88%9B%E5%BB%BA%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">2.4.</span> <span class="toc-text"> 子项目模式下创建控制器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vue-elementui-%E7%AE%A1%E7%90%86%E5%89%8D%E7%AB%AF%E6%90%AD%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text"> Vue-ElementUI 管理前端搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%A8%A1%E5%9D%97"><span class="toc-number">3.1.</span> <span class="toc-text"> 依赖模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90vue"><span class="toc-number">3.2.</span> <span class="toc-text"> 生成 Vue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%BB%E9%A1%B5%E9%9D%A2"><span class="toc-number">3.3.</span> <span class="toc-text"> 新建主页面</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li><a href="../../09/nuxt-js%E6%9D%82%E8%AE%B0/" rel="bookmark" title="Nuxt.js杂记">Nuxt.js杂记</a></li><li class="active"><a href="" rel="bookmark" title="Nest+Nuxt前后端分离式">Nest+Nuxt前后端分离式</a></li><li><a href="../../../03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" rel="bookmark" title="由CSS3学动效">由CSS3学动效</a></li><li><a href="../../../07/08/%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF-%E6%9C%80%E7%AE%80%E6%98%93%E5%8F%AF%E8%A7%86%E5%8C%96%E7%90%86%E8%A7%A3-%E8%BD%AC%E8%87%AA%E7%9F%A5%E4%B9%8E/" rel="bookmark" title="贝赛尔曲线 - 最简易可视化理解 (转自知乎)">贝赛尔曲线 - 最简易可视化理解 (转自知乎)</a></li><li><a href="../../../07/09/%E8%AE%BA%E6%8A%80%E8%83%BD%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%87%8D%E6%9E%84/" rel="bookmark" title="论技能系统的重构">论技能系统的重构</a></li><li><a href="../../../09/12/%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Amvvm/" rel="bookmark" title="双向绑定(mvvm)">双向绑定(mvvm)</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="Solvarg"
+      data-src="../../../../images/avatar.jpg">
+  <p class="name" itemprop="name">Solvarg</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="../../../../archives/">
+        <span class="count">255</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="../../../../categories/">
+        <span class="count">47</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="../../../../tags/">
+        <span class="count">22</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL215bWV0YWxzZWVk" title="https:&#x2F;&#x2F;github.com&#x2F;mymetalseed"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS9kYWktdGlhbi1xaW5nLTM2" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;dai-tian-qing-36"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vODkxNDc2NQ==" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;8914765"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="../../09/nuxt-js%E6%9D%82%E8%AE%B0/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="../../17/shaderlab%E5%85%A5%E9%97%A8%E7%B2%BE%E8%A6%815-3-%E5%86%85%E7%BD%AE%E6%96%87%E4%BB%B6/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="In 操作系统">操作系统</a>
+</div>
+
+    <span><a href="../../../06/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%EF%BC%88%E4%B8%80%EF%BC%89/" title="操作系统 （一）">操作系统 （一）</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%89%B9%E6%95%88/" title="In 特效">特效</a>
+</div>
+
+    <span><a href="../../../06/10/google-poly-brush-%E7%9A%84-shader-%E6%8B%86%E8%A7%A3-%E4%B8%80/" title="Google Poly Brush 的 Shader 拆解 (一)">Google Poly Brush 的 Shader 拆解 (一)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="In 游戏引擎">游戏引擎</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+</div>
+
+    <span><a href="../../../../2023/08/13/%E3%80%90ue-source%E3%80%91-%E9%83%A8%E5%88%86filesystem/" title="【UE_Source】 部分FileSystem">【UE_Source】 部分FileSystem</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/UE/" title="In UE">UE</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="In 计算几何">计算几何</a>
+</div>
+
+    <span><a href="../../../../2023/07/30/%E3%80%90ue%E3%80%91-%E5%B0%9D%E8%AF%95%E8%A7%A3%E8%AF%BBnanite-1-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86/" title="【UE】 尝试解读Nanite - 1 网格划分">【UE】 尝试解读Nanite - 1 网格划分</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/Unity/" title="In Unity">Unity</a>
+</div>
+
+    <span><a href="../../../03/08/materialpropertyblock-%E4%BC%98%E5%8C%96%E5%85%B1%E4%BA%AB%E6%9D%90%E8%B4%A8%E5%8F%82%E6%95%B0%E5%8F%98%E6%9B%B4/" title="MaterialPropertyBlock 优化共享材质参数变更">MaterialPropertyBlock 优化共享材质参数变更</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E7%AE%97%E6%B3%95/" title="In 算法">算法</a>
+</div>
+
+    <span><a href="../../../09/17/%E3%80%90%E9%9A%8F%E8%AE%B0%E3%80%91-leetcode99-%E9%9D%9E%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%85%88%E4%B8%AD%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" title="【随记】 leetcode99  非递归方式实现先中后序遍历">【随记】 leetcode99  非递归方式实现先中后序遍历</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/C/" title="In C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../../../categories/DirectX/" title="In DirectX">DirectX</a>
+</div>
+
+    <span><a href="../../../../2022/11/26/%E3%80%90%E5%9B%BE%E5%BD%A2%E5%AD%A6%E3%80%91-dxr%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84/" title="【图形学】 DXR加速结构">【图形学】 DXR加速结构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="In 计算机图形学">计算机图形学</a>
+</div>
+
+    <span><a href="../../../07/04/games101-mipmap/" title="Games101 - mipmap">Games101 - mipmap</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/C/" title="In C++">C++</a>
+</div>
+
+    <span><a href="../../../../2022/02/13/c%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E8%99%9A%E8%A1%A8%E5%87%BD%E6%95%B0-%E5%8D%95%E7%BB%A7%E6%89%BF%E5%A4%9A%E7%BB%A7%E6%89%BF/" title="C++指针直接访问虚表函数 单继承,多继承">C++指针直接访问虚表函数 单继承,多继承</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../../../categories/uncategorized/" title="In uncategorized">uncategorized</a>
+</div>
+
+    <span><a href="../../../09/12/912%E7%B1%B3%E5%93%88%E6%B8%B8%E7%AC%94%E8%AF%95b/" title="米哈游笔试B">米哈游笔试B</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/02/11/nestnuxt前后端分离式/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,
+    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="../../../../js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
