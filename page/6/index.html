@@ -65,7 +65,7 @@
         <nav id="nav">
   <div class="inner">
     <div class="toggle">
-      <div class="lines" aria-label="切换导航栏">
+      <div class="lines" aria-label="ナビゲーションバーの切り替え">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -119,12 +119,47 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2023/04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" itemprop="url" title="【TA效果】 GpuInstance实现雨点打击地面的效果"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="作成日：2023-04-05 12:17:07">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2023-04-05T12:17:07+08:00">2023-04-05</time>
+  </span>
+</div>
+
+    <h3><a href="../../2023/04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" itemprop="url" title="【TA效果】 GpuInstance实现雨点打击地面的效果">【TA效果】 GpuInstance实现雨点打击地面的效果</a></h3>
+    <div class="excerpt">
+        [toc]
+# 效果拆解
+上图是一个现实中积水的地面的效果。那么该如何在图形中实现这个效果呢 首先我们可以将雨水拆解成无数的面片，然后将面片随机的分布在地表面上，如果想要控制雨水博文的纹路，可以自己用 Shader 或者贴图来修改雨水的形状
+# 效果实现
+# 1. ComputeShader 中计算面片的矩阵和时间
+首先需要写一个 ComputeShader, 在 ComputeShader 中计算每个雨滴面片的随机位置 / 缩放等，并将其赋值给 4x4 的齐次转换矩阵，以及计算每个面片的随即速率。
+然后将这些数据回读到...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/GPGPU/" itemprop="url" title="GPGPU"><i class="ic i-flag"></i>GPGPU</a>
+      </span>
+    </div>
+    <a href="../../2023/04/05/%E3%80%90ta%E6%95%88%E6%9E%9C%E3%80%91-gpuinstance%E5%AE%9E%E7%8E%B0%E9%9B%A8%E7%82%B9%E6%89%93%E5%87%BB%E5%9C%B0%E9%9D%A2%E7%9A%84%E6%95%88%E6%9E%9C/" itemprop="url" title="【TA效果】 GpuInstance实现雨点打击地面的效果" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2023/04/02/%E3%80%90raytracing%E3%80%91-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%E4%B8%8E%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA/" itemprop="url" title="【RayTracing】 蒙特卡洛积分与路径追踪"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-04-02 14:35:35">
+  <span class="item" title="作成日：2023-04-02 14:35:35">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -168,7 +203,7 @@
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-03-26 22:20:45">
+  <span class="item" title="作成日：2023-03-26 22:20:45">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -202,7 +237,7 @@
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-03-25 15:53:12">
+  <span class="item" title="作成日：2023-03-25 15:53:12">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -241,7 +276,7 @@ GPU 架构发展史 (NVIDIA)
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-03-09 22:11:12">
+  <span class="item" title="作成日：2023-03-09 22:11:12">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -278,7 +313,7 @@ Radiant flux,also known as power,is the total amount of energy passing through a
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-03-05 11:54:31">
+  <span class="item" title="作成日：2023-03-05 11:54:31">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -319,7 +354,7 @@ Radiant flux,also known as power,is the total amount of energy passing through a
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-02-26 15:06:36">
+  <span class="item" title="作成日：2023-02-26 15:06:36">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -351,7 +386,7 @@ Radiant flux,also known as power,is the total amount of energy passing through a
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-02-19 16:45:28">
+  <span class="item" title="作成日：2023-02-19 16:45:28">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -384,7 +419,7 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-02-05 11:32:38">
+  <span class="item" title="作成日：2023-02-05 11:32:38">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -413,7 +448,7 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2023-01-08 11:08:13">
+  <span class="item" title="作成日：2023-01-08 11:08:13">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -438,47 +473,6 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2023/01/06/%E3%80%90%E5%B7%A5%E5%85%B7-%E8%93%9D%E5%9B%BE%E5%BC%80%E5%8F%91%E3%80%91-xnode%E5%B7%A5%E5%85%B7%E6%93%8D%E4%BD%9C%E9%9B%86%E9%94%A6/" itemprop="url" title="【工具 - 蓝图开发】 XNode工具操作集锦"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="创建时间：2023-01-06 17:23:37">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2023-01-06T17:23:37+08:00">2023-01-06</time>
-  </span>
-</div>
-
-    <h3><a href="../../2023/01/06/%E3%80%90%E5%B7%A5%E5%85%B7-%E8%93%9D%E5%9B%BE%E5%BC%80%E5%8F%91%E3%80%91-xnode%E5%B7%A5%E5%85%B7%E6%93%8D%E4%BD%9C%E9%9B%86%E9%94%A6/" itemprop="url" title="【工具 - 蓝图开发】 XNode工具操作集锦">【工具 - 蓝图开发】 XNode工具操作集锦</a></h3>
-    <div class="excerpt">
-        [toc]
-# 蓝图开发
-# 1. 实现蓝图组
-主要功能点有几个:
-
-更改功能组的标题
-拖拽右下角可以对功能组的大小进行调整
-可以吸附功能组内的元素一起移动
-保证在所有元素最下方
-
-# 1. 更改功能组标题
-这个比较简单，直接暴露一个标题参数，然后在 Editor 的 OnHeaderGUI 重载中刷新题头
-12345public override void OnHeaderGUI()&amp;#123; var self = group; GUILayout.Label(self.title, NodeEditorResources.styles.nodeHeader,...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/" itemprop="url" title="工具开发"><i class="ic i-flag"></i>工具开发</a>
-      </span>
-    </div>
-    <a href="../../2023/01/06/%E3%80%90%E5%B7%A5%E5%85%B7-%E8%93%9D%E5%9B%BE%E5%BC%80%E5%8F%91%E3%80%91-xnode%E5%B7%A5%E5%85%B7%E6%93%8D%E4%BD%9C%E9%9B%86%E9%94%A6/" itemprop="url" title="【工具 - 蓝图开发】 XNode工具操作集锦" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -486,7 +480,7 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   
   <nav class="pagination">
     <div class="inner">
-    <a class="extend prev" rel="prev" href="../5/"><i class="ic i-angle-left" aria-label="上一页"></i></a><a class="page-number" href="../../">1</a><span class="space">&hellip;</span><a class="page-number" href="../5/">5</a><span class="page-number current">6</span><a class="page-number" href="../7/">7</a><span class="space">&hellip;</span><a class="page-number" href="../26/">26</a><a class="extend next" rel="next" href="../7/"><i class="ic i-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="../5/"><i class="ic i-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="../../">1</a><span class="space">&hellip;</span><a class="page-number" href="../5/">5</a><span class="page-number current">6</span><a class="page-number" href="../7/">7</a><span class="space">&hellip;</span><a class="page-number" href="../26/">26</a><a class="extend next" rel="next" href="../7/"><i class="ic i-angle-right" aria-label="次のページ"></i></a>
     </div>
   </nav>
 
@@ -499,11 +493,11 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
 
   <div class="panels">
     <div class="inner">
-      <div class="contents panel pjax" data-title="文章目录">
+      <div class="contents panel pjax" data-title="見出し">
       </div>
-      <div class="related panel pjax" data-title="系列文章">
+      <div class="related panel pjax" data-title="関連記事">
       </div>
-      <div class="overview panel" data-title="站点概览">
+      <div class="overview panel" data-title="概要">
         <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <img class="image" itemprop="image" alt="Solvarg"
       data-src="../../../../images/avatar.jpg">
@@ -514,20 +508,20 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
 <nav class="state">
     <div class="item posts">
       <a href="../../../../archives/">
-        <span class="count">255</span>
-        <span class="name">文章</span>
+        <span class="count">256</span>
+        <span class="name">ポスト</span>
       </a>
     </div>
     <div class="item categories">
       <a href="../../../../categories/">
-        <span class="count">47</span>
-        <span class="name">分类</span>
+        <span class="count">48</span>
+        <span class="name">カテゴリ</span>
       </a>
     </div>
     <div class="item tags">
       <a href="../../../../tags/">
         <span class="count">22</span>
-        <span class="name">标签</span>
+        <span class="name">タグ</span>
       </a>
     </div>
 </nav>
@@ -542,7 +536,7 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   
     
   <li class="item">
-    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>首页</a>
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>ホーム</a>
   </li>
 
 
@@ -554,12 +548,12 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
 
   <ul id="quick">
     <li class="prev pjax">
-        <a href="../5/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+        <a href="../5/" rel="prev" title="前の記事"><i class="ic i-chevron-left"></i></a>
     </li>
     <li class="up"><i class="ic i-arrow-up"></i></li>
     <li class="down"><i class="ic i-arrow-down"></i></li>
     <li class="next pjax">
-        <a href="../7/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+        <a href="../7/" rel="next" title="次の記事"><i class="ic i-chevron-right"></i></a>
     </li>
     <li class="percent"></li>
   </ul>
@@ -574,132 +568,118 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
         <div class="widgets">
           
 <div class="rpost pjax">
-  <h2>随机文章</h2>
+  <h2>ランダムな記事</h2>
   <ul>
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 </div>
 
-    <span><a href="../../2021/04/05/shader-%E9%80%8F%E6%98%8E%E6%95%88%E6%9E%9C-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" title="Shader 透明效果 《Shaderlab新手宝典》">Shader 透明效果 《Shaderlab新手宝典》</a></span>
+    <span><a href="../../2022/11/27/%E3%80%90c%E3%80%91%E7%8E%B0%E4%BB%A3cmake%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/" title="【C++】现代CMake模块化项目构建">【C++】现代CMake模块化项目构建</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/GLSL/" title="分类于 GLSL">GLSL</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E7%89%B9%E6%95%88/" title="分类于 特效">特效</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 </div>
 
-    <span><a href="../../2021/05/16/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BD%93%E7%A7%AF%E4%BA%91-%E5%B0%9D%E8%AF%95%E5%A4%8D%E7%8E%B0walkingfat%E6%96%87%E7%AB%A0/" title="基于模型的体积云 - 尝试复现WalkingFat文章">基于模型的体积云 - 尝试复现WalkingFat文章</a></span>
+    <span><a href="../../2023/10/18/%E3%80%90tolua%E3%80%91-2-lua%E6%BA%90%E7%A0%81-lua%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="【ToLua】 2. Lua源码 - Lua中的数据结构">【ToLua】 2. Lua源码 - Lua中的数据结构</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/C/" title="分类于 C++">C++</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="分类于 渲染引擎开发">渲染引擎开发</a>
+<a href="../../categories/uncategorized/" title="カテゴリ uncategorized">uncategorized</a>
 </div>
 
-    <span><a href="../../2022/05/03/directx-12-1-d3d%E5%88%9D%E5%A7%8B%E5%8C%96/" title="DirectX 12 - 1. D3D初始化">DirectX 12 - 1. D3D初始化</a></span>
+    <span><a href="../../2022/07/24/directx12-9-%E7%BA%B9%E7%90%86%E8%BF%87%E6%BB%A4%E5%99%A8/" title="DirectX12 10 纹理过滤器">DirectX12 10 纹理过滤器</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
+<i class="ic i-angle-right"></i>
+<a href="../../categories/LeetCode/" title="カテゴリ LeetCode">LeetCode</a>
 </div>
 
-    <span><a href="../../2021/05/07/%E3%80%8Agpu%E7%BC%96%E7%A8%8B%E4%B8%8Ecg%E8%AF%AD%E8%A8%80%E3%80%8B-%E6%91%98%E8%AE%B0/" title="《GPU编程与CG语言》 - 摘记">《GPU编程与CG语言》 - 摘记</a></span>
+    <span><a href="../../2021/09/28/%E5%80%9F%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%B2%E4%B8%80%E4%B8%8B%E6%8C%87%E9%92%88-leetcode-21/" title="借一道题讲一下指针 Leetcode 21">借一道题讲一下指针 Leetcode 21</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
+<a href="../../categories/wwise/" title="カテゴリ wwise">wwise</a>
 </div>
 
-    <span><a href="../../2021/09/14/c%EF%BC%88%E4%BA%8C%EF%BC%89%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="C++（二）内存管理">C++（二）内存管理</a></span>
+    <span><a href="../../2022/08/22/%E3%80%90%E6%B8%B8%E6%88%8F%E9%9F%B3%E9%A2%91%E7%AE%A1%E7%90%86-wwise%E7%88%AC%E5%9D%91%E3%80%91-event/" title="【游戏音频管理-wwise爬坑】 -  Event">【游戏音频管理-wwise爬坑】 -  Event</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="カテゴリ 计算机图形学">计算机图形学</a>
 </div>
 
-    <span><a href="../../2021/10/15/c-%E6%89%93%E5%8D%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E6%8D%AE/" title="C++ 打印基本数据类型在内存中的字节数据">C++ 打印基本数据类型在内存中的字节数据</a></span>
+    <span><a href="../../2023/01/02/%E3%80%90%E6%8A%80%E5%B7%A7%E3%80%91hi-z%E8%A3%81%E5%89%AA/" title="【技巧】Hi-Z裁剪">【技巧】Hi-Z裁剪</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/C/" title="分类于 C++">C++</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/DirectX/" title="分类于 DirectX">DirectX</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%BC%80%E5%8F%91/" title="分类于 渲染引擎开发">渲染引擎开发</a>
+<a href="../../categories/RayTracing/" title="カテゴリ RayTracing">RayTracing</a>
 </div>
 
-    <span><a href="../../2022/05/21/directx12-7-%E5%88%A9%E7%94%A8directx%E7%BB%98%E5%88%B6%E5%87%A0%E4%BD%95%E4%BD%93/" title="DirectX12 7.利用DirectX绘制几何体">DirectX12 7.利用DirectX绘制几何体</a></span>
+    <span><a href="../../2023/05/01/%E3%80%90raytracing%E3%80%91-%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84bvh%E5%86%8D%E7%89%88/" title="【RayTracing】 加速结构BVH(再版)">【RayTracing】 加速结构BVH(再版)</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/GPGPU/" title="分类于 GPGPU">GPGPU</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/" title="カテゴリ 计算几何">计算几何</a>
 </div>
 
-    <span><a href="../../2023/07/08/%E3%80%90gpgpu%E3%80%91-computeshader-%E7%B2%92%E5%AD%90/" title="【GPGPU】 ComputeShader 驱动的粒子特效">【GPGPU】 ComputeShader 驱动的粒子特效</a></span>
+    <span><a href="../../2022/11/11/%E3%80%90oi-wiki-study%E3%80%91-%E5%87%B8%E5%8C%85/" title="【OI Wiki Study】-  凸包">【OI Wiki Study】-  凸包</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/" title="分类于 游戏引擎">游戏引擎</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 </div>
 
-    <span><a href="../../2022/04/21/%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="游戏引擎原理与实践 - 内存管理">游戏引擎原理与实践 - 内存管理</a></span>
+    <span><a href="../../2021/09/14/c%E4%B8%80-%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" title="C++(一) 编译过程">C++(一) 编译过程</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF/" title="分类于 服务端">服务端</a>
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="カテゴリ 计算机图形学">计算机图形学</a>
 </div>
 
-    <span><a href="../../2021/12/19/skynet%E4%B8%8B%E7%9A%84actor%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/" title="Skynet下的Actor编程模型">Skynet下的Actor编程模型</a></span>
+    <span><a href="../../2021/05/25/cg%E8%AF%AD%E6%B3%95-%E4%BA%8C/" title="CG语法 (二)">CG语法 (二)</a></span>
   </li>
 
   </ul>
 </div>
 <div>
-  <h2>最新评论</h2>
+  <h2>最近のコメント</h2>
   <ul class="leancloud-recent-comment"></ul>
 </div>
 
@@ -708,14 +688,14 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
   <div class="copyright">
     
     &copy; 2010 – 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="ic i-sakura rotate"></i>
     </span>
     <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
   </div>
   <div class="powered-by">
-    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
   </div>
 </div>
 
@@ -730,12 +710,12 @@ r8g8b8a9 就是每个单位 8 位，最后一个颜色会转换成一个整数�
       hide: "(´Д｀)大変だ！"
     },
     search : {
-      placeholder: "文章搜索",
-      empty: "关于 「 ${query} 」，什么也没搜到",
-      stats: "${time} ms 内找到 ${hits} 条结果"
+      placeholder: "検索…",
+      empty: "「 ${query} 」については何も見つかりませんでした",
+      stats: "${time} ms以内に ${hits} 件の結果が見つかりました"
     },
     valine: true,fancybox: true,
-    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    copyright: 'コピーは成功しました。 <br> 再印刷については、 ％s 契約に従ってください。',
     ignores : [
       function(uri) {
         return uri.includes('#');

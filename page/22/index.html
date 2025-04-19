@@ -65,7 +65,7 @@
         <nav id="nav">
   <div class="inner">
     <div class="toggle">
-      <div class="lines" aria-label="切换导航栏">
+      <div class="lines" aria-label="ナビゲーションバーの切り替え">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -119,12 +119,50 @@
         
 <article class="item">
   <div class="cover">
+    <a href="../../2021/04/17/%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" itemprop="url" title="曲面细分 - 《ShaderLab新手宝典》"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="作成日：2021-04-17 14:02:12">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2021-04-17T14:02:12+08:00">2021-04-17</time>
+  </span>
+</div>
+
+    <h3><a href="../../2021/04/17/%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" itemprop="url" title="曲面细分 - 《ShaderLab新手宝典》">曲面细分 - 《ShaderLab新手宝典》</a></h3>
+    <div class="excerpt">
+        [toc]
+曲面细分 在渲染流水线中处在顶点着色器之后 片元着色器之前
+其功能主要是通过曲面细分来增加模型的细节，通常曲面细分会配合三张图
+
+颜色图，即主纹理
+高度图，即高度映射
+法线贴图，即顶点的法线方向
+
+在 ShaderLab 的 SurfaceShader 中，如果想声明一个曲面细分函数，需要在预声明中添加 tessellation: 函数名 该函数只需要返回一个整数即可，即细分级别
+常见的流程为：通过高度图处理顶点高度 —&amp;gt; 通过曲面细分对顶点进行细分 -&amp;gt; 通过法线贴图对顶点法线进行修改 -&amp;gt; 通过 Color...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" title="计算机图形学"><i class="ic i-flag"></i>计算机图形学</a>
+      </span>
+    </div>
+    <a href="../../2021/04/17/%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" itemprop="url" title="曲面细分 - 《ShaderLab新手宝典》" class="btn">more...</a>
+  </div>
+</article>
+
+        
+<article class="item">
+  <div class="cover">
     <a href="../../2021/04/16/%E7%BC%96%E5%86%99%E8%A1%A8%E9%9D%A2%E7%9D%80%E8%89%B2%E5%99%A8-%E3%80%8Ashaderlab%E6%96%B0%E6%89%8B%E5%AE%9D%E5%85%B8%E3%80%8B/" itemprop="url" title="编写表面着色器 - 《Shaderlab新手宝典》"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-16 00:45:53">
+  <span class="item" title="作成日：2021-04-16 00:45:53">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -170,7 +208,7 @@ CGPROGRAM
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-11 12:12:57">
+  <span class="item" title="作成日：2021-04-11 12:12:57">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -209,7 +247,7 @@ lightModel :...
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-10 19:41:06">
+  <span class="item" title="作成日：2021-04-10 19:41:06">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -242,7 +280,7 @@ lightModel :...
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-05 17:13:11">
+  <span class="item" title="作成日：2021-04-05 17:13:11">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -281,7 +319,7 @@ BlendSrcFactor DstFactor: 开启混合处理，允许自定义混合模式，新
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-04 20:47:00">
+  <span class="item" title="作成日：2021-04-04 20:47:00">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -322,7 +360,7 @@ x 最右边的 n 位清零
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-04 12:35:43">
+  <span class="item" title="作成日：2021-04-04 12:35:43">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -351,7 +389,7 @@ x 最右边的 n 位清零
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-04-03 14:13:01">
+  <span class="item" title="作成日：2021-04-03 14:13:01">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -382,7 +420,7 @@ x 最右边的 n 位清零
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-03-27 11:36:31">
+  <span class="item" title="作成日：2021-03-27 11:36:31">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -420,7 +458,7 @@ Use Program
   <div class="info">
     
 <div class="meta">
-  <span class="item" title="创建时间：2021-03-11 08:30:47">
+  <span class="item" title="作成日：2021-03-11 08:30:47">
     <span class="icon">
       <i class="ic i-calendar"></i>
     </span>
@@ -442,40 +480,6 @@ Use Program
   </div>
 </article>
 
-        
-<article class="item">
-  <div class="cover">
-    <a href="../../2021/03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" itemprop="url" title="由CSS3学动效"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="创建时间：2021-03-10 23:36:12">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2021-03-10T23:36:12+08:00">2021-03-10</time>
-  </span>
-</div>
-
-    <h3><a href="../../2021/03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" itemprop="url" title="由CSS3学动效">由CSS3学动效</a></h3>
-    <div class="excerpt">
-        动效是个万金油，哪都能用到 -webkit-transform: os 系统是 webkit,windows 是 - ms
-即变换，分为旋转，缩放，平移，和倾斜变形
-# 第一个动效
-魔改自该网站 https://screenlane.com/?ref=uimovement
-注意：这个仅由 css3 控制的动效仅适应如上图简单的条件下，复杂的条件下 (可以用 js 实现),css (暂时不会) 思路是：将当前的 container 作为一个 relative 容器，其子容器均为 abslute, 根据 top,left,bottom.right 来调整大小
-设置一个子容器使用...
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="../../categories/%E5%89%8D%E7%AB%AF%E6%9D%82%E8%AE%B0/" itemprop="url" title="前端杂记"><i class="ic i-flag"></i>前端杂记</a>
-      </span>
-    </div>
-    <a href="../../2021/03/10/%E7%94%B1css3%E5%AD%A6%E5%8A%A8%E6%95%88/" itemprop="url" title="由CSS3学动效" class="btn">more...</a>
-  </div>
-</article>
-
     </div>
 
   </div>
@@ -483,7 +487,7 @@ Use Program
   
   <nav class="pagination">
     <div class="inner">
-    <a class="extend prev" rel="prev" href="../21/"><i class="ic i-angle-left" aria-label="上一页"></i></a><a class="page-number" href="../../">1</a><span class="space">&hellip;</span><a class="page-number" href="../21/">21</a><span class="page-number current">22</span><a class="page-number" href="../23/">23</a><span class="space">&hellip;</span><a class="page-number" href="../26/">26</a><a class="extend next" rel="next" href="../23/"><i class="ic i-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="../21/"><i class="ic i-angle-left" aria-label="前のページ"></i></a><a class="page-number" href="../../">1</a><span class="space">&hellip;</span><a class="page-number" href="../21/">21</a><span class="page-number current">22</span><a class="page-number" href="../23/">23</a><span class="space">&hellip;</span><a class="page-number" href="../26/">26</a><a class="extend next" rel="next" href="../23/"><i class="ic i-angle-right" aria-label="次のページ"></i></a>
     </div>
   </nav>
 
@@ -496,11 +500,11 @@ Use Program
 
   <div class="panels">
     <div class="inner">
-      <div class="contents panel pjax" data-title="文章目录">
+      <div class="contents panel pjax" data-title="見出し">
       </div>
-      <div class="related panel pjax" data-title="系列文章">
+      <div class="related panel pjax" data-title="関連記事">
       </div>
-      <div class="overview panel" data-title="站点概览">
+      <div class="overview panel" data-title="概要">
         <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <img class="image" itemprop="image" alt="Solvarg"
       data-src="../../../../images/avatar.jpg">
@@ -511,20 +515,20 @@ Use Program
 <nav class="state">
     <div class="item posts">
       <a href="../../../../archives/">
-        <span class="count">255</span>
-        <span class="name">文章</span>
+        <span class="count">256</span>
+        <span class="name">ポスト</span>
       </a>
     </div>
     <div class="item categories">
       <a href="../../../../categories/">
-        <span class="count">47</span>
-        <span class="name">分类</span>
+        <span class="count">48</span>
+        <span class="name">カテゴリ</span>
       </a>
     </div>
     <div class="item tags">
       <a href="../../../../tags/">
         <span class="count">22</span>
-        <span class="name">标签</span>
+        <span class="name">タグ</span>
       </a>
     </div>
 </nav>
@@ -539,7 +543,7 @@ Use Program
   
     
   <li class="item">
-    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>首页</a>
+    <a href="../../../../index.html" rel="section"><i class="ic i-home"></i>ホーム</a>
   </li>
 
 
@@ -551,12 +555,12 @@ Use Program
 
   <ul id="quick">
     <li class="prev pjax">
-        <a href="../21/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+        <a href="../21/" rel="prev" title="前の記事"><i class="ic i-chevron-left"></i></a>
     </li>
     <li class="up"><i class="ic i-arrow-up"></i></li>
     <li class="down"><i class="ic i-arrow-down"></i></li>
     <li class="next pjax">
-        <a href="../23/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+        <a href="../23/" rel="next" title="次の記事"><i class="ic i-chevron-right"></i></a>
     </li>
     <li class="percent"></li>
   </ul>
@@ -571,120 +575,120 @@ Use Program
         <div class="widgets">
           
 <div class="rpost pjax">
-  <h2>随机文章</h2>
+  <h2>ランダムな記事</h2>
   <ul>
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/GLSL/" title="分类于 GLSL">GLSL</a>
+<a href="../../categories/%E7%AE%97%E6%B3%95/" title="カテゴリ 算法">算法</a>
 </div>
 
-    <span><a href="../../2021/03/27/games202-glsl/" title="Games202 - GLSL">Games202 - GLSL</a></span>
+    <span><a href="../../2021/09/17/%E3%80%90%E9%9A%8F%E8%AE%B0%E3%80%91-leetcode99-%E9%9D%9E%E9%80%92%E5%BD%92%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%85%88%E4%B8%AD%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86/" title="【随记】 leetcode99  非递归方式实现先中后序遍历">【随记】 leetcode99  非递归方式实现先中后序遍历</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
+</div>
+
+    <span><a href="../../2021/09/12/%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8/" title="虚函数表">虚函数表</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="カテゴリ C#">C#</a>
+</div>
+
+    <span><a href="../../2021/06/21/%EF%BC%88%E8%BD%AC-%E7%83%9F%E9%9B%A8%EF%BC%89-c%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/" title="（转 - 烟雨） C#反射为什么这么慢">（转 - 烟雨） C#反射为什么这么慢</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="カテゴリ 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/Unity/" title="分类于 Unity">Unity</a>
+<a href="../../categories/Unity/" title="カテゴリ Unity">Unity</a>
+</div>
+
+    <span><a href="../../2021/11/08/%E7%89%A9%E4%BD%93%E6%B6%88%E9%9A%90dissolve/" title="Shader物体消隐(Dissolve)">Shader物体消隐(Dissolve)</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E9%9A%8F%E7%AC%94/" title="カテゴリ 随笔">随笔</a>
+</div>
+
+    <span><a href="../../2021/06/13/solvarg%E6%95%85%E4%BA%8B%E8%84%89%E7%BB%9C/" title="Solvarg故事脉络">Solvarg故事脉络</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/C/" title="分类于 C#">C#</a>
+<a href="../../categories/Vulkan/" title="カテゴリ Vulkan">Vulkan</a>
 </div>
 
-    <span><a href="../../2022/09/10/%E3%80%90shader%E6%8A%80%E5%B7%A7%E3%80%91-%E5%9F%BA%E4%BA%8E%E5%87%A0%E4%BD%95%E7%9D%80%E8%89%B2%E5%99%A8%E7%9A%84%E7%B2%92%E5%AD%90%E5%8C%96%E6%B6%88%E8%9E%8D/" title="【Shader技巧】 基于几何着色器的粒子化消融">【Shader技巧】 基于几何着色器的粒子化消融</a></span>
+    <span><a href="../../2023/04/20/%E3%80%90games106%E3%80%91-3-vulkan%E4%BB%8B%E7%BB%8D-2/" title="【Games106】 3. Vulkan介绍_2">【Games106】 3. Vulkan介绍_2</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="カテゴリ 计算机图形学">计算机图形学</a>
 </div>
 
-    <span><a href="../../2024/03/23/Sol-Index/" title="Sol.Index">Sol.Index</a></span>
+    <span><a href="../../2021/08/01/3d%E9%80%8F%E8%A7%86%E5%8E%9F%E7%90%86/" title="3D透视原理">3D透视原理</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
+<a href="../../categories/Unity/" title="カテゴリ Unity">Unity</a>
+</div>
+
+    <span><a href="../../2021/08/04/%E5%86%8D%E5%A4%9A%E7%BB%99%E8%87%AA%E5%B7%B1%E4%B8%80%E4%BA%9B%E5%89%8D%E8%BF%9B%E7%9A%84%E5%8A%A8%E5%8A%9B%E5%90%A7/" title="再多给自己一些前进的动力吧">再多给自己一些前进的动力吧</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="カテゴリ 计算机图形学">计算机图形学</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/XLUA/" title="分类于 XLUA">XLUA</a>
-</div>
-
-    <span><a href="../../2023/10/16/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91-%E7%90%86%E8%A7%A3tolua-1-lua%E6%BA%90%E7%A0%81%E7%BA%A7%E8%B0%83%E8%AF%95/" title="【工具】 理解ToLua - 1. Lua源码级调试">【工具】 理解ToLua - 1. Lua源码级调试</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/uncategorized/" title="分类于 uncategorized">uncategorized</a>
-</div>
-
-    <span><a href="../../2021/03/04/%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" title="前向渲染与延迟渲染">前向渲染与延迟渲染</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
-</div>
-
-    <span><a href="../../2021/03/01/unity-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%90%8E%E5%A4%84%E7%90%86/" title="Unity 自定义后处理">Unity 自定义后处理</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/C/" title="分类于 C++">C++</a>
+<a href="../../categories/C/" title="カテゴリ C++">C++</a>
 <i class="ic i-angle-right"></i>
-<a href="../../categories/LeetCode/" title="分类于 LeetCode">LeetCode</a>
+<a href="../../categories/DirectX/" title="カテゴリ DirectX">DirectX</a>
 </div>
 
-    <span><a href="../../2021/09/28/%E5%80%9F%E4%B8%80%E9%81%93%E9%A2%98%E8%AE%B2%E4%B8%80%E4%B8%8B%E6%8C%87%E9%92%88-leetcode-21/" title="借一道题讲一下指针 Leetcode 21">借一道题讲一下指针 Leetcode 21</a></span>
+    <span><a href="../../2022/06/04/directx12-%E7%95%AA%E5%A4%96-%E5%90%8D%E8%AF%8D%E6%91%98%E8%AE%B0/" title="DirectX12 番外: 名词摘记">DirectX12 番外: 名词摘记</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
+<a href="../../categories/Unity/" title="カテゴリ Unity">Unity</a>
 </div>
 
-    <span><a href="../../2023/05/28/%E3%80%90%E6%95%88%E6%9E%9C%E3%80%91-cascade-shadow-%E7%BA%A7%E8%81%94%E9%98%B4%E5%BD%B1/" title="【效果】 Cascade Shadow 级联阴影">【效果】 Cascade Shadow 级联阴影</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" title="分类于 计算机图形学">计算机图形学</a>
-<i class="ic i-angle-right"></i>
-<a href="../../categories/DirectX/" title="分类于 DirectX">DirectX</a>
-</div>
-
-    <span><a href="../../2022/07/24/directx12-%E9%80%9A%E8%BF%87%E6%B7%B7%E5%90%88%E5%AE%9E%E7%8E%B0%E9%9B%BE%E6%95%88/" title="DirectX12 通过混合实现雾效">DirectX12 通过混合实现雾效</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="../../2024/09/01/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a></span>
+    <span><a href="../../2021/05/01/unity-%E5%8D%8F%E7%A8%8B%E6%9C%AC%E8%B4%A8/" title="Unity 协程本质">Unity 协程本质</a></span>
   </li>
 
   </ul>
 </div>
 <div>
-  <h2>最新评论</h2>
+  <h2>最近のコメント</h2>
   <ul class="leancloud-recent-comment"></ul>
 </div>
 
@@ -693,14 +697,14 @@ Use Program
   <div class="copyright">
     
     &copy; 2010 – 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="ic i-sakura rotate"></i>
     </span>
     <span class="author" itemprop="copyrightHolder">Solvarg @ Solvarg</span>
   </div>
   <div class="powered-by">
-    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
   </div>
 </div>
 
@@ -715,12 +719,12 @@ Use Program
       hide: "(´Д｀)大変だ！"
     },
     search : {
-      placeholder: "文章搜索",
-      empty: "关于 「 ${query} 」，什么也没搜到",
-      stats: "${time} ms 内找到 ${hits} 条结果"
+      placeholder: "検索…",
+      empty: "「 ${query} 」については何も見つかりませんでした",
+      stats: "${time} ms以内に ${hits} 件の結果が見つかりました"
     },
     valine: true,fancybox: true,
-    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    copyright: 'コピーは成功しました。 <br> 再印刷については、 ％s 契約に従ってください。',
     ignores : [
       function(uri) {
         return uri.includes('#');
